@@ -135,6 +135,16 @@ if ( ! isset( $view ) ) {
                                             <div class="col-8 p-0 m-0 form-group">
                                                 <select id="indexnow_endpoints" multiple name="indexnow_endpoints[]" class="selectpicker form-control bg-input mb-1" data-live-search="true">
                                                     <?php
+
+                                                    $dbendpoints = (array) SQ_Classes_Helpers_Tools::getOption( 'indexnow_endpoints' );
+
+                                                    if(empty( $dbendpoints )){
+	                                                    $dbendpoints = array(
+		                                                    'https://api.indexnow.org',
+		                                                    'https://www.bing.com/indexnow',
+	                                                    );
+                                                    }
+
                                                     $endpoints = array(
                                                         'https://api.indexnow.org',
                                                         'https://www.bing.com/indexnow',
@@ -146,7 +156,7 @@ if ( ! isset( $view ) ) {
 
                                                     if ( ! empty( $endpoints ) ) {
                                                         foreach ( $endpoints as $endpoint ) {
-                                                            echo '<option value="' . esc_attr( $endpoint ) . '" ' . ( in_array( $endpoint, (array) SQ_Classes_Helpers_Tools::getOption( 'indexnow_endpoints' ) ) ? 'selected="selected"' : '' ) . '>' . parse_url($endpoint, PHP_URL_HOST) . '</option>';
+                                                            echo '<option value="' . esc_attr( $endpoint ) . '" ' . ( in_array( $endpoint, $dbendpoints ) ? 'selected="selected"' : '' ) . '>' . parse_url($endpoint, PHP_URL_HOST) . '</option>';
                                                         }
                                                     }
                                                     ?>

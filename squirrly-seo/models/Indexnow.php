@@ -28,6 +28,13 @@ class SQ_Models_Indexnow {
 		//get the urls from options
 		$this->_apiUrls = SQ_Classes_Helpers_Tools::getOption('indexnow_urls');
 
+		if(empty($this->_apiUrls)){
+			$this->_apiUrls = array(
+				'https://api.indexnow.org',
+				'https://www.bing.com/indexnow',
+			);
+		}
+
 		//Send to all Indexnow APIs
 		foreach ( $this->_apiUrls as $apiurl ) {
 			$response = wp_remote_post( $apiurl, [

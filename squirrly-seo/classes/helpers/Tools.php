@@ -304,11 +304,7 @@ class SQ_Classes_Helpers_Tools
             'sq_auto_indexnow' => true,
             'indexnow_key' => false,
             'indexnow_post_type' => array('post'),
-			'indexnow_endpoints' => array(
-				'https://api.indexnow.org',
-				'https://www.bing.com/indexnow',
-				'https://yandex.com/indexnow',
-			),
+			'indexnow_endpoints' => array(),
 
             //Sitemap
             'sq_auto_sitemap' => 0,
