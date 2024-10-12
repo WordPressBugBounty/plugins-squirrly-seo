@@ -26,7 +26,7 @@ class SQ_Models_Indexnow {
 		SQ_Classes_RemoteController::sendGSCIndex( $args );
 
 		//get the urls from options
-		$this->_apiUrls = SQ_Classes_Helpers_Tools::getOption('indexnow_urls');
+		$this->_apiUrls = SQ_Classes_Helpers_Tools::getOption('indexnow_endpoints');
 
 		if(empty($this->_apiUrls)){
 			$this->_apiUrls = array(
