@@ -142,7 +142,9 @@ class SQ_Models_LiveAssistant {
 		}
 
 		if ( empty( $keyword ) && $other_keywords = get_post_meta( $this->post_id, '_sq_keywords', true ) ) { //squirrly
-			$keywords = explode( ',', $other_keywords );
+			if ( is_string( $other_keywords ) ){
+				$keywords = explode( ',', $other_keywords );
+			}
 			if ( ! empty( $keywords ) ) {
 				$keywords = array_unique( $keywords );
 				$keyword  = $keywords[0];

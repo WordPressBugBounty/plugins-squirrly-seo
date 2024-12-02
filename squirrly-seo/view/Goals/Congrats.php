@@ -8,12 +8,13 @@ if ( ! isset( $view ) ) {
  * Congratulations view
  */
 ?>
-<div id="sq_seocheck_success" class="col-12 m-0 py-4 px-0 border-0 shadow-none">
-
-    <table class="table my-0">
+<a name="progress"></a>
+<div id="sq_seocheck_success" class="col-12 m-0 p-0 pt-4    ">
+    <table class="table my-0 border-0 shadow-none">
         <tbody>
 		<?php
 		$ignored_success_count = 0;
+
 		foreach ( $view->congratulations as $function => $row ) {
 			if ( $row['status'] == 'ignore' ) {
 				$ignored_success_count ++;

@@ -245,14 +245,8 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 
 		//if there is a translation
 		if ( $language ) {
-			if($language == 'zh'){
-				//exclude the translation path
-				$path = trim( str_replace( array('zh-hans', 'zh-hant'), '', $path ), '/' );
-			}else{
-				//exclude the translation path
-				$path = trim( str_replace( array($language), '', $path ), '/' );
-			}
-
+			//exclude the translation path
+			$path = trim( str_replace( array('zh-hans', 'zh-hant', 'lat-am', $language), '', $path ), '/' );
 		}
 
 		return apply_filters( 'sq_sitemap_path_validation', ( strpos( $path, '/' ) === false ) );
