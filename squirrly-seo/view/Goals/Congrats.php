@@ -4,6 +4,8 @@ if ( ! isset( $view ) ) {
 	return;
 }
 
+$category_name = apply_filters( 'sq_page', 'sq_dashboard' );
+
 /**
  * Congratulations view
  */
@@ -62,6 +64,7 @@ if ( ! isset( $view ) ) {
 		<?php if ( $ignored_success_count > 0 ) { ?>
             <form method="post" class="p-0 m-0">
 				<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_resetignored', 'sq_nonce' ); ?>
+                <input type="hidden" name="category" value="<?php echo esc_attr($category_name) ?>"/>
                 <input type="hidden" name="action" value="sq_resetignored"/>
                 <button type="submit" class="btn btn-link small text-black-50 small p-2 m-0">
 					<?php echo esc_html__( "Show hidden success", "squirrly-seo" ) ?>

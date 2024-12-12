@@ -7,7 +7,7 @@ if ( ! isset( $view ) ) {
 /**
  * Goals view
  */
-$category_name = apply_filters( 'sq_page', SQ_Classes_Helpers_Tools::getValue( 'page', 'sq_dashboard' ) );
+$category_name = apply_filters( 'sq_page', 'sq_dashboard' );
 
 $ignored_count = $countdone = 0;
 foreach ( $view->report as $function => $row ) {
@@ -187,6 +187,7 @@ if ( $countdone == count( $view->report ) ) {
 		<?php if ( $ignored_count > 0 ) { ?>
             <form method="post" class="p-0 m-0">
 				<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_resetignored', 'sq_nonce' ); ?>
+                <input type="hidden" name="category" value="<?php echo esc_attr($category_name) ?>"/>
                 <input type="hidden" name="action" value="sq_resetignored"/>
                 <button type="submit" class="btn btn-link text-black-50 small p-2 px-3 m-0">
 					<?php echo esc_html__( "Show hidden goals", "squirrly-seo" ) ?>
@@ -200,7 +201,7 @@ if ( $countdone == count( $view->report ) ) {
 	<?php if ( empty( $view->report ) ) { ?>
         <div class="col p-0 m-3 mx-0 text-right small">
 			<?php echo esc_html__( "Next goals on", "squirrly-seo" ) ?>:
-            <strong><?php echo esc_html( gmdate( get_option( 'date_format' ), strtotime( '+1 day' ) ) ) ?></strong>
+            <strong><?php echo esc_html( wp_date( get_option( 'date_format' ), strtotime( '+1 day' ) ) ) ?></strong>
         </div>
 	<?php } ?>
 

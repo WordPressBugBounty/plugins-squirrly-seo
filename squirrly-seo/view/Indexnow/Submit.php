@@ -106,7 +106,7 @@ if ( ! isset( $view ) ) {
                                         </td>
                                         <td><?php echo esc_html( $row['status'] ) ?>
                                             <em>(<?php echo esc_html( $row['message'] ) ?>)</em></td>
-                                        <td><?php echo esc_html( gmdate( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $timestamp ) ) ?></td>
+                                        <td><?php echo esc_html( wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $timestamp ) ) ?></td>
                                     </tr>
 									<?php
 								}

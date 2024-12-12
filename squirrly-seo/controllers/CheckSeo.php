@@ -314,6 +314,12 @@ class SQ_Controllers_CheckSeo extends SQ_Classes_FrontController {
 					return;
 				}
 
+
+				//Set task category
+				if(SQ_Classes_Helpers_Tools::getValue( 'category' )){
+					$this->setCategory(SQ_Classes_Helpers_Tools::getValue( 'category' ) );
+				}
+
 				//Remove ignored tasks
 				$this->model->clearIgnoredTasks();
 

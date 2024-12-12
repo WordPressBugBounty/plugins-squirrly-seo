@@ -90,7 +90,7 @@ if ( ! isset( $view ) ) {
                         </div>
 
 						<?php if ( isset( $view->checkin->subscription_kr ) ) { ?>
-                            <div class="col-12 mt-3 text-right text-primary font-weight-bold"><?php echo esc_html( number_format($view->checkin->subscription_kr) ) ?> <?php echo esc_html__( "researches left", 'squirrly-seo' ); ?> <?php echo( ( isset( $view->checkin->subscription_limits_reset ) && $view->checkin->subscription_limits_reset <> '' ) ? esc_html__( "until", 'squirrly-seo' ) . ' ' . esc_attr( gmdate( get_option( 'date_format' ), strtotime( $view->checkin->subscription_limits_reset ) ) ) : '' ) ?></div>
+                            <div class="col-12 mt-3 text-right text-primary font-weight-bold"><?php echo esc_html( number_format($view->checkin->subscription_kr) ) ?> <?php echo esc_html__( "researches left", 'squirrly-seo' ); ?> <?php echo( ( isset( $view->checkin->subscription_limits_reset ) && $view->checkin->subscription_limits_reset <> '' ) ? esc_html__( "until", 'squirrly-seo' ) . ' ' . esc_attr( wp_date( get_option( 'date_format' ), strtotime( $view->checkin->subscription_limits_reset ) ) ) : '' ) ?></div>
 						<?php } ?>
                     </div>
 

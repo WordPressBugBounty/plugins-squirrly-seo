@@ -1201,6 +1201,9 @@ class SQ_Classes_Helpers_Tools
 		} elseif ( is_string( $ret ) && $ret <> '' && $keep_newlines && function_exists( 'sanitize_textarea_field' ) ) {
 			$ret = sanitize_textarea_field( $ret );
 		} else {
+			if(in_array($key, array('stype', 'sstatus', 'squery', 'skeyword'))){
+				$ret = SQ_Classes_Helpers_Sanitize::sanitizeSearch( $ret );
+			}
 			$ret = sanitize_text_field( $ret );
 		}
 

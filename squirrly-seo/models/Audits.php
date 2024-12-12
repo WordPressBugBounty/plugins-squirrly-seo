@@ -870,7 +870,7 @@ class SQ_Models_Audits {
 
 		//Set the focus page audit as success
 		if ( isset( $this->_auditpage->audit_datetime ) ) {
-			$this->_auditpage->audit_datetime = date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $this->_auditpage->audit_datetime ) );
+			$this->_auditpage->audit_datetime = wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $this->_auditpage->audit_datetime ) );
 		} else {
 			$this->_auditpage->audit_datetime = esc_html__( "not yet", 'squirrly-seo' );
 		}

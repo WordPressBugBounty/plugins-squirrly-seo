@@ -41,11 +41,20 @@ if ( ! isset( $view ) ) {
 
                 if ( SQ_Classes_Helpers_Tools::getMenuVisible( 'show_seogoals' ) && SQ_Classes_Helpers_Tools::getOption( 'sq_onboarding' ) && SQ_Classes_Helpers_Tools::getOption( 'sq_notification' ) ) {
                     $tasks_incompleted = SQ_Classes_ObjController::getClass( 'SQ_Controllers_CheckSeo' )->getNotifications();
-                    if( !empty( $tasks_incompleted ) ) { ?>
+                    if( !empty( $tasks_incompleted ) ) {
+
+	                    $tasks_incompleted = array_filter(array_map(function($row){
+                            if ( in_array( $row['status'], array( 'completed', 'done', 'ignore' ) ) ) {
+                                return false;
+                            }
+                            return $row;
+                        }, $tasks_incompleted));
+
+                        ?>
                         <nav id="sq_notification" class="navbar p-0 m-0 mt-3 py-2 bg-white">
                             <div class="container-fluid p-0 m-0">
                                 <div class="justify-content-start col p-0 m-0 px-3" id="navigation">
-                                    <div class="col p-0 m-0 text-dark" style="font-size: 0.8rem"><?php echo sprintf( esc_html__('The AI SEO Consultant has %s Action Items you should check to improve your rankings right away.', 'squirrly-seo'), '<span style="display: inline;color: white;background: red;border-radius: 25%;padding: 3px 7px;">'.count($tasks_incompleted).'</span>') ?></div>
+                                    <div class="col p-0 m-0 text-dark" style="font-size: 0.8rem"><?php echo sprintf( esc_html__('The AI SEO Consultant has %s Action Items you should check to improve your rankings right away.', 'squirrly-seo'), '<span style="display: inline;color: white;background: red;border-radius: 25%;padding: 3px 7px;">'.count((array)$tasks_incompleted).'</span>') ?></div>
                                 </div>
                                 <div class="justify-content-end p-0 m-0">
                                     <div class="col p-0 m-0 mr-3">

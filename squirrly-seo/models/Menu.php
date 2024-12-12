@@ -522,7 +522,7 @@ class SQ_Models_Menu {
 			'sq_assistant/assistant' => array(
 				'title'      => esc_html__( "Optimize Posts", 'squirrly-seo' ),
 				'capability' => 'sq_manage_snippet',
-				'icon'       => 'fa-solid fa-bolt',
+				'icon'       => 'dashicons-before dashicons-edit',
 			),
 			'sq_assistant/bulkseo' => array(
 				'title'      => esc_html__( "Bulk SEO", 'squirrly-seo' ),

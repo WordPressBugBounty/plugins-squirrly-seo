@@ -137,7 +137,7 @@ class SQ_Controllers_FocusPages extends SQ_Classes_FrontController {
 		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'bootstrap-ajax-select' );
 		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'datatables' );
 
-		$page   = SQ_Classes_Helpers_Tools::getValue( 'spage', 1 );
+		$page   = (int)SQ_Classes_Helpers_Tools::getValue( 'spage', 1 );
 		$search = SQ_Classes_Helpers_Tools::getValue( 'squery' );
 		$type   = SQ_Classes_Helpers_Tools::getValue( 'stype' );
 		$num    = SQ_Classes_Helpers_Tools::getValue( 'snum', SQ_Classes_Helpers_Tools::getOption( 'sq_posts_per_page' ) );

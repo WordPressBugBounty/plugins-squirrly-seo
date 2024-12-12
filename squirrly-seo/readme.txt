@@ -2,9 +2,9 @@
 Contributors: cifi, calinvingan, florinmuresan, nagy.sorel
 Donate link: https://plugin.squirrly.co/squirrly-seo-pricing/
 Tags: SEO, AI, XML sitemap, google search console, schema
-Requires at least: 4.6
+Requires at least: 5.3
 Tested up to: 6.7
-Stable tag: 12.4.01
+Stable tag: 12.4.02
 Requires PHP: 7.0
 License: GPLv2 or later
 
@@ -230,6 +230,13 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 7. Squirrly SEO - SEO Briefcase
 
 == Changelog ==
+= 12.4.02 =
+* Update - Add sanitization on Focus Page search params to increase security
+* Update - Show the date and month in local language
+* Fixed - Correct Next Goals notification counter
+* Fixed - Fontawesome on Post Editor and Squirrly Live Assistant
+* Fixed - On keywords import from postmeta, avoid error when stored as array and not string
+
 = 12.4.01 =
 * Update - Ensured compatibility with WordPress 6.7.
 * Update - Improved plugin layout and improves plugin security.
