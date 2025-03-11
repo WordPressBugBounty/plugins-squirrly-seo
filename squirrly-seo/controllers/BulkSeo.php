@@ -10,42 +10,6 @@ class SQ_Controllers_BulkSeo extends SQ_Classes_FrontController {
 	/** @var array All pages that are sent to the view */
 	public $pages = array();
 
-	function init() {
-
-		$tab = preg_replace( "/[^a-zA-Z0-9]/", "", SQ_Classes_Helpers_Tools::getValue( 'tab', 'bulkseo' ) );
-
-		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'bootstrap-reboot' );
-		if ( is_rtl() ) {
-			SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'popper' );
-			SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'bootstrap.rtl' );
-			SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'rtl' );
-		} else {
-			SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'bootstrap' );
-		}
-		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'switchery' );
-		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'fontawesome' );
-		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'global' );
-
-		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'assistant' );
-		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'navbar' );
-		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'seosettings' );
-
-		if ( method_exists( $this, $tab ) ) {
-			call_user_func( array( $this, $tab ) );
-		}
-
-		if ( function_exists( 'wp_enqueue_media' ) ) {
-			wp_enqueue_media();
-		}
-
-		$this->show_view( 'Assistant/' . esc_attr( ucfirst( $tab ) ) );
-
-		//get the modal window for the assistant popup
-		echo SQ_Classes_ObjController::getClass( 'SQ_Models_Assistant' )->getModal();
-	}
-
-
-
 	/**
 	 * Called when action is triggered
 	 *
@@ -79,7 +43,7 @@ class SQ_Controllers_BulkSeo extends SQ_Classes_FrontController {
 				}
 
 				$json              = array();
-				$json['html']      = $this->get_view( 'BulkSeo/BulkseoRow' );
+				$json['html']      = $this->get_view( 'Assistant/BulkseoRow' );
 				$json['html_dest'] = "#sq_row_" . $this->post->hash;
 
 				$json['assistant'] = '';

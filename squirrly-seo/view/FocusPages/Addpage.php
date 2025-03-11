@@ -52,7 +52,7 @@ if ( ! isset( $view ) ) {
                                 <div class="col-12 row p-0 m-0 my-2">
 
                                     <div class="col-5 row m-0 p-0">
-                                        <div class="col-6 row p-0 m-0">
+                                        <div class="col-6 p-0 m-0">
                                             <label>
                                                 <select name="stype" class="w-100 m-0 p-1" onchange="jQuery('form#sq_auditpage_form').submit();">
 													<?php
@@ -135,7 +135,7 @@ if ( ! isset( $view ) ) {
                                                 </select>
                                             </label>
                                         </div>
-                                        <div class="col-6 row p-0 m-0">
+                                        <div class="col-6 p-0 m-0">
 											<?php if ( ! SQ_Classes_Helpers_Tools::getValue( 'skeyword' ) && ! empty( $view->pages ) ) {
 												foreach ( $view->pages as $index => $post ) {
 													if ( isset( $post->ID ) ) {
@@ -172,7 +172,7 @@ if ( ! isset( $view ) ) {
                                             <label for="post-search-input"></label><input type="search" class="d-inline-block align-middle col-6 m-0 p-0 px-1 rounded-0" id="post-search-input" autofocus name="skeyword" value="<?php echo esc_attr( SQ_Classes_Helpers_Tools::getValue( 'skeyword' ) ) ?>" placeholder="<?php echo esc_attr__( "Write the page you want to search for", 'squirrly-seo' ) ?>"/>
                                             <input type="submit" class="btn btn-primary " value="<?php echo esc_attr__( "Search Post", 'squirrly-seo' ) ?> >"/>
 											<?php if ( ( SQ_Classes_Helpers_Tools::getIsset( 'skeyword' ) && SQ_Classes_Helpers_Tools::getValue( 'skeyword' ) <> '#all' ) || SQ_Classes_Helpers_Tools::getIsset( 'slabel' ) || SQ_Classes_Helpers_Tools::getIsset( 'sid' ) || SQ_Classes_Helpers_Tools::getIsset( 'sstatus' ) ) { ?>
-                                                <button type="button" class="btn btn-link m-0 ml-1" onclick="location.href = '<?php echo esc_url( add_query_arg( array( 'stype=' => SQ_Classes_Helpers_Tools::getValue( 'stype', 'post' ) ) ) ) ?>';" style="cursor: pointer"><?php echo esc_html__( "Show All", 'squirrly-seo' ) ?></button>
+                                                <button type="button" class="btn btn-link m-0 ml-1" onclick="location.href = '<?php echo esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_focuspages', 'addpage', array( 'stype=' . SQ_Classes_Helpers_Tools::getValue( 'stype', 'post' ) ) ) ) ?>';" style="cursor: pointer"><?php echo esc_html__( "Show All", 'squirrly-seo' ) ?></button>
 											<?php } ?>
                                         </div>
                                     </div>
