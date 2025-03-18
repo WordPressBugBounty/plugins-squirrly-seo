@@ -66,6 +66,9 @@ if ( ! isset( $view ) ) {
                                 </div>
 
                                 <form id="sq_type_form" method="get" class="form-inline col p-0 m-0">
+	                                <?php SQ_Classes_Helpers_Tools::setNonce( 'sq_innerlinks_search' ); ?>
+                                    <input type="hidden" name="action" value="sq_innerlinks_search"/>
+
                                     <input type="hidden" name="page" value="<?php echo esc_attr( SQ_Classes_Helpers_Tools::getValue( 'page' ) ) ?>">
                                     <input type="hidden" name="tab" value="<?php echo esc_attr( SQ_Classes_Helpers_Tools::getValue( 'tab' ) ) ?>">
                                     <input type="hidden" name="squery" value="<?php echo esc_attr( SQ_Classes_Helpers_Tools::getValue( 'squery' ) ) ?>">
@@ -83,6 +86,9 @@ if ( ! isset( $view ) ) {
 
                             <div class="col-6 p-0 m-0 text-right">
                                 <form method="get" class="d-flex flex-row justify-content-end p-0 m-0">
+	                                <?php SQ_Classes_Helpers_Tools::setNonce( 'sq_focuspages_search' ); ?>
+                                    <input type="hidden" name="action" value="sq_focuspages_search"/>
+
                                     <input type="hidden" name="page" value="<?php echo esc_attr( SQ_Classes_Helpers_Tools::getValue( 'page' ) ) ?>">
                                     <input type="hidden" name="tab" value="<?php echo esc_attr( SQ_Classes_Helpers_Tools::getValue( 'tab' ) ) ?>">
                                     <input type="hidden" name="stype" value="<?php echo esc_attr( SQ_Classes_Helpers_Tools::getValue( 'stype' ) ) ?>">
@@ -172,7 +178,7 @@ if ( ! isset( $view ) ) {
                                                                 </li>
                                                                 <li class="sq_delete_rule m-0 p-1 py-2">
                                                                     <form method="post" class="p-0 m-0">
-																		<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_focuspages_checkinnerlink', 'sq_nonce' ); ?>
+																		<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_focuspages_checkinnerlink' ); ?>
                                                                         <input type="hidden" name="action" value="sq_focuspages_checkinnerlink"/>
                                                                         <input type="hidden" name="id" value="<?php echo esc_attr( $innerlink->id ) ?>"/>
                                                                         <input type="hidden" name="post_id" value="<?php echo (int) $innerlink->from_post_id ?>"/>
@@ -184,7 +190,7 @@ if ( ! isset( $view ) ) {
                                                                 </li>
                                                                 <li class="sq_delete_rule m-0 p-1 py-2">
                                                                     <form method="post" class="p-0 m-0" onSubmit="return confirm('<?php echo esc_html__( "Do you want to delete the Inner Link?", "squirrly-seo" ) ?>') ">
-																		<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_focuspages_deleteinnerlink', 'sq_nonce' ); ?>
+																		<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_focuspages_deleteinnerlink' ); ?>
                                                                         <input type="hidden" name="action" value="sq_focuspages_deleteinnerlink"/>
                                                                         <input type="hidden" name="id" value="<?php echo esc_attr( $innerlink->id ) ?>"/>
                                                                         <input type="hidden" name="post_id" value="<?php echo (int) $innerlink->from_post_id ?>"/>
@@ -258,10 +264,9 @@ if ( ! isset( $view ) ) {
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <form method="post" class="p-0 m-0">
+	                <?php SQ_Classes_Helpers_Tools::setNonce( 'sq_focuspages_addinnerlink' ); ?>
+                    <input type="hidden" name="action" value="sq_focuspages_addinnerlink"/>
                     <div class="modal-body">
-						<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_focuspages_addinnerlink', 'sq_nonce' ); ?>
-                        <input type="hidden" name="action" value="sq_focuspages_addinnerlink"/>
-
                         <div class="form-group">
                             <label for="keyword"><?php echo esc_html__( "Keyword", "squirrly-seo" ); ?></label>
                             <input id="keyword" type="text" class="form-control" name="keyword" maxlength="255" required="required"/>
@@ -339,11 +344,11 @@ if ( ! isset( $view ) ) {
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <form method="post" class="p-0 m-0">
-                            <div class="modal-body">
-								<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_focuspages_addinnerlink', 'sq_nonce' ); ?>
-                                <input type="hidden" name="action" value="sq_focuspages_addinnerlink"/>
-                                <input type="hidden" name="id" value="<?php echo esc_attr( $innerlink->id ) ?>"/>
+	                        <?php SQ_Classes_Helpers_Tools::setNonce( 'sq_focuspages_addinnerlink' ); ?>
+                            <input type="hidden" name="action" value="sq_focuspages_addinnerlink"/>
+                            <input type="hidden" name="id" value="<?php echo esc_attr( $innerlink->id ) ?>"/>
 
+                            <div class="modal-body">
                                 <div class="form-group">
                                     <label for="keyword<?php echo esc_attr( $innerlink->id ) ?>"><?php echo esc_html__( "Keyword", "squirrly-seo" ); ?></label>
                                     <input id="keyword<?php echo esc_attr( $innerlink->id ) ?>" type="text" class="form-control" name="keyword" value="<?php echo esc_attr( $innerlink->keyword ) ?>" maxlength="255" required="required"/>

@@ -43,6 +43,9 @@ if ( ! isset( $view ) ) {
                     <div id="sq_auditpage" class="col-12 m-0 p-0 my-4">
                         <div class="row m-0 p-0">
                             <form id="sq_auditpage_form" method="get" class="form-inline col-12 m-0 p-0 ignore">
+	                            <?php SQ_Classes_Helpers_Tools::setNonce( 'sq_audits_search' ); ?>
+                                <input type="hidden" name="action" value="sq_audits_search"/>
+
                                 <input type="hidden" name="page" value="<?php echo esc_attr( SQ_Classes_Helpers_Tools::getValue( 'page' ) ) ?>">
                                 <input type="hidden" name="tab" value="<?php echo esc_attr( SQ_Classes_Helpers_Tools::getValue( 'tab' ) ) ?>">
 
@@ -200,9 +203,14 @@ if ( ! isset( $view ) ) {
 
 											$active = false;
 											if ( ! empty( $view->auditpage ) ) {
+
 												foreach ( $view->auditpage as $auditpage ) {
-													if ( isset( $auditpage->hash ) ) {
+													if ( isset( $auditpage->hash ) && isset ( $post->hash ) ) {
 														if ( $auditpage->hash == $post->hash ) {
+															$active = true;
+														}
+													}elseif ( isset( $auditpage->permalink ) ) {
+														if ( $auditpage->permalink == $post->url ) {
 															$active = true;
 														}
 													}

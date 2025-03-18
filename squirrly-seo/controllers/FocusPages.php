@@ -9,8 +9,8 @@ class SQ_Controllers_FocusPages extends SQ_Classes_FrontController {
 	/** @var array list of tasks labels */
 	public $labels = array();
 
-	/** @var SQ_Models_Domain_Post[] found pages in DB */
-	public $pages = array();
+	/** @var false|SQ_Models_Domain_Post[] found pages in DB */
+	public $pages = false;
 
 	/** @var SQ_Models_Domain_FocusPage[] of focus pages from API */
 	public $focuspages = array();
@@ -62,27 +62,14 @@ class SQ_Controllers_FocusPages extends SQ_Classes_FrontController {
 			}
 		}
 
-
-		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'bootstrap-reboot' );
-		if ( is_rtl() ) {
-			SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'popper' );
-			SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'bootstrap.rtl' );
-			SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'rtl' );
-		} else {
-			SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'bootstrap' );
-		}
-		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'switchery' );
-		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'fontawesome' );
-		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'global' );
-
-		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'assistant' );
-		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'navbar' );
 		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'seosettings' );
 		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'chart' );
 		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'knob' );
 
 		if ( method_exists( $this, $tab ) ) {
-			call_user_func( array( $this, $tab ) );
+			if ( SQ_Classes_Helpers_Tools::userCan( 'sq_manage_focuspages' ) ) {
+				call_user_func( array( $this, $tab ) );
+			}
 		}
 
 		add_action( 'sq_focuspages_after', function () {
@@ -103,8 +90,10 @@ class SQ_Controllers_FocusPages extends SQ_Classes_FrontController {
 	 * Load for Add Focus Page menu tab
 	 */
 	public function addpage() {
-		$search      = (string) SQ_Classes_Helpers_Tools::getValue( 'skeyword', '' );
-		$this->pages = SQ_Classes_ObjController::getClass( 'SQ_Models_Snippet' )->getPages( $search );
+		// Get the default pages
+		if( $this->pages === false ){
+			$this->pages = SQ_Classes_ObjController::getClass( 'SQ_Models_Snippet' )->getPages( '' );
+		}
 
 		//get also the focus pages
 		$this->focuspages = SQ_Classes_RemoteController::getFocusPages();
@@ -418,6 +407,11 @@ class SQ_Controllers_FocusPages extends SQ_Classes_FrontController {
 				if ( ! SQ_Classes_Error::isError() ) {
 					SQ_Classes_Error::setMessage( esc_html__( "Saved", 'squirrly-seo' ) );
 				}
+
+				break;
+			case 'sq_focuspages_search':
+				$search      = (string) SQ_Classes_Helpers_Tools::getValue( 'skeyword', '' );
+				$this->pages = SQ_Classes_ObjController::getClass( 'SQ_Models_Snippet' )->getPages( $search );
 
 				break;
 			case 'sq_focuspages_inspecturl':
@@ -768,84 +762,6 @@ class SQ_Controllers_FocusPages extends SQ_Classes_FrontController {
 				}
 
 				break;
-			case 'sq_ajax_innerlinks_bulk_check':
-				SQ_Classes_Helpers_Tools::setHeader( 'json' );
-
-				$ids = SQ_Classes_Helpers_Tools::getValue( 'inputs', array() );
-
-				$innerlinks = SQ_Classes_ObjController::getClass( 'SQ_Models_Qss' )->getSqInnerlinks( array() );
-
-				if ( ! empty( $ids ) ) {
-					foreach ( $ids as $id ) {
-						if ( in_array( $id, array_keys( $innerlinks ) ) ) {
-							if ( $post = SQ_Classes_ObjController::getClass( 'SQ_Models_Snippet' )->getCurrentSnippet( $innerlinks[ $id ]->from_post_id ) ) {
-								//check the optimizations and save them locally
-								add_filter( 'sq_seo_before_update', function ( $sq ) use ( $post, $id ) {
-									//Set the innerlink in post
-									$innerlinks = $sq->innerlinks;
-
-									if ( isset( $innerlinks[ $id ] ) ) {
-										//Check if the keyword exists in the post content and is valid for inner link
-										$innerlinks[ $id ]['valid'] = SQ_Classes_ObjController::getClass( 'SQ_Models_Post' )->checkInnerLink( $post->post_content, $innerlinks[ $id ]['keyword'], $innerlinks[ $id ]['to_post_id'] );
-									}
-
-									$sq->innerlinks = $innerlinks;
-
-									return $sq;
-								}, 11, 1 );
-
-								SQ_Classes_ObjController::getClass( 'SQ_Models_Qss' )->updateSqSeo( $post );
-
-							}
-						}
-
-					}
-
-					echo wp_json_encode( array( 'message' => esc_html__( "Check Finished!", 'squirrly-seo' ) ) );
-				} else {
-					echo wp_json_encode( array( 'error' => esc_html__( "Invalid params!", 'squirrly-seo' ) ) );
-				}
-
-				exit();
-			case 'sq_ajax_innerlinks_bulk_delete':
-
-				SQ_Classes_Helpers_Tools::setHeader( 'json' );
-
-				$ids = SQ_Classes_Helpers_Tools::getValue( 'inputs', array() );
-
-				$innerlinks = SQ_Classes_ObjController::getClass( 'SQ_Models_Qss' )->getSqInnerlinks( array() );
-
-				if ( ! empty( $ids ) ) {
-					foreach ( $ids as $id ) {
-						if ( in_array( $id, array_keys( $innerlinks ) ) ) {
-							if ( $post = SQ_Classes_ObjController::getClass( 'SQ_Models_Snippet' )->getCurrentSnippet( $innerlinks[ $id ]->from_post_id ) ) {
-								//check the optimizations and save them locally
-								add_filter( 'sq_seo_before_update', function ( $sq ) use ( $id ) {
-									//Set the innerlink in post
-									$innerlinks = $sq->innerlinks;
-									if ( isset( $innerlinks[ $id ] ) ) {
-										unset( $innerlinks[ $id ] );
-									}
-									$sq->innerlinks = $innerlinks;
-
-									return $sq;
-								}, 11, 1 );
-
-								SQ_Classes_ObjController::getClass( 'SQ_Models_Qss' )->updateSqSeo( $post );
-
-							}
-						}
-
-					}
-
-					echo wp_json_encode( array( 'message' => esc_html__( "Deleted!", 'squirrly-seo' ) ) );
-					delete_transient( 'sq_innerlinks_suggestion' );
-
-				} else {
-					echo wp_json_encode( array( 'error' => esc_html__( "Invalid params!", 'squirrly-seo' ) ) );
-				}
-
-				exit();
 
 			case 'sq_focuspages_addnew':
 
@@ -939,6 +855,85 @@ class SQ_Controllers_FocusPages extends SQ_Classes_FrontController {
 				}
 
 				break;
+
+			case 'sq_ajax_innerlinks_bulk_check':
+				SQ_Classes_Helpers_Tools::setHeader( 'json' );
+
+				$ids = SQ_Classes_Helpers_Tools::getValue( 'inputs', array() );
+
+				$innerlinks = SQ_Classes_ObjController::getClass( 'SQ_Models_Qss' )->getSqInnerlinks( array() );
+
+				if ( ! empty( $ids ) ) {
+					foreach ( $ids as $id ) {
+						if ( in_array( $id, array_keys( $innerlinks ) ) ) {
+							if ( $post = SQ_Classes_ObjController::getClass( 'SQ_Models_Snippet' )->getCurrentSnippet( $innerlinks[ $id ]->from_post_id ) ) {
+								//check the optimizations and save them locally
+								add_filter( 'sq_seo_before_update', function ( $sq ) use ( $post, $id ) {
+									//Set the innerlink in post
+									$innerlinks = $sq->innerlinks;
+
+									if ( isset( $innerlinks[ $id ] ) ) {
+										//Check if the keyword exists in the post content and is valid for inner link
+										$innerlinks[ $id ]['valid'] = SQ_Classes_ObjController::getClass( 'SQ_Models_Post' )->checkInnerLink( $post->post_content, $innerlinks[ $id ]['keyword'], $innerlinks[ $id ]['to_post_id'] );
+									}
+
+									$sq->innerlinks = $innerlinks;
+
+									return $sq;
+								}, 11, 1 );
+
+								SQ_Classes_ObjController::getClass( 'SQ_Models_Qss' )->updateSqSeo( $post );
+
+							}
+						}
+
+					}
+
+					echo wp_json_encode( array( 'message' => esc_html__( "Check Finished!", 'squirrly-seo' ) ) );
+				} else {
+					echo wp_json_encode( array( 'error' => esc_html__( "Invalid params!", 'squirrly-seo' ) ) );
+				}
+
+				exit();
+			case 'sq_ajax_innerlinks_bulk_delete':
+
+				SQ_Classes_Helpers_Tools::setHeader( 'json' );
+
+				$ids = SQ_Classes_Helpers_Tools::getValue( 'inputs', array() );
+
+				$innerlinks = SQ_Classes_ObjController::getClass( 'SQ_Models_Qss' )->getSqInnerlinks( array() );
+
+				if ( ! empty( $ids ) ) {
+					foreach ( $ids as $id ) {
+						if ( in_array( $id, array_keys( $innerlinks ) ) ) {
+							if ( $post = SQ_Classes_ObjController::getClass( 'SQ_Models_Snippet' )->getCurrentSnippet( $innerlinks[ $id ]->from_post_id ) ) {
+								//check the optimizations and save them locally
+								add_filter( 'sq_seo_before_update', function ( $sq ) use ( $id ) {
+									//Set the innerlink in post
+									$innerlinks = $sq->innerlinks;
+									if ( isset( $innerlinks[ $id ] ) ) {
+										unset( $innerlinks[ $id ] );
+									}
+									$sq->innerlinks = $innerlinks;
+
+									return $sq;
+								}, 11, 1 );
+
+								SQ_Classes_ObjController::getClass( 'SQ_Models_Qss' )->updateSqSeo( $post );
+
+							}
+						}
+
+					}
+
+					echo wp_json_encode( array( 'message' => esc_html__( "Deleted!", 'squirrly-seo' ) ) );
+					delete_transient( 'sq_innerlinks_suggestion' );
+
+				} else {
+					echo wp_json_encode( array( 'error' => esc_html__( "Invalid params!", 'squirrly-seo' ) ) );
+				}
+
+				exit();
 		}
 
 	}

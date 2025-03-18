@@ -46,6 +46,9 @@ if ( ! isset( $view ) ) {
                     <div id="sq_focuspages" class="col-12 m-0 p-0 my-4">
                         <div class="row m-0 p-0">
                             <form id="sq_auditpage_form" method="get" class="form-inline col-12 m-0 p-0 ignore">
+	                            <?php SQ_Classes_Helpers_Tools::setNonce( 'sq_focuspages_search' ); ?>
+                                <input type="hidden" name="action" value="sq_focuspages_search"/>
+
                                 <input type="hidden" name="page" value="<?php echo esc_attr( SQ_Classes_Helpers_Tools::getValue( 'page' ) ) ?>">
                                 <input type="hidden" name="tab" value="<?php echo esc_attr( SQ_Classes_Helpers_Tools::getValue( 'tab' ) ) ?>">
 
@@ -221,7 +224,7 @@ if ( ! isset( $view ) ) {
 														if ( isset( $post->ID ) && $post->ID > 0 ) {
 															?>
                                                             <form method="post" class="p-0 m-0">
-																<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_focuspages_addnew', 'sq_nonce' ); ?>
+																<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_focuspages_addnew' ); ?>
                                                                 <input type="hidden" name="action" value="sq_focuspages_addnew"/>
 
                                                                 <input type="hidden" name="url" value="<?php echo esc_url( $post->url ); ?>">
