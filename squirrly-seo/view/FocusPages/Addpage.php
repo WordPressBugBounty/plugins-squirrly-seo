@@ -46,7 +46,7 @@ if ( ! isset( $view ) ) {
                     <div id="sq_focuspages" class="col-12 m-0 p-0 my-4">
                         <div class="row m-0 p-0">
                             <form id="sq_auditpage_form" method="get" class="form-inline col-12 m-0 p-0 ignore">
-	                            <?php SQ_Classes_Helpers_Tools::setNonce( 'sq_focuspages_search' ); ?>
+	                            <?php SQ_Classes_Helpers_Tools::setNonce( 'sq_focuspages_search', 'sq_nonce', false ); ?>
                                 <input type="hidden" name="action" value="sq_focuspages_search"/>
 
                                 <input type="hidden" name="page" value="<?php echo esc_attr( SQ_Classes_Helpers_Tools::getValue( 'page' ) ) ?>">

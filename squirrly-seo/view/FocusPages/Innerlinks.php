@@ -66,7 +66,7 @@ if ( ! isset( $view ) ) {
                                 </div>
 
                                 <form id="sq_type_form" method="get" class="form-inline col p-0 m-0">
-	                                <?php SQ_Classes_Helpers_Tools::setNonce( 'sq_innerlinks_search' ); ?>
+	                                <?php SQ_Classes_Helpers_Tools::setNonce( 'sq_innerlinks_search', 'sq_nonce', false ); ?>
                                     <input type="hidden" name="action" value="sq_innerlinks_search"/>
 
                                     <input type="hidden" name="page" value="<?php echo esc_attr( SQ_Classes_Helpers_Tools::getValue( 'page' ) ) ?>">
@@ -86,7 +86,7 @@ if ( ! isset( $view ) ) {
 
                             <div class="col-6 p-0 m-0 text-right">
                                 <form method="get" class="d-flex flex-row justify-content-end p-0 m-0">
-	                                <?php SQ_Classes_Helpers_Tools::setNonce( 'sq_focuspages_search' ); ?>
+	                                <?php SQ_Classes_Helpers_Tools::setNonce( 'sq_focuspages_search', 'sq_nonce', false ); ?>
                                     <input type="hidden" name="action" value="sq_focuspages_search"/>
 
                                     <input type="hidden" name="page" value="<?php echo esc_attr( SQ_Classes_Helpers_Tools::getValue( 'page' ) ) ?>">
@@ -181,7 +181,8 @@ if ( ! isset( $view ) ) {
 																		<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_focuspages_checkinnerlink' ); ?>
                                                                         <input type="hidden" name="action" value="sq_focuspages_checkinnerlink"/>
                                                                         <input type="hidden" name="id" value="<?php echo esc_attr( $innerlink->id ) ?>"/>
-                                                                        <input type="hidden" name="post_id" value="<?php echo (int) $innerlink->from_post_id ?>"/>
+                                                                        <input type="hidden" name="post_id" value="<?php echo (int) $innerlink->post_id ?>"/>
+                                                                        <input type="hidden" name="from_post_id" value="<?php echo (int) $innerlink->from_post_id ?>"/>
                                                                         <i class="sq_icons_small fa-solid fa-refresh" style="padding: 2px"></i>
                                                                         <button type="submit" class="btn btn-sm bg-transparent font-weight-normal p-0 m-0">
 																			<?php echo esc_html__( "Check Inner Link", "squirrly-seo" ) ?>
@@ -193,7 +194,7 @@ if ( ! isset( $view ) ) {
 																		<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_focuspages_deleteinnerlink' ); ?>
                                                                         <input type="hidden" name="action" value="sq_focuspages_deleteinnerlink"/>
                                                                         <input type="hidden" name="id" value="<?php echo esc_attr( $innerlink->id ) ?>"/>
-                                                                        <input type="hidden" name="post_id" value="<?php echo (int) $innerlink->from_post_id ?>"/>
+                                                                        <input type="hidden" name="from_post_id" value="<?php echo (int) $innerlink->from_post_id ?>"/>
                                                                         <i class="sq_icons_small fa-solid fa-trash" style="padding: 2px"></i>
                                                                         <button type="submit" class="btn btn-sm bg-transparent font-weight-normal p-0 m-0">
 																			<?php echo esc_html__( "Delete Inner Link", "squirrly-seo" ) ?>

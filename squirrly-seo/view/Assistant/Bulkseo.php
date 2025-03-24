@@ -49,7 +49,7 @@ if ( ! isset( $view ) ) {
                         <div class="col-12 m-0 p-0 my-4">
 
                             <form id="sq_bulkseo_form" method="get" class="form-inline col-12 m-0 p-0 ignore">
-	                            <?php SQ_Classes_Helpers_Tools::setNonce( 'sq_bulkseo_search' ); ?>
+	                            <?php SQ_Classes_Helpers_Tools::setNonce( 'sq_bulkseo_search', 'sq_nonce', false ); ?>
                                 <input type="hidden" name="action" value="sq_bulkseo_search"/>
 
                                 <input type="hidden" name="page" value="<?php echo esc_attr( SQ_Classes_Helpers_Tools::getValue( 'page' ) ) ?>">

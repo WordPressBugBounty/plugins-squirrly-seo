@@ -68,14 +68,22 @@ class SQ_Controllers_Ranking extends SQ_Classes_FrontController {
 
 		//prepare call
 		if ( empty( $this->args ) ) {
+
+			$days_back = (int) SQ_Classes_Helpers_Tools::getValue( 'days_back', 30 );
+			$strict    = (int) SQ_Classes_Helpers_Tools::getValue( 'strict', '' );
+			$sort      = SQ_Classes_Helpers_Tools::getValue( 'ssort', 'rank' );
+			$order     = SQ_Classes_Helpers_Tools::getValue( 'sorder', 'asc' );
+			$page      = SQ_Classes_Helpers_Tools::getValue( 'spage', 1 );
+			$num       = SQ_Classes_Helpers_Tools::getValue( 'snum', SQ_Classes_Helpers_Tools::getOption( 'sq_posts_per_page' ) );
+
 			$this->args = array(
-				'start'      => 0,
-				'limit'      => SQ_Classes_Helpers_Tools::getOption( 'sq_posts_per_page' ),
-				'sort'       => 'rank',
-				'order'      => 'asc',
+				'start'      => ( $page - 1 ) * $num,
+				'limit'      => $num,
+				'sort'       => $sort,
+				'order'      => $order,
 				'keyword'    => '',
-				'strict'     => '',
-				'days_back'  => 30,
+				'strict'     => $strict,
+				'days_back'  => $days_back,
 				'has_change' => '',
 				'has_ranks'  => '',
 			);

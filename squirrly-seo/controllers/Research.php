@@ -123,11 +123,16 @@ class SQ_Controllers_Research extends SQ_Classes_FrontController {
 		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'briefcase' );
 
 		if ( empty( $this->args ) ){
+			$sort   = SQ_Classes_Helpers_Tools::getValue( 'ssort', 'rank' );
+			$order  = SQ_Classes_Helpers_Tools::getValue( 'sorder', 'asc' );
+			$page   = SQ_Classes_Helpers_Tools::getValue( 'spage', 1 );
+			$num    = SQ_Classes_Helpers_Tools::getValue( 'snum', SQ_Classes_Helpers_Tools::getOption( 'sq_posts_per_page' ) );
+
 			$this->args = array(
-				'start'  => 0,
-				'limit'  => SQ_Classes_Helpers_Tools::getOption( 'sq_posts_per_page' ),
-				'sort'   => 'rank',
-				'order'  => 'asc',
+				'start'  => ( $page - 1 ) * $num,
+				'limit'  => $num,
+				'sort'   => $sort,
+				'order'  => $order,
 				'search' => '',
 			);
 		}
@@ -163,11 +168,15 @@ class SQ_Controllers_Research extends SQ_Classes_FrontController {
 	public function labels() {
 		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'briefcase' );
 
+
 		//prepare call
 		if ( empty( $this->args ) ){
+			$page   = SQ_Classes_Helpers_Tools::getValue( 'spage', 1 );
+			$num    = SQ_Classes_Helpers_Tools::getValue( 'snum', SQ_Classes_Helpers_Tools::getOption( 'sq_posts_per_page' ) );
+
 			$this->args = array(
-				'start'  => 0,
-				'limit'  => SQ_Classes_Helpers_Tools::getOption( 'sq_posts_per_page' ),
+				'start'  => ( $page - 1 ) * $num,
+				'limit'  => $num,
 				'search' => '',
 			);
 		}
@@ -198,9 +207,12 @@ class SQ_Controllers_Research extends SQ_Classes_FrontController {
 
 		//prepare call
 		if ( empty( $this->args ) ){
+			$page   = SQ_Classes_Helpers_Tools::getValue( 'spage', 1 );
+			$num    = SQ_Classes_Helpers_Tools::getValue( 'snum', SQ_Classes_Helpers_Tools::getOption( 'sq_posts_per_page' ) );
+
 			$this->args = array(
-				'start'  => 0,
-				'limit'  => SQ_Classes_Helpers_Tools::getOption( 'sq_posts_per_page' ),
+				'start'  => ( $page - 1 ) * $num,
+				'limit'  => $num,
 				'search' => '',
 			);
 		}
@@ -239,9 +251,12 @@ class SQ_Controllers_Research extends SQ_Classes_FrontController {
 
 		//prepare call
 		if ( empty( $this->args ) ){
+			$page   = SQ_Classes_Helpers_Tools::getValue( 'spage', 1 );
+			$num    = SQ_Classes_Helpers_Tools::getValue( 'snum', SQ_Classes_Helpers_Tools::getOption( 'sq_posts_per_page' ) );
+
 			$this->args = array(
-				'start'  => 0,
-				'limit'  => SQ_Classes_Helpers_Tools::getOption( 'sq_posts_per_page' ),
+				'start'  => ( $page - 1 ) * $num,
+				'limit'  => $num,
 				'search' => '',
 			);
 		}

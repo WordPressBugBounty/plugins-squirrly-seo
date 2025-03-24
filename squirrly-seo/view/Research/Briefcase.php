@@ -46,7 +46,7 @@ if ( ! isset( $view ) ) {
 					<?php if ( isset( $view->labels ) && ! empty( $view->labels ) ) { ?>
                         <div class="row m-0 p-0 py-3">
                             <form method="get" class="form-inline col-12 m-0 p-0">
-	                            <?php SQ_Classes_Helpers_Tools::setNonce( 'sq_research_search' ); ?>
+	                            <?php SQ_Classes_Helpers_Tools::setNonce( 'sq_research_search', 'sq_nonce', false ); ?>
                                 <input type="hidden" name="action" value="sq_research_search"/>
 
                                 <input type="hidden" name="page" value="<?php echo esc_attr( SQ_Classes_Helpers_Tools::getValue( 'page' ) ) ?>">
@@ -121,7 +121,7 @@ if ( ! isset( $view ) ) {
 
                             <div class="col-7 p-0 m-0">
                                 <form method="get" class="d-flex flex-row justify-content-end p-0 m-0">
-	                                <?php SQ_Classes_Helpers_Tools::setNonce( 'sq_research_search' ); ?>
+	                                <?php SQ_Classes_Helpers_Tools::setNonce( 'sq_research_search', 'sq_nonce', false ); ?>
                                     <input type="hidden" name="action" value="sq_research_search"/>
 
                                     <input type="hidden" name="page" value="<?php echo esc_attr( SQ_Classes_Helpers_Tools::getValue( 'page' ) ) ?>">
@@ -465,7 +465,7 @@ if ( ! isset( $view ) ) {
                             <div class="col-5 row m-0 p-0"></div>
                             <div class="col-7 p-0 m-0">
                                 <form method="get" class="d-flex flex-row justify-content-end p-0 m-0">
-	                                <?php SQ_Classes_Helpers_Tools::setNonce( 'sq_research_search' ); ?>
+	                                <?php SQ_Classes_Helpers_Tools::setNonce( 'sq_research_search', 'sq_nonce', false ); ?>
                                     <input type="hidden" name="action" value="sq_research_search"/>
 
                                     <input type="hidden" name="page" value="<?php echo esc_attr( SQ_Classes_Helpers_Tools::getValue( 'page' ) ) ?>">

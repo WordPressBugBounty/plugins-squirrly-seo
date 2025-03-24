@@ -62,7 +62,7 @@ if ( ! isset( $view ) ) {
                     <div class="col-12 m-2 p-0">
                         <div class="row py-2">
                             <form method="get" class="d-flex flex-row flex-grow-1 justify-content-end m-0 p-0">
-	                            <?php SQ_Classes_Helpers_Tools::setNonce( 'sq_features_search' ); ?>
+	                            <?php SQ_Classes_Helpers_Tools::setNonce( 'sq_features_search', 'sq_nonce', false ); ?>
                                 <input type="hidden" name="action" value="sq_features_search"/>
 
                                 <input type="hidden" name="page" value="<?php echo esc_attr( SQ_Classes_Helpers_Tools::getValue( 'page', 'sq_features' ) ) ?>">
