@@ -317,7 +317,7 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 		wp_reset_query();
 		remove_all_actions( 'pre_get_posts' );
 		remove_all_actions( 'parse_query' );
-		remove_all_actions( 'posts_where' );
+		//remove_all_actions( 'posts_where' );
 
 		//init the query
 		$sq_query = array(
@@ -329,7 +329,7 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 			'orderby'        => 'date',
 			'order'          => 'DESC',
 			'ignore_sticky_posts' => true,
-		);
+			);
 
 		if ( $language <> '' ) {
 			if ( ! SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap_combinelangs' ) ) {

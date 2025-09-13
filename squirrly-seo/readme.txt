@@ -4,7 +4,7 @@ Donate link: https://plugin.squirrly.co/squirrly-seo-pricing/
 Tags: SEO, AI, XML sitemap, google search console, schema
 Requires at least: 5.3
 Tested up to: 6.8
-Stable tag: 12.4.13
+Stable tag: 12.4.14
 Requires PHP: 7.0
 License: GPLv2 or later
 
@@ -250,7 +250,8 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 7. Squirrly SEO - SEO Briefcase
 
 == Changelog ==
-= 12.4.13 =
+= 12.4.14 =
+* Update - Add the Llms.txt feature to configure rules for AI crawlers
 * Fix - Sitemap cache directory creation issue on multilingual sites
 * Fix - Daily progress and optimization in Rankings
 * Fix - Compatibility with Divi pagination to show the correct canonical meta
