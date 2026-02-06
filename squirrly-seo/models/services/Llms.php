@@ -11,7 +11,7 @@ class SQ_Models_Services_Llms extends SQ_Models_Abstract_Seo {
 	}
 
 	public function generateLlms( $llms = '' ) {
-		$llms .= "\n# " . esc_html__( "Squirrly SEO LLMs", 'squirrly-seo' ) . "\n\n";
+		$llms .= "\n";
 
 		$llms_permission = (array) SQ_Classes_Helpers_Tools::getOption( 'sq_llms_permission' );
 		$llms_permission = array_filter( $llms_permission );

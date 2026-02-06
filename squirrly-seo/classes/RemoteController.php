@@ -291,7 +291,17 @@ class SQ_Classes_RemoteController
         self::$apimethod = 'get'; //call method
 
         if (get_transient('sq_checkin')) {
-            return get_transient('sq_checkin');
+	        $transient_timeout = '_transient_timeout_sq_checkin';
+	        $timeout = get_option( $transient_timeout );
+
+			if ( false !== $timeout && $timeout < time() ) {
+				//Transient expired, delete it
+		        delete_transient('sq_checkin');
+		        delete_option( $transient_timeout );
+	        }else{
+		        return get_transient('sq_checkin');
+	        }
+
         }
 
         $json = json_decode(self::apiCall('api/user/checkin', $args));

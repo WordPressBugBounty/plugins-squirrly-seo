@@ -354,7 +354,9 @@ if ( ! isset( $view ) ) {
                                                         <input type="checkbox" id="sq_sitemap_do_cache" name="sq_sitemap_do_cache" class="sq-switch" <?php echo( ( SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap_do_cache' ) ) ? 'checked="checked"' : '' ); ?> value="1"/>
                                                         <label for="sq_sitemap_do_cache" class="ml-1"><?php echo esc_html__( "Use Cache to Enhance Loading Speed", 'squirrly-seo' ); ?></label>
                                                         <div class="small text-black-50 ml-5"><?php echo esc_html__( "Enhance the website's loading speed and conserve the server resources by using this option, which involves storing a pre-generated copy of your sitemap data.", 'squirrly-seo' ); ?></div>
+                                                        <a href="<?php echo SQ_Classes_Helpers_Tools::getAdminUrl('sq_seosettings&tab=tweaks&action=sq_seosettings_clear_cache&sq_nonce=' . wp_create_nonce('sq_seosettings_clear_cache')) ?>" class="btn btn-sm px-4 mx-4 my-2"><?php echo esc_html__( "Clear Sitemap Cache", "squirrly-seo" ); ?></a>
                                                     </div>
+
                                                 </div>
                                             </div>
                                             <div class="col-12 row m-0 p-0 my-5 sq_advanced">

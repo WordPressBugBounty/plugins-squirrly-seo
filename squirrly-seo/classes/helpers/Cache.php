@@ -36,7 +36,6 @@ class SQ_Classes_Helpers_Cache {
 	 * @return void
 	 */
 	public function listenSQHooks( $params ) {
-
 		$this->invalidateCache();
 	}
 

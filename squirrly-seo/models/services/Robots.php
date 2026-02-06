@@ -11,10 +11,10 @@ class SQ_Models_Services_Robots extends SQ_Models_Abstract_Seo {
 	}
 
 	public function generateRobots( $robots = '' ) {
-		$robots .= "\n# " . esc_html__( "Squirrly SEO Robots", 'squirrly-seo' );
+		$robots .= "\n";
 
 		if ( get_option( 'blog_public' ) != 1 ) {
-			$robots .= "\n# " . esc_html__( "Your blog is not public. Please see Site Visibility on Settings > Reading.", 'squirrly-seo' );
+			$robots .= "\n# " . "Your blog is not public. Please see Site Visibility on Settings > Reading.";
 		} else {
 
 			$sq_sitemap = SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap' );
@@ -30,7 +30,7 @@ class SQ_Models_Services_Robots extends SQ_Models_Abstract_Seo {
 			}
 
 			if ( empty( $sq_sitemap ) ) {
-				$robots .= "\n# " . esc_html__( "No Squirrly SEO Robots found.", 'squirrly-seo' );
+				$robots .= "\n";
 			}
 		}
 		$robots .= "\n\n";

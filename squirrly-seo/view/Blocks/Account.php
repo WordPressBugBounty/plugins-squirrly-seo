@@ -30,10 +30,10 @@ if ( isset( $view->checkin->subscription_status ) && isset( $view->checkin->prod
         <div class="position-relative">
             <div class="row author mx-3 my-2 py-2 border-bottom">
 				<?php if ( isset( $view->checkin->subscription_email ) ) { ?>
-                    <div class="col-3 p-0 m-0">
-                        <img src="https://s.gravatar.com/avatar/<?php echo esc_attr( md5( $view->checkin->subscription_email ) ) ?>?s=50" alt="" style="width: 50px; height: 50px;"/>
+                    <div class="col-2 p-0 m-0">
+                        <img src="https://s.gravatar.com/avatar/<?php echo esc_attr( md5( $view->checkin->subscription_email ) ) ?>?s=50" alt="" style="width: 100%; max-height: 50px;"/>
                     </div>
-                    <div class="col py-0 px-1 m-0">
+                    <div class="col py-0 px-1 m-0" style="overflow: hidden;text-overflow: ellipsis;" title="<?php echo esc_html( sanitize_email( $view->checkin->subscription_email ) ) ?>">
 						<?php echo esc_html( sanitize_email( $view->checkin->subscription_email ) ) ?>
 						<?php if ( isset( $view->checkin->subscription_paid ) && isset( $view->checkin->subscription_expires ) && $view->checkin->subscription_paid && $view->checkin->subscription_expires ) { ?>
                             <div class="small <?php echo esc_attr( ( ( time() - strtotime( $view->checkin->subscription_expires ) > 0 ) ? 'text-danger' : '' ) ) ?>" style="font-size: 12px; line-height: 20px;"><?php echo sprintf( esc_html__( "Due Date: %s", "squirrly-seo" ), esc_attr( gmdate( 'd M Y', strtotime( $view->checkin->subscription_expires ) ) ) ); ?>

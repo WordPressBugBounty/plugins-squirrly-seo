@@ -141,6 +141,11 @@ $view->loadScripts();
                                                                         <i class="fa-solid fa-arrow-up" style="font-size: 9px !important;margin: 0 5px;vertical-align: middle;"></i><?php echo sprintf( esc_html__( "%s keyword ranked in TOP 10", 'squirrly-seo' ), '<strong>' . esc_html( $view->info->topten ) . '</strong>' ); ?>
                                                                     </h6>
 																<?php } ?>
+                                                                <?php if ( isset( $view->info->new ) && (int) $view->info->new > 0 ) { ?>
+                                                                    <h6 class="col-12 px-0 text-success small">
+                                                                        <i class="fa-solid fa-arrow-up" style="font-size: 9px !important;margin: 0 5px;vertical-align: middle;"></i><?php echo sprintf( esc_html__( "%s new keywords in TOP 100", 'squirrly-seo' ), '<strong>' . esc_html( $view->info->new ) . '</strong>' ); ?>
+                                                                    </h6>
+                                                                <?php } ?>
 																<?php if ( isset ( $view->info->positive_changes ) && (int) $view->info->positive_changes > 0 ) { ?>
                                                                     <h6 class="col-12 px-0 text-success small">
                                                                         <i class="fa-solid fa-arrow-up" style="font-size: 9px !important;margin: 0 5px;vertical-align: middle;"></i><?php echo sprintf( esc_html__( "%s keyword ranked better today", 'squirrly-seo' ), '<strong>' . esc_html( $view->info->positive_changes ) . '</strong>' ); ?>

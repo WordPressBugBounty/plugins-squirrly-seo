@@ -21,8 +21,10 @@ class SQ_Models_Domain_Patterns extends SQ_Models_Abstract_Domain {
 	}
 
 	public function getDate() {
-		if ( $this->_date ) {
-			return wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $this->_date ) );
+		if ( $this->_currentpost->post_date ) {
+			return wp_date( 'c', strtotime( $this->_currentpost->post_date ) );
+		} elseif ( $this->_date ) {
+			return wp_date( 'c', strtotime( $this->_date ) );
 		}
 
 		return $this->_date;
@@ -414,7 +416,12 @@ class SQ_Models_Domain_Patterns extends SQ_Models_Abstract_Domain {
 
 	public function getPagetotal() {
 		global $wp_query;
-		if ( isset( $wp_query->max_num_pages ) ) {
+		if ( isset( $wp_query->found_posts ) ) {
+			$per_page    = $wp_query->get( 'posts_per_page' );
+			$total_found = $wp_query->found_posts;
+
+			return (int) ceil( $total_found / $per_page );
+		} elseif ( isset( $wp_query->max_num_pages ) ) {
 			return (int) $wp_query->max_num_pages;
 		}
 
@@ -506,8 +513,10 @@ class SQ_Models_Domain_Patterns extends SQ_Models_Abstract_Domain {
 	}
 
 	public function getModified() {
-		if ( $this->_modified ) {
-			return wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $this->_modified ) );
+		if ( $this->_currentpost->post_modified ) {
+			return wp_date( 'c', strtotime( $this->_currentpost->post_modified ) );
+		} elseif ( $this->_modified ) {
+			return wp_date( 'c', strtotime( $this->_modified ) );
 		}
 
 		return $this->_modified;

@@ -217,7 +217,6 @@ class SQ_Classes_ActionController extends SQ_Classes_FrontController {
 						'sq_ajax_gsc_code',
 						'sq_ajax_ga_code',
 						'sq_ajax_connection_check',
-						'sq_ajax_uninstall',
 					),
 				),
 				'active'  => '1',

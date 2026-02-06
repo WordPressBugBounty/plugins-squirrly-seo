@@ -368,10 +368,10 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 			$markup['thumbnailUrl'] = $this->_post->sq->og_media;
 		}
 		if ( isset( $this->_post->post_date ) ) {
-			$markup['datePublished'] = gmdate( 'c', strtotime( $this->_post->post_date ) );
+			$markup['datePublished'] = wp_date( 'c', strtotime( $this->_post->post_date ) );
 		}
 		if ( isset( $this->_post->post_modified ) ) {
-			$markup['dateModified'] = gmdate( 'c', strtotime( $this->_post->post_modified ) );
+			$markup['dateModified'] = wp_date( 'c', strtotime( $this->_post->post_modified ) );
 		}
 
 		if ( $this->_post->sq->og_media <> '' ) {
@@ -418,7 +418,7 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 				"text"           => $this->cleanText( $this->_post->sq->title ),
 				"answerCount"    => 1,
 				"upvoteCount"    => 0,
-				"dateCreated"    => gmdate( 'c', strtotime( $this->_post->post_date ) ),
+				"dateCreated"    => wp_date( 'c', strtotime( $this->_post->post_date ) ),
 				"author"         => $this->getAuthorMarkup(),
 				"acceptedAnswer" => array(
 					"@type"       => "Answer",
@@ -426,7 +426,7 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 					"upvoteCount" => 0,
 					"url"         => $this->_post->url,
 					"author"      => $this->getAuthorMarkup(),
-					"dateCreated" => gmdate( 'c', strtotime( $this->_post->post_date ) ),
+					"dateCreated" => wp_date( 'c', strtotime( $this->_post->post_date ) ),
 				)
 			);
 		}
@@ -484,7 +484,7 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 			}
 
 			if ( isset( $this->_post->post_date ) ) {
-				$markup['uploadDate'] = gmdate( 'c', strtotime( $this->_post->post_date ) );
+				$markup['uploadDate'] = wp_date( 'c', strtotime( $this->_post->post_date ) );
 			}
 
 			if ( ! empty( $videos ) ) {
@@ -528,7 +528,7 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 		}
 
 		if ( isset( $this->_post->post_date ) ) {
-			$markup['dateCreated'] = gmdate( 'c', strtotime( $this->_post->post_date ) );
+			$markup['dateCreated'] = wp_date( 'c', strtotime( $this->_post->post_date ) );
 		}
 
 		if ( $this->_post->sq->og_media <> '' ) {
@@ -572,7 +572,7 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 		}
 
 		if ( isset( $this->_post->post_date ) ) {
-			$markup['datePublished'] = gmdate( 'c', strtotime( $this->_post->post_date ) );
+			$markup['datePublished'] = wp_date( 'c', strtotime( $this->_post->post_date ) );
 		}
 
 		if ( $this->_post->sq->og_media <> '' ) {
@@ -793,10 +793,10 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 			$markup['thumbnailUrl'] = $this->_post->sq->og_media;
 		}
 		if ( isset( $this->_post->post_date ) ) {
-			$markup['datePublished'] = gmdate( 'c', strtotime( $this->_post->post_date ) );
+			$markup['datePublished'] = wp_date( 'c', strtotime( $this->_post->post_date ) );
 		}
 		if ( isset( $this->_post->post_modified ) ) {
-			$markup['dateModified'] = gmdate( 'c', strtotime( $this->_post->post_modified ) );
+			$markup['dateModified'] = wp_date( 'c', strtotime( $this->_post->post_modified ) );
 		}
 
 		if ( $this->_post->sq->og_media <> '' ) {

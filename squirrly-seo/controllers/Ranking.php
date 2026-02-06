@@ -75,6 +75,8 @@ class SQ_Controllers_Ranking extends SQ_Classes_FrontController {
 			$order     = SQ_Classes_Helpers_Tools::getValue( 'sorder', 'asc' );
 			$page      = SQ_Classes_Helpers_Tools::getValue( 'spage', 1 );
 			$num       = SQ_Classes_Helpers_Tools::getValue( 'snum', SQ_Classes_Helpers_Tools::getOption( 'sq_posts_per_page' ) );
+			$has_change      =  (int) SQ_Classes_Helpers_Tools::getValue( 'schanges', '' );
+			$has_ranks       =  (int) SQ_Classes_Helpers_Tools::getValue( 'ranked', '' );
 
 			$this->args = array(
 				'start'      => ( $page - 1 ) * $num,
@@ -84,8 +86,8 @@ class SQ_Controllers_Ranking extends SQ_Classes_FrontController {
 				'keyword'    => '',
 				'strict'     => $strict,
 				'days_back'  => $days_back,
-				'has_change' => '',
-				'has_ranks'  => '',
+				'has_change' => $has_change,
+				'has_ranks'  => $has_ranks,
 			);
 		}
 
@@ -193,8 +195,8 @@ class SQ_Controllers_Ranking extends SQ_Classes_FrontController {
 					'keyword'    => $search,
 					'strict'     => $strict,
 					'days_back'  => $days_back,
-					'has_change' => (string) SQ_Classes_Helpers_Tools::getValue( 'schanges', '' ),
-					'has_ranks'  => (string) SQ_Classes_Helpers_Tools::getValue( 'ranked', '' ),
+					'has_change' => (int) SQ_Classes_Helpers_Tools::getValue( 'schanges', '' ),
+					'has_ranks'  => (int) SQ_Classes_Helpers_Tools::getValue( 'ranked', '' ),
 				);
 
 				break;

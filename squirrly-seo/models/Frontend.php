@@ -780,34 +780,45 @@ class SQ_Models_Frontend {
 	}
 
 	/**
-	 * Get the keyword fof this URL
+	 * Get the keyword for this URL
 	 *
 	 * @param $post
 	 *
 	 * @return array|false|WP_Error|WP_Term
 	 */
-	private function getTagDetails( $post ) {
-		$temp = str_replace( '&#8230;', '...', single_tag_title( '', false ) );
+	private function getTagDetails( $post = null ) {
 
-		foreach ( get_taxonomies() as $tax ) {
-			if ( $tax <> 'category' ) {
+		if ( ! is_tag() ) {
+			return false;
+		}
 
-				if ( $tag = get_term_by( 'name', $temp, $tax ) ) {
-					if ( ! is_wp_error( $tag ) ) {
-						return $tag;
-					}
-				}
+		// Best: WP already gives you the tag term
+		$term = get_queried_object();
+		if ( $term instanceof WP_Term && $term->taxonomy === 'post_tag' && ! is_wp_error( $term ) ) {
+			return $term;
+		}
+
+		// Fallback: tag ID from query var
+		$tag_id = (int) get_queried_object_id();
+		if ( $tag_id ) {
+			$term = get_term( $tag_id, 'post_tag' );
+			if ( $term && ! is_wp_error( $term ) ) {
+				return $term;
 			}
 		}
 
-		if ( $tag = get_term_by( 'id', $post->term_id, $post->taxonomy ) ) {
-			if ( ! is_wp_error( $tag ) ) {
-				return $tag;
+		// Final fallback (only if you truly have it)
+		if ( $post && ! empty($post->term_id) ) {
+			$term = get_term( (int) $post->term_id, 'post_tag' );
+			if ( $term && ! is_wp_error( $term ) ) {
+				return $term;
 			}
 		}
 
 		return false;
 	}
+
+
 
 	/**
 	 * Get the taxonomies details for this URL
@@ -816,22 +827,41 @@ class SQ_Models_Frontend {
 	 *
 	 * @return array|bool|false|mixed|null|object|string|WP_Error|WP_Term
 	 */
-	private function getTaxonomyDetails( $post ) {
-		if ( $id = get_queried_object_id() ) {
-			$term = get_term( $id, '' );
-			if ( ! is_wp_error( $term ) ) {
+	private function getTaxonomyDetails( $post = null ) {
+
+		if ( ! is_tax() ) {
+			return false;
+		}
+
+		// Best: WP already resolved the current term for this taxonomy archive
+		$term = get_queried_object();
+		if ( $term instanceof WP_Term && ! is_wp_error( $term ) ) {
+			return $term;
+		}
+
+		// Fallback: use query vars (taxonomy + term id)
+		$term_id  = (int) get_queried_object_id();
+		$taxonomy = get_query_var( 'taxonomy' ); // e.g. 'product_cat', 'portfolio_tag', etc.
+
+		if ( $term_id && $taxonomy ) {
+			$term = get_term( $term_id, $taxonomy );
+			if ( $term && ! is_wp_error( $term ) ) {
 				return $term;
 			}
 		}
 
-		if ( $term = get_term_by( 'id', $post->term_id, $post->taxonomy ) ) {
-			if ( ! is_wp_error( $term ) ) {
+		// Final fallback: if you truly have it in $post
+		if ( $post && ! empty($post->term_id) && ! empty($post->taxonomy) ) {
+			$term = get_term_by( 'id', (int) $post->term_id, $post->taxonomy );
+			if ( $term && ! is_wp_error( $term ) ) {
 				return $term;
 			}
 		}
 
 		return false;
 	}
+
+
 
 	/**
 	 * Get the category details for this URL
@@ -840,16 +870,31 @@ class SQ_Models_Frontend {
 	 *
 	 * @return array|false|object|WP_Error|null
 	 */
-	private function getCategoryDetails( $post ) {
+	private function getCategoryDetails( $post = null ) {
 
-		if ( $term = get_category( get_query_var( 'cat' ), false ) ) {
-			if ( ! is_wp_error( $term ) ) {
+		if ( ! is_category() ) {
+			return false;
+		}
+
+		// Best: already-resolved term object for the current category archive
+		$term = get_queried_object();
+		if ( $term instanceof WP_Term && $term->taxonomy === 'category' && ! is_wp_error( $term ) ) {
+			return $term;
+		}
+
+		// Fallback: category ID from query var
+		$cat_id = (int) get_query_var( 'cat' );
+		if ( $cat_id ) {
+			$term = get_term( $cat_id, 'category' ); // or get_category($cat_id)
+			if ( $term && ! is_wp_error( $term ) ) {
 				return $term;
 			}
 		}
 
-		if ( $tag = get_term_by( 'id', $post->term_id, $post->taxonomy ) ) {
-			if ( ! is_wp_error( $tag ) ) {
+		// Final fallback (only if you truly have it)
+		if ( $post && ! empty($post->term_id) ) {
+			$term = get_term( (int) $post->term_id, 'category' );
+			if ( $term && ! is_wp_error( $term ) ) {
 				return $term;
 			}
 		}
@@ -857,21 +902,40 @@ class SQ_Models_Frontend {
 		return false;
 	}
 
+
+
 	/**
 	 * Get the profile details for this URL
 	 *
-	 * @return object
+	 * @return false|object
 	 */
 	public function getAuthorDetails() {
-		$author = false;
-		global $authordata;
-		if ( isset( $authordata->data ) ) {
-			$author              = $authordata->data;
-			$author->description = get_the_author_meta( 'description' );
+		if ( ! is_author() ) {
+			return false;
 		}
 
-		return $author;
+		// On author archives this should be the WP_User object
+		$author = get_queried_object();
+		if ( $author instanceof WP_User ) {
+			// Keep your expected "description" field
+			$author->description = get_user_meta( $author->ID, 'description', true );
+			return $author;
+		}
+
+		// Fallback: author ID from query var
+		$author_id = (int) get_query_var('author');
+		if ( $author_id ) {
+			$user = get_userdata( $author_id );
+			if ( $user ) {
+				$user->description = get_user_meta( $user->ID, 'description', true );
+				return $user;
+			}
+		}
+
+		return false;
 	}
+
+
 
 	/**
 	 * Add the custom post type details to the current post

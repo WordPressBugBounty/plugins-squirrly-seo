@@ -59,12 +59,6 @@ class SQ_Controllers_Menu extends SQ_Classes_FrontController {
 			}
 
 		}
-
-		add_action( 'current_screen', function () {
-			if ( in_array( get_current_screen()->id, array( 'plugins', 'plugins-network' ) ) ) {
-				SQ_Classes_ObjController::getClass( 'SQ_Controllers_Uninstall' );
-			}
-		} );
 	}
 
 	/**
@@ -464,6 +458,9 @@ class SQ_Controllers_Menu extends SQ_Classes_FrontController {
 			if ( isset( $sq_fullscreen ) && $sq_fullscreen ) {
 				SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'fullwidth' );
 			}
+
+			wp_enqueue_script( 'askai-widget', 'https://storage.googleapis.com/contentlook/agent/widget.min.js?key=1be14e86-5ca3-4df6-9006-e5f6ff732061&ver=1.0.1', array(), SQ_VERSION );
+
 		}
 
 		//Load the Squirrly Logo on all Dashboard

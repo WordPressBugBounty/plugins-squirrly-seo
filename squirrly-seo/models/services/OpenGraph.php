@@ -279,11 +279,11 @@ class SQ_Models_Services_OpenGraph extends SQ_Models_Abstract_Seo {
 
 			if ( $this->_post->sq->og_type == 'article' ) {
 				if ( isset( $this->_post->post_date ) && $this->_post->post_date <> '' ) {
-					$og['og:publish_date']        = date( "c", strtotime( $this->_post->post_date ) );
-					$og['article:published_time'] = date( "c", strtotime( $this->_post->post_date ) );
+					$og['og:publish_date']        = wp_date( "c", strtotime( $this->_post->post_date ) );
+					$og['article:published_time'] = wp_date( "c", strtotime( $this->_post->post_date ) );
 				}
 				if ( isset( $this->_post->post_modified ) && $this->_post->post_modified <> '' ) {
-					$og['article:modified_time'] = date( "c", strtotime( $this->_post->post_modified ) );
+					$og['article:modified_time'] = wp_date( "c", strtotime( $this->_post->post_modified ) );
 				}
 				if ( isset( $this->_post->category ) && $this->_post->category <> '' ) {
 					$og['article:section'] = $this->_post->category;
