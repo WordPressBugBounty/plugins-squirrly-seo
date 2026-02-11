@@ -1112,66 +1112,87 @@ class SQ_Models_Frontend {
 			return $buffer;
 		}
 
-		if ( $domain = parse_url( home_url(), PHP_URL_HOST ) ) {
-			foreach ( $out[0] as $index => $link ) {
-				$newlink = $link;
+		$siteHost = parse_url( home_url(), PHP_URL_HOST );
+		if ( ! $siteHost ) {
+			return $buffer;
+		}
 
-				//only for external links
-				if ( isset( $out[1][ $index ] ) ) {
-					//If it's not a valid link
-					if ( ! $linkdomain = parse_url( $out[1][ $index ], PHP_URL_HOST ) ) {
+		// Normalize: lowercase + remove leading www.
+		$siteHostNorm = preg_replace('/^www\./i', '', strtolower($siteHost));
+
+		foreach ( $out[0] as $index => $link ) {
+			$newlink = $link;
+
+			if ( empty( $out[1][ $index ] ) ) {
+				continue;
+			}
+
+			$href = $out[1][ $index ];
+
+			// Skip non-http(s), anchors, mailto, tel, relative URLs
+			$scheme = parse_url( $href, PHP_URL_SCHEME );
+			if ( $scheme && ! in_array( strtolower($scheme), array('http','https'), true ) ) {
+				continue;
+			}
+
+			$linkHost = parse_url( $href, PHP_URL_HOST );
+			if ( ! $linkHost ) {
+				// relative URL => internal
+				continue;
+			}
+
+			$linkHostNorm = preg_replace('/^www\./i', '', strtolower($linkHost));
+
+			// sub.domain.com will be treated as external
+			if ( $linkHostNorm === $siteHostNorm ) {
+				continue;
+			}
+
+			// Exceptions (allowlist)
+			$exceptions = SQ_Classes_Helpers_Tools::getOption( 'sq_external_exception' );
+			if ( ! empty( $exceptions ) ) {
+				foreach ( $exceptions as $exception ) {
+					$exception = trim((string)$exception);
+					if ( $exception === '' ) {
 						continue;
 					}
+					$exceptionHost = parse_url( (strpos($exception, '://') === false ? 'https://' . $exception : $exception), PHP_URL_HOST );
+					$exceptionHostNorm = $exceptionHost ? preg_replace('/^www\./i', '', strtolower($exceptionHost)) : preg_replace('/^www\./i', '', strtolower($exception));
 
-					//If it's not an external link
-					if ( stripos( $linkdomain, $domain ) !== false ) {
-						continue;
-					}
-
-					//If it's not an exception link
-					$exceptions = SQ_Classes_Helpers_Tools::getOption( 'sq_external_exception' );
-					if ( ! empty( $exceptions ) ) {
-						foreach ( $exceptions as $exception ) {
-							if ( $exception <> '' ) {
-								if ( stripos( $exception, $linkdomain ) !== false || stripos( $linkdomain, $exception ) !== false ) {
-									continue 2;
-								}
-							}
-						}
+					if ( $exceptionHostNorm !== '' && $linkHostNorm === $exceptionHostNorm ) {
+						continue 2; // do not modify this link
 					}
 				}
+			}
 
-				//If nofollow rel is set
-				if ( SQ_Classes_Helpers_Tools::getOption( 'sq_external_nofollow' ) ) {
-
-					if ( strpos( $newlink, 'rel=' ) === false ) {
-						$newlink = str_replace( '<a', '<a rel="nofollow" ', $newlink );
-					} elseif ( strpos( $newlink, 'nofollow' ) === false ) {
-						$newlink = preg_replace( '/(rel=[\'"])([^\'"]+)([\'"])/i', '$1nofollow $2$3', $newlink );
-					}
-
+			// nofollow
+			if ( SQ_Classes_Helpers_Tools::getOption( 'sq_external_nofollow' ) ) {
+				if ( strpos( $newlink, 'rel=' ) === false ) {
+					$newlink = str_replace( '<a', '<a rel="nofollow" ', $newlink );
+				} elseif ( stripos( $newlink, 'nofollow' ) === false ) {
+					$newlink = preg_replace( '/(rel=[\'"])([^\'"]+)([\'"])/i', '$1nofollow $2$3', $newlink );
 				}
+			}
 
-				//if force external open
-				if ( SQ_Classes_Helpers_Tools::getOption( 'sq_external_blank' ) ) {
-
-					if ( strpos( $newlink, 'target=' ) === false ) {
-						$newlink = str_replace( '<a', '<a target="_blank" ', $newlink );
-					} elseif ( strpos( $link, '_blank' ) === false &&
-					           (strpos( $link, '_self' ) !== false || strpos( $link, '_parent' ) !== false || strpos( $link, '_top' ) !== false ) ) {
-						$newlink = preg_replace( '/(target=[\'"])([^\'"]+)([\'"])/i', '$1_blank$3', $newlink );
-					}
-
+			// target blank
+			if ( SQ_Classes_Helpers_Tools::getOption( 'sq_external_blank' ) ) {
+				if ( strpos( $newlink, 'target=' ) === false ) {
+					$newlink = str_replace( '<a', '<a target="_blank" ', $newlink );
+				} elseif (
+					stripos( $link, '_blank' ) === false &&
+					( stripos( $link, '_self' ) !== false || stripos( $link, '_parent' ) !== false || stripos( $link, '_top' ) !== false )
+				) {
+					$newlink = preg_replace( '/(target=[\'"])([^\'"]+)([\'"])/i', '$1_blank$3', $newlink );
 				}
+			}
 
-				//Check the link and replace it
-				if ( $newlink <> $link ) {
-					$buffer = str_replace( $link, $newlink, $buffer );
-				}
+			if ( $newlink !== $link ) {
+				$buffer = str_replace( $link, $newlink, $buffer );
 			}
 		}
 
 		return $buffer;
 	}
+
 
 }
