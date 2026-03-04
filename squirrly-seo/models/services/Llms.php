@@ -16,26 +16,39 @@ class SQ_Models_Services_Llms extends SQ_Models_Abstract_Seo {
 		$llms_permission = (array) SQ_Classes_Helpers_Tools::getOption( 'sq_llms_permission' );
 		$llms_permission = array_filter( $llms_permission );
 
-		if( empty($llms_permission) ){
-			// If no custom robots permissions are set, use the default rules
+		if ( empty( $llms_permission ) ) {
+			// Default llms.txt rules
 			$llms_permission = array(
-				'User-agent: *',
+				'User-Agent: *',
 				'Allow: /',
+
+				'# Sensitive paths',
 				'Disallow: /wp-admin/',
 				'Disallow: /wp-login.php',
-				'Disallow: /wp-includes/',
 				'Disallow: /xmlrpc.php',
-				);
+				'Disallow: /wp-json/',
+				'Disallow: /?author=',
+
+				'# Usage policy',
+				'Training: disallowed',
+				'Summarization: allowed',
+				'Embedding: allowed',
+
+				'# Attribution',
+				'Require-Attribution: true'
+			);
 		}
 
-
-		foreach (  $llms_permission as $row ) {
-			if (is_string($row)){
-				$llms .= $row . "\n";
+		foreach ( $llms_permission as $row ) {
+			if ( is_string( $row ) ) {
+				if ( strpos( $row, '#' ) !== false ) {
+					$llms .= PHP_EOL ;
+				}
+				$llms .= $row . PHP_EOL;
 			}
 		}
 
-		$llms .= "\n\n";
+		$llms .= PHP_EOL . PHP_EOL;
 
 		return apply_filters( 'sq_custom_llms', $llms );
 	}

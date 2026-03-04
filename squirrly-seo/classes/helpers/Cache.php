@@ -264,8 +264,6 @@ class SQ_Classes_Helpers_Cache {
 			$this->clearTransients();
 			$this->cachedFiles( false );
 
-			SQ_Classes_Helpers_Tools::emptyCache();
-
 			return;
 		}
 
@@ -283,7 +281,10 @@ class SQ_Classes_Helpers_Cache {
 
 		$this->clearTransients( $type );
 		$this->cachedFiles( $data );
-		SQ_Classes_Helpers_Tools::emptyCache();
+
+		if ( apply_filters( 'sq_clear_third_party_cache', true, $type )){
+			SQ_Classes_Helpers_Tools::emptyCache();
+		}
 
 		do_action( 'sq_invalidate_cache_after', $type );
 	}

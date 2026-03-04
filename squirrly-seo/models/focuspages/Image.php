@@ -162,11 +162,18 @@ class SQ_Models_Focuspages_Image extends SQ_Models_Abstract_Assistant {
 					$image = substr( $image, strrpos( $image, '/' ) + 1 );
 				}
 
+				$image = $this->normalizeFilename($image);
+
 				//Check if all words are present in the image URL
 				$allwords = true;
 				foreach ( $words as $word ) {
+					$word = trim($word);
+					if ($word === '') continue;
+
+					$wordNorm = $this->normalizeFilename($word);
+
 					//Find the string with normalization
-					if ( $word <> '' && SQ_Classes_Helpers_Tools::findStr( $image, $word, true ) === false ) {
+					if ( $word <> '' && SQ_Classes_Helpers_Tools::findStr( $image, $wordNorm, true ) === false ) {
 						$allwords = false;
 					}
 				}
@@ -179,6 +186,39 @@ class SQ_Models_Focuspages_Image extends SQ_Models_Abstract_Assistant {
 		}
 
 		return $task;
+	}
+
+	/**
+	 * @param $string
+	 *
+	 * @return array|string|string[]|null
+	 */
+	private function normalizeFilename($string) {
+		$string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
+		$string = strtolower($string);
+
+		// remove query and extension
+		$string = preg_replace('~\?.*$~', '', $string);
+		$string = preg_replace('~\.[a-z0-9]{2,5}$~i', '', $string);
+
+		// German folding (I would do digraphs first)
+		$string = str_replace(array('ae','oe','ue'), array('a','o','u'), $string);
+		$string = str_replace(array('ä','ö','ü'), array('a','o','u'), $string);
+		$string = str_replace('ß', 'ss', $string);
+
+		// Transliterate remaining accents
+		if (class_exists('Transliterator')) {
+			$tmp = transliterator_transliterate('Any-Latin; Latin-ASCII', $string);
+			if (is_string($tmp) && $tmp !== '') $string = $tmp;
+		} else {
+			$tmp = @iconv('UTF-8', 'ASCII//TRANSLIT', $string);
+			if (is_string($tmp) && $tmp !== '') $string = $tmp;
+		}
+
+		$string = preg_replace('~[^\p{L}\p{N}]+~u', ' ', $string);
+		$string = preg_replace('~\s{2,}~u', ' ', trim($string));
+
+		return $string;
 	}
 
 }

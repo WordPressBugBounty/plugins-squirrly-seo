@@ -1343,6 +1343,7 @@ class SQ_Classes_Helpers_Tools
      */
     public static function emptyCache()
     {
+
         try {
 
             //////////////////////////////////////////////////////////////////////////////

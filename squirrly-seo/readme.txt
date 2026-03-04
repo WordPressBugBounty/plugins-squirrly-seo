@@ -4,7 +4,7 @@ Donate link: https://plugin.squirrly.co/squirrly-seo-pricing/
 Tags: SEO, AI, XML sitemap, google search console, schema
 Requires at least: 5.3
 Tested up to: 6.9
-Stable tag: 12.4.15
+Stable tag: 12.4.16
 Requires PHP: 7.0
 License: GPLv2 or later
 
@@ -250,12 +250,18 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 7. Squirrly SEO - SEO Briefcase
 
 == Changelog ==
+= 12.4.16 =
+* Update - default LLMS to reflect the AI crawlers requirements
+* Fix - Correct the automation patterns for publish time
+* Fix - Focus Pages to identify the keyword in image files for the German language
+* Fix - Add Nofollow on external links including subdomains if not added on exceptions list
+* Fix - Prevent clearing the third party cache by default when the plugin settings are updated
+
 = 12.4.15 =
 * Update - Google Ranking filters and stats
 * Update - LLMS & Robots to avoid tranlation PHP warning
 * Update - Add the option to manually clear the sitemap cache
 * Update - Compatibility with WPML
-* Fix - Correct the automation patterns for publish time
 * Fix - Javascript error on automation patterns
 * Fix - Tag, category and author pages details to show the correct language
 

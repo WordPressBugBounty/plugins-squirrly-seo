@@ -53,11 +53,15 @@ class SQ_Models_Services_Robots extends SQ_Models_Abstract_Seo {
 
 		foreach (  $robots_permission as $robot_txt ) {
 			if (is_string($robot_txt)){
-				$robots .= $robot_txt . "\n";
+				if ( strpos( $robot_txt, '#' ) !== false ) {
+					$robots .= PHP_EOL ;
+				}
+
+				$robots .= $robot_txt . PHP_EOL;
 			}
 		}
 
-		$robots .= "\n\n";
+		$robots .= PHP_EOL . PHP_EOL;
 
 		return apply_filters( 'sq_custom_robots', $robots );
 	}

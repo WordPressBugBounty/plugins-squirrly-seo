@@ -21,8 +21,10 @@ class SQ_Models_Domain_Patterns extends SQ_Models_Abstract_Domain {
 	}
 
 	public function getDate() {
-		if ( $this->_currentpost->post_date ) {
-			return wp_date( 'c', strtotime( $this->_currentpost->post_date ) );
+		$post = $this->currentpost;
+
+		if ( isset($post->post_date) && $post->post_date ) {
+			return wp_date( 'c', strtotime( $post->post_date ) );
 		} elseif ( $this->_date ) {
 			return wp_date( 'c', strtotime( $this->_date ) );
 		}
@@ -513,8 +515,10 @@ class SQ_Models_Domain_Patterns extends SQ_Models_Abstract_Domain {
 	}
 
 	public function getModified() {
-		if ( $this->_currentpost->post_modified ) {
-			return wp_date( 'c', strtotime( $this->_currentpost->post_modified ) );
+		$post = $this->currentpost;
+
+		if ( isset( $post->post_modified ) && $post->post_modified ) {
+			return wp_date( 'c', strtotime( $post->post_modified ) );
 		} elseif ( $this->_modified ) {
 			return wp_date( 'c', strtotime( $this->_modified ) );
 		}
