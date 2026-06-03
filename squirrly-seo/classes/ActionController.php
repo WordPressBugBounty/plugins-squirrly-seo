@@ -44,7 +44,16 @@ class SQ_Classes_ActionController extends SQ_Classes_FrontController {
 	 * @return void
 	 */
 	public function hookHead() {
-		echo '<script>var sqQuery = {"adminurl": "' . esc_url( admin_url() ) . '","ajaxurl": "' . esc_url( admin_url( 'admin-ajax.php' ) ) . '","adminposturl": "' . esc_url( admin_url( 'post.php' ) ) . '","adminlisturl": "' . esc_url( admin_url( 'edit.php' ) ) . '","nonce": "' . esc_attr( wp_create_nonce( _SQ_NONCE_ID_ ) ) . '"}</script>';
+		$nonce       = esc_attr( wp_create_nonce( _SQ_NONCE_ID_ ) );
+		$adminPost   = esc_url( admin_url( 'post.php' ) );
+		$ajaxUrl     = esc_url( admin_url( 'admin-ajax.php' ) );
+
+		//ajaxurl is already a WP-provided global in admin. Only emit the fields our JS actually reads.
+		//sqQuery is kept as a back-compat shim for the Advanced Pack and any third-party code still reading it.
+		echo '<script>'
+			. 'var sqAdmin = {"nonce":"' . $nonce . '","adminposturl":"' . $adminPost . '"};'
+			. 'var sqQuery = {"ajaxurl":"' . $ajaxUrl . '","nonce":sqAdmin.nonce,"adminposturl":sqAdmin.adminposturl};'
+			. '</script>';
 	}
 
 	/**
@@ -55,7 +64,16 @@ class SQ_Classes_ActionController extends SQ_Classes_FrontController {
 	 */
 	public function hookFrontfooter() {
 		if ( SQ_Classes_Helpers_Tools::isFrontAdmin() ) {
-			echo '<script>var sqQuery = {"adminurl": "' . esc_url( admin_url() ) . '","ajaxurl": "' . esc_url( admin_url( 'admin-ajax.php' ) ) . '","nonce": "' . esc_attr( wp_create_nonce( _SQ_NONCE_ID_ ) ) . '"}</script>';
+			$nonce   = esc_attr( wp_create_nonce( _SQ_NONCE_ID_ ) );
+			$ajaxUrl = esc_url( admin_url( 'admin-ajax.php' ) );
+
+			//WP does not define ajaxurl on the frontend - inline it to match admin behavior.
+			//sqQuery shim kept for the Advanced Pack / legacy integrations.
+			echo '<script>'
+				. 'var ajaxurl = "' . $ajaxUrl . '";'
+				. 'var sqAdmin = {"nonce":"' . $nonce . '"};'
+				. 'var sqQuery = {"ajaxurl":ajaxurl,"nonce":sqAdmin.nonce};'
+				. '</script>';
 		}
 	}
 

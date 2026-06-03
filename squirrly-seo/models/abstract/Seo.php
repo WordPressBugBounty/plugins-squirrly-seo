@@ -90,10 +90,33 @@ abstract class SQ_Models_Abstract_Seo {
 		if ( isset( $this->_author ) && isset( $this->_author->$what ) ) {
 
 			if ( $what == 'user_url' && $this->_author->$what == '' ) {
-				return get_author_posts_url( $this->_author->ID, $this->_author->user_nicename );
+				return $this->getAuthorUrl();
 			}
 
 			return $this->_author->$what;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get the native WordPress author archive URL.
+	 *
+	 * Always returns an absolute URL built from the author's sanitized
+	 * user_nicename (e.g. /author/philippe-blaettler/) so the link is valid
+	 * and crawlable. Used for the author link/@id instead of the profile
+	 * "Website" field, which may be empty or a relative/malformed value that
+	 * crawlers would resolve against the current post URL (a fake 404).
+	 *
+	 * @return bool|string
+	 */
+	protected function getAuthorUrl() {
+
+		//make sure the author is loaded
+		$this->getAuthor();
+
+		if ( isset( $this->_author->ID ) && isset( $this->_author->user_nicename ) ) {
+			return esc_url( get_author_posts_url( $this->_author->ID, $this->_author->user_nicename ) );
 		}
 
 		return false;

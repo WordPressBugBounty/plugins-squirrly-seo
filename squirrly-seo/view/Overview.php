@@ -117,27 +117,29 @@ if ( ! isset( $view ) ) {
                                 </div>
                             </div>
 
-                            <div class="card px-3 py-1 mx-0 my-2">
-                                <div class="card-body p-0 m-0">
-                                    <div class="row p-0 m-0">
-                                        <div class="py-2 px-0 m-0"><img src="https://ps.w.org/squirrly-seo/assets/icon-256x256.png" style="width: 50px" ></div>
-                                        <div class="col p-0 px-3 m-0">
-                                            <div class="font-weight-bold">Premium Plan for Squirrly SEO</div>
-					                        <?php
+                            <?php if ( isset( $view->checkin->subscription_status ) ){ ?>
+                                <div class="card px-3 py-1 mx-0 my-2">
+                                    <div class="card-body p-0 m-0">
+                                        <div class="row p-0 m-0">
+                                            <div class="py-2 px-0 m-0"><img src="https://ps.w.org/squirrly-seo/assets/icon-256x256.png" style="width: 50px" ></div>
+                                            <div class="col p-0 px-3 m-0">
+                                                <div class="font-weight-bold">Premium Plan for Squirrly SEO</div>
+                                                <?php
 
-					                        if ( isset( $view->checkin->subscription_status ) && $view->checkin->subscription_status == 'active' ){ ?>
-                                                <div class="text-success"><?php echo esc_html__( "Active", "squirrly-seo" ) ?></div>
-					                        <?php }else{ ?>
-                                                <div class="row p-0 m-0">
-                                                    <div class="text-danger"><?php echo esc_html__( "Inactive", "squirrly-seo" ) ?></div>
-                                                    <a href="https://plugin.squirrly.co/wordpress-seo-pricing/" class="btn btn-sm btn-primary p-0 m-0 px-2 mx-3 font-weight-normal" style="min-width: 250px" target="_blank"><?php echo esc_html__( "Upgrade", "squirrly-seo" ) ?> <i class="dashicons dashicons-external" style="font-size:12px;vertical-align:-2px;height:10px;"></i></a>
-                                                </div>
-                                                <div class="text-black-50" style="font-size: 11px;"><?php echo esc_html__( "(upgrade is made on the SaaS side. No plugin re-install required)", "squirrly-seo" ) ?></div>
-					                        <?php }?>
+                                                if ( $view->checkin->subscription_status == 'active' ){ ?>
+                                                    <div class="text-success"><?php echo esc_html__( "Active", "squirrly-seo" ) ?></div>
+                                                <?php }else{ ?>
+                                                    <div class="row p-0 m-0">
+                                                        <div class="text-danger"><?php echo esc_html__( "Inactive", "squirrly-seo" ) ?></div>
+                                                        <a href="https://plugin.squirrly.co/wordpress-seo-pricing/" class="btn btn-sm btn-primary p-0 m-0 px-2 mx-3 font-weight-normal" style="min-width: 250px" target="_blank"><?php echo esc_html__( "Upgrade", "squirrly-seo" ) ?> <i class="dashicons dashicons-external" style="font-size:12px;vertical-align:-2px;height:10px;"></i></a>
+                                                    </div>
+                                                    <div class="text-black-50" style="font-size: 11px;"><?php echo esc_html__( "(upgrade is made on the SaaS side. No plugin re-install required)", "squirrly-seo" ) ?></div>
+                                                <?php }?>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            <?php } ?>
 
                             <div class="card px-3 py-1 mx-0 my-2">
                                 <div class="card-body p-0 m-0">

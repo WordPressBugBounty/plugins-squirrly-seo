@@ -28,6 +28,8 @@ class SQ_Controllers_Api extends SQ_Classes_FrontController {
 	 */
 	public function hookInit() {
 
+		add_action( 'rest_api_init', array( $this, 'sqApiInitIdentity' ) );
+
 		if ( SQ_Classes_Helpers_Tools::getOption( 'sq_api' ) == '' ) {
 			return;
 		}
@@ -68,6 +70,73 @@ class SQ_Controllers_Api extends SQ_Classes_FrontController {
 			// load deprecate API for compatibility
 			$this->deprecateRest();
 		}
+	}
+
+	public function sqApiInitIdentity() {
+		if ( ! function_exists( 'register_rest_route' ) ) {
+			return;
+		}
+
+		register_rest_route( $this->namespace . '/v1', '/identity', array(
+			'methods'             => WP_REST_Server::EDITABLE,
+			'callback'            => array( $this, 'restIdentity' ),
+			'permission_callback' => '__return_true',
+		) );
+	}
+
+	public function restIdentity( WP_REST_Request $request ) {
+		SQ_Classes_Helpers_Tools::setHeader( 'json' );
+
+		$key = SQ_Classes_Helpers_SiteAuth::getSiteKey();
+		if ( $key === '' ) {
+			return new WP_REST_Response( array( 'error' => 'no_key' ), 404 );
+		}
+
+		$timestamp = (int) $request->get_header( 'X-SQ-Timestamp' );
+		$nonce     = (string) $request->get_header( 'X-SQ-Nonce' );
+		$url       = (string) $request->get_header( 'X-SQ-Url' );
+		$sig       = (string) $request->get_header( 'X-SQ-Sig' );
+		$body      = $request->get_body();
+
+		if ( ! $timestamp || ! $nonce || ! $url || ! $sig ) {
+			return new WP_REST_Response( array( 'error' => 'invalid_signature' ), 401 );
+		}
+
+		if ( abs( time() - $timestamp ) > SQ_Classes_Helpers_SiteAuth::SKEW_LIMIT ) {
+			return new WP_REST_Response( array( 'error' => 'clock_skew', 'server_time' => time() ), 401 );
+		}
+
+		$canonical = SQ_Classes_Helpers_SiteAuth::canonical(
+			'POST',
+			'/wp-json/' . $this->namespace . '/v1/identity',
+			$body,
+			$url,
+			$timestamp,
+			$nonce
+		);
+
+		if ( ! SQ_Classes_Helpers_SiteAuth::verify( $canonical, $sig ) ) {
+			return new WP_REST_Response( array( 'error' => 'invalid_signature' ), 401 );
+		}
+
+		$payload = json_decode( $body, true );
+		$echo    = is_array( $payload ) && isset( $payload['challenge'] ) ? (string) $payload['challenge'] : '';
+
+		$responseBody = wp_json_encode( array(
+			'uuid' => SQ_Classes_Helpers_SiteAuth::getSiteUuid(),
+			'echo' => $echo,
+		) );
+
+		$resTs    = time();
+		$resNonce = wp_generate_password( 32, false, false );
+		$resCanon = SQ_Classes_Helpers_SiteAuth::canonical( 'POST', '/identity-response', $responseBody, $url, $resTs, $resNonce );
+		$resSig   = SQ_Classes_Helpers_SiteAuth::sign( $resCanon );
+
+		$response = new WP_REST_Response( json_decode( $responseBody, true ), 200 );
+		$response->header( 'X-SQ-Timestamp', (string) $resTs );
+		$response->header( 'X-SQ-Nonce', $resNonce );
+		$response->header( 'X-SQ-Sig', $resSig );
+		return $response;
 	}
 
 	/*
@@ -156,6 +225,8 @@ class SQ_Controllers_Api extends SQ_Classes_FrontController {
 					exit( wp_json_encode( array( 'error' => esc_html__( "Author not found", 'squirrly-seo' ) ) ) );
 				}
 
+				$post = $this->sanitizeIncomingPost( $post );
+
 				$post_ID = wp_insert_post( $post->to_array() );
 				if ( is_wp_error( $post_ID ) ) {
 					echo wp_json_encode( array( 'error' => $post_ID->get_error_message() ) );
@@ -171,6 +242,64 @@ class SQ_Controllers_Api extends SQ_Classes_FrontController {
 		}
 		echo wp_json_encode( array( 'error' => true ) );
 		exit();
+	}
+
+	/**
+	 * Strip everything that doesn't belong in a savePost payload.
+	 * Only Squirrly-namespaced meta keys are accepted, and _sq_jsonld_custom is
+	 * forced through a JSON validator so XSS payloads can't be persisted.
+	 */
+	private function sanitizeIncomingPost( $post ) {
+		$allowedMeta = array(
+			'_sq_jsonld_custom',
+			'_sq_pixel_custom',
+			'_sq_keywords',
+			'_sq_sla',
+			'_sq_video',
+			'_sq_old_slug',
+			'_sq_woocommerce',
+		);
+
+		$raw   = isset( $post->meta_input ) ? (array) $post->meta_input : array();
+		$clean = array();
+		foreach ( $allowedMeta as $key ) {
+			if ( ! array_key_exists( $key, $raw ) ) {
+				continue;
+			}
+			$value = $raw[ $key ];
+
+			if ( $key === '_sq_jsonld_custom' || $key === '_sq_pixel_custom' ) {
+				$value = $this->sanitizeJsonValue( $value );
+				if ( $value === null ) {
+					continue;
+				}
+			} elseif ( is_string( $value ) ) {
+				$value = wp_check_invalid_utf8( $value );
+			}
+
+			$clean[ $key ] = $value;
+		}
+		$post->meta_input = $clean;
+
+		return $post;
+	}
+
+	/**
+	 * Accept only a value that parses as a JSON object/array; re-encode to strip any
+	 * smuggled HTML/script content. Returns null when the value is unusable.
+	 */
+	private function sanitizeJsonValue( $value ) {
+		if ( ! is_string( $value ) ) {
+			return null;
+		}
+		//Strip any script tags before parsing so a payload like
+		//`</script><script>...</script><script type="application/ld+json">` cannot survive.
+		$stripped = preg_replace( '#</?script[^>]*>#i', '', $value );
+		$decoded  = json_decode( trim( $stripped ), true );
+		if ( ! is_array( $decoded ) ) {
+			return null;
+		}
+		return wp_json_encode( $decoded );
 	}
 
 	/**
@@ -324,9 +453,12 @@ class SQ_Controllers_Api extends SQ_Classes_FrontController {
 				break;
 			case 'squirrly':
 
-				//Get Squirrly settings
+				//Get Squirrly settings - strip auth state so the cloud never echoes back our keys
 				if ( $options = SQ_Classes_Helpers_Tools::getOptions() ) {
 					$response = (array) $options;
+					foreach ( SQ_Classes_Helpers_SiteAuth::authOptionKeys() as $authKey ) {
+						unset( $response[ $authKey ] );
+					}
 				}
 
 				break;

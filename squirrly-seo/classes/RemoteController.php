@@ -54,12 +54,62 @@ class SQ_Classes_RemoteController
                 $options['body'] = $args;
             }
 
-	        return self::sq_wpcall($url, $options);
+            self::attachSignedHeaders($module, $url, $options, $args);
+
+            $response = self::sq_wpcall($url, $options);
+
+            if (is_string($response) && strpos($response, 'clock_skew:') !== false) {
+                if (preg_match('/"clock_skew:(\d+)"/', $response, $m)) {
+                    SQ_Classes_Helpers_SiteAuth::setServerTime((int) $m[1]);
+                    self::attachSignedHeaders($module, $url, $options, $args);
+                    $response = self::sq_wpcall($url, $options);
+                }
+            }
+
+            return $response;
 
         } catch (Exception $e) {
             return '';
         }
 
+    }
+
+    private static function attachSignedHeaders($module, $url, &$options, $args)
+    {
+        if (!class_exists('SQ_Classes_Helpers_SiteAuth')) {
+            return;
+        }
+
+        $blogId = (int) SQ_Classes_Helpers_Tools::getOption('sq_user_blog_id');
+        if (!$blogId || SQ_Classes_Helpers_Tools::getOption('sq_legacy_auth')) {
+            return;
+        }
+
+        if (SQ_Classes_Helpers_SiteAuth::getSiteKey() === '') {
+            return;
+        }
+
+        $method = strtoupper($options['method']);
+        $path   = '/' . ltrim(parse_url($url, PHP_URL_PATH) ?: $module, '/');
+        $body   = '';
+        if ($method === 'POST' && isset($options['body'])) {
+            $body = is_array($options['body']) ? http_build_query($options['body']) : (string) $options['body'];
+        }
+
+        $signed = SQ_Classes_Helpers_SiteAuth::buildSignedHeaders(
+            $method,
+            $path,
+            $body,
+            apply_filters('sq_homeurl', get_bloginfo('url')),
+            $blogId,
+            (string) SQ_Classes_Helpers_Tools::getOption('sq_api')
+        );
+
+        if (empty($signed)) {
+            return;
+        }
+
+        $options['headers'] = array_merge($options['headers'], $signed);
     }
 
     /**
@@ -140,8 +190,35 @@ class SQ_Classes_RemoteController
 
         $response = self::cleanResponse(wp_remote_retrieve_body($response)); //clear and get the body
 
-        SQ_Debug::dump('wp_remote_get', $method, $url, $options, $response); //output debug
+        SQ_Debug::dump('wp_remote_get', $method, $url, self::redactSecrets($options), $response); //output debug
         return $response;
+    }
+
+    /**
+     * Redact secrets (site_key, signature) from anything that may be dumped or logged.
+     */
+    private static function redactSecrets($options)
+    {
+        if (isset($options['headers']) && is_array($options['headers'])) {
+            if (isset($options['headers']['X-SQ-Sig'])) {
+                $options['headers']['X-SQ-Sig'] = '***redacted***';
+            }
+            if (isset($options['headers']['X-SQ-User-Token'])) {
+                $options['headers']['X-SQ-User-Token'] = '***redacted***';
+            }
+            if (isset($options['headers']['USER-TOKEN'])) {
+                $options['headers']['USER-TOKEN'] = '***redacted***';
+            }
+            if (isset($options['headers']['URL-TOKEN']) && $options['headers']['URL-TOKEN']) {
+                $options['headers']['URL-TOKEN'] = '***redacted***';
+            }
+        }
+        if (isset($options['body']) && is_array($options['body'])) {
+            if (isset($options['body']['site_key'])) {
+                $options['body']['site_key'] = '***redacted***';
+            }
+        }
+        return $options;
     }
 
     /**
@@ -166,6 +243,14 @@ class SQ_Classes_RemoteController
     public static function connect($args = array())
     {
         self::$apimethod = 'post'; //call method
+
+        SQ_Classes_Helpers_SiteAuth::ensureSiteKey();
+
+        $args = array_merge($args, array(
+            'site_key'  => SQ_Classes_Helpers_SiteAuth::getSiteKeyHex(),
+            'site_uuid' => SQ_Classes_Helpers_SiteAuth::getSiteUuid(),
+        ));
+
         $json = json_decode(self::apiCall('api/user/connect', $args));
 
         if (isset($json->error) && $json->error <> '') {
@@ -182,7 +267,15 @@ class SQ_Classes_RemoteController
                 SQ_Classes_Helpers_Tools::saveOptions('sq_api', false);
                 SQ_Classes_Helpers_Tools::saveOptions('sq_cloud_token', false);
             }
+            if ($json->error == 'site_key_already_set' || $json->error == 'site_key_reused') {
+                SQ_Classes_Helpers_SiteAuth::clearSiteKey();
+            }
             return (new WP_Error('api_error', $json->error));
+        }
+
+        if (isset($json->data->user_blog_id)) {
+            SQ_Classes_Helpers_Tools::saveOptions('sq_user_blog_id', (int) $json->data->user_blog_id);
+            SQ_Classes_Helpers_Tools::saveOptions('sq_legacy_auth', 0);
         }
 
         //Refresh the checkin on login
@@ -290,19 +383,9 @@ class SQ_Classes_RemoteController
     {
         self::$apimethod = 'get'; //call method
 
-        if (get_transient('sq_checkin')) {
-	        $transient_timeout = '_transient_timeout_sq_checkin';
-	        $timeout = get_option( $transient_timeout );
-
-			if ( false !== $timeout && $timeout < time() ) {
-				//Transient expired, delete it
-		        delete_transient('sq_checkin');
-		        delete_option( $transient_timeout );
-	        }else{
-		        return get_transient('sq_checkin');
-	        }
-
-        }
+	    if (get_transient('sq_checkin')) {
+		    return get_transient('sq_checkin');
+	    }
 
         $json = json_decode(self::apiCall('api/user/checkin', $args));
 
@@ -323,7 +406,12 @@ class SQ_Classes_RemoteController
             return (new WP_Error('api_error', $json->error));
 
         } elseif (!isset($json->data)) {
-            return (new WP_Error('api_error', 'no_data'));
+
+	        if (get_transient('sq_checkin_fallback')) {
+		        return get_transient('sq_checkin_fallback');
+	        }
+
+	        return (new WP_Error('api_error', 'no_data'));
         }
 
         //Connect the website if not yet connected
@@ -338,6 +426,27 @@ class SQ_Classes_RemoteController
                 if(isset($token->token) && $token->token <> '') {
                     SQ_Classes_Helpers_Tools::saveOptions('sq_cloud_token', $token->token);
                     SQ_Classes_Helpers_Tools::saveOptions('sq_cloud_connect', 1);
+                }
+            }
+        } elseif (SQ_Classes_Helpers_SiteAuth::getSiteKey() === '' && SQ_Classes_Helpers_Tools::getOption('sq_api')) {
+            //Existing connection upgrading to signed auth - try to seed site_key, but throttle so a
+            //failing handshake cannot hammer connect() on every checkin call and possibly clear
+            //sq_api as a side effect. We back off 10 minutes between attempts.
+            if (!get_transient('sq_handshake_attempted')) {
+                set_transient('sq_handshake_attempted', 1, 10 * MINUTE_IN_SECONDS);
+                $apiBefore        = SQ_Classes_Helpers_Tools::getOption('sq_api');
+                $cloudTokenBefore = SQ_Classes_Helpers_Tools::getOption('sq_cloud_token');
+
+                SQ_Classes_RemoteController::connect();
+
+                //If the handshake destroyed the legacy tokens but checkin had just confirmed the
+                //connection a moment ago, the user is still legitimately connected via the legacy
+                //path - restore the tokens so the install isn't bricked.
+                if ($apiBefore && !SQ_Classes_Helpers_Tools::getOption('sq_api')) {
+                    SQ_Classes_Helpers_Tools::saveOptions('sq_api', $apiBefore);
+                }
+                if ($cloudTokenBefore && !SQ_Classes_Helpers_Tools::getOption('sq_cloud_token')) {
+                    SQ_Classes_Helpers_Tools::saveOptions('sq_cloud_token', $cloudTokenBefore);
                 }
             }
         }
@@ -355,6 +464,7 @@ class SQ_Classes_RemoteController
         }
 
         set_transient('sq_checkin', $json->data, 60);
+        set_transient('sq_checkin_fallback', $json->data);
         return $json->data;
     }
 
@@ -1081,7 +1191,9 @@ class SQ_Classes_RemoteController
         //clear the briefcase stats
         delete_transient('sq_stats');
 
-        $json = json_decode(self::apiCall('api/posts/update', $args, ['timeout' => 5]));
+        //fire-and-forget: the response is not used by any caller (post save, trash, etc.)
+        //so send it non-blocking to avoid delaying the post save while waiting for the API
+        $json = json_decode(self::apiCall('api/posts/update', $args, ['timeout' => 5, 'blocking' => false]));
 
         if (isset($json->error) && $json->error <> '') {
             return (new WP_Error('api_error', $json->error));
@@ -1660,7 +1772,9 @@ class SQ_Classes_RemoteController
     {
         self::$apimethod = 'post'; //post call
 
-        $json = json_decode(self::apiCall('api/gsc/index', $args));
+        //fire-and-forget: the response is not used by the caller (IndexNow auto-submit on save)
+        //so send it non-blocking to avoid delaying the post save while waiting for the API
+        $json = json_decode(self::apiCall('api/gsc/index', $args, ['blocking' => false]));
 
         if (isset($json->error) && $json->error <> '') {
             return (new WP_Error('api_error', $json->error));

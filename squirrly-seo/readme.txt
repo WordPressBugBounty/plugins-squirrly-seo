@@ -4,7 +4,7 @@ Donate link: https://plugin.squirrly.co/squirrly-seo-pricing/
 Tags: SEO, AI, XML sitemap, google search console, schema
 Requires at least: 5.3
 Tested up to: 6.9
-Stable tag: 12.4.16
+Stable tag: 12.4.17
 Requires PHP: 7.0
 License: GPLv2 or later
 
@@ -250,16 +250,30 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 7. Squirrly SEO - SEO Briefcase
 
 == Changelog ==
+= 12.4.17 =
+* Security - Stop exposing master API tokens in the Live Assistant frontend config
+* Security - sla_customcall restricted to a fixed allowlist of research endpoints
+* Security - savePost whitelists post meta keys and validates JSON-LD data as JSON
+* Security - JSON-LD output always re-encoded from validated JSON to block stored XSS
+* Security - Settings backup and restore exclude per-site auth credentials
+* Update - HMAC-signed API requests with a per-site key
+* Update - Signed cloud callbacks via /wp-json/squirrly/v1/identity for clone detection
+* Update - Detect cloned installs and require a fresh handshake on duplicates
+* Update - Replace sqQuery JS global with sqAdmin; use the default WordPress ajaxurl
+* Update - Redact tokens and signatures from local debug output
+
 = 12.4.16 =
 * Update - default LLMS to reflect the AI crawlers requirements
 * Fix - Correct the automation patterns for publish time
 * Fix - Focus Pages to identify the keyword in image files for the German language
 * Fix - Add Nofollow on external links including subdomains if not added on exceptions list
 * Fix - Prevent clearing the third party cache by default when the plugin settings are updated
+* Fix - Showing the correct subscription plan when the server connection is lost
+* Fix - JSON-LD author link to use the native author archive URL with correct special character handling instead of a broken relative URL
 
 = 12.4.15 =
 * Update - Google Ranking filters and stats
-* Update - LLMS & Robots to avoid tranlation PHP warning
+* Update - LLMS & Robots to avoid translation PHP warning
 * Update - Add the option to manually clear the sitemap cache
 * Update - Compatibility with WPML
 * Fix - Javascript error on automation patterns

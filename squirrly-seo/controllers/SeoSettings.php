@@ -51,12 +51,12 @@ class SQ_Controllers_SeoSettings extends SQ_Classes_FrontController {
 
 	public function metas() {
 		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'highlight' );
-		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'snippet' );
+		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'snippet', array( 'dependencies' => array( 'jquery', 'clipboard' ) ) );
 	}
 
 	public function links() {
 		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'highlight' );
-		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'snippet' );
+		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'snippet', array( 'dependencies' => array( 'jquery', 'clipboard' ) ) );
 	}
 
 	public function backup() {
@@ -200,7 +200,11 @@ class SQ_Controllers_SeoSettings extends SQ_Classes_FrontController {
 				SQ_Classes_Helpers_Tools::setHeader( 'text' );
 				header( "Content-Disposition: attachment; filename=squirrly-settings-" . gmdate( 'Y-m-d' ) . ".txt" );
 
-				echo wp_json_encode( SQ_Classes_Helpers_Tools::$options );
+				$exportOptions = SQ_Classes_Helpers_Tools::$options;
+				foreach ( SQ_Classes_Helpers_SiteAuth::authOptionKeys() as $authKey ) {
+					unset( $exportOptions[ $authKey ] );
+				}
+				echo wp_json_encode( $exportOptions );
 
 				exit();
 			case 'sq_seosettings_restoresettings':
@@ -233,6 +237,10 @@ class SQ_Controllers_SeoSettings extends SQ_Classes_FrontController {
 							$options['sq_devkit_menu_name']     = SQ_Classes_Helpers_Tools::getOption( 'sq_devkit_menu_name' );
 							$options['sq_devkit_audit_success'] = SQ_Classes_Helpers_Tools::getOption( 'sq_devkit_audit_success' );
 							$options['sq_devkit_audit_fail']    = SQ_Classes_Helpers_Tools::getOption( 'sq_devkit_audit_fail' );
+							//never accept auth state from an imported backup - always keep what's local
+							foreach ( SQ_Classes_Helpers_SiteAuth::authOptionKeys() as $authKey ) {
+								$options[ $authKey ] = SQ_Classes_Helpers_Tools::getOption( $authKey );
+							}
 							SQ_Classes_Helpers_Tools::$options  = $options;
 							SQ_Classes_Helpers_Tools::saveOptions();
 

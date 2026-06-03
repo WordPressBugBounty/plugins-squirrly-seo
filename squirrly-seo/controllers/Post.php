@@ -678,6 +678,21 @@ class SQ_Controllers_Post extends SQ_Classes_FrontController {
 				}
 
 				$url = SQ_Classes_Helpers_Tools::getValue( 'url' );
+
+				//Allowlist: this handler is only for the SEO Assistant's read-only research panel.
+				//Anything else (account/connection mutations, focus pages, briefcase, etc.) must use its own dedicated handler.
+				$allowed = array(
+					'api/research/ib/images',
+					'api/research/ib/gimages',
+					'api/research/ib/twitter',
+					'api/research/ib/blog',
+					'api/research/ib/wiki',
+				);
+				if ( ! in_array( $url, $allowed, true ) ) {
+					echo wp_json_encode( array( 'error' => 'invalid_endpoint' ) );
+					exit();
+				}
+
 				parse_str( SQ_Classes_Helpers_Tools::getValue( 'params' ), $args );
 
 				echo SQ_Classes_RemoteController::getCustomCall( $url, $args );

@@ -43,6 +43,11 @@ class SQ_Models_Indexnow {
 			}
 
 			$response = wp_remote_post( $apiurl, [
+					//On auto-indexing (triggered by save_post) fire-and-forget so the post
+					//save isn't blocked waiting for the IndexNow endpoints. Manual submissions
+					//stay blocking so the admin log can report the real result.
+					'blocking' => (bool) $manual,
+					'timeout'  => 5,
 					'body'    => $data,
 					'headers' => [
 						'Content-Type'  => 'application/json',
@@ -56,6 +61,15 @@ class SQ_Models_Indexnow {
 
 				return false;
 			}
+		}
+
+		//On auto-indexing the request was sent non-blocking, so there's no response
+		//code to read. Log it as submitted and return without waiting.
+		if ( ! $manual ) {
+			$this->_success = true;
+			$this->addLog( (array) $urls, 0, $manual, 'Submitted' );
+
+			return true;
 		}
 
 		$http_code = wp_remote_retrieve_response_code( $response );

@@ -49,6 +49,7 @@ class SQ_Classes_FrontController {
 		SQ_Classes_ObjController::getClass( 'SQ_Classes_ActionController' );
 		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' );
 		SQ_Classes_ObjController::getClass( 'SQ_Classes_Helpers_Cache' );
+		SQ_Classes_ObjController::getClass( 'SQ_Classes_Helpers_SiteAuth' );
 
 		// load the abstract classes
 		SQ_Classes_ObjController::getClass( 'SQ_Models_Abstract_Domain' );

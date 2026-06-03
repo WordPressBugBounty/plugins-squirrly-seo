@@ -60,22 +60,19 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 		if ( ! empty( $data ) ) {
 			//If custom JSON-LD and not Auto Draft
 			if ( $this->_post->sq->jsonld && strpos( $this->_post->sq->jsonld, '"name":"Auto Draft"' ) === false ) {
-				//If contains script, return the custom jsonld
-				if ( strpos( $this->_post->sq->jsonld, 'application/ld+json' ) !== false ) {
-					return $this->_post->sq->jsonld;
+				$safe = $this->renderCustomJsonLd( $this->_post->sq->jsonld );
+				if ( $safe !== '' ) {
+					return $safe;
 				}
-
-				return '<script type="application/ld+json">' . $this->_post->sq->jsonld . '</script>';
 
 			} else {
 				//Compatibility with ACF
 				if ( SQ_Classes_Helpers_Tools::isPluginInstalled( 'advanced-custom-fields/acf.php' ) ) {
 					if ( isset( $this->_post->ID ) && $this->_post->ID ) {
 						if ( $_sq_jsonld_custom = get_post_meta( $this->_post->ID, '_sq_jsonld_custom', true ) ) {
-							if ( strpos( $_sq_jsonld_custom, 'application/ld+json' ) !== false ) {
-								return $_sq_jsonld_custom;
-							} else {
-								return '<script type="application/ld+json">' . $_sq_jsonld_custom . '</script>';
+							$safe = $this->renderCustomJsonLd( $_sq_jsonld_custom );
+							if ( $safe !== '' ) {
+								return $safe;
 							}
 						}
 					}
@@ -86,6 +83,31 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Render custom JSON-LD safely. Accepts either raw JSON or a pre-wrapped
+	 * <script type="application/ld+json">...</script> block. Whatever's passed in
+	 * is reduced to its JSON payload, validated, and re-emitted inside a fresh
+	 * wrapper. Anything that can't be parsed as JSON is dropped - this is the
+	 * choke point that blocks </script> XSS payloads.
+	 */
+	private function renderCustomJsonLd( $raw ) {
+		if ( ! is_string( $raw ) || $raw === '' ) {
+			return '';
+		}
+
+		//Strip all script wrappers, including malicious ones smuggled inside.
+		$stripped = preg_replace( '#</?script[^>]*>#i', '', $raw );
+		$decoded  = json_decode( trim( $stripped ), true );
+
+		if ( ! is_array( $decoded ) ) {
+			return '';
+		}
+
+		return '<script type="application/ld+json">'
+			. wp_json_encode( $decoded, JSON_UNESCAPED_SLASHES )
+			. '</script>';
 	}
 
 	/**
@@ -308,10 +330,18 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 
 		if ( $this->_post->post_type == 'profile' || in_array( 'profile', $this->_post->sq->jsonld_types ) ) {
 			if ( $this->_post->post_author <> '' ) {
+				$author_url = $this->getAuthorUrl();
+
 				$markup['@type'] = 'Person';
-				$markup['@id']   = $this->getAuthor( 'user_url' ) . '#person';
-				$markup['url']   = $this->getAuthor( 'user_url' );
+				$markup['@id']   = $author_url . '#person';
+				$markup['url']   = $author_url;
 				$markup['name']  = $this->cleanText( $this->getAuthor( 'display_name' ) );
+
+				//keep the author's personal website as sameAs only when it's a valid absolute URL
+				$website = $this->getAuthor( 'user_url' );
+				if ( $website <> '' && $website <> $author_url && filter_var( $website, FILTER_VALIDATE_URL ) ) {
+					$markup['sameAs'] = esc_url( $website );
+				}
 
 				$this->_markups[] = $markup;
 			}
@@ -852,16 +882,22 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 			$markup = $this->getPublisherMarkup( 'Person' );
 		} else {
 
-			$user_url     = $this->getAuthor( 'user_url' );
+			$author_url   = $this->getAuthorUrl();
 			$display_name = $this->getAuthor( 'display_name' );
 
-			if ( $user_url <> '' && $display_name <> '' ) {
+			if ( $author_url <> '' && $display_name <> '' ) {
 				$markup = array(
 					"@type" => "Person",
-					"@id"   => $user_url . "#person",
-					"url"   => $user_url,
-					"name"  => $display_name,
+					"@id"   => $author_url . "#person",
+					"url"   => $author_url,
+					"name"  => $this->cleanText( $display_name ),
 				);
+
+				//keep the author's personal website as sameAs only when it's a valid absolute URL
+				$website = $this->getAuthor( 'user_url' );
+				if ( $website <> '' && $website <> $author_url && filter_var( $website, FILTER_VALIDATE_URL ) ) {
+					$markup['sameAs'] = esc_url( $website );
+				}
 			}
 		}
 

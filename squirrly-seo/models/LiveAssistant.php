@@ -55,8 +55,8 @@ class SQ_Models_LiveAssistant {
 		$sq_config = array(
 			'debug'                  => (bool) SQ_DEBUG,
 			'sq_version'             => SQ_VERSION,
-			'token'                  => SQ_Classes_Helpers_Tools::getOption( 'sq_api' ),
-			'url_token'              => ( SQ_Classes_Helpers_Tools::getOption( 'sq_cloud_connect' ) ? SQ_Classes_Helpers_Tools::getOption( 'sq_cloud_token' ) : false ),
+			//Master tokens (sq_api / sq_cloud_token) intentionally NOT exposed to JS.
+			//They were never consumed client-side and their presence here was a leakage primitive.
 			'sq_apiurl'              => _SQ_APIV2_URL_,
 			'ajaxurl'                => esc_url( admin_url( 'admin-ajax.php' ) ),
 			'sq_nonce'               => wp_create_nonce( _SQ_NONCE_ID_ ),

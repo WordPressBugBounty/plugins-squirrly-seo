@@ -48,6 +48,11 @@ class SQ_Controllers_Account extends SQ_Classes_FrontController {
 						$json['error'] = SQ_Classes_Error::getError();
 					}
 
+				} else {
+					//Surface the real reason so the issue is diagnosable, and always render a fallback view
+					//containing the disconnect link so the user can never get locked out of the account page.
+					$json['error'] = $this->checkin->get_error_message();
+					$json['html']  = $this->get_view( 'Blocks/Account' );
 				}
 				echo wp_json_encode( $json );
 				exit();

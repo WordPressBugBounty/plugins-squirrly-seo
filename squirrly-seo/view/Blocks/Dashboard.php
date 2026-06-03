@@ -113,10 +113,10 @@ $tasks_incompleted = SQ_Classes_ObjController::getClass( 'SQ_Controllers_CheckSe
 
             $div.find('#sq_dashboard_content').html('<div style="font-size: 18px; text-align: center; font-weight: bold; margin: 30px 0;"><?php echo esc_html__( "Checking the website ...", "squirrly-seo" ) ?></div><div class="sq_loading"></div>');
             $.post(
-                sqQuery.ajaxurl,
+                ajaxurl,
                 {
                     action: 'sq_ajaxcheckseo',
-                    sq_nonce: sqQuery.nonce
+                    sq_nonce: sqAdmin.nonce
                 }
             ).done(function (response) {
                 if (typeof response.data !== 'undefined') {

@@ -43,7 +43,7 @@ class SQ_Controllers_Snippet extends SQ_Classes_FrontController {
 		$handles[] = SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'fontawesome' );
 		$handles[] = SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'highlight' );
 		$handles[] = SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'patterns' );
-		$handles[] = SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'snippet' );
+		$handles[] = SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'snippet', array( 'dependencies' => array( 'jquery', 'clipboard' ) ) );
 
 		wp_print_styles( $handles );
 		wp_print_scripts( $handles );
