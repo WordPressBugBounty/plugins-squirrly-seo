@@ -416,7 +416,7 @@ if ( ! isset( $view ) ) {
 																		}
 																		?>
                                                                         <div class="col-5 p-0">
-                                                                            <select id="patterns_<?php echo esc_attr( $pattern ) ?>_jsonld_types" <?php echo( ( count( $jsonld_types ) > 1 ) ? 'multiple' : '' ) ?> name="patterns[<?php echo esc_attr( $pattern ) ?>][jsonld_types][]" class="selectpicker form-control bg-input mb-1 border" style="min-height: 100px;">
+                                                                            <select id="patterns_<?php echo esc_attr( $pattern ) ?>_jsonld_types" <?php echo( ( count( $jsonld_types ) > 1 ) ? 'multiple' : '' ) ?> name="patterns[<?php echo esc_attr( $pattern ) ?>][jsonld_types][]" class="selectpicker form-control bg-input mb-1 border" data-live-search="true">
 																				<?php foreach ( $jsonld_types as $jsonld_type ) { ?>
                                                                                     <option <?php echo( ( ! empty( $post_jsonld_types ) && in_array( $jsonld_type, $post_jsonld_types ) ) ? 'selected="selected"' : '' ) ?> value="<?php echo esc_attr( $jsonld_type ) ?>">
 																						<?php echo esc_html( ucfirst( $jsonld_type ) ) ?>

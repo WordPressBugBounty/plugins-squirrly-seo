@@ -1640,6 +1640,16 @@ class SQ_Classes_Helpers_Tools
             return true;
         }
 
+        // Squirrly's custom capabilities (sq_manage_settings, sq_manage_snippet, ...) are added to
+        // the administrator role by SQ_Models_RoleManager. On some sites that grant doesn't persist
+        // (role resets, security/role-editor plugins stripping custom caps, multisite), which would
+        // lock a real admin out of the plugin - e.g. the Account AJAX denies access and the
+        // connect/disconnect UI never renders. Any user who can manage_options is an administrator
+        // and is meant to manage Squirrly, so treat manage_options as a superset of the sq_* caps.
+        if (strpos($cap, 'sq_') === 0 && current_user_can('manage_options')) {
+            return true;
+        }
+
         $user = wp_get_current_user();
         if (count((array)$user->roles) > 1) {
             foreach ($user->roles as $role) {

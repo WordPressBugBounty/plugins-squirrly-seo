@@ -7,6 +7,15 @@ class SQ_Classes_RemoteController
     public static $apimethod = 'get';
 
     /**
+     * HTTP status code of the last sq_wpcall(): 0 = unreachable/network error, null = no call made,
+     * otherwise the real response code. Used to tell a server outage (5xx/unreachable) apart from a
+     * genuine auth failure so a maintenance window never disconnects a working site.
+     *
+     * @var int|null
+     */
+    public static $lastHttpCode = null;
+
+    /**
      * Call the Squirrly Cloud Server
      *
      * @param  string $module
@@ -17,6 +26,9 @@ class SQ_Classes_RemoteController
     public static function apiCall($module, $args = array(), $options = array())
     {
         $parameters = "";
+
+        //Reset the last HTTP status; sq_wpcall() sets it when (and only when) a request is actually made.
+        self::$lastHttpCode = null;
 
         //Don't make API calls without the token unless it's login or register
         if (!SQ_Classes_Helpers_Tools::getOption('sq_api')) {
@@ -90,7 +102,13 @@ class SQ_Classes_RemoteController
         }
 
         $method = strtoupper($options['method']);
-        $path   = '/' . ltrim(parse_url($url, PHP_URL_PATH) ?: $module, '/');
+        //Sign the route path the API actually verifies against. Server-side the canonical uses
+        //Laravel's $request->path() (e.g. "api/user/checkin"); the public endpoint carries a "/v2/"
+        //base prefix (_SQ_APIV2_URL_) that the web server strips before routing. Signing
+        //parse_url($url) included that "/v2/" segment, so the client signed "/v2/api/user/checkin"
+        //while the server verified "/api/user/checkin" - every signed request failed with
+        //invalid_signature. $module is exactly the route path, so sign that.
+        $path   = '/' . ltrim((string) $module, '/');
         $body   = '';
         if ($method === 'POST' && isset($options['body'])) {
             $body = is_array($options['body']) ? http_build_query($options['body']) : (string) $options['body'];
@@ -185,8 +203,11 @@ class SQ_Classes_RemoteController
 
         if (is_wp_error($response)) {
             SQ_Classes_Error::setError($response->get_error_message());
+            self::$lastHttpCode = 0; //server unreachable (DNS/timeout/SSL/network)
             return false;
         }
+
+        self::$lastHttpCode = (int) wp_remote_retrieve_response_code($response);
 
         $response = self::cleanResponse(wp_remote_retrieve_body($response)); //clear and get the body
 
@@ -252,6 +273,12 @@ class SQ_Classes_RemoteController
         ));
 
         $json = json_decode(self::apiCall('api/user/connect', $args));
+
+        //Never disconnect because of a server outage: only the explicit auth errors below
+        //(invalid_token/disconnected/banned) should clear stored credentials.
+        if (self::$lastHttpCode === 0 || (int) self::$lastHttpCode >= 500) {
+            return (new WP_Error('maintenance', 'server_unavailable'));
+        }
 
         if (isset($json->error) && $json->error <> '') {
 
@@ -387,7 +414,23 @@ class SQ_Classes_RemoteController
 		    return get_transient('sq_checkin');
 	    }
 
+	    //While the Cloud is known to be down (maintenance/outage), back off instead of calling the API
+	    //on every admin page load - and never attempt a reconnect during that window.
+	    if (get_transient('sq_checkin_down')) {
+		    return (new WP_Error('maintenance', 'server_unavailable'));
+	    }
+
         $json = json_decode(self::apiCall('api/user/checkin', $args));
+
+        //Server outage: unreachable (0) or any 5xx (includes 503 maintenance). Treat as a transient
+        //failure - do NOT reconnect or clear credentials, otherwise a maintenance window would
+        //disconnect working sites. Back off a couple of minutes so we don't flood the down server.
+        if (self::$lastHttpCode === 0 || (int) self::$lastHttpCode >= 500) {
+            set_transient('sq_checkin_down', 1, 2 * MINUTE_IN_SECONDS);
+            SQ_Classes_Error::setError(esc_html__("Squirrly Cloud is temporarily unavailable. The connection will be restored automatically once it's back.", 'squirrly-seo'));
+            SQ_Classes_Error::hookNotices();
+            return (new WP_Error('maintenance', 'server_unavailable'));
+        }
 
         if (isset($json->error) && $json->error <> '') {
 
@@ -397,6 +440,8 @@ class SQ_Classes_RemoteController
                 SQ_Classes_Error::hookNotices();
                 return (new WP_Error('api_error', $json->error));
             } elseif ($json->error == 'maintenance') {
+                //Maintenance reported as a normal (200) JSON payload: back off the same way and never reconnect.
+                set_transient('sq_checkin_down', 1, 2 * MINUTE_IN_SECONDS);
                 SQ_Classes_Error::setError(esc_html__("Squirrly Cloud is down for a bit of maintenance right now. But we'll be back in a minute.", 'squirrly-seo'));
                 SQ_Classes_Error::hookNotices();
                 return (new WP_Error('maintenance', $json->error));

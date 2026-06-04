@@ -3,8 +3,8 @@ Contributors: cifi, calinvingan, florinmuresan, nagy.sorel
 Donate link: https://plugin.squirrly.co/squirrly-seo-pricing/
 Tags: SEO, AI, XML sitemap, google search console, schema
 Requires at least: 5.3
-Tested up to: 6.9
-Stable tag: 12.4.17
+Tested up to: 7.0
+Stable tag: 12.4.18
 Requires PHP: 7.0
 License: GPLv2 or later
 
@@ -250,6 +250,11 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 7. Squirrly SEO - SEO Briefcase
 
 == Changelog ==
+= 12.4.18 =
+* Fix - Restore the secure HMAC-signed API connection that could fail with "invalid_signature" after the 12.4.17 update
+* Fix - Automatically reconnect to the Squirrly API with the per-site key, without needing to disconnect and reconnect the website
+* Fix - Keep the website connected during Squirrly Cloud maintenance or downtime instead of dropping the connection
+
 = 12.4.17 =
 * Security - Stop exposing master API tokens in the Live Assistant frontend config
 * Security - sla_customcall restricted to a fixed allowlist of research endpoints
