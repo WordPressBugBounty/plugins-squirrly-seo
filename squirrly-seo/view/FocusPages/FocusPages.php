@@ -56,17 +56,9 @@ if ( ! empty( $view->focuspages ) ) { ?>
 	} ?>
 
     <div class="col-12 m-0 p-0 position-relative">
-		<?php if ( ! SQ_Classes_Helpers_Tools::getValue( 'sid' ) ) { ?>
-            <div class="btn btn-round position-absolute sq_overflow_arrow_left">
-                <i class="fa-solid fa-arrow-circle-left"></i>
-            </div>
-            <div class="btn btn-round position-absolute sq_overflow_arrow_right">
-                <i class="fa-solid fa-arrow-circle-right"></i>
-            </div>
-		<?php } ?>
         <div class="<?php echo( ! SQ_Classes_Helpers_Tools::getValue( 'sid' ) ? 'sq_overflow' : '' ) ?> col-12 m-0 p-0 flexcroll" <?php echo( ! SQ_Classes_Helpers_Tools::getValue( 'sid' ) ? 'style="max-height: 590px;"' : '' ) ?>>
             <div class="col-12 m-0 p-0 border-0 " style="display: inline-block;">
-                <table class="table table-striped table-hover <?php echo( SQ_Classes_Helpers_Tools::getValue( 'sid' ) ? 'detailed' : '' ) ?>">
+                <table class="table table-striped table-hover <?php echo( SQ_Classes_Helpers_Tools::getValue( 'sid' ) ? 'detailed' : 'sq_focuspages_sticky' ) ?>">
                     <thead>
                     <tr>
                         <th><?php echo esc_html__( "Permalink", 'squirrly-seo' ) ?></th>
@@ -121,6 +113,71 @@ if ( ! empty( $view->focuspages ) ) { ?>
 
         </div>
     </div>
+
+    <style>
+        #sq_wrap .sq_focuspages_sticky thead th:first-child,
+        #sq_wrap .sq_focuspages_sticky tbody td:first-child {
+            position: -webkit-sticky;
+            position: sticky;
+            left: 0;
+            box-shadow: inset -1px 0 0 #e9e9e9;
+        }
+        #sq_wrap .sq_focuspages_sticky thead th:first-child {
+            z-index: 3;
+            background-color: #1c3c50;
+        }
+        #sq_wrap .sq_focuspages_sticky tbody td:first-child {
+            z-index: 2;
+            background-color: #fff;
+        }
+        #sq_wrap .sq_focuspages_sticky tbody tr:nth-of-type(even) td:first-child {
+            background-color: #fbfbfb;
+        }
+        #sq_wrap .sq_focuspages_sticky tbody tr:hover td:first-child {
+            background-color: rgb(252 251 255);
+        }
+    </style>
+
+    <script>
+        (function ($) {
+            if (window.sq_focuspages_reaudit_bound) {
+                return;
+            }
+            window.sq_focuspages_reaudit_bound = true;
+
+            var sq_inprogress   = <?php echo wp_json_encode( esc_html__( "In progress", "squirrly-seo" ) ); ?>;
+            var sq_reaudit_fail = <?php echo wp_json_encode( esc_html__( "Could not send the page for re-audit. Please try again.", "squirrly-seo" ) ); ?>;
+
+            $(document).on('click', '.sq_focuspages_reaudit', function () {
+                var $btn = $(this);
+                $btn.prop('disabled', true).addClass('sq_minloading');
+
+                $.post(ajaxurl, {
+                    action: 'sq_ajax_focuspages_reaudit',
+                    id: $btn.data('id'),
+                    post_id: $btn.data('post_id'),
+                    type: $btn.data('type'),
+                    term_id: $btn.data('term_id'),
+                    taxonomy: $btn.data('taxonomy'),
+                    sq_nonce: sqAdmin.nonce
+                }).done(function (response) {
+                    if (response && response.success) {
+                        $btn.replaceWith('<span class="small ml-2 text-black-50"><i class="fa-solid fa-clock-o"></i> ' + sq_inprogress + '</span>');
+                    } else {
+                        $btn.prop('disabled', false).removeClass('sq_minloading');
+                        if ($.isFunction($.sq_showMessage)) {
+                            $.sq_showMessage((response && response.data) ? response.data : sq_reaudit_fail).addClass('sq_error');
+                        }
+                    }
+                }).fail(function () {
+                    $btn.prop('disabled', false).removeClass('sq_minloading');
+                    if ($.isFunction($.sq_showMessage)) {
+                        $.sq_showMessage(sq_reaudit_fail).addClass('sq_error');
+                    }
+                });
+            });
+        })(jQuery);
+    </script>
 <?php } elseif ( SQ_Classes_Helpers_Tools::getValue( 'slabel' ) || SQ_Classes_Helpers_Tools::getValue( 'sid' ) ) { ?>
     <div class="col-12 m-0 p-0">
         <h4 class="text-center"><?php echo sprintf( esc_html__( "No data for this filter. %sShow All%s Focus Pages.", 'squirrly-seo' ), '<a href="' . esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_focuspages', 'pagelist' ) ) . '" >', '</a>' ) ?></h4>

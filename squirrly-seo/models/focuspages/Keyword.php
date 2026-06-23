@@ -101,19 +101,19 @@ class SQ_Models_Focuspages_Keyword extends SQ_Models_Abstract_Assistant {
 
 			if ( $this->_competition && $this->_trend ) {
 				$header .= $this->getUsedKeywords();
-				$header .= '<a href="' . $research_link . '" target="_blank" class="btn btn-primary text-white col-10 offset-1 mt-3" >' . esc_html__( "Find Better Keywords", 'squirrly-seo' ) . '</a>';
+				$header .= '<a href="' . $research_link . '" target="_blank" class="btn btn-primary text-white col-12 mt-3" >' . esc_html__( "Find Better Keywords", 'squirrly-seo' ) . '</a>';
 			} else {
 				$header .= $this->getUsedKeywords();
-				$header .= '<a href="' . $research_link . '" target="_blank" class="btn btn-primary text-white col-10 offset-1 mt-3">' . esc_html__( "Do a research", 'squirrly-seo' ) . '</a>';
+				$header .= '<a href="' . $research_link . '" target="_blank" class="btn btn-primary text-white col-12 mt-3">' . esc_html__( "Do a research", 'squirrly-seo' ) . '</a>';
 			}
 
-			$header .= '<a href="' . $edit_link . '&keyword=' . SQ_Classes_Helpers_Sanitize::escapeKeyword( $this->_keyword, 'url' ) . '" target="_blank" class="sq_research_selectit btn btn-primary text-white col-10 offset-1 mt-3">' . esc_html__( "Optimize for this", 'squirrly-seo' ) . '</a>';
+			$header .= '<a href="' . $edit_link . '&keyword=' . SQ_Classes_Helpers_Sanitize::escapeKeyword( $this->_keyword, 'url' ) . '" target="_blank" class="sq_research_selectit btn btn-primary text-white col-12 mt-3">' . esc_html__( "Optimize for this", 'squirrly-seo' ) . '</a>';
 
 		} elseif ( isset( $this->_post->ID ) ) {
 
 			$header .= '<div class="font-weight-bold text-black-50 m-0 px-3 text-center">' . esc_html__( "No Keyword found in Squirrly Live Assistant", 'squirrly-seo' ) . '</div>';
 			if ( isset( $this->_post->ID ) ) {
-				$header .= '<a href="' . $research_link . '" target="_blank" class="btn btn-primary text-white col-10 offset-1 mt-3">' . esc_html__( "Do a research", 'squirrly-seo' ) . '</a>';
+				$header .= '<a href="' . $research_link . '" target="_blank" class="btn btn-primary text-white col-12 mt-3">' . esc_html__( "Do a research", 'squirrly-seo' ) . '</a>';
 				$header .= '<a href="' . $edit_link . '" target="_blank" class="btn btn-primary text-white col-10 offset-1 my-2">' . esc_html__( "Optimize for a keyword", 'squirrly-seo' ) . '</a>';
 			}
 

@@ -22,11 +22,20 @@ if ( ! isset( $view ) ) {
 		}
 
 		if ( isset( $view->audit->audit_datetime ) && $view->audit->audit_datetime ) {
-			$audit_timestamp = strtotime( $view->audit->audit_datetime ) + ( (int) get_option( 'gmt_offset' ) * 3600 );
+			//wp_date() already converts the UTC datetime into the site timezone,
+			//so we must NOT add gmt_offset manually (that double-applies the offset).
+			$audit_timestamp = strtotime( $view->audit->audit_datetime );
 			$audit_datetime  = wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $audit_timestamp );
 		}
 
 		$now_timestamp = time();
+
+		//"In progress": a website audit was requested in the last few minutes
+		//(sq_auditpage_all transient, set to time() on request in SQ_Controllers_Audits).
+		//We use a LOCAL-only time window on purpose - comparing against the audit's
+		//remote datetime is unreliable because the WordPress server clock and the Cloud
+		//clock can differ, which would keep showing "In progress" after the audit is ready.
+		$in_progress = ( $call_timestamp > 0 && $call_timestamp > ( $now_timestamp - 300 ) );
 
 		if ( ! empty( $view->audit ) && (int) $view->audit->score > 0 ) {
 			$color              = false;
@@ -79,42 +88,32 @@ if ( ! isset( $view ) ) {
                                 <span class="text-dark font-weight-bold"><?php echo esc_html( $audit_datetime ) ?></span>
                             </div>
                         </div>
-                        <div class="text-right m-0 px-3 py-4">
-                            <form method="post" class="sq_auditpages_request p-0 m-0">
-								<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_audits_update', 'sq_nonce' ); ?>
-                                <input type="hidden" name="action" value="sq_audits_update"/>
-                                <button type="submit" class="btn btn-link text-primary font-weight-bold inline p-0 m-0">
-		                            <?php echo esc_html__( "Request New Audit", "squirrly-seo" ) ?>
-                                </button>
-                            </form>
-                        </div>
                     </div>
 				<?php } else { ?>
                     <div class="col m-0 p-0 sq_audit_header">
                         <a href="<?php echo esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_audits', 'addpage' ) ) ?>" class="btn btn-lg btn-primary text-white mx-1">
                             <i class="fa-solid fa-plus-square-o"></i> <?php echo esc_html__( "Add a new page for Audit", "squirrly-seo" ); ?>
                         </a>
+						<?php if ( ! $in_progress ) { ?>
+                            <form method="post" class="sq_auditpages_request d-inline p-0 m-0">
+								<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_audits_update', 'sq_nonce' ); ?>
+                                <input type="hidden" name="action" value="sq_audits_update"/>
+                                <button type="submit" class="btn btn-lg btn-light border mx-1">
+                                    <i class="fa-solid fa-refresh"></i> <?php echo esc_html__( "Request New Audit", "squirrly-seo" ) ?>
+                                </button>
+                            </form>
+						<?php } ?>
                     </div>
 
                     <div class="float-right text-right m-0 p-0 py-2">
-                        <div class="row m-0 p-0">
+                        <div class="row m-0 p-0 align-items-center">
                             <div class="sq_date m-0 p-0">
 								<?php echo esc_html__( "Audit Date", "squirrly-seo" ) . ': ' ?>
                                 <span class="text-dark font-weight-bold"><?php echo esc_html( $audit_datetime ) ?></span>
                             </div>
-                            <div class="m-0 p-0 pl-2">
-                                <form method="post" class="sq_auditpages_request p-0 m-0">
-									<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_audits_update', 'sq_nonce' ); ?>
-                                    <input type="hidden" name="action" value="sq_audits_update"/>
-									<?php if ( $audit_timestamp < ( $now_timestamp - 3600 ) && $call_timestamp > ( $now_timestamp - 3600 ) ) { ?>
-                                        <span class="small ml-2 text-black-50"><?php echo esc_html__( "In progress", "squirrly-seo" ) ?></span>
-									<?php } else { ?>
-                                        <button type="submit" class="btn btn-link text-primary font-weight-bold inline p-0 m-0">
-											<?php echo esc_html__( "Request New Audit", "squirrly-seo" ) ?>
-                                        </button>
-									<?php } ?>
-                                </form>
-                            </div>
+							<?php if ( $in_progress ) { ?>
+                                <span class="small text-black-50 m-0 p-0 pl-2"><?php echo esc_html__( "In progress", "squirrly-seo" ) ?></span>
+							<?php } ?>
                         </div>
                     </div>
 				<?php } ?>
@@ -206,7 +205,7 @@ if ( ! isset( $view ) ) {
 
 				?>
                 <div class="sq_stats row m-0 p-0 my-4">
-                    <div class="card col-6 p-0 m-0 bg-white shadow-sm">
+                    <div class="card col-7 p-0 m-0 bg-white shadow-sm">
                         <div class="card-content overflow-hidden m-0">
                             <div class="media align-items-stretch">
                                 <div class="media-body p-3">
@@ -229,7 +228,7 @@ if ( ! isset( $view ) ) {
                             </div>
                         </div>
                     </div>
-                    <div class="card col-4 p-0 m-0 bg-white shadow-sm">
+                    <div class="card col-5 p-0 m-0 bg-white shadow-sm">
                         <div class="overflow-hidden m-0 p-0">
                             <div class="media align-items-stretch">
                                 <div class="media-body p-2 py-3">
@@ -254,11 +253,100 @@ if ( ! isset( $view ) ) {
                     </div>
 					<?php if ( ! empty( $progress ) ) { ?>
                         <div class="col-12 p-0 m-0 pt-2 text-right">
-                            <a class="btn btn-sm btn-link text-dark" href="https://twitter.com/intent/tweet?text=<?php echo esc_url( 'I love the results I get with Squirrly SEO Audit for my website. @SquirrlyHQ #SEO' ) ?>"><?php echo esc_html__( 'Share Your Success', "squirrly-seo" ) ?></a>
+                            <a class="btn btn-sm btn-link text-dark" href="https://twitter.com/intent/tweet?text=<?php echo esc_url( 'I love the results I get with Squirrly GEO Audit for my website. @SquirrlyHQ #GEO #SEO' ) ?>"><?php echo esc_html__( 'Share Your Success', "squirrly-seo" ) ?></a>
                         </div>
 					<?php } ?>
                 </div>
 
+
+				<?php if ( ! empty( $view->aivisibility ) ) {
+					$aiv        = $view->aivisibility;
+					$ai_total   = isset( $aiv->total_visits ) ? (int) $aiv->total_visits : 0;
+					$ai_percent = isset( $aiv->ai_percent ) ? (float) $aiv->ai_percent : null;
+					$ai_conv    = isset( $aiv->conversions ) ? (int) $aiv->conversions : null;
+					$ai_days    = isset( $aiv->days_back ) ? (int) $aiv->days_back : (int) SQ_Classes_Helpers_Tools::getValue( 'days_back', 30 );
+					$ai_sources = ( isset( $aiv->sources ) && ! empty( $aiv->sources ) ) ? array_slice( (array) $aiv->sources, 0, 10 ) : array();
+						//Each trackable AI visit reflects many more AI recommendations & brand exposures
+						//that GA can't track (~14x to ~33x). Show the estimated range.
+						$ai_reco_min = $ai_total * 14;
+						$ai_reco_max = $ai_total * 33;
+					?>
+                    <div class="sq_ai_visibility row m-0 p-0 my-4">
+                        <div class="card col-12 p-0 m-0 bg-white shadow-sm">
+                            <div class="card-content m-0 p-3">
+
+                                <div class="row m-0 p-0">
+                                    <div class="col-12 m-0 p-0">
+                                        <h5 class="m-0 p-0 font-weight-bold"><i class="fa-solid fa-robot text-primary"></i> <?php echo esc_html__( "AI Visibility", "squirrly-seo" ) ?></h5>
+                                        <span class="small text-black-50"><?php echo sprintf( esc_html__( "How much traffic AI engines (ChatGPT, Perplexity, Gemini, Claude, and more) sent you in the last %d days, based on your connected Google Analytics.", "squirrly-seo" ), (int) $ai_days ) ?></span>
+                                    </div>
+                                </div>
+
+                                <div class="row m-0 p-0 mt-3 align-items-start">
+                                    <div class="col-6 m-0 p-0 pr-3">
+                                        <div class="row m-0 p-0">
+                                            <div class="col-6 m-0 p-0 pr-2">
+                                                <div class="font-weight-bold text-dark" style="font-size: 2rem; line-height: 1.1;"><?php echo esc_html( number_format( $ai_total ) ) ?></div>
+                                                <div class="text-black-50 small"><?php echo esc_html__( "trackable AI visits", "squirrly-seo" ) ?></div>
+                                            </div>
+											<?php if ( $ai_total > 0 ) { ?>
+                                                <div class="col-6 m-0 p-0">
+                                                    <div class="font-weight-bold text-dark" style="font-size: 2rem; line-height: 1.1;"><?php echo esc_html( number_format( $ai_reco_min ) . ' – ' . number_format( $ai_reco_max ) ) ?></div>
+                                                    <div class="text-black-50 small"><?php echo esc_html__( "estimated AI recommendations & brand exposures", "squirrly-seo" ) ?></div>
+                                                </div>
+											<?php } ?>
+                                        </div>
+										<?php if ( $ai_percent !== null ) { ?>
+                                            <div class="mt-3"><span class="font-weight-bold text-primary"><?php echo esc_html( number_format( $ai_percent, 1 ) ) ?>%</span> <span class="small text-black-50"><?php echo esc_html__( "of all your visits", "squirrly-seo" ) ?></span></div>
+										<?php } ?>
+										<?php if ( $ai_conv !== null ) { ?>
+                                            <div class="mt-1"><span class="font-weight-bold text-success"><?php echo esc_html( number_format( $ai_conv ) ) ?></span> <span class="small text-black-50"><?php echo esc_html__( "conversions from AI", "squirrly-seo" ) ?></span></div>
+										<?php } ?>
+                                        <div class="small text-black-50 mt-2"><?php echo esc_html__( "Note: Google Analytics underreports AI traffic, so the real numbers are higher.", "squirrly-seo" ) ?></div>
+                                    </div>
+
+                                    <div class="col-6 m-0 p-0">
+										<?php if ( ! empty( $ai_sources ) ) { ?>
+                                            <table class="table table-sm table-striped small m-0">
+                                                <thead>
+                                                <tr>
+                                                    <th style="width: 10px;">#</th>
+                                                    <th><?php echo esc_html__( "AI source", "squirrly-seo" ) ?></th>
+                                                    <th class="text-right"><?php echo esc_html__( "Visits", "squirrly-seo" ) ?></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+												<?php $ai_i = 0;
+												foreach ( $ai_sources as $s ) {
+													$s = (object) $s;
+													$ai_i ++;
+													$s_label  = isset( $s->label ) && $s->label <> '' ? $s->label : ( isset( $s->source ) ? $s->source : '' );
+													$s_visits = isset( $s->visits ) ? (int) $s->visits : 0;
+													?>
+                                                    <tr>
+                                                        <td class="text-black-50"><?php echo (int) $ai_i ?></td>
+                                                        <td class="font-weight-bold"><?php echo esc_html( $s_label ) ?></td>
+                                                        <td class="text-right"><?php echo esc_html( number_format( $s_visits ) ) ?></td>
+                                                    </tr>
+												<?php } ?>
+                                                </tbody>
+                                            </table>
+										<?php } else { ?>
+                                            <div class="text-black-50 small p-2"><?php echo esc_html__( "No AI-engine traffic detected for this period yet. As AI search grows, sources like ChatGPT and Perplexity will start to appear here.", "squirrly-seo" ) ?></div>
+										<?php } ?>
+                                    </div>
+                                </div>
+
+								<?php if ( isset( $aiv->insight ) && $aiv->insight <> '' ) { ?>
+                                    <div class="row m-0 p-0 mt-3">
+                                        <div class="col-12 m-0 p-2 bg-light rounded small"><i class="fa-solid fa-chart-line text-success"></i> <?php echo wp_kses_post( $aiv->insight ) ?></div>
+                                    </div>
+								<?php } ?>
+
+                            </div>
+                        </div>
+                    </div>
+				<?php } ?>
 
                 <div class="col-12 m-0 p-0">
                     <h4 class="card-title"><?php echo esc_html__( "Audit History", "squirrly-seo" ) ?></h4>

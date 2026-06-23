@@ -76,31 +76,31 @@ if ( ! isset( $view ) ) {
                             <div class="col-12 d-flex align-items-center m-0 p-0">
                                 <div class="p-0 m-0 mb-5">
                                     <h3 class="p-0 m-0 font-weight-bold text-white">
-					                    <?php echo esc_html__( "Configure your SEO", "squirrly-seo" ) ?>
+					                    <?php echo esc_html__( "AEO / GEO Pack", "squirrly-seo" ) ?>
                                     </h3>
                                 </div>
                             </div>
 
                             <div class="col-12 d-flex align-items-center m-0 p-0 mt-4">
                                 <div class="p-0 m-0 mb-5 text-white">
-	                                <?php echo esc_html__( "Launch our installation wizard to quickly and easily configure the basic SEO Settings for your site.", "squirrly-seo" ) ?>
+	                                <?php echo esc_html__( "GEO Plugin by Squirrly SEO now brings you an AEO / GEO Pack that helps you learn everything for free and also helps you redeem free credits in other tools built by us, that help you get recommended by ChatGPT, Perplexity, Claude and Google AI Overviews", "squirrly-seo" ) ?>
                                 </div>
                             </div>
 
                             <div class="col-12 d-flex align-items-center m-0 p-0 mt-5">
-                                <a class="col-12 btn bg-white text-dark" href="<?php echo esc_url( SQ_Classes_Helpers_Tools::getAdminUrl('sq_onboarding') ) ?>" style="text-decoration: none">
-				                    <?php echo esc_html__( "Setup in 5 mins!", "squirrly-seo" ) ?>
+                                <a class="col-12 btn bg-white text-dark" href="<?php echo esc_url( 'https://aisq.com/aeo-geo-pack/' ) ?>" target="_blank" rel="noopener" style="text-decoration: none">
+				                    <?php echo esc_html__( "Get the AEO / GEO Pack", "squirrly-seo" ) ?>
                                 </a>
                             </div>
                         </div>
                     </div>
                     <div class="col-6 p-4">
-                        <div class="col-12 m-0 p-0 shadow-0 rounded-0">
+                        <div class="col-12 m-0 p-0 py-4 shadow-0 rounded-0">
                             <h3 class="p-0 m-0">
-			                    <?php echo esc_html__( "Squirrly SEO Suite", "squirrly-seo" ) ?>:
+			                    <?php echo esc_html__( "Squirrly", "squirrly-seo" ) ?>:
                             </h3>
                             <div>
-			                    <?php echo esc_html__( "The Only Holistic SEO Plugin on the market covers and replaces many SEO software you would buy for your site", "squirrly-seo" ) ?>:
+			                    <?php echo esc_html__( "Become the Brand AI Recommends", "squirrly-seo" ) ?>:
                             </div>
                         </div>
 

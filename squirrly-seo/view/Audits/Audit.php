@@ -85,6 +85,44 @@ if ( ! isset( $view ) ) {
                                     </div>
                                 </div>
 
+								<?php
+								//Build a prioritized "Fix these first" list across all groups (GEO-first order is preserved)
+								$sq_fix_first = array();
+								foreach ( $view->audit->audit as $sq_group => $sq_group_tasks ) {
+									if ( ! isset( $view->audit->groups->$sq_group ) || (int) $view->audit->groups->$sq_group->total <= 0 || empty( $sq_group_tasks ) ) {
+										continue;
+									}
+									foreach ( $sq_group_tasks as $sq_task ) {
+										if ( ! (int) $sq_task->complete && isset( $sq_task->solution ) && $sq_task->solution <> '' ) {
+											$sq_fix_first[] = array(
+												'anchor'   => ( $sq_group === 'inbound' ? 'links' : $sq_group ),
+												'solution' => $sq_task->solution,
+											);
+										}
+									}
+								}
+								if ( ! empty( $sq_fix_first ) ) {
+									$sq_fix_first = array_slice( $sq_fix_first, 0, 6 );
+									?>
+                                    <div class="card col-12 m-0 p-0 my-4 border-0 shadow-sm">
+                                        <div class="card-body p-3">
+                                            <h5 class="m-0 p-0 mb-3 font-weight-bold text-danger"><i class="fa-solid fa-bolt mr-2"></i><?php echo esc_html__( "Fix these first", "squirrly-seo" ) ?></h5>
+                                            <ul class="m-0 p-0" style="list-style: none;">
+												<?php foreach ( $sq_fix_first as $sq_fix ) { ?>
+                                                    <li class="m-0 p-0 py-2 border-bottom">
+                                                        <a href="javascript:void(0);" class="sq_nav_item font-weight-bold text-dark" data-id="<?php echo esc_attr( $sq_fix['anchor'] ) ?>" style="text-decoration: none;">
+                                                            <i class="fa-solid fa-thumbs-down text-danger mr-2"></i><?php echo wp_kses_post( $sq_fix['solution'] ) ?>
+                                                        </a>
+                                                        <span class="badge badge-light ml-2 text-uppercase"><?php echo esc_html( ucfirst( $sq_fix['anchor'] ) ) ?></span>
+                                                    </li>
+												<?php } ?>
+                                            </ul>
+                                        </div>
+                                    </div>
+									<?php
+								}
+								?>
+
 								<?php foreach ( $view->audit->audit as $group => $audit ) {
 									if ( ! isset( $view->audit->groups->$group ) ) {
 										continue;
@@ -127,15 +165,20 @@ if ( ! isset( $view ) ) {
                                                                 <div class="m-0 p-0 font-weight-bold <?php echo ( (int) $task->complete == 1 ) ? 'text-primary' : 'text-danger' ?>"> <?php echo wp_kses_post( $task->complete ? $task->success_list : $task->fail_list ) ?> </div>
                                                             </div>
 															<?php if ( $task->description ) { ?>
-                                                                <div class="row m-0 p-0 my-2 pl-6 text-black-50">
-																	<?php echo wp_kses_post( $task->description ); ?>
-																	<?php if ( $task->protip <> '' ) { ?>
-                                                                        <div class="my-3 p-0">
-                                                                            <strong class="text-primary"><?php echo esc_html__( "PRO TIP", "squirrly-seo" ) ?>
-                                                                                :</strong> <?php echo wp_kses_post( $task->protip ) ?>
-                                                                        </div>
-																	<?php } ?>
-                                                                </div>
+                                                                <details class="sq_audit_task_details m-0 p-0 my-2 pl-6"<?php echo ( (int) $task->complete == 1 ) ? '' : '' ?>>
+                                                                    <summary class="font-weight-bold <?php echo ( (int) $task->complete == 1 ) ? 'text-primary' : 'text-danger' ?>" style="cursor: pointer; list-style: none;">
+                                                                        <i class="fa-solid fa-circle-question m-0 p-0 mr-1"></i><?php echo ( (int) $task->complete == 1 ) ? esc_html__( "Details", "squirrly-seo" ) : esc_html__( "How to fix this", "squirrly-seo" ) ?>
+                                                                    </summary>
+                                                                    <div class="col-12 m-0 p-0 mt-2 text-black-50">
+																		<?php echo wp_kses_post( $task->description ); ?>
+																		<?php if ( $task->protip <> '' ) { ?>
+                                                                            <div class="my-3 p-0">
+                                                                                <strong class="text-primary"><?php echo esc_html__( "PRO TIP", "squirrly-seo" ) ?>
+                                                                                    :</strong> <?php echo wp_kses_post( $task->protip ) ?>
+                                                                            </div>
+																		<?php } ?>
+                                                                    </div>
+                                                                </details>
 															<?php } ?>
                                                         </li>
 													<?php }
@@ -163,11 +206,6 @@ if ( ! isset( $view ) ) {
 
 				<?php SQ_Classes_ObjController::getClass( 'SQ_Core_BlockKnowledgeBase' )->init(); ?>
 
-            </div>
-            <div class="sq_col_side bg-white">
-                <div class="col-12 m-0 p-0 sq_sticky">
-					<?php SQ_Classes_ObjController::getClass( 'SQ_Core_BlockAssistant' )->init(); ?>
-                </div>
             </div>
         </div>
     </div>

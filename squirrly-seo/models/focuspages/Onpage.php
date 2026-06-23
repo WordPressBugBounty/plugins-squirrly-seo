@@ -85,7 +85,7 @@ class SQ_Models_Focuspages_Onpage extends SQ_Models_Abstract_Assistant {
 		$header .= '</li>';
 
 		$header .= '<li class="completed">
-                    <a href="' . SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings' ) . '" target="_blank" class="btn btn-primary text-white col-10 offset-1 mt-3">' . esc_html__( "Go to Technical SEO", 'squirrly-seo' ) . '</a>
+                    <a href="' . SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings' ) . '" target="_blank" class="btn btn-primary text-white col-12 mt-3">' . esc_html__( "Go to Technical SEO", 'squirrly-seo' ) . '</a>
                 </li>';
 
 		return $header;

@@ -53,8 +53,8 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_account_info' ),
 			), //Squirrly Cloud
 			array(
-				'title'       => "14 Days Journey Course",
-				'description' => "<strong>Improve your Online Presence</strong> by knowing how your website is performing. All you need now is to start driving One of your most valuable pages to <strong>Better Rankings</strong>.",
+				'title'       => "14 Days Journey Course to GEO",
+				'description' => "All you need to start driving AI visibility for your brand. Be recommended by ChatGPT, Perplexity, Claude, Google AI Overviews and AI Mode.",
 				'category'    => "Unique SEO Features",
 				'mainfeature' => false,
 				'option'      => false,
@@ -633,7 +633,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 			), //
 			array(
 				'title'       => "Moz",
-				'description' => "Receive information about <strong>Backlinks and Authority from Moz.com</strong> directly in your SEO Audit report.",
+				'description' => "Receive information about <strong>Backlinks and Authority from Moz.com</strong> directly in your GEO Audit report.",
 				'category'    => "Integration Features",
 				'mainfeature' => false,
 				'option'      => false,
@@ -747,7 +747,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 			), //
 			array(
 				'title'       => "Google PageSpeed Insights",
-				'description' => "Get precise information about the <strong>Average Loading Time</strong> of your website using Google PageSpeed Insights in your SEO Audit report.",
+				'description' => "Get precise information about the <strong>Average Loading Time</strong> of your website using Google PageSpeed Insights in your GEO Audit report.",
 				'category'    => "Integration Features",
 				'mainfeature' => false,
 				'option'      => false,
@@ -774,8 +774,8 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_rankings' ),
 			), //Google SERP Checker
 			array(
-				'title'       => "SEO Audit",
-				'description' => "Improve your Online Presence by knowing how your website is performing online. <strong>Generate and Compare SEO Audits</strong> and follow the Assistant to optimize the website.",
+				'title'       => "GEO Audit",
+				'description' => "Improve your visibility in AI answer engines by knowing how your website is performing online. <strong>Generate and Compare GEO Audits</strong> and follow the Assistant to optimize the website.",
 				'category'    => "Miscellaneous Features",
 				'mainfeature' => "Learn More About Your Site",
 				'option'      => false,

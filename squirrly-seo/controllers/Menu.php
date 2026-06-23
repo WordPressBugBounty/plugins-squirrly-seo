@@ -459,13 +459,31 @@ class SQ_Controllers_Menu extends SQ_Classes_FrontController {
 				SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'fullwidth' );
 			}
 
-			wp_enqueue_script( 'askai-widget', 'https://storage.googleapis.com/contentlook/agent/widget.min.js?key=1be14e86-5ca3-4df6-9006-e5f6ff732061&ver=1.0.1', array(), SQ_VERSION );
+			wp_enqueue_script( 'crawlbrain-widget', 'https://cdn.crawlbrain.com/v1/widget.min.js', array(), null );
+			add_filter( 'script_loader_tag', array( $this, 'addCrawlbrainWidgetAttributes' ), 10, 2 );
 
 		}
 
 		//Load the Squirrly Logo on all Dashboard
 		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'logo' );
 
+	}
+
+	/**
+	 * Add the data-key and async attributes to the CrawlBrain help widget script tag.
+	 * wp_enqueue_script can't set custom attributes, so inject them via the loader filter.
+	 *
+	 * @param string $tag    The full <script> tag.
+	 * @param string $handle The registered script handle.
+	 *
+	 * @return string
+	 */
+	public function addCrawlbrainWidgetAttributes( $tag, $handle ) {
+		if ( 'crawlbrain-widget' !== $handle ) {
+			return $tag;
+		}
+
+		return str_replace( ' src=', ' data-key="ad8d9517-51fa-48b3-9211-24f8c1b8fbfc" data-mode="floating" async src=', $tag );
 	}
 
 	/**

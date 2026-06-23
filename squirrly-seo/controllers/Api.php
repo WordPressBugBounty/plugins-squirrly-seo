@@ -299,7 +299,10 @@ class SQ_Controllers_Api extends SQ_Classes_FrontController {
 		if ( ! is_array( $decoded ) ) {
 			return null;
 		}
-		return wp_json_encode( $decoded );
+		//JSON_HEX_TAG | JSON_HEX_AMP encode "<", ">" and "&" as \u00XX so a value that
+		//smuggled in script markup (e.g. unicode-escaped "</script>") can never be
+		//persisted in a form that breaks out of the JSON-LD wrapper on the frontend.
+		return wp_json_encode( $decoded, JSON_HEX_TAG | JSON_HEX_AMP );
 	}
 
 	/**
@@ -436,6 +439,57 @@ class SQ_Controllers_Api extends SQ_Classes_FrontController {
 				}
 
 				$response = array( 'total_posts' => $total_posts );
+				break;
+			case 'postids':
+				//Return a paginated, IDs-only list of the posts that still exist on this site.
+				//Used by the cloud to reconcile sq_user_posts and detect articles the user deleted.
+				//Only public post types and "still exists" statuses are returned, so a post moved
+				//to draft is NOT reported as deleted - only trashed/removed posts disappear from this list.
+				$start = (int) $request->get_param( 'start' );
+				$limit = (int) $request->get_param( 'limit' );
+				if ( $limit <= 0 || $limit > 5000 ) {
+					$limit = 2000;
+				}
+				if ( $start < 0 ) {
+					$start = 0;
+				}
+
+				//public post types Squirrly may track (post, page, products, public CPTs); skip media
+				$post_types = get_post_types( array( 'public' => true ) );
+				unset( $post_types['attachment'] );
+				$post_types = array_values( $post_types );
+
+				if ( empty( $post_types ) ) {
+					$response = array( 'total' => 0, 'start' => $start, 'limit' => $limit, 'ids' => array() );
+					break;
+				}
+
+				//statuses that mean "the post still exists" - excludes trash/auto-draft/inherit(revisions)
+				$statuses = array( 'publish', 'future', 'private', 'draft', 'pending' );
+
+				$type_ph   = implode( ',', array_fill( 0, count( $post_types ), '%s' ) );
+				$status_ph = implode( ',', array_fill( 0, count( $statuses ), '%s' ) );
+				$where     = "post_type IN ($type_ph) AND post_status IN ($status_ph)";
+				$where_args = array_merge( $post_types, $statuses );
+
+				//total so the cloud can confirm it paged through everything before trusting the diff
+				$total = (int) $wpdb->get_var(
+					$wpdb->prepare( "SELECT COUNT(`ID`) FROM `$wpdb->posts` WHERE $where", $where_args )
+				);
+
+				$ids = $wpdb->get_col(
+					$wpdb->prepare(
+						"SELECT `ID` FROM `$wpdb->posts` WHERE $where ORDER BY `ID` ASC LIMIT %d, %d",
+						array_merge( $where_args, array( $start, $limit ) )
+					)
+				);
+
+				$response = array(
+					'total' => $total,
+					'start' => $start,
+					'limit' => $limit,
+					'ids'   => array_map( 'intval', (array) $ids ),
+				);
 				break;
 			case 'post':
 

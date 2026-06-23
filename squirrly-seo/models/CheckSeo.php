@@ -1010,7 +1010,7 @@ class SQ_Models_CheckSeo {
 				'completed' => false,
 				'warning'   => esc_html__( "Audit Score is Over 70%", 'squirrly-seo' ),
 				'message'   => esc_html__( "The Squirrly Audit covers the main aspects that influence a site's performance. Plus, your SEO and digital marketing expertise will increase as you keep working on solving issues unveiled by the weekly Audit. You need a score over 70 to have good chances of ranking high on Google.", 'squirrly-seo' ),
-				'solution'  => sprintf( esc_html__( "Open up your Audit from %sSquirrly > SEO Audit%s. Open one of the audits, or use the Compare Audit button to compare multiple audits and see how far you've come along. Read about the aspects you can work on to improve your score (find them on the right sidebar).", 'squirrly-seo' ), '<a href="' . SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_audits', 'audits' ) . '" >', '</a>' ),
+				'solution'  => sprintf( esc_html__( "Open up your Audit from %sSquirrly > GEO Audit%s. Open one of the audits, or use the Compare Audit button to compare multiple audits and see how far you've come along. Read about the aspects you can work on to improve your score (find them on the right sidebar).", 'squirrly-seo' ), '<a href="' . SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_audits', 'audits' ) . '" >', '</a>' ),
 				'goal'      => esc_html__( "Improve the score of your Audit to have a good chance of ranking high on Google.", 'squirrly-seo' ),
 				'link'      => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_audits', 'audits' ),
 				'color'     => '#4f1440',

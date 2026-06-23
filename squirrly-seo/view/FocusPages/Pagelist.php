@@ -110,7 +110,7 @@ if ( ! isset( $view ) ) {
     </div>
 </div>
 <div id="sq_previewurl_modal" tabindex="-1" class="modal" role="dialog">
-    <div class="modal-dialog modal-lg" style="max-width: 100% !important;">
+    <div class="modal-dialog modal-lg" style="max-width: 1000px;">
         <div class="modal-content bg-white rounded-0">
             <div class="modal-header">
                 <h4 class="modal-title"><?php echo esc_html__( "Squirrly Inspect URL", 'squirrly-seo' ); ?></h4>

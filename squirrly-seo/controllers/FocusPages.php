@@ -58,6 +58,10 @@ class SQ_Controllers_FocusPages extends SQ_Classes_FrontController {
 					$this->show_view( 'Errors/Maintenance' );
 
 					return;
+				} elseif ( $this->checkin->get_error_message() == 'reconnect' ) {
+					$this->show_view( 'Errors/Reconnect' );
+
+					return;
 				}
 			}
 		}
@@ -421,6 +425,13 @@ class SQ_Controllers_FocusPages extends SQ_Classes_FrontController {
 				//Set the focus pages and labels
 				$args            = array();
 				$args['post_id'] = $post_id;
+
+				//Optional URL so the cloud can inspect ANY page of the site (e.g. from the Posts list),
+				//not only registered focus / audit pages.
+				if ( $url = SQ_Classes_Helpers_Tools::getValue( 'url', '' ) ) {
+					$args['url'] = esc_url_raw( $url );
+				}
+
 				if ( $json['html'] = SQ_Classes_RemoteController::getInspectURL( $args ) ) {
 
 					//Support for international languages
@@ -551,6 +562,53 @@ class SQ_Controllers_FocusPages extends SQ_Classes_FrontController {
 
 				echo wp_json_encode( $json );
 				exit();
+			case 'sq_focuspages_linkopportunities':
+
+				if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
+					wp_send_json_error( esc_html__( "You do not have permission to perform this action", 'squirrly-seo' ) );
+				}
+
+				$keyword    = trim( (string) SQ_Classes_Helpers_Tools::getValue( 'keyword', '' ) );
+				$to_post_id = (int) SQ_Classes_Helpers_Tools::getValue( 'to_post_id', 0 );
+
+				if ( $keyword === '' || ! $to_post_id ) {
+					wp_send_json_error( esc_html__( "Add a keyword and select a target URL first.", 'squirrly-seo' ) );
+				}
+
+				$opportunities = array();
+
+				//Find published posts that already mention the keyword, excluding the target page
+				$sq_lo_query = new WP_Query( array(
+					's'                   => $keyword,
+					'post_type'           => 'any',
+					'post_status'         => 'publish',
+					'posts_per_page'      => 50,
+					'post__not_in'        => array( $to_post_id ),
+					'ignore_sticky_posts' => true,
+					'no_found_rows'       => true,
+					'suppress_filters'    => true,
+				) );
+
+				if ( $sq_lo_query->have_posts() ) {
+					foreach ( $sq_lo_query->posts as $sq_lo_post ) {
+						//Keep only pages where the keyword can actually become an inner link to the target
+						$valid = SQ_Classes_ObjController::getClass( 'SQ_Models_Post' )->checkInnerLink( $sq_lo_post->post_content, $keyword, $to_post_id );
+
+						if ( $valid ) {
+							$opportunities[] = array(
+								'post_id'   => (int) $sq_lo_post->ID,
+								'title'     => get_the_title( $sq_lo_post ),
+								'permalink' => get_permalink( $sq_lo_post->ID ),
+								'found'     => (int) $valid,
+							);
+						}
+					}
+				}
+
+				wp_reset_postdata();
+
+				wp_send_json_success( $opportunities );
+				break;
 			case 'sq_focuspages_addinnerlink':
 
 				$keyword       = SQ_Classes_Helpers_Tools::getValue( 'keyword', '' );
@@ -789,6 +847,45 @@ class SQ_Controllers_FocusPages extends SQ_Classes_FrontController {
 						SQ_Classes_Error::setError( sprintf( esc_html__( "Error! Could not find the focus page %d in your website.", 'squirrly-seo' ), $post_id ) . " <br /> " );
 					}
 				}
+				break;
+			case 'sq_ajax_focuspages_reaudit':
+
+				SQ_Classes_Helpers_Tools::setHeader( 'json' );
+
+				if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_focuspages' ) ) {
+					wp_send_json_error( esc_html__( "You do not have permission to perform this action", 'squirrly-seo' ) );
+				}
+
+				$post_id   = (int) SQ_Classes_Helpers_Tools::getValue( 'post_id', 0 );
+				$term_id   = (int) SQ_Classes_Helpers_Tools::getValue( 'term_id', 0 );
+				$taxonomy  = SQ_Classes_Helpers_Tools::getValue( 'taxonomy', '' );
+				$post_type = SQ_Classes_Helpers_Tools::getValue( 'type', '' );
+				$id        = (int) SQ_Classes_Helpers_Tools::getValue( 'id', 0 );
+
+				if ( $id && $post = SQ_Classes_ObjController::getClass( 'SQ_Models_Snippet' )->getCurrentSnippet( $post_id, $term_id, $taxonomy, $post_type ) ) {
+
+					//Save the post data in DB with the hash
+					SQ_Classes_ObjController::getClass( 'SQ_Models_Snippet' )->savePost( $post );
+
+					$args              = array();
+					$args['post_id']   = $id;
+					$args['hash']      = $post->hash;
+					$args['permalink'] = $post->url;
+
+					$focuspage = SQ_Classes_RemoteController::updateFocusPage( $args );
+
+					if ( $focuspage && ! is_wp_error( $focuspage ) ) {
+						set_transient( 'sq_auditpage_' . $id, time() );
+						wp_send_json_success( esc_html__( "Focus page sent for recheck. It may take a while so please be patient.", 'squirrly-seo' ) );
+					} elseif ( is_wp_error( $focuspage ) && $focuspage->get_error_message() == 'too_many_attempts' ) {
+						wp_send_json_error( esc_html__( "You've made too many requests, please wait a few minutes.", 'squirrly-seo' ) );
+					} else {
+						set_transient( 'sq_auditpage_' . $id, time() );
+						wp_send_json_error( esc_html__( "You've made too many requests, please wait a few minutes.", 'squirrly-seo' ) );
+					}
+				}
+
+				wp_send_json_error( esc_html__( "Error! Could not find the focus page in your website.", 'squirrly-seo' ) );
 				break;
 			case 'sq_focuspages_update':
 

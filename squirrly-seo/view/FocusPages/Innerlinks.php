@@ -46,9 +46,9 @@ if ( ! isset( $view ) ) {
 								<?php echo esc_html__( "Add Inner Link", "squirrly-seo" ); ?>
                                 <i class="fa-solid fa-plus-square"></i>
                             </button>
-                            <button class="sq_innerlinks_suggestion btn btn-lg btn-primary text-white mx-3" style="display: none">
-								<?php echo esc_html__( "Suggested Inner Links", "squirrly-seo" ); ?>
-                                <i class="fa-solid fa-plus-square"></i>
+                            <button class="btn btn-lg btn-primary text-white mx-3" onclick="jQuery('#sq_link_opportunities_dialog').modal('show')" data-dismiss="modal">
+								<?php echo esc_html__( "Link Opportunities", "squirrly-seo" ); ?>
+                                <i class="fa-solid fa-magnifying-glass"></i>
                             </button>
                         </div>
 
@@ -248,10 +248,6 @@ if ( ! isset( $view ) ) {
                 </div>
 
             </div>
-            <div class="sq_col_side bg-white">
-                <div class="col-12 m-0 p-0 sq_sticky">
-                </div>
-            </div>
         </div>
     </div>
 
@@ -408,5 +404,170 @@ if ( ! isset( $view ) ) {
 
 		<?php }
 	} ?>
+
+    <div id="sq_link_opportunities_dialog" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content bg-white rounded-0">
+                <div class="modal-header">
+                    <h4 class="modal-title"><?php echo esc_html__( "Link Opportunities", "squirrly-seo" ); ?></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-12 small text-black-50 mb-3 p-0">
+						<?php echo esc_html__( "Enter a keyword and a target URL. Squirrly finds your published posts that already mention the keyword, so you can quickly link them to the target page. The inner links use your default settings.", "squirrly-seo" ); ?>
+                    </div>
+                    <div class="form-group">
+                        <label><?php echo esc_html__( "Keyword", "squirrly-seo" ); ?></label>
+                        <input type="text" class="form-control sq_lo_keyword" maxlength="255" placeholder="<?php echo esc_attr__( "The keyword you want to link", "squirrly-seo" ) ?>"/>
+                    </div>
+                    <div class="form-group">
+                        <label><?php echo esc_html__( "Target URL (To Page)", "squirrly-seo" ); ?></label>
+                        <select class="sq_selectpicker sq_lo_to_post_id form-control border" data-live-search="true"></select>
+                    </div>
+                    <div class="form-group text-right">
+                        <button type="button" class="btn btn-primary sq_lo_search_btn noloading"><?php echo esc_html__( "Search", "squirrly-seo" ); ?> <i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+
+                    <div class="sq_lo_results my-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function ($) {
+            $(document).ready(function () {
+                var $modal = $('#sq_link_opportunities_dialog');
+                if (!$modal.length) {
+                    return;
+                }
+
+                var $results   = $modal.find('.sq_lo_results');
+                var lo_added   = 0;
+                var lo_to      = { id: '', text: '' };
+                var lo_default = {
+                    nofollow: <?php echo (int) SQ_Classes_Helpers_Tools::getOption( 'sq_innelinks_link_nofollow' ); ?>,
+                    blank: <?php echo (int) SQ_Classes_Helpers_Tools::getOption( 'sq_innelinks_link_blank' ); ?>
+                };
+
+                function lo_escape(s) {
+                    return $('<div/>').text(s == null ? '' : s).html();
+                }
+
+                //Capture the target the moment it's picked - the ajax selectpicker
+                //drops its transient options afterwards, so reading .val() later is unreliable.
+                $modal.find('.sq_lo_to_post_id').on('changed.bs.select', function (e, clickedIndex) {
+                    var $sel = $(this);
+                    var val  = $sel.val();
+                    if ((!val || val === '') && $.fn.selectpicker) {
+                        try { val = $sel.selectpicker('val'); } catch (err) {}
+                    }
+                    var text = $sel.find('option:selected').text();
+                    if (!text && typeof clickedIndex !== 'undefined') {
+                        text = $sel.find('option').eq(clickedIndex).text();
+                    }
+                    lo_to.id   = val || '';
+                    lo_to.text = text || '';
+                });
+
+                function lo_search() {
+                    var keyword    = $.trim($modal.find('.sq_lo_keyword').val());
+                    var to_post_id = lo_to.id;
+                    var to_text    = lo_to.text;
+
+                    if (!keyword || !to_post_id) {
+                        $results.html('<div class="text-danger my-2"><?php echo esc_js( esc_html__( "Add a keyword and select a target URL first.", "squirrly-seo" ) ); ?></div>');
+                        return;
+                    }
+
+                    var $btn = $modal.find('.sq_lo_search_btn').addClass('sq_minloading');
+                    $results.html('');
+
+                    $.post(ajaxurl, {
+                        action: 'sq_focuspages_linkopportunities',
+                        keyword: keyword,
+                        to_post_id: to_post_id,
+                        sq_nonce: sqAdmin.nonce
+                    }).done(function (response) {
+                        $btn.removeClass('sq_minloading');
+
+                        if (response && response.success && response.data && response.data.length) {
+                            var html = '<table class="table table-striped table-hover"><thead><tr>'
+                                + '<th><?php echo esc_js( esc_html__( "Keyword", "squirrly-seo" ) ); ?></th>'
+                                + '<th><?php echo esc_js( esc_html__( "From", "squirrly-seo" ) ); ?></th>'
+                                + '<th><?php echo esc_js( esc_html__( "To", "squirrly-seo" ) ); ?></th>'
+                                + '<th style="width: 90px;"></th>'
+                                + '</tr></thead><tbody>';
+
+                            $.each(response.data, function (i, row) {
+                                html += '<tr>'
+                                    + '<td>' + lo_escape(keyword) + '</td>'
+                                    + '<td><a href="' + lo_escape(row.permalink) + '" target="_blank">' + lo_escape(row.permalink) + '</a></td>'
+                                    + '<td>' + lo_escape(to_text) + '</td>'
+                                    + '<td class="text-right"><button type="button" class="btn btn-sm btn-primary sq_lo_add" data-from="' + parseInt(row.post_id, 10) + '"><?php echo esc_js( esc_html__( "Add", "squirrly-seo" ) ); ?></button></td>'
+                                    + '</tr>';
+                            });
+
+                            html += '</tbody></table>';
+                            $results.html(html);
+                        } else {
+                            $results.html('<div class="text-center text-black-50 my-3"><?php echo esc_js( esc_html__( "No opportunities found for this keyword.", "squirrly-seo" ) ); ?></div>');
+                        }
+                    }).fail(function () {
+                        $btn.removeClass('sq_minloading');
+                        $results.html('<div class="text-danger my-2"><?php echo esc_js( esc_html__( "Search failed. Please try again.", "squirrly-seo" ) ); ?></div>');
+                    }, "json");
+                }
+
+                $modal.find('.sq_lo_search_btn').on('click', lo_search);
+                $modal.find('.sq_lo_keyword').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        e.preventDefault();
+                        lo_search();
+                    }
+                });
+
+                $results.on('click', '.sq_lo_add', function () {
+                    var $b           = $(this);
+                    var from_post_id = parseInt($b.data('from'), 10);
+                    var keyword      = $.trim($modal.find('.sq_lo_keyword').val());
+                    var to_post_id   = lo_to.id;
+
+                    if (!from_post_id || !keyword || !to_post_id) {
+                        return;
+                    }
+
+                    $b.addClass('sq_minloading').prop('disabled', true);
+
+                    $.post(ajaxurl, {
+                        action: 'sq_focuspages_addinnerlink',
+                        keyword: keyword,
+                        to_post_id: to_post_id,
+                        from_post_ids: [from_post_id],
+                        nofollow: lo_default.nofollow,
+                        blank: lo_default.blank,
+                        sq_nonce: sqAdmin.nonce
+                    }).done(function (response) {
+                        if (response && response.success) {
+                            lo_added++;
+                            $b.replaceWith('<span class="text-success font-weight-bold"><i class="fa-solid fa-check"></i> <?php echo esc_js( esc_html__( "Added", "squirrly-seo" ) ); ?></span>');
+                        } else {
+                            $b.removeClass('sq_minloading').prop('disabled', false);
+                            alert((response && response.data) ? response.data : '<?php echo esc_js( esc_html__( "Could not add the inner link.", "squirrly-seo" ) ); ?>');
+                        }
+                    }).fail(function () {
+                        $b.removeClass('sq_minloading').prop('disabled', false);
+                    }, "json");
+                });
+
+                //Reload once on close so the newly added links appear in the main table
+                $modal.on('hidden.bs.modal', function () {
+                    if (lo_added > 0) {
+                        location.reload();
+                    }
+                });
+            });
+        })(jQuery);
+    </script>
 </div>
 

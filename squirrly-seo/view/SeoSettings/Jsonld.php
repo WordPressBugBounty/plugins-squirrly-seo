@@ -43,7 +43,7 @@ if ( ! isset( $view ) ) {
 							<?php echo esc_html__( "JSON-LD structured data influences how Google will create rich snippets for your URLs.", 'squirrly-seo' ); ?>
                         </div>
                         <div class="col-7 small m-0 p-0 py-2">
-							<?php echo esc_html__( "Test your Rich Snippets using the JSON-LD validator. If that one says all is good, then all is good. It's then up to Google's search engine to decide if it 'wants' to start generating rich snippets for you. You can't do anything else than just to pass the validation. However, a good score in the SEO Audit by Squirrly will prove to Google that your site deserves rich results in search.", 'squirrly-seo' ); ?>
+							<?php echo esc_html__( "Test your Rich Snippets using the JSON-LD validator. If that one says all is good, then all is good. It's then up to Google's search engine to decide if it 'wants' to start generating rich snippets for you. You can't do anything else than just to pass the validation. However, a good score in the GEO Audit by Squirrly will prove to Google that your site deserves rich results in search.", 'squirrly-seo' ); ?>
                         </div>
 
 						<?php $view->show_view( 'Blocks/SubMenuHeader' ); ?>

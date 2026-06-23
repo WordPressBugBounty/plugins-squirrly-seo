@@ -64,11 +64,24 @@ if ( ! isset( $patterns[ $view->post->post_type ] ) && isset( $patterns['custom'
                     <li class="sq-nav-item">
                         <a href="#sqtabjson<?php echo esc_attr( $view->post->hash ) ?>1" class="sq-nav-item sq-nav-link sq-py-3 sq-text-dark sq-font-weight-bold active" data-toggle="sqtab"><?php echo esc_html__( "Schemas", "squirrly-seo" ) ?></a>
                     </li>
+                    <li class="sq-nav-item">
+                        <a href="#sqtabjson<?php echo esc_attr( $view->post->hash ) ?>2" class="sq-nav-item sq-nav-link sq-py-3 sq-text-dark sq-font-weight-bold" data-toggle="sqtab"><?php echo esc_html__( "Custom Schema", "squirrly-seo" ) ?></a>
+                    </li>
                 </ul>
             </div>
 
             <div class="sq-tab-content sq-d-flex sq-flex-column sq-flex-grow-1 sq-bg-white sq-p-3">
                 <div id="sqtabjson<?php echo esc_attr( $view->post->hash ) ?>1" class="sq-tab-panel" role="tabpanel">
+
+					<?php if ( $view->post->sq_adm->jsonld <> '' ) { ?>
+                        <div class="sq-col-12 sq-p-3 sq-my-2 sq-bg-light sq-border sq-rounded sq-text-center">
+                            <i class="fa-solid fa-circle-info sq-text-primary"></i>
+							<?php echo esc_html__( "This page uses a Custom Schema. The Schema Types below are ignored while custom JSON-LD is active.", "squirrly-seo" ); ?>
+                            <button type="button" class="sq-btn sq-btn-sm sq-btn-primary sq-ml-2" onclick="jQuery('a[href=&quot;#sqtabjson<?php echo esc_attr( $view->post->hash ) ?>2&quot;]').trigger('click');">
+								<?php echo esc_html__( "Open Custom Schema tab", "squirrly-seo" ); ?>
+                            </button>
+                        </div>
+					<?php } ?>
 
                     <div class="sq-col-12 sq-p-0 sq-m-0 sq-small">
 
@@ -221,67 +234,40 @@ if ( ! isset( $patterns[ $view->post->post_type ] ) && isset( $patterns['custom'
                                     </div>
 								<?php } ?>
 
-								<?php if ( SQ_Classes_Helpers_Tools::getOption( 'sq_seoexpert' ) ) { ?>
-
-                                    <div class="sq-col-12 sq-row sq-my-2 sq-px-0 sq-mx-0 sq-py-1 sq-px-2">
-
-                                        <div class="sq-col-12 sq-row sq-p-0 sq-m-0">
-                                            <div class="sq-col-4 sq-p-0 sq-pr-3 sq-font-weight-bold">
-												<?php echo esc_html__( "JSON-LD Code", 'squirrly-seo' ); ?>
-                                                :<a href="https://howto12.squirrly.co/kb/bulk-seo/#jsonld_custom_code" target="_blank"><i class="fa-solid fa-question-circle sq-m-0 sq-px-1 sq-d-inline"></i></a>
-                                                <div class="sq-small sq-text-black-50 sq-my-3 sq-pr-4"><?php echo esc_html__( "Let Squirrly load the JSON-LD Schema for the selected types.", 'squirrly-seo' ); ?></div>
-                                            </div>
-                                            <div class="sq-col-8 sq-p-0 sq-input-group">
-                                                <select class="sq_jsonld_code_type sq-form-control sq-bg-input sq-mb-1" name="sq_jsonld_code_type">
-                                                    <option <?php echo( ( $view->post->sq_adm->jsonld == '' ) ? 'selected="selected"' : '' ) ?> value="auto"><?php echo esc_html__( "(Auto)", 'squirrly-seo' ) ?></option>
-                                                    <option <?php echo( ( $view->post->sq_adm->jsonld <> '' ) ? 'selected="selected"' : '' ) ?> value="custom"><?php echo esc_html__( "Custom Code", 'squirrly-seo' ) ?></option>
-                                                </select>
-                                                <div class="sq-small sq-text-black-50 sq-my-3 sq-pr-4"><?php echo sprintf( esc_html__( "Use Advanced Custom Fields (ACF) plugin to add custom JSON-LD. %s Learn More %s", 'squirrly-seo' ), '<a href="https://howto12.squirrly.co/kb/json-ld-structured-data/#ACF" class="sq-m-0 sq-p-0" target="_blank" style="font-weight: bold !important; font-size: 12px !important;">', '</a>' ); ?></div>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="sq_jsonld_custom_code sq-col-12 sq-row sq-my-2 sq-mx-0 sq-py-1 sq-px-2" <?php echo( ( $view->post->sq_adm->jsonld == '' ) ? 'style="display: none;"' : '' ) ?>>
-                                        <div class="sq-col-4 sq-p-0 sq-pr-3 sq-font-weight-bold">
-											<?php echo esc_html__( "Custom JSON-LD Code", 'squirrly-seo' ); ?>:
-                                            <div class="sq-small sq-text-black-50 sq-my-3 sq-pr-4"><?php echo sprintf( esc_html__( "Add JSON-LD code from %sSchema Generator Online%s.", 'squirrly-seo' ), '<a href="https://technicalseo.com/seo-tools/schema-markup-generator/" class="sq-m-0 sq-p-0" target="_blank" style="font-weight: bold !important; font-size: 12px !important;">', '</a>' ); ?></div>
-                                        </div>
-                                        <div class="sq-col-8 sq-p-0 sq-m-0">
-                                            <textarea class="sq-form-control sq-m-0" name="sq_jsonld" rows="5" style="font-size: 12px !important;"><?php echo esc_textarea( $jsonld_data ) ?></textarea>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="sq-col-12 sq-row sq-my-2 sq-px-0 sq-mx-0 sq-py-1 sq-px-2">
-
-                                        <div class="sq-col-12 sq-row sq-p-0 sq-m-0">
-                                            <div class="sq-col-4 sq-p-0 sq-pr-3 sq-font-weight-bold">
-												<?php echo esc_html__( "Custom Schemas", 'squirrly-seo' ); ?>:
-                                                <div class="sq-small sq-text-black-50 sq-my-3 sq-pr-4"><?php echo esc_html__( "Customize Rich Snippets with Squirrly SEO - Advanced Pack plugin.", 'squirrly-seo' ); ?></div>
-                                            </div>
-                                            <div class="sq-col-8 sq-p-0 sq-input-group">
-                                                <form method="post" class="sq-col-12 sq-p-0 sq-m-0 sq-text-center">
-													<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_advanced_install' ); ?>
-                                                    <input type="hidden" name="action" value="sq_advanced_install"/>
-                                                    <button type="submit" class="sq-btn sq-btn-sm sq-btn-primary sq-p-3">
-														<?php echo esc_html__( "Install/Activate Squirrly SEO - Advanced Pack", 'squirrly-seo' ) ?>
-                                                    </button>
-                                                </form>
-                                                <div class="sq-col-12 sq-text-center sq-mt-4">
-                                                    <div class="sq-text-black-50 sq-small"><?php echo esc_html__( "(* the plugin has no extra cost, gets installed / activated automatically inside WP when you click the button, and uses the same account)", 'squirrly-seo' ); ?></div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-								<?php } ?>
 
                             </div>
 
                         </div>
+                    </div>
+                </div>
+                <div id="sqtabjson<?php echo esc_attr( $view->post->hash ) ?>2" class="sq-tab-panel" role="tabpanel">
+                    <div class="sq-col-12 sq-row sq-mx-0 sq-px-0 sq-my-1 sq-py-1">
+
+                        <div class="sq-col-12 sq-row sq-my-2 sq-px-0 sq-mx-0 sq-py-1 sq-px-2">
+                            <div class="sq-col-4 sq-p-0 sq-pr-3 sq-font-weight-bold">
+                                <?php echo esc_html__( "Custom Schema", 'squirrly-seo' ); ?>
+                                :<a href="https://howto12.squirrly.co/kb/bulk-seo/#jsonld_custom_code" target="_blank"><i class="fa-solid fa-question-circle sq-m-0 sq-px-1 sq-d-inline"></i></a>
+                                <div class="sq-small sq-text-black-50 sq-my-3 sq-pr-4"><?php echo esc_html__( "Choose Custom Code to replace the automatic schema with your own JSON-LD for this page.", 'squirrly-seo' ); ?></div>
+                            </div>
+                            <div class="sq-col-8 sq-p-0 sq-input-group">
+                                <select class="sq_jsonld_code_type sq-form-control sq-bg-input sq-mb-1" name="sq_jsonld_code_type">
+                                    <option <?php echo( ( $view->post->sq_adm->jsonld == '' ) ? 'selected="selected"' : '' ) ?> value="auto"><?php echo esc_html__( "(Auto)", 'squirrly-seo' ) ?></option>
+                                    <option <?php echo( ( $view->post->sq_adm->jsonld <> '' ) ? 'selected="selected"' : '' ) ?> value="custom"><?php echo esc_html__( "Custom Code", 'squirrly-seo' ) ?></option>
+                                </select>
+                                <div class="sq-small sq-text-black-50 sq-my-3 sq-pr-4"><?php echo sprintf( esc_html__( "You can also use the Advanced Custom Fields (ACF) plugin to add custom JSON-LD. %s Learn More %s", 'squirrly-seo' ), '<a href="https://howto12.squirrly.co/kb/json-ld-structured-data/#ACF" class="sq-m-0 sq-p-0" target="_blank" style="font-weight: bold !important; font-size: 12px !important;">', '</a>' ); ?></div>
+                            </div>
+                        </div>
+
+                        <div class="sq_jsonld_custom_code sq-col-12 sq-row sq-my-2 sq-mx-0 sq-py-1 sq-px-2" <?php echo( ( $view->post->sq_adm->jsonld == '' ) ? 'style="display: none;"' : '' ) ?>>
+                            <div class="sq-col-4 sq-p-0 sq-pr-3 sq-font-weight-bold">
+                                <?php echo esc_html__( "Custom JSON-LD Code", 'squirrly-seo' ); ?>:
+                                <div class="sq-small sq-text-black-50 sq-my-3 sq-pr-4"><?php echo sprintf( esc_html__( "Add JSON-LD code from %sSchema Generator Online%s.", 'squirrly-seo' ), '<a href="https://technicalseo.com/seo-tools/schema-markup-generator/" class="sq-m-0 sq-p-0" target="_blank" style="font-weight: bold !important; font-size: 12px !important;">', '</a>' ); ?></div>
+                            </div>
+                            <div class="sq-col-8 sq-p-0 sq-m-0">
+                                <textarea class="sq-form-control sq-m-0" name="sq_jsonld" rows="12" style="font-size: 12px !important;"><?php echo esc_textarea( $jsonld_data ) ?></textarea>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>

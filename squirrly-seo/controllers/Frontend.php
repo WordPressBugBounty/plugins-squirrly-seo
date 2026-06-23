@@ -105,6 +105,13 @@ class SQ_Controllers_Frontend extends SQ_Classes_FrontController {
 					apply_filters( 'sq_llms', false );
 					exit();
 				}
+
+				//show the full llms file
+				if ( $basename == "llms-full.txt" && get_option( 'sq_llms_full', '' ) <> '' ) {
+					SQ_Classes_ObjController::getClass( 'SQ_Models_Services_Llms' );
+					apply_filters( 'sq_llms_full', false );
+					exit();
+				}
 			}
 
 			//Show the code for Auto-Indexing

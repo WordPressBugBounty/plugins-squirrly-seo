@@ -33,13 +33,13 @@ if ( ! isset( $view ) ) {
 
                     <div class="sq_breadcrumbs my-4"><?php SQ_Classes_ObjController::getClass( 'SQ_Models_Menu' )->showBreadcrumbs( SQ_Classes_Helpers_Tools::getValue( 'page' ) ) ?></div>
                     <h3 class="mt-4">
-						<?php echo esc_html__( "SEO Audits", "squirrly-seo" ); ?>
+						<?php echo esc_html__( "GEO Audits", "squirrly-seo" ); ?>
                         <div class="sq_help_question d-inline">
                             <a href="https://howto12.squirrly.co/kb/seo-audit/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                         </div>
                     </h3>
                     <div class="col-7 small m-0 p-0">
-						<?php echo esc_html__( "Verifies the online presence of your website by knowing how your website is performing in terms of Blogging, SEO, Social, Authority, Links, and Traffic", "squirrly-seo" ); ?>
+						<?php echo esc_html__( "Checks how ready your website is to be found and cited by AI answer engines like ChatGPT, Perplexity and Google AI Overviews, as well as classic search, across GEO (answer readiness), SEO, Social, Authority, Links, and Traffic.", "squirrly-seo" ); ?>
                     </div>
 
                     <div id="sq_audits" class="col-12 m-0 p-0 border-0">
@@ -53,12 +53,12 @@ if ( ! isset( $view ) ) {
 
 						<?php do_action( 'sq_audits_stats_after' ); ?>
 
-                    </div>
-
                     <div class="col-12 m-0 p-0 my-5">
                         <div class="sq_auditpages_content">
 							<?php $view->show_view( 'Audits/AuditPages' ); ?>
                         </div>
+                    </div>
+
                     </div>
 
 					<?php do_action( 'sq_audits_after' ); ?>
@@ -90,7 +90,7 @@ if ( ! isset( $view ) ) {
     </div>
 </div>
 <div id="sq_previewurl_modal" tabindex="-1" class="modal" role="dialog">
-    <div class="modal-dialog modal-lg" style="max-width: 100% !important;">
+    <div class="modal-dialog modal-lg" style="max-width: 1000px;">
         <div class="modal-content bg-white rounded-0">
             <div class="modal-header">
                 <h4 class="modal-title"><?php echo esc_html__( "Squirrly Inspect URL", "squirrly-seo" ); ?></h4>

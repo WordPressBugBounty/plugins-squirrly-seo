@@ -205,7 +205,7 @@ class SQ_Models_Focuspages_Snippet extends SQ_Models_Abstract_Assistant {
 			$header .= '<div class="font-weight-bold text-black-50 m-0 px-3 text-center">' . esc_html__( "No Keyword found in Squirrly Live Assistant", 'squirrly-seo' ) . '</div>';
 		}
 		if ( isset( $this->_post->ID ) ) {
-			$header .= '<a href="' . $edit_link . '" target="_blank" class="btn btn-primary text-white col-10 offset-1 mt-3">' . esc_html__( "Edit your snippet", 'squirrly-seo' ) . '</a>';
+			$header .= '<a href="' . $edit_link . '" target="_blank" class="btn btn-primary text-white col-12 mt-3">' . esc_html__( "Edit your snippet", 'squirrly-seo' ) . '</a>';
 		}
 		$header .= '</li>';
 

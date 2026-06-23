@@ -61,10 +61,10 @@ class SQ_Models_Focuspages_Impressions extends SQ_Models_Abstract_Assistant {
 
 		$header .= '<li class="completed">';
 		if ( ! $this->_audit->sq_analytics_gsc_connected ) {
-			$header .= '<a href="' . SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'webmaster' ) . '" class="btn btn-primary text-white col-10 offset-1 mt-3">' . esc_html__( "Connect Google Search", 'squirrly-seo' ) . '</a>';
+			$header .= '<a href="' . SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'webmaster' ) . '" class="btn btn-primary text-white col-12 mt-3">' . esc_html__( "Connect Google Search", 'squirrly-seo' ) . '</a>';
 		} elseif ( $this->_keyword ) {
 			$header .= $this->getUsedKeywords();
-			$header .= '<a href="' . SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_research', 'research', array( 'keyword=' . SQ_Classes_Helpers_Sanitize::escapeKeyword( $this->_keyword ) ) ) . '" target="_blank" class="btn btn-primary text-white col-10 offset-1 mt-3">' . esc_html__( "Do a research", 'squirrly-seo' ) . '</a>';
+			$header .= '<a href="' . SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_research', 'research', array( 'keyword=' . SQ_Classes_Helpers_Sanitize::escapeKeyword( $this->_keyword ) ) ) . '" target="_blank" class="btn btn-primary text-white col-12 mt-3">' . esc_html__( "Do a research", 'squirrly-seo' ) . '</a>';
 		} else {
 			if ( isset( $this->_post->ID ) ) {
 				$edit_link = SQ_Classes_Helpers_Tools::getAdminUrl( 'post.php?post=' . (int) $this->_post->ID . '&action=edit' );
@@ -73,7 +73,7 @@ class SQ_Models_Focuspages_Impressions extends SQ_Models_Abstract_Assistant {
 				}
 
 				$header .= '<div class="font-weight-bold text-black-50 m-0 px-3 text-center">' . esc_html__( "No Keyword found in Squirrly Live Assistant", 'squirrly-seo' ) . '</div>';
-				$header .= '<a href="' . SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_research', 'research' ) . '" target="_blank" class="btn btn-primary text-white col-10 offset-1 mt-3">' . esc_html__( "Do a research", 'squirrly-seo' ) . '</a>';
+				$header .= '<a href="' . SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_research', 'research' ) . '" target="_blank" class="btn btn-primary text-white col-12 mt-3">' . esc_html__( "Do a research", 'squirrly-seo' ) . '</a>';
 				if ( isset( $this->_post->ID ) ) {
 					$header .= '<a href="' . $edit_link . '" target="_blank" class="btn btn-primary text-white col-10 offset-1 my-2">' . esc_html__( "Optimize for a keyword", 'squirrly-seo' ) . '</a>';
 				}

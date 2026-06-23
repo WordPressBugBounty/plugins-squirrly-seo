@@ -143,10 +143,10 @@ class SQ_Models_Focuspages_Audit extends SQ_Models_Abstract_Assistant {
 	public function getHeader() {
 		$header = '<li class="completed">';
 		if ( $this->_siteaudit && isset( $this->_siteaudit->score ) ) {
-			$header .= '<a href="' . SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_audits' ) . '" target="_blank" class="btn btn-primary text-white col-10 offset-1 mt-3">' . esc_html__( "Go to Audit", 'squirrly-seo' ) . '</a>';
+			$header .= '<a href="' . SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_audits' ) . '" target="_blank" class="btn btn-primary text-white col-12 mt-3">' . esc_html__( "Go to Audit", 'squirrly-seo' ) . '</a>';
 		} else {
 			$header .= '<div class="font-weight-bold text-warning text-center">' . esc_html__( "Note! The audit is not ready yet", 'squirrly-seo' ) . '</div>
-                        <a href="' . SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_audits' ) . '" target="_blank" class="btn btn-primary text-white col-10 offset-1 mt-3">' . esc_html__( "Request a new audit", 'squirrly-seo' ) . '</a>';
+                        <a href="' . SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_audits' ) . '" target="_blank" class="btn btn-primary text-white col-12 mt-3">' . esc_html__( "Request a new audit", 'squirrly-seo' ) . '</a>';
 		}
 		$header .= '</li>';
 

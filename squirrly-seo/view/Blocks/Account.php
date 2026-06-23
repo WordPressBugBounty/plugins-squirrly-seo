@@ -60,7 +60,7 @@ if ( isset( $view->checkin->subscription_status ) && isset( $view->checkin->prod
                                 <div class="col-1 m-0 p-0 mr-1"><i class="fa-solid fa-bullseye-arrow"></i></div>
                                 <div class="col m-0 p-0" style="line-height: 15px;">
                                     <div class="row m-0 p-0"><?php echo esc_html__( "Focus Pages", "squirrly-seo" ) ?>
-                                        <span class="col text-right p-0" style="font-size: 12px"><?php echo (int) $view->checkin->subscription_focus_pages . '/' . (int) $view->checkin->subscription_max_focus_pages ?></span>
+                                        <span class="col text-right p-0" style="font-size: 12px" title="<?php echo esc_attr( sprintf( esc_html__( '%s used', 'squirrly-seo' ), number_format_i18n( max( 0, (int) $view->checkin->subscription_max_focus_pages - (int) $view->checkin->subscription_focus_pages ) ) ) ) ?>"><?php echo sprintf( esc_html__( '%1$s of %2$s left', 'squirrly-seo' ), number_format_i18n( (int) $view->checkin->subscription_focus_pages ), number_format_i18n( (int) $view->checkin->subscription_max_focus_pages ) ) ?></span>
                                     </div>
                                     <progress class="w-100" max="<?php echo (int) $view->checkin->subscription_max_focus_pages ?>" value="<?php echo (int) $view->checkin->subscription_focus_pages ?>"></progress>
                                 </div>
@@ -74,7 +74,7 @@ if ( isset( $view->checkin->subscription_status ) && isset( $view->checkin->prod
                                 <div class="col-1 m-0 p-0 mr-1"><i class="fa-solid fa-chart-column"></i></div>
                                 <div class="col m-0 p-0" style="line-height: 15px;">
                                     <div class="row m-0 p-0"><?php echo esc_html__( "Audit Pages", "squirrly-seo" ) ?>
-                                        <span class="col text-right p-0" style="font-size: 12px"><?php echo (int) $view->checkin->subscription_audit_pages . '/' . (int) $view->checkin->subscription_max_audit_pages ?></span>
+                                        <span class="col text-right p-0" style="font-size: 12px" title="<?php echo esc_attr( sprintf( esc_html__( '%s used', 'squirrly-seo' ), number_format_i18n( max( 0, (int) $view->checkin->subscription_max_audit_pages - (int) $view->checkin->subscription_audit_pages ) ) ) ) ?>"><?php echo sprintf( esc_html__( '%1$s of %2$s left', 'squirrly-seo' ), number_format_i18n( (int) $view->checkin->subscription_audit_pages ), number_format_i18n( (int) $view->checkin->subscription_max_audit_pages ) ) ?></span>
                                     </div>
                                     <progress class="w-100" max="<?php echo (int) $view->checkin->subscription_max_audit_pages ?>" value="<?php echo (int) $view->checkin->subscription_audit_pages ?>"></progress>
                                 </div>
@@ -90,7 +90,7 @@ if ( isset( $view->checkin->subscription_status ) && isset( $view->checkin->prod
                                 <div class="col-1 m-0 p-0 mr-1"><i class="fa-solid fa-key"></i></div>
                                 <div class="col m-0 p-0" style="line-height: 15px;">
                                     <div class="row m-0 p-0"><?php echo esc_html__( "Keywords Lookups", "squirrly-seo" ) ?>
-                                        <span class="col text-right p-0" style="font-size: 12px"><?php echo (int) $view->checkin->subscription_kr . '/' . (int) $view->checkin->subscription_max_kr ?></span>
+                                        <span class="col text-right p-0" style="font-size: 12px" title="<?php echo esc_attr( sprintf( esc_html__( '%s used', 'squirrly-seo' ), number_format_i18n( max( 0, (int) $view->checkin->subscription_max_kr - (int) $view->checkin->subscription_kr ) ) ) ) ?>"><?php echo sprintf( esc_html__( '%1$s of %2$s left', 'squirrly-seo' ), number_format_i18n( (int) $view->checkin->subscription_kr ), number_format_i18n( (int) $view->checkin->subscription_max_kr ) ) ?></span>
                                     </div>
                                     <progress class="w-100" max="<?php echo (int) $view->checkin->subscription_max_kr ?>" value="<?php echo (int) $view->checkin->subscription_kr ?>"></progress>
                                 </div>
@@ -106,7 +106,7 @@ if ( isset( $view->checkin->subscription_status ) && isset( $view->checkin->prod
                                 <div class="col-1 m-0 p-0 mr-1"><i class="fa-solid fa-chart-line"></i></div>
                                 <div class="col m-0 p-0" style="line-height: 15px;">
                                     <div class="row m-0 p-0"><?php echo esc_html__( "SERP Lookups", "squirrly-seo" ) ?>
-                                        <span class="col text-right p-0" style="font-size: 12px"><?php echo (int) $view->checkin->subscription_serps . '/' . (int) $view->checkin->subscription_max_serps ?></span>
+                                        <span class="col text-right p-0" style="font-size: 12px" title="<?php echo esc_attr( sprintf( esc_html__( '%s used', 'squirrly-seo' ), number_format_i18n( max( 0, (int) $view->checkin->subscription_max_serps - (int) $view->checkin->subscription_serps ) ) ) ) ?>"><?php echo sprintf( esc_html__( '%1$s of %2$s left', 'squirrly-seo' ), number_format_i18n( (int) $view->checkin->subscription_serps ), number_format_i18n( (int) $view->checkin->subscription_max_serps ) ) ?></span>
                                     </div>
                                     <progress class="w-100" max="<?php echo (int) $view->checkin->subscription_max_serps ?>" value="<?php echo (int) $view->checkin->subscription_serps ?>"></progress>
                                 </div>

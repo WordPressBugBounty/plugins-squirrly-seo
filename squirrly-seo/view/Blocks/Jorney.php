@@ -30,9 +30,9 @@ if ( ! isset( $view ) ) {
                 <div class="col-12 m-0 p-3 px-5 my-5 bg-white text-center">
 
 					<?php if ( $view->days > 14 ) { ?>
-                        <h5 class="col-12 card-title py-3 font-weight-bold"><?php echo esc_html__( "Congratulations! You've completed the 14 Days Journey To Better Ranking", "squirrly-seo" ); ?></h5>
+                        <h5 class="col-12 card-title py-3 font-weight-bold"><?php echo esc_html__( "Congratulations! You've completed the 14 Days Journey To AEO / GEO Visibility", "squirrly-seo" ); ?></h5>
 					<?php } else { ?>
-                        <h5 class="col-12 card-title py-3 font-weight-bold"><?php echo esc_html__( "Your 14 Days Journey To Better Ranking", "squirrly-seo" ); ?></h5>
+                        <h5 class="col-12 card-title py-3 font-weight-bold"><?php echo esc_html__( "Your 14 Days Journey To AEO / GEO Visibility", "squirrly-seo" ); ?></h5>
 					<?php } ?>
 
                     <ul class="stepper horizontal horizontal-fix focused" id="horizontal-stepper-fix">
@@ -54,7 +54,7 @@ if ( ! isset( $view ) ) {
 
 					<?php if ( (int) $view->days > 14 ) { ?>
 						<?php if ( SQ_Classes_Helpers_Tools::getValue( 'page' ) == 'sq_dashboard' ) { //show only in overview ?>
-                            <em class="text-black-50"><?php echo esc_html__( "If you missed a day, click on it and read the SEO recipe for it.", "squirrly-seo" ); ?></em>
+                            <em class="text-black-50"><?php echo esc_html__( "If you missed a day, click on it and read the GEO recipe for it.", "squirrly-seo" ); ?></em>
                             <div class="small text-center my-2">
                                 <form method="post" class="p-0 m-0">
 									<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_journey_close', 'sq_nonce' ); ?>
@@ -67,19 +67,7 @@ if ( ! isset( $view ) ) {
 						<?php } ?>
 
 					<?php } else { ?>
-                        <a href="https://howto12.squirrly.co/wordpress-seo/journey-to-better-ranking-day-<?php echo (int) $view->days ?>/" target="_blank" class="btn btn-primary m-2 py-2 px-4" style="font-size: 20px;"><?php echo esc_html__( "Day", "squirrly-seo" ) . ' ' . (int) $view->days . ': ' . esc_html__( "Open the SEO recipe for today", "squirrly-seo" ); ?></a>
-						<?php
-						switch ( (int) $view->days ) {
-							case 1:
-								?>
-                                <a href="<?php echo esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_focuspages', 'addpage' ) ) ?>" target="_blank" class="btn btn-primary m-2 py-2 px-4" style="font-size: 20px;"><?php echo esc_html__( "Add a page in Focus Pages", "squirrly-seo" ); ?></a><?php
-								break;
-							case 2:
-								?>
-                                <a href="<?php echo esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_research', 'research' ) ) ?>" target="_blank" class="btn btn-primary m-2 py-2 px-4" style="font-size: 20px;"><?php echo esc_html__( "Do Keyword Research", "squirrly-seo" ); ?></a><?php
-								break;
-						}
-						?>
+                        <a href="https://howto12.squirrly.co/wordpress-seo/journey-to-better-ranking-day-<?php echo (int) $view->days ?>/" target="_blank" class="btn btn-primary m-2 py-2 px-4" style="font-size: 20px;"><?php echo esc_html__( "Day", "squirrly-seo" ) . ' ' . (int) $view->days . ': ' . esc_html__( "Open the GEO recipe for today", "squirrly-seo" ); ?></a>
 					<?php } ?>
 
                 </div>
@@ -95,19 +83,19 @@ if ( ! isset( $view ) ) {
                 </div>
                 <div class="col px-2 py-3">
                     <div class="col-12 m-0 p-0">
-                        <h3 class="card-title"><?php echo esc_html__( "14 Days Journey Course", "squirrly-seo" ); ?></h3>
+                        <h3 class="card-title"><?php echo esc_html__( "14 Days Journey Course to GEO", "squirrly-seo" ); ?></h3>
                     </div>
 
                     <div class="sq_separator"></div>
                     <div class="col-12 m-2 p-0">
-                        <div class="m-2 text-black-50"><?php echo esc_html__( "All you need now is to start driving One of your most valuable pages to Better Rankings.", "squirrly-seo" ); ?></div>
+                        <div class="m-2 text-black-50"><?php echo esc_html__( "All you need to start driving AI visibility for your brand. Be recommended by ChatGPT, Perplexity, Claude, Google AI Overviews and AI Mode.", "squirrly-seo" ); ?></div>
                     </div>
                     <div class="col-12 m-0 p-4 text-right">
                         <form action="<?php echo esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_onboarding', 'journey' ) ) ?>" method="post" class="p-0 m-0">
 							<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_onboarding_commitment', 'sq_nonce' ); ?>
                             <input type="hidden" name="action" value="sq_onboarding_commitment"/>
                             <button type="submit" class="btn btn-sm btn-primary m-0 py-2 px-4">
-								<?php echo esc_html__( "I'm ready to start the Journey To Better Ranking", "squirrly-seo" ); ?>
+								<?php echo esc_html__( "I'm ready", "squirrly-seo" ); ?>
                             </button>
                         </form>
                     </div>

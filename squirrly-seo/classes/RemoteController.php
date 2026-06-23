@@ -1,6 +1,13 @@
 <?php
 defined('ABSPATH') || die('Cheatin\' uh?');
 
+/**
+ * Class SQ_Classes_RemoteController
+ *
+ * Handles remote communication with the Squirrly Cloud Server, including API calls,
+ * authentication, and link generation. Provides utility methods for sending HTTP requests
+ * and managing API responses.
+ */
 class SQ_Classes_RemoteController
 {
 
@@ -14,6 +21,31 @@ class SQ_Classes_RemoteController
      * @var int|null
      */
     public static $lastHttpCode = null;
+
+    /**
+     * Cloud auth errors that mean "this site's identity changed" (it was cloned, staged or moved to
+     * a new address, or the Cloud now requires a signed handshake this install can't satisfy). These
+     * never self-heal by blindly retrying the same call, so they are handled apart from the generic
+     * reconnect path - otherwise checkin() loops on every page load and users see only a vague
+     * "can't load data" and blame the plugin instead of reconnecting.
+     *
+     * @var array
+     */
+    protected static $cloneErrors = array(
+        'signature_required',
+        'clone_detected',
+        'url_change_pending',
+        'site_key_already_set',
+        'site_key_reused',
+    );
+
+    /**
+     * Guard so the one-shot signed re-handshake attempted for `signature_required` can re-run
+     * checkin() at most once and never recurse into an infinite loop.
+     *
+     * @var bool
+     */
+    protected static $healingSignature = false;
 
     /**
      * Call the Squirrly Cloud Server
@@ -86,7 +118,22 @@ class SQ_Classes_RemoteController
 
     }
 
-    private static function attachSignedHeaders($module, $url, &$options, $args)
+	/**
+	 * Attaches signed headers to the provided options for authenticated requests.
+	 *
+	 * This method generates signed headers using the site authentication class and appends
+	 * them to the existing headers within the options array. It ensures secure communication
+	 * with the provided module and URL by verifying the blog ID and site key before proceeding.
+	 *
+	 * @param string $module The module part of the request URL, used for generating the signed headers.
+	 * @param string $url The full request URL, not directly used for signing but involved in the process context.
+	 * @param array $options A reference to the options array where the signed headers will be appended.
+	 *                       The array is expected to include keys such as 'method' (HTTP method) and optionally 'body'.
+	 * @param array $args Additional arguments for the request, not directly used in this method but available as context.
+	 *
+	 * @return void This method does not return a value. It modifies the $options array directly if headers are successfully signed.
+	 */
+	private static function attachSignedHeaders($module, $url, &$options, $args)
     {
         if (!class_exists('SQ_Classes_Helpers_SiteAuth')) {
             return;
@@ -102,12 +149,6 @@ class SQ_Classes_RemoteController
         }
 
         $method = strtoupper($options['method']);
-        //Sign the route path the API actually verifies against. Server-side the canonical uses
-        //Laravel's $request->path() (e.g. "api/user/checkin"); the public endpoint carries a "/v2/"
-        //base prefix (_SQ_APIV2_URL_) that the web server strips before routing. Signing
-        //parse_url($url) included that "/v2/" segment, so the client signed "/v2/api/user/checkin"
-        //while the server verified "/api/user/checkin" - every signed request failed with
-        //invalid_signature. $module is exactly the route path, so sign that.
         $path   = '/' . ltrim((string) $module, '/');
         $body   = '';
         if ($method === 'POST' && isset($options['body'])) {
@@ -420,6 +461,16 @@ class SQ_Classes_RemoteController
 		    return (new WP_Error('maintenance', 'server_unavailable'));
 	    }
 
+	    //This site was detected as a clone/move that can't be auto-verified. Back off (the same call
+	    //would just fail again) and keep returning the reconnect state until the user reconnects or
+	    //the short window elapses - without re-hammering the Cloud on every page load. Re-emit the
+	    //notice here too so it shows consistently on every admin load, not only on the one load every
+	    //couple of minutes where the full branch runs (otherwise it flashes once and vanishes).
+	    if (get_transient('sq_checkin_clone')) {
+		    self::setReconnectNotice();
+		    return (new WP_Error('reconnect', 'signature_required'));
+	    }
+
         $json = json_decode(self::apiCall('api/user/checkin', $args));
 
         //Server outage: unreachable (0) or any 5xx (includes 503 maintenance). Treat as a transient
@@ -445,6 +496,14 @@ class SQ_Classes_RemoteController
                 SQ_Classes_Error::setError(esc_html__("Squirrly Cloud is down for a bit of maintenance right now. But we'll be back in a minute.", 'squirrly-seo'));
                 SQ_Classes_Error::hookNotices();
                 return (new WP_Error('maintenance', $json->error));
+            }
+
+            //Site cloned/staged/moved, or the Cloud now requires a signed handshake this install
+            //can't satisfy. Retrying the same call just loops and surfaces the generic "can't load
+            //data" error. Handle these explicitly: self-heal when possible, otherwise stop the loop
+            //and force a reconnect with a clear, specific message.
+            if (in_array($json->error, self::$cloneErrors, true)) {
+                return self::handleSignatureState($json->error, $args);
             }
 
             SQ_Classes_RemoteController::connect(); //connect the website
@@ -513,9 +572,166 @@ class SQ_Classes_RemoteController
         return $json->data;
     }
 
+    /**
+     * Handle the clone/signature family of checkin errors (see self::$cloneErrors).
+     *
+     * - url_change_pending: the Cloud saw this site's address change and is verifying it in the
+     *   background. Transient - back off briefly, keep the connection and ask for a refresh.
+     * - signature_required: can be a benign legacy->signed upgrade on the SAME site that just hasn't
+     *   seeded a site key yet. Try one guarded signed handshake; if the Cloud binds our key we're
+     *   healed and the next checkin returns live data.
+     * - everything else (or a signature_required that didn't heal): a genuine clone/move the Cloud
+     *   can no longer verify. We can't auto-recover, so flag the connection as needing a manual
+     *   reconnect and surface a clear, specific message instead of the generic failure.
+     *
+     * @param  string $error
+     * @param  array  $args
+     * @return mixed|WP_Error
+     */
+    protected static function handleSignatureState($error, $args = array())
+    {
+        if ($error == 'url_change_pending') {
+            set_transient('sq_checkin_down', 1, 2 * MINUTE_IN_SECONDS);
+            SQ_Classes_Error::setError(esc_html__("Squirrly Cloud noticed this site's address changed and is verifying it. This takes about a minute - please refresh the page shortly.", 'squirrly-seo'));
+            SQ_Classes_Error::hookNotices();
+            return (new WP_Error('maintenance', $error));
+        }
+
+        if ($error == 'signature_required' && !self::$healingSignature) {
+            self::$healingSignature = true;
+
+            //Make sure we have a key to sign with, then attempt the handshake once.
+            SQ_Classes_Helpers_SiteAuth::ensureSiteKey();
+            $connect = SQ_Classes_RemoteController::connect();
+
+            if (!is_wp_error($connect)) {
+                //Handshake bound our key: refresh and re-run checkin so the caller gets live data.
+                delete_transient('sq_checkin');
+                delete_transient('sq_checkin_down');
+                $healed = self::checkin($args);
+                self::$healingSignature = false;
+                return $healed;
+            }
+
+            self::$healingSignature = false;
+            //Handshake failed - fall through using the real reason (site_key_already_set/reused).
+            $error = $connect->get_error_message();
+        }
+
+        //Genuine clone/move: another live site already owns this identity, or the key is bound
+        //elsewhere. Stop the retry loop, mark the connection as needing a manual reconnect (keep the
+        //account token so the user isn't forced into a full re-login) and tell them exactly why.
+        SQ_Classes_Helpers_Tools::saveOptions('sq_cloud_connect', 0);
+        SQ_Classes_Helpers_Tools::saveOptions('sq_cloud_token', false);
+        set_transient('sq_checkin_clone', 1, 2 * MINUTE_IN_SECONDS);
+
+        self::setReconnectNotice();
+
+        return (new WP_Error('reconnect', $error));
+    }
+
+    /**
+     * Queue the persistent "this site must reconnect" admin notice. Called on every admin load while
+     * the clone/reconnect state is active (including the throttled cached path) so the message is
+     * consistent instead of flashing for a few seconds once every couple of minutes.
+     *
+     * Rendered as the 'reconnect' notice type (red, click-to-dismiss, NOT auto-removed after 5s).
+     * Skips the inline echo during AJAX so it never corrupts a JSON response such as sla_checkin -
+     * the AJAX payload already carries the 'reconnect' error code for the JS to act on.
+     *
+     * @return void
+     */
+    protected static function setReconnectNotice()
+    {
+        //Link straight to the reconnect handler (sq_account_reconnect in SQ_Controllers_Account),
+        //nonce-signed so check_admin_referer() in the ActionController dispatcher accepts it. A plain
+        //link to the dashboard only reloads the page - it doesn't run the handshake.
+        $reconnect_url = wp_nonce_url(
+            admin_url('admin.php?page=sq_dashboard&action=sq_account_reconnect'),
+            'sq_account_reconnect',
+            'sq_nonce'
+        );
+
+        SQ_Classes_Error::setError(sprintf(
+            esc_html__("It looks like this website was cloned, staged or moved to a new address, so Squirrly Cloud can no longer verify it. Please %sreconnect this site to Squirrly Cloud%s so your SEO data keeps working.", 'squirrly-seo'),
+            '<a href="' . esc_url($reconnect_url) . '">',
+            '</a>'
+        ), 'reconnect');
+
+        if (!SQ_Classes_Helpers_Tools::isAjax()) {
+            SQ_Classes_Error::hookNotices();
+        }
+    }
+
+    /**
+     * Collect a read-only snapshot of the Cloud connection / signed-auth state for the Diagnostics
+     * panel on the settings page. Nothing here writes options or triggers a reconnect. When
+     * $runLive is true it also fires a raw checkin so the panel can show exactly what the Cloud
+     * replies right now (e.g. signature_required / clone_detected / invalid_signature).
+     *
+     * @param  bool $runLive
+     * @return array
+     */
+    public static function getConnectionDebug($runLive = false)
+    {
+        $mask = function ($v) {
+            $v = (string) $v;
+            if ($v === '') {
+                return '(empty)';
+            }
+            $len = strlen($v);
+            if ($len <= 8) {
+                return str_repeat('*', $len) . ' (len ' . $len . ')';
+            }
+            return substr($v, 0, 4) . str_repeat('*', $len - 8) . substr($v, -4) . ' (len ' . $len . ')';
+        };
+
+        $siteKey = SQ_Classes_Helpers_SiteAuth::getSiteKey();
+        $blogId  = (int) SQ_Classes_Helpers_Tools::getOption('sq_user_blog_id');
+        $legacy  = (int) SQ_Classes_Helpers_Tools::getOption('sq_legacy_auth');
+        $constant = (defined('SQUIRRLY_SITE_KEY') && SQUIRRLY_SITE_KEY);
+
+        $user  = function_exists('wp_get_current_user') ? wp_get_current_user() : null;
+
+        $debug = array(
+            'plugin_version'           => SQ_VERSION,
+            'current_user'             => ($user ? $user->user_login . ' [' . implode(',', (array) $user->roles) . ']' : '(unknown)'),
+            'user_can_manage_settings' => (SQ_Classes_Helpers_Tools::userCan('sq_manage_settings') ? 'yes' : 'NO - reconnect/disconnect buttons will silently do nothing'),
+            'current_url'              => (string) apply_filters('sq_homeurl', get_bloginfo('url')),
+            'stored_site_origin'       => (SQ_Classes_Helpers_SiteAuth::getSiteOrigin() ?: '(none)'),
+            'url_changed_since_connect'=> (SQ_Classes_Helpers_SiteAuth::getSiteOrigin() && SQ_Classes_Helpers_SiteAuth::getSiteOrigin() !== (string) apply_filters('sq_homeurl', get_bloginfo('url')) ? 'YES (clone/stage/move)' : 'no'),
+            'sq_api_token'             => $mask(SQ_Classes_Helpers_Tools::getOption('sq_api')),
+            'sq_user_blog_id'          => ($blogId ?: '(none)'),
+            'sq_legacy_auth'           => $legacy,
+            'sq_cloud_connect'         => (int) SQ_Classes_Helpers_Tools::getOption('sq_cloud_connect'),
+            'sq_cloud_token'           => $mask(SQ_Classes_Helpers_Tools::getOption('sq_cloud_token')),
+            'site_key_present'         => ($siteKey !== '' ? 'yes' : 'NO'),
+            'site_key_source'          => ($constant ? 'wp-config constant SQUIRRLY_SITE_KEY (cannot be cleared on reconnect!)' : ($siteKey !== '' ? 'sq_site_key option' : 'none')),
+            'site_uuid'                => (SQ_Classes_Helpers_SiteAuth::getSiteUuid() ?: '(none)'),
+            'time_offset_sec'          => (int) SQ_Classes_Helpers_Tools::getOption('sq_time_offset'),
+            'request_will_be_signed'   => (($siteKey !== '' && $blogId && !$legacy) ? 'yes (HMAC signed)' : 'NO (sent as legacy/unsigned)'),
+            'transient_sq_checkin'     => (get_transient('sq_checkin') ? 'cached (connected)' : 'none'),
+            'transient_checkin_down'   => (get_transient('sq_checkin_down') ? 'set (server outage back-off)' : 'none'),
+            'transient_checkin_clone'  => (get_transient('sq_checkin_clone') ? 'set (clone back-off)' : 'none'),
+            'transient_handshake'      => (get_transient('sq_handshake_attempted') ? 'set' : 'none'),
+        );
+
+        if ($runLive) {
+            self::$apimethod = 'get';
+            $raw  = self::apiCall('api/user/checkin', array());
+            $json = json_decode($raw);
+
+            $debug['live_checkin_http']     = (self::$lastHttpCode === null ? '(no request made)' : self::$lastHttpCode);
+            $debug['live_checkin_error']    = (isset($json->error) && $json->error <> '' ? $json->error : (isset($json->data) ? '(none - connected)' : '(no data)'));
+            $debug['live_checkin_response'] = (is_string($raw) ? $raw : wp_json_encode($raw));
+        }
+
+        return $debug;
+    }
+
     /********************************
-     * 
-     * NOTIFICATIONS 
+     *
+     * NOTIFICATIONS
      *********************/
     /**
      * Get the Notifications from API for the current blog
@@ -1871,6 +2087,34 @@ class SQ_Classes_RemoteController
         self::$apimethod = 'get'; //call method
 
         $json = json_decode(self::apiCall('api/audits/audit', $args));
+
+        if (isset($json->error) && $json->error <> '') {
+            return (new WP_Error('api_error', $json->error));
+        } elseif (!isset($json->data)) {
+            return (new WP_Error('api_error', 'no_data'));
+        }
+
+        if (!empty($json->data)) {
+            return $json->data;
+        }
+
+        return false;
+
+    }
+
+    /**
+     * Get the AI Visibility data (traffic coming from AI engines: ChatGPT,
+     * Perplexity, Gemini, Copilot, Bing, etc.) computed by the Cloud from the
+     * site's connected Google Analytics (GA4) property.
+     *
+     * @param  array $args (e.g. array('days_back' => 30))
+     * @return bool|WP_Error|object
+     */
+    public static function getAiVisibility($args = array())
+    {
+        self::$apimethod = 'get'; //call method
+
+        $json = json_decode(self::apiCall('api/audits/ai-visibility', $args));
 
         if (isset($json->error) && $json->error <> '') {
             return (new WP_Error('api_error', $json->error));

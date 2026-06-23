@@ -139,10 +139,17 @@ if ( ! isset( $view ) ) {
                                                                 </td>
 
 																<?php foreach ( $view->audits as $all ) {
-																	$audit_group = (array) $all->audit->$group;
+																	$audit_group = isset( $all->audit->$group ) ? (array) $all->audit->$group : array();
 
-																	foreach ( $audit_group as $audit_task ) {
-																		if ( $task->audit_task == $audit_task->audit_task ) {
+																	$audit_task = false;
+																	foreach ( $audit_group as $sq_maybe_task ) {
+																		if ( $task->audit_task == $sq_maybe_task->audit_task ) {
+																			$audit_task = $sq_maybe_task;
+																			break;
+																		}
+																	}
+
+																	if ( $audit_task ) {
 
 																			if ( isset( $dbtasks[ $category_name ][ ucfirst( $task->audit_task ) ] ) ) {
 																				$dbtask = $dbtasks[ $category_name ][ ucfirst( $task->audit_task ) ];
@@ -194,9 +201,17 @@ if ( ! isset( $view ) ) {
 																					<?php echo esc_html( gmdate( 'd M Y', strtotime( $all->audit_datetime ) ) ) ?>
                                                                                 </div>
                                                                             </td>
-																		<?php }
-																	}
-																} ?>
+																	<?php } else { ?>
+																		<td class="sq_first_header_column text-center px-3">
+																			<div class="col-12 sq_task">
+																				<i class="fa-solid fa-minus text-black-50" style="font-size: 30px !important;" title="<?php echo esc_attr__( 'Not available in this audit', 'squirrly-seo' ) ?>"></i>
+																			</div>
+																			<div class="col-12 mt-2">
+																				<?php echo esc_html( gmdate( 'd M Y', strtotime( $all->audit_datetime ) ) ) ?>
+																			</div>
+																		</td>
+																	<?php } ?>
+																<?php } ?>
                                                             </tr>
 
                                                         </table>

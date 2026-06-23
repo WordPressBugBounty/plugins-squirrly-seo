@@ -1,200 +1,70 @@
-﻿=== SEO Plugin by Squirrly SEO ===
+=== GEO Plugin by Squirrly SEO ===
 Contributors: cifi, calinvingan, florinmuresan, nagy.sorel
 Donate link: https://plugin.squirrly.co/squirrly-seo-pricing/
-Tags: SEO, AI, XML sitemap, google search console, schema
+Tags: SEO, AEO, GEO, schema, sitemap
 Requires at least: 5.3
 Tested up to: 7.0
-Stable tag: 12.4.18
+Stable tag: 14.0.0
 Requires PHP: 7.0
 License: GPLv2 or later
 
-Rank without begging Google. AI-powered SEO that actually helps you win. Trusted by rebels, creators, and pros in 150+ countries.
+Become the brand AI recommends. SEO + AEO + GEO so your WordPress ranks on Google and gets cited by ChatGPT, Perplexity, Gemini & AI Overviews.
 
 == Description ==
 
-### SEO Plugin by Squirrly SEO Newton: the #1 Holistic SEO Software + WordPress SEO Plugin, powered by 3 different types of AI built by AISQ.
+**Become the Brand AI Recommends.**
 
-Proprietary technology that does the hard work for you, so you can focus on your best wins yet.
+GEO Plugin by Squirrly SEO helps your WordPress site become easier for AI answer engines to understand, trust, cite, and recommend — across ChatGPT, Perplexity, Claude, Gemini, and Google AI Overviews.
 
-Watch the video below. We could do the talking ourselves, but it's best to hear directly from our users why they love the Full Force of SEO, that only Squirrly SEO can offer you:
+The GEO Plugin by Squirrly SEO optimizes your WordPress site for the three layers of modern search at once: classic SEO so you rank on Google, AEO (Answer Engine Optimization) so AI engines pull your content as the direct answer, and GEO (Generative Engine Optimization) so ChatGPT, Perplexity, Gemini, Claude and Google AI Overviews cite your pages by name. One plugin to get you found by both search engines and AI.
 
-**Full Force of SEO: All (all the types with the best support) Schema Rich Results, Automated and Manual Inner Links, Redirects, Keyword Research Tools, Keyword Portfolio Management and tracking, Real-Time Content Optimization Tools, SEO Audits, SERP Checker, Traffic Audits, Social Media Audits, Backlink Audits, Web Authority Analysis, Competitor Analysis (with the SaaS side. included in FREE), Local SEO support, Rank Tracking Tools, Technical SEO.**
+= Why GEO and AEO matter now =
+
+Search is splitting in two. People still type into Google, but more and more they just ask an AI. Google AI Overviews now appear on a large share of results and reduce clicks to the classic blue links, while ChatGPT, Perplexity and Gemini answer hundreds of millions of questions every week, usually by quoting a few trusted sources. Traditional SEO gets your page indexed. AEO and GEO get your page chosen as the answer and cited. The GEO Plugin by Squirrly SEO does all three, so you do not have to choose.
+
+= AEO and GEO features =
+
+* GEO/AEO Audit - scores how ready each page is to be cited by AI: a direct-answer block near the top, question-style headings, lists and tables, content depth, freshness, and FAQ / HowTo / Article schema.
+* AI crawler control - decide how GPTBot, ClaudeBot, PerplexityBot, Google-Extended and other AI bots can access your content, straight from your robots rules.
+* llms.txt and llms-full.txt - generate, upload and serve the emerging llms.txt standard so generative engines understand your best content.
+* LLM Indexing - push new and updated URLs to the IndexNow API and the Google Indexing API so search and AI engines discover them fast.
+* Answer-ready Schema / structured data - FAQ, HowTo, Article, Q&A, Organization and more: the machine-readable formats AI engines lift word for word.
+* Inner Links and Link Opportunities - build topical authority by linking the right pages for the right keywords.
+
+= SEO features =
+
+* Focus Pages - see exactly why a page is not ranking and what to fix, page by page.
+* AI Keyword Research - find keywords you can actually rank for, with real competition and search-intent analysis.
+* Live Assistant - real-time, on-page optimization guidance as you write in Gutenberg, Elementor, Divi and other builders.
+* SEO Goals - a guided, prioritized plan of what to do next.
+* Technical SEO on autopilot - XML sitemaps, canonical links, meta robots, Open Graph and Twitter / X cards, redirects and favicons.
+* Audits and tracking - SERP and rank tracking, traffic, authority and backlink audits, plus competitor analysis.
+
+= Built for how AI reads the web =
+
+AEO and GEO reward content that is easy for a machine to extract: a clear answer up front, headings phrased as the questions people ask, lists and tables instead of walls of text, accurate schema, and a fresh last-updated date. Squirrly checks every one of these for you and tells you exactly what to fix, so the same work that helps you rank on Google also helps you get quoted by AI.
+
+= Getting started in 3 steps =
+
+1. Install and activate the plugin, then connect your free Squirrly account to unlock the cloud tools (audits, keyword research, rank tracking).
+2. Add your important pages to the GEO/AEO Audit. Squirrly scores each page for SEO and answer-readiness and gives you a prioritized "fix these first" list.
+3. Turn on the AEO/GEO essentials: generate your llms.txt, allow the AI crawlers you want, and switch on LLM Indexing so new and updated URLs are pushed to search and AI engines automatically.
+
+= Works with your stack =
+
+Gutenberg, Elementor, Divi, WooCommerce, WordPress Multisite, WPML, and PHP 7.0 to 8.x.
+
+= Migrate safely =
+
+Import your existing SEO data from Rank Math, Yoast, All in One SEO, SEO Framework, SEO Press, SEO Pressor, Add Meta Tags, Greg's High Performance SEO, HeadSpace2, Platinum SEO Pack, SEO Title Tags and SEO Ultimate.
+
+= Trusted worldwide =
+
+Built by Squirrly Limited (United Kingdom) since 2012, used in 150+ countries, and a multiple-time award-winning SEO tool. Powered by Squirrly's own AI from AISQ.com: Ranking Vision AI, Keyword Research AI and Ask AI.
+
+<a title="Benefits of the GEO Plugin by Squirrly SEO" href="https://plugin.squirrly.co/">BENEFITS</a> / <a title="Customer Success" href="https://www.squirrly.co/successful/">CUSTOMER SUCCESS</a> / <a title="All Features" href="https://www.squirrly.co/wordpress/plugins/seo/">ALL FEATURES</a> / <a title="Live Demo" href="https://demo.seoplugin.xyz/">LIVE DEMO</a>
 
 https://www.youtube.com/watch?v=vXfJdH41_uk
-
-<a title="Benefits of Using the Best WordPress SEO Plugin" href="https://plugin.squirrly.co/">BENEFITS</a> / <a title="Success with SEO Tools from Squirrly" href="https://www.squirrly.co/successful/">CUSTOMER SUCCESS</a> / <a title="Compare to WordPress SEO Plugins like Yoast RankMath SEOPress" href="https://seotools.completeseofunnel.com/">COMPARE</a> / <a title="SEO Plugin Features" href="https://www.squirrly.co/wordpress/plugins/seo/">ALL FEATURES</a> / <a title="Try a Demo without installing on your WordPress" href="https://demo.seoplugin.xyz/">DEMO</a>
-
-Read the success stories we link to on the line above.
-
-Without implementing Holistic SEO and being guided through the process by an AI, those results would have been impossible to achieve with plugins that don't offer real SEO tools, like the ones you expect from Ahrefs and SEMrush.
-
-**SEO Doesn’t Have to Be Boring. Or Blind. Or Broken.
-
-Squirrly SEO is not “just another SEO plugin.” It’s a full-blown AI SEO assistant that helps you win rankings — even in the age of AI, Google updates, and brutal competition.
-
-Uses 3 Kinds of AI, from the proprietary technologies of Squirrly Limited (AISQ.com): Ranking Vision AI, Keyword Research AI and ASK AI.
-
-**Who It’s For:
-Entrepreneurs, bloggers, eCommerce stores, and marketers who want to rank without selling their soul to algorithms.
-
-WordPress users tired of “improvements” and weird/niche SEO settings that do nothing for actual traffic.
-
-Agencies managing dozens (or hundreds) of sites who need scale, automation, and real results.
-
-**What Makes Squirrly SEO Different?
-AI-Powered SEO Goals
-Your SEO plan — done for you. Dynamic goals created by our Ranking Vision AI to match exactly what your site needs to rank. No guesswork.
-
-Focus Pages – Your Ranking War Room
-See exactly why a page isn’t ranking and how to fix it. Think of it as your personal SEO battleground — powered by data. From 600,000 websites that ranked higher based on different SEO tasks they were performing.
-
-Keyword Research That Works in 2025
-Find keywords you can actually rank for. We analyze competition, search intent, and opportunity — in real-time, not recycled data. And it's AI powered, so the keywords you find here will build topical authority to get you ranked higher on Google... and it will get you ranked higher on AI Overviews, Perplexity and ChatGPT.
-
-Live Assistant While You Write
-As you write in WordPress or popular builders (Elementor, Gutenberg, Divi), Squirrly guides you with real-time suggestions to stay 100% optimized.
-
-Automatic SEO Without the Anxiety
-Technical SEO, schema, social media tags, robots.txt, canonical links — all handled for you. Set it, forget it, rank anyway.
-
-14-Day SEO Bootcamp (Built-In)
-We don’t just give you tools — we give you a step-by-step SEO mission to rank a page in 2 weeks using your own site. Motivation meets execution.
-
-Next-Gen Compatibility
-Built for 2025. Fully compatible with:
-
-Gutenberg
-
-Elementor
-
-WooCommerce
-
-Multisite
-
-WPML
-
-PHP 8+
-
-AI-generated content from Next Level Marketing AI
-
-SEO in the age of SGE (Search Generative Experience)
-
-Why 25,000+ Paying Customers Chose Squirrly
-Trusted by teams at BBC, Microsoft, Top Gear, CreativeMarket, and 150+ countries.
-
-Endorsed by Neil Patel, Brian Dean, and BloggingWizard
-
-Featured in Mashable, Entrepreneur, PC Magazine, Yahoo News
-
-Consistently awarded on G2, AppSumo, Capterra
-
-Built for the Bold. Not for the Boring.
-While others teach you how to improve tiny settings, we give you the tools to win in a scientific way.
-
-Squirrly SEO doesn’t care about boring schema over-engineering.
-It cares about getting you on Page 1.
-
-Ready to join the rebellion?
-
--Install now.
--Start ranking faster than ever.
-
-
-One AI, is custom-built by our company, using years of study on hundreds of thousands of websites.  <a title="Mady by Squirrly" href="https://www.squirrly.co/marketingtools/ranking-vision-ai/">Ranking Vision AI</a>
-
-The other one is an AI we developed for Keyword Research and Keyword Analysis (based on GPT4). <a title="Innovating on GPT4" href="https://www.squirrly.co/marketingtools/keyword-research-tool-ai-update/">AI Keyword Research Tools</a>
-
-And the third one is Ask AI, which we've implemented on our homepage and knowledgebase at first, but then brought inside the plugin as well. <a title="Teaching users with AI" href="https://contentlook.ai/">With Ask AI, users learn everything about using our plugin</a>
-
-With these three AIs and Squirrly SEO's holistic approach to SEO, you will use the Full Force of SEO to outrank your competitors.
-
-Full Force of SEO. And Force is measure in Newton, for those of you who want to know why we chose the new name.
-
-<a title="Learn about the Full Force of SEO" href="https://seotools.completeseofunnel.com/">This is why you will rank high on Google using our SEO Plugin</a>
-
-**SEO Focus and Holistic Simplicity is Only Possible With Squirrly SEO:**
-
-Nobody in the SEO field right now can offer a tool as advanced as the Focus Pages tool you will find inside Squirrly SEO.
-
-We also offer training and coaching from FourHourSEO.com to all users who join our SaaS + Plugin. 139,000 students have learned from our lessons over the years.
-
-Our story started in 2012, and by 2025 we became the Two-Years-In-A-Row Most Awarded SEO Tool of the year. More info about this on our site. <a title="Benefits of Using Software from Squirrly" href="https://www.squirrly.co/more/">Squirrly Company Details</a>
-
-This AI SaaS + SEO Plugin package has received so many awards over the years. <a title="Awards for our Product" href="https://plugin.squirrly.co/squirrly-awards/">Awards</a>
-
-Many innovations in Marketing Technologies, that impressed Microsoft, BBC, CyberGhost, TopGear, CreativeMarket, ThemeIsle, ElegantThemes and other big clients. <a title="Innovations" href="https://www.squirrly.co/innovation/">See Innovations</a>
-
-Powered by a strong United Kingdom-based company that created, marketed and sold over 29 SaaS and plugins over 13 years.
-
-Our innovations were covered by all the major Press publications. <a title="Press" href="https://www.squirrly.co/press/">Press</a>
-
-Influencers love the products we make for the technical quality we offer. <a title="Influencers talk about Squirrly SEO" href="https://www.squirrly.co/press/">See What Influencers Think</a>
-
-What matters most to us, though is this:
-
-### Recommended by Thousands of Happy Users
-
-**Squirrly SEO is the Popular WordPress SEO plugin that NON-SEO Experts use to boost their search engine traffic.** Offers the same level of advice as a Human consultant would, yet with greater precision and customization.
-
-Reach SEO success by following the **Daily SEO Goals** and using Squirrly's built-in SEO tools to get higher Rankings with less effort.
-
-Join a huge community of successful users who are ranking on the first page of Google Search with Squirrly SEO.
-
-<a title="Success with SEO Tools from Squirrly" href="https://www.squirrly.co/successful/">See Success Stories from WordPress Users Who Followed Squirrly’s Advice here (click) </a>
-
-https://www.youtube.com/watch?v=eKqiYMHpIB4
-
-https://www.youtube.com/watch?v=kPpZmKra0T0
-
-https://www.youtube.com/watch?v=7nB9ALm5hQs
-
-https://www.youtube.com/watch?v=UG34BeOAmM4
-
-https://www.youtube.com/watch?v=ZqtgikamK5k
-
-https://www.youtube.com/watch?v=h1EwXjOHY0M
-
-
-**"I've used many other SEO plugins out there: Yoast, Rank Math, WP All in One SEO, but Squirrly has outclassed them all."**
-
-I'm a Search Engine Optimization professional with 4 years of experience and from now on this product will be my go-to when implementing SEO strategies for my clients.
-
-It's extremely easy to use, self-explanatory, and will definitely work great for those who don't have much SEO experience.
-
-**Zuzanna Kruger** (SEO professional)
-
-(testimonial source: Product Hunt)
-
-Squirrly SEO: Newton is the first "AI-driven, holistic SEO assistant" that simplifies complexity, making it the go-to solution for business owners and entrepreneurs.
-
-You can use Squirrly SEO on easy mode or on hard mode. It's up to you and your skill level.
-
-SEO optimization has never been easier.
-
-**Safely migrate your data** to Squirrly SEO from any of the following:
-
-- Rank Math, Yoast, All in One SEO, SEO Framework, SEO Press, SEO Pressor, Add Meta Tags Plugin, Gregs High Performance SEO, Headspace 2, Platinum SEO Pack, SEO Title Tags, SEO Ultimate Plugin.
-
-
-★★★★★
-
-"When you're new to SEO like me, some dark corners of content optimization can be hard to figure out. With Squirrly SEO's full suite of tools, all I have to do is follow their instructions."
-
-It is straightforward, so anyone can use this easy-to-use tool by simply following the navigation they're given, giving you undeniable confidence that if you put work into your site, you will get the results you want!
-
-**Masatoshi Matsumiya**(testimonial source: Product Hunt)
-
-
-With Squirrly SEO: Newton, users can:
-
-Consolidate Costs: Reduce the financial burden by replacing multiple subscriptions with one comprehensive tool.
-Centralize Data: Access all SEO data from a single dashboard for clearer insights and more informed decision-making.
-Save Time: Spend less time switching between tools and more time implementing effective SEO strategies.
-Align Strategies: Ensure all SEO activities are synergized, from keyword research and content optimization to technical audits and link building.
-Stay Updated: Benefit from a tool that evolves with SEO trends, offering the latest features and updates in real time.
-
-With Squirrly SEO: Newton, the entire SEO process becomes more manageable, efficient, and aligned with the latest industry standards, allowing users to focus more on growing their business and less on juggling tools.
-
 
 = What's Next =
 
@@ -246,14 +116,26 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 3. Squirrly SEO - Live Assistant
 4. Squirrly SEO - Focus Pages
 5. Squirrly SEO - Track SEO Performance
-6. Squirrly SEO - SEO Audit
+6. Squirrly SEO - GEO Audit
 7. Squirrly SEO - SEO Briefcase
 
 == Changelog ==
+= 14.0.0 =
+* New: Rebranded to the GEO Plugin by Squirrly SEO - SEO, AEO and GEO in one plugin.
+* New: GEO/AEO Audit that scores each page for answer-readiness (direct-answer block, question-style headings, lists and tables, content depth, freshness) and AI crawler access, llms.txt and answer-ready schema.
+* New: LLM Indexing (formerly Auto-Indexing) - submit URLs to the IndexNow API and the Google Indexing API.
+* New: llms.txt and llms-full.txt - generate, edit or upload and serve them at your site root. Large content is stored outside the main options row for performance.
+* New: AI crawler control for GPTBot, ClaudeBot, PerplexityBot, Google-Extended and more.
+* New: Link Opportunities for Inner Links - find published posts that mention a keyword and link them to a target page in a few clicks.
+* Improvement: Modernized Audit UX and Inner Links.
+* Fix: Bulk actions on audited pages, compare-audits warning for older audits, and timezone display on the LLM Indexing log.
+
 = 12.4.18 =
 * Fix - Restore the secure HMAC-signed API connection that could fail with "invalid_signature" after the 12.4.17 update
 * Fix - Automatically reconnect to the Squirrly API with the per-site key, without needing to disconnect and reconnect the website
 * Fix - Keep the website connected during Squirrly Cloud maintenance or downtime instead of dropping the connection
+* Fix - Show a clear "reconnect this site" message when a website is cloned, staged or moved, instead of a generic "can't load data" error
+* Update - Add a one-click reconnect for cloned, staged or moved websites
 
 = 12.4.17 =
 * Security - Stop exposing master API tokens in the Live Assistant frontend config
@@ -605,6 +487,11 @@ google seo metas
 
 * Changelog Archive: <a href="https://plugin.squirrly.co/squirrly-seo-changelog/">https://plugin.squirrly.co/squirrly-seo-changelog/</a>
 
+== Upgrade Notice ==
+
+= 12.5.0 =
+GEO release. Adds the GEO/AEO Audit, LLM Indexing (IndexNow + Google), llms.txt / llms-full.txt, AI crawler control and Link Opportunities, so you optimize for Google and for AI engines like ChatGPT, Perplexity, Gemini and AI Overviews. Your existing settings are migrated automatically.
+
 == Credits ==
 * Florin Muresan - CEO at Squirrly
 * Calin Vingan - CTO at Squirrly
@@ -632,6 +519,18 @@ You'll be able to use this seo software once you install the plugin and use your
 For higher content marketing and SEO needs, you can check our Official Site and see what the PRO Plan offers.
 
 == Frequently Asked Questions ==
+
+= What is GEO and AEO, and how does this plugin help? =
+GEO (Generative Engine Optimization) is about getting your content cited by AI engines like ChatGPT, Perplexity, Gemini, Claude and Google AI Overviews. AEO (Answer Engine Optimization) is about structuring your content so those engines can lift it as the direct answer. The GEO Plugin by Squirrly SEO audits every page for the signals AI engines rely on - a direct answer near the top, question-style headings, lists and tables, content depth, freshness and the right schema - and tells you exactly what to fix.
+
+= Will this get my site cited by ChatGPT, Perplexity and Google AI Overviews? =
+No tool can guarantee a citation, but the plugin sets up everything that makes a citation possible: answer-ready content structure, FAQ / HowTo / Article schema, control over AI crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended), an llms.txt file, and fast indexing through the IndexNow and Google Indexing APIs. These are the same signals AI engines use to decide what to quote.
+
+= What is llms.txt and does this plugin create it? =
+llms.txt is an emerging standard, similar to robots.txt or a sitemap, that tells AI and language models which content on your site matters and how to use it. The GEO Plugin by Squirrly SEO lets you generate, edit or upload both llms.txt and llms-full.txt through the WordPress media library and serves them at your site root.
+
+= Does GEO replace SEO? =
+No. Classic SEO still gets your pages indexed and ranked on Google, which is also where many AI engines source their answers. GEO and AEO build on top of SEO so the same content can rank on search engines and be cited by AI. This plugin covers all three so you optimize once.
 
 = Can I use Squirrly together with Rank Math? Could I replace Rank Math altogether with Squirrly? =
 Yes, you can use Squirrly SEO alongside Rank Math if you want to, as Squirrly enables you to deactivate certain settings or modules so that Squirrly SEO and Rank Math can work in compatibility mode.

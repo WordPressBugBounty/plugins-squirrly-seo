@@ -103,7 +103,16 @@ class SQ_Classes_Error extends SQ_Classes_FrontController {
 	 */
 	public static function hookNotices() {
 		if ( is_array( self::$errors ) && ! empty( self::$errors ) ) {
-			foreach ( self::$errors as $error ) {
+			foreach ( self::$errors as $key => $error ) {
+
+				//hookNotices is registered on BOTH WP's admin_notices action and the
+				//custom sq_notices action (do_action('sq_notices') in the views), so
+				//without this guard every notice is printed twice. Mark each one as
+				//shown the first time it renders and skip it on the second pass.
+				if ( ! empty( $error['shown'] ) ) {
+					continue;
+				}
+				self::$errors[ $key ]['shown'] = true;
 
 				switch ( $error['type'] ) {
 					case 'notice':

@@ -16,11 +16,24 @@ if ( ! isset( $view ) ) {
 
         <h4 class="card-title"><?php echo esc_html__( "Audited pages", "squirrly-seo" ) ?>
             (<?php echo count( (array) $view->auditpages ) ?> <?php echo esc_html__( 'pages', "squirrly-seo" ) ?>)</h4>
+
+        <div class="row col-12 m-0 p-0 my-2">
+            <div class="col-6 row m-0 p-0">
+                <select name="sq_audit_bulk_action" class="sq_audit_bulk_action" style="min-width: 200px">
+                    <option value=""><?php echo esc_html__( "Bulk Actions", 'squirrly-seo' ) ?></option>
+                    <option value="sq_ajax_audit_bulk_reaudit" data-confirm="<?php echo esc_attr__( "Send the selected pages for a new audit? This may take a while.", 'squirrly-seo' ) ?>"><?php echo esc_html__( "Re-audit Selected Pages", 'squirrly-seo' ) ?></option>
+                    <option value="sq_ajax_audit_bulk_delete" data-confirm="<?php echo esc_attr__( "Stop monitoring the selected pages? You can always monitor them again later.", 'squirrly-seo' ) ?>"><?php echo esc_html__( "Stop Monitoring", 'squirrly-seo' ) ?></option>
+                </select>
+                <button type="button" class="sq_audit_bulk_apply btn btn-primary"><?php echo esc_html__( "Apply" ); ?></button>
+            </div>
+        </div>
+
         <div class="col-12 m-0 p-0 position-relative">
             <div class=" col-12 m-0 p-0 my-2 py-2 py-0">
                 <table class="table table-striped table-hover">
                     <thead>
                     <tr>
+                        <th style="width: 10px;"><input type="checkbox" class="sq_audit_bulk_all" title="<?php echo esc_attr__( "Select all", "squirrly-seo" ) ?>"/></th>
                         <th><?php echo esc_html__( "Permalink", "squirrly-seo" ) ?></th>
                         <th></th>
                         <th style="width: 10px"></th>
@@ -61,7 +74,7 @@ if ( ! isset( $view ) ) {
 	<?php } elseif ( ! SQ_Classes_Error::isError() ) { ?>
 
         <div class="col-12 m-0 p-0 ">
-            <h4 class="text-center"><?php echo esc_html__( "Welcome to SEO Audits", "squirrly-seo" ); ?></h4>
+            <h4 class="text-center"><?php echo esc_html__( "Welcome to GEO Audits", "squirrly-seo" ); ?></h4>
             <div class="col-12 m-2 text-center">
                 <a href="<?php echo esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_audits', 'addpage' ) ) ?>" class="btn btn-lg btn-primary"><i class="fa-solid fa-plus-square-o"></i> <?php echo esc_html__( "Add a new page for Audit to get started", "squirrly-seo" ); ?>
                 </a>

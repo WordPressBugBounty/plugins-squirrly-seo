@@ -32,4 +32,3 @@ if ( ! isset( $view ) ) {
 </div>
 
 <?php do_action( 'sq_assistant_after' ); ?>
-

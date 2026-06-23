@@ -110,31 +110,25 @@ if ( $view->focuspage->id <> '' ) {
             <div class="sq_focuspages_url small text-left"><?php echo '<a href="' . esc_url( $view->post->url ) . '"  class="text-link" rel="permalink" target="_blank">' . esc_url( urldecode( $view->post->url ) ) . '</a>' ?></div>
             <div class="sq_focuspages_lastaudited small text-dark my-1"><?php echo esc_html__( "Audited", 'squirrly-seo' ) ?>
                 : <span class="font-weight-bold"><?php echo esc_html( $audit_timestamp ) ?></span></div>
-            <form method="post" class="sq_focuspages_request p-0 m-0">
-				<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_focuspages_update' ); ?>
-                <input type="hidden" name="action" value="sq_focuspages_update"/>
-
-                <input type="hidden" name="post_id" value="<?php echo (int) $view->post->ID; ?>">
-                <input type="hidden" name="type" value="<?php echo esc_attr( $view->post->post_type ); ?>">
-                <input type="hidden" name="term_id" value="<?php echo (int) $view->post->term_id; ?>">
-                <input type="hidden" name="taxonomy" value="<?php echo esc_attr( $view->post->taxonomy ); ?>">
-
-                <input type="hidden" name="id" value="<?php echo (int) $view->focuspage->user_post_id ?>"/>
-
+            <div class="sq_focuspages_actions p-0 m-0 mt-1">
 				<?php if ( ! SQ_Classes_Helpers_Tools::getValue( 'sid' ) ) { ?>
-                    <a href="<?php echo esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_focuspages', 'pagelist', array( 'sid=' . (int) $view->focuspage->id ) ) ) ?>" class="btn btn-sm btn-primary text-white inline py-1 px-3 m-0">
+                    <a href="<?php echo esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_focuspages', 'pagelist', array( 'sid=' . (int) $view->focuspage->id ) ) ) ?>" class="btn btn-sm btn-primary text-white inline py-0 px-2 m-0" style="line-height: 22px; font-size: 0.75rem;">
 						<?php echo esc_html__( "Details", 'squirrly-seo' ) ?>
                     </a>
 				<?php } ?>
 				<?php if ( $call_timestamp > ( time() - 300 ) ) { ?>
-                    <span class="small ml-2"><?php echo sprintf( esc_html__( "Wait %s minutes", 'squirrly-seo' ), number_format( ( $call_timestamp - ( time() - 300 ) ) / 60 ) ) ?></span>
+                    <span class="small ml-2 text-black-50"><i class="fa-solid fa-clock-o"></i> <?php echo sprintf( esc_html__( "Wait %s minutes", 'squirrly-seo' ), number_format( ( $call_timestamp - ( time() - 300 ) ) / 60 ) ) ?></span>
 				<?php } else { ?>
-                    <button type="submit" class="btn btn-sm btn-link font-weight-bold text-primary inline ml-2">
+                    <button type="button" class="btn btn-sm btn-link font-weight-bold text-primary inline ml-2 p-0 sq_focuspages_reaudit" style="line-height: 22px; font-size: 0.75rem;"
+                            data-id="<?php echo (int) $view->focuspage->user_post_id ?>"
+                            data-post_id="<?php echo (int) $view->post->ID ?>"
+                            data-type="<?php echo esc_attr( $view->post->post_type ) ?>"
+                            data-term_id="<?php echo (int) $view->post->term_id ?>"
+                            data-taxonomy="<?php echo esc_attr( $view->post->taxonomy ) ?>">
 						<?php echo esc_html__( "Request New Audit", 'squirrly-seo' ) ?>
                     </button>
 				<?php } ?>
-
-            </form>
+            </div>
 
         </div>
 

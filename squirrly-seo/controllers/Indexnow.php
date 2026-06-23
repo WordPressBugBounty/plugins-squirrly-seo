@@ -167,7 +167,7 @@ class SQ_Controllers_Indexnow extends SQ_Classes_FrontController
 
 
     public function bulkOption($actions){
-        $actions['sq_indexnow'] = esc_html__( 'Submit to Auto-Indexing', 'squirrly-seo' );
+        $actions['sq_indexnow'] = esc_html__( 'Submit to LLM Indexing', 'squirrly-seo' );
         return $actions;
     }
 
@@ -222,7 +222,7 @@ class SQ_Controllers_Indexnow extends SQ_Classes_FrontController
             'sq_indexnow_post'
         );
 
-        $actions['indexnow_submit'] = '<a href="' . esc_url( $link ) . '">' . esc_html__( 'Submit to Auto-Indexing', 'squirrly-seo' ) . '</a>';
+        $actions['indexnow_submit'] = '<a href="' . esc_url( $link ) . '">' . esc_html__( 'Submit to LLM', 'squirrly-seo' ) . '</a>';
 
         return $actions;
     }
@@ -322,9 +322,9 @@ class SQ_Controllers_Indexnow extends SQ_Classes_FrontController
         $count = is_array( $url ) ? count( $url ) : 1;
 
         if ( $submitted ) {
-            SQ_Classes_Error::saveMessage(sprintf(_n( '%s page submitted to Auto-Indexing.', '%s pages submitted to Auto-Indexing.', $count, 'squirrly-seo' ), $count), 'notice notice-success');
+            SQ_Classes_Error::saveMessage(sprintf(_n( '%s page submitted to LLM Indexing.', '%s pages submitted to LLM Indexing.', $count, 'squirrly-seo' ), $count), 'notice notice-success');
         }else{
-            SQ_Classes_Error::saveMessage(esc_html__( 'Error submitting page to Auto-Indexing.','squirrly-seo' ), 'notice notice-error');
+            SQ_Classes_Error::saveMessage(esc_html__( 'Error submitting page to LLM Indexing.','squirrly-seo' ), 'notice notice-error');
         }
 
         return $submitted;

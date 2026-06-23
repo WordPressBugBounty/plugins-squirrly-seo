@@ -65,6 +65,10 @@ class SQ_Controllers_Research extends SQ_Classes_FrontController {
 				$this->show_view( 'Errors/Maintenance' );
 
 				return;
+			} elseif ( $this->checkin->get_error_message() == 'reconnect' ) {
+				$this->show_view( 'Errors/Reconnect' );
+
+				return;
 			}
 		}
 

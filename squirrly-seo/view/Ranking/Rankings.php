@@ -61,7 +61,7 @@ $view->loadScripts();
 								<?php if ( isset( $view->info ) && ! empty( $view->info ) ) { ?>
 									<?php if ( ! SQ_Classes_Helpers_Tools::getValue( 'skeyword' ) ) { ?>
                                         <div class="sq_stats row p-0 m-0 my-2">
-                                            <div class="card col-6 p-0 m-0 bg-white shadow-sm">
+                                            <div class="card col-7 p-0 m-0 bg-white shadow-sm">
 												<?php
 												if ( isset( $view->info->average ) && ! empty( $view->info->average ) ) {
 													$today_average = end( $view->info->average );
@@ -127,7 +127,7 @@ $view->loadScripts();
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="card col-3 p-0 m-0 bg-white shadow-sm">
+                                            <div class="card col-5 p-0 m-0 bg-white shadow-sm">
                                                 <div class="card-content  overflow-hidden m-0">
                                                     <div class="media align-items-stretch">
                                                         <div class="media-body p-2 py-3">
@@ -177,7 +177,7 @@ $view->loadScripts();
                                             </div>
                                         </div>
 
-										<?php if ( $topten > 0 || $positive_changes > 0 || $average_changes > 0 ) { ?>
+										<?php if ( ( isset( $view->info->topten ) && (int) $view->info->topten > 0 ) || ( isset( $view->info->positive_changes ) && (int) $view->info->positive_changes > 0 ) || $average_changes > 0 ) { ?>
                                             <div class="col-12 p-0 m-0 py-2 text-right">
                                                 <a class="btn btn-sm btn-link text-dark" href="https://twitter.com/intent/tweet?text=<?php echo urlencode( 'I love the ranking results I get for my Pages with Squirrly SEO plugin for #WordPress. @SquirrlyHQ #SEO' ) ?>"><?php echo esc_html__( 'Share Your Success', 'squirrly-seo' ) ?></a>
                                             </div>

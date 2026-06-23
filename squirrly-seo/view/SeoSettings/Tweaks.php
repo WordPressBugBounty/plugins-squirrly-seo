@@ -547,6 +547,11 @@ if ( ! isset( $view ) ) {
                                         <div class="small text-black-50 my-1 pr-3"><?php echo '<a href="'.esc_url( home_url('llms.txt')).'" target="_blank">'.esc_url( home_url('llms.txt')).'</a>' ?></div>
                                     </div>
 
+                                    <div class="col-12 alert alert-light border m-0 p-3 my-3">
+                                        <i class="fa-solid fa-wand-magic-sparkles text-primary"></i>
+										<?php echo ' ' . sprintf( esc_html__( "Don't have an llms.txt yet? Generate and download your site's llms.txt or llms-full.txt from %s, then upload it below. To learn how to claim your free credits, read the %s.", 'squirrly-seo' ), '<a href="https://app.crawlbrain.com" target="_blank"><strong>app.crawlbrain.com</strong></a>', '<a href="https://aisq.com/aeo-geo-pack/" target="_blank"><strong>' . esc_html__( "AEO/GEO Pack guide", 'squirrly-seo' ) . '</strong></a>' ); ?>
+                                    </div>
+
                                     <div class="col-12 row m-0 p-0 my-5">
                                         <div class="col-4 p-0 pr-3 font-weight-bold">
 											<?php echo esc_html__( "Edit the Llms.txt data", 'squirrly-seo' ); ?>:
@@ -556,7 +561,11 @@ if ( ! isset( $view ) ) {
 
                                         <div class="col-8 p-0 m-0 form-group">
                                             <?php
-	                                            $llms_permission = SQ_Classes_Helpers_Tools::getOption( 'sq_llms_permission' );
+	                                            $llms_permission = get_option( 'sq_llms', false );
+                                                if ( $llms_permission === false ) {
+                                                    //legacy fallback: data not yet migrated out of the sq_options blob (old key: sq_llms_permission)
+                                                    $llms_permission = SQ_Classes_Helpers_Tools::getOption( 'sq_llms_permission' );
+                                                }
 
                                                 if ( ! empty( $llms_permission ) ) {
                                                     $llms_permission = implode( PHP_EOL, (array) $llms_permission );
@@ -566,12 +575,74 @@ if ( ! isset( $view ) ) {
                                             ?>
                                             <textarea class="form-control" name="llms_permission" rows="10"><?php echo $llms_permission ?></textarea>
 
+                                            <div class="col-12 p-0 my-2">
+                                                <button type="button" class="btn btn-light border sq_llms_upload" data-target="llms_permission"><i class="fa-solid fa-upload"></i> <?php echo esc_html__( "Upload llms.txt", 'squirrly-seo' ); ?></button>
+                                            </div>
+
                                             <div class="col-12 py-3 px-0 text-danger">
 												<?php echo esc_html__( "Edit the Llms.txt only if you know what you're doing. Adding wrong rules in LLMs can lead to SEO ranking errors or block AI indexing.", 'squirrly-seo' ); ?>
                                             </div>
                                         </div>
 
+                                        <div class="col-4 p-0 pr-3 font-weight-bold mt-5">
+											<?php echo esc_html__( "Edit the Llms-full.txt data", 'squirrly-seo' ); ?>:
+                                            <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "The full-content version, served at /llms-full.txt for AI engines that fetch the complete file. Upload the llms-full.txt you downloaded from CrawlBrain.", 'squirrly-seo' ); ?></div>
+                                            <div class="small text-black-50 my-1 pr-3"><?php echo '<a href="' . esc_url( home_url( 'llms-full.txt' ) ) . '" target="_blank">' . esc_url( home_url( 'llms-full.txt' ) ) . '</a>' ?></div>
+                                        </div>
+
+                                        <div class="col-8 p-0 m-0 form-group">
+											<?php $llms_full = (string) get_option( 'sq_llms_full', '' ); ?>
+                                            <textarea class="form-control" name="llms_full" rows="10"><?php echo esc_textarea( $llms_full ) ?></textarea>
+
+                                            <div class="col-12 p-0 my-2">
+                                                <button type="button" class="btn btn-light border sq_llms_upload" data-target="llms_full"><i class="fa-solid fa-upload"></i> <?php echo esc_html__( "Upload llms-full.txt", 'squirrly-seo' ); ?></button>
+                                            </div>
+                                        </div>
+
 										<?php do_action( 'sq_tweaks_llms_after' ); ?>
+
+                                        <script>
+                                            (function ($) {
+                                                $(document).ready(function () {
+                                                    $('.sq_llms_upload').on('click', function (e) {
+                                                        e.preventDefault();
+
+                                                        if (typeof wp === 'undefined' || typeof wp.media === 'undefined') {
+                                                            return;
+                                                        }
+
+                                                        var $btn   = $(this);
+                                                        var target = $btn.data('target');
+
+                                                        var frame = wp.media({
+                                                            title: '<?php echo esc_js( esc_html__( "Select or upload your LLMs file", "squirrly-seo" ) ); ?>',
+                                                            button: { text: '<?php echo esc_js( esc_html__( "Use this file", "squirrly-seo" ) ); ?>' },
+                                                            library: { type: 'text/plain' },
+                                                            multiple: false
+                                                        });
+
+                                                        frame.on('select', function () {
+                                                            var attachment = frame.state().get('selection').first().toJSON();
+                                                            if (!attachment || !attachment.url) {
+                                                                return;
+                                                            }
+
+                                                            $btn.addClass('sq_minloading');
+
+                                                            $.get(attachment.url).done(function (data) {
+                                                                $('textarea[name="' + target + '"]').val(typeof data === 'string' ? data : '');
+                                                            }).fail(function () {
+                                                                alert('<?php echo esc_js( esc_html__( "Could not read the file content. Please open the file and paste its content into the box manually.", "squirrly-seo" ) ); ?>');
+                                                            }).always(function () {
+                                                                $btn.removeClass('sq_minloading');
+                                                            });
+                                                        });
+
+                                                        frame.open();
+                                                    });
+                                                });
+                                            })(jQuery);
+                                        </script>
 
                                         <div class="col-12 m-0 p-0 mt-5">
                                             <button type="submit" class="btn btn-primary btn-lg m-0 p-0 py-2 px-4 rounded-0"><?php echo esc_html__( "Save Settings", 'squirrly-seo' ); ?></button>

@@ -16,6 +16,18 @@ class SQ_Models_Audits {
 	public function getTasks() {
 		return array(
 			'blogging'  => array(
+				'RecentPosting' => array(
+					'complete'     => false,
+					'title'        => esc_html__( "Recent blog posting?", 'squirrly-seo' ),
+					'success'      => esc_html__( "Yes" ) . '!',
+					'fail'         => esc_html__( "No" ) . '!',
+					'success_list' => '<div class="sq_list_success">' . esc_html__( "Your latest post is", 'squirrly-seo' ) . ' %s ' . esc_html__( "day(s) old.", 'squirrly-seo' ) . '</div>',
+					'fail_list'    => '<div class="sq_list_error">' . esc_html__( "Your latest post is", 'squirrly-seo' ) . ' %s ' . esc_html__( "day(s) old.", 'squirrly-seo' ) . '</div>',
+					'description'  => sprintf( esc_html__( "Answer and search engines favor sites that publish regularly. This check looks only at your blog-post sitemap to see how recently you posted - it's lightweight and doesn't crawl your whole site. %s Keep a steady publishing rhythm; even one quality post per month signals an active, maintained site. %s Use SEO Goals and the Keyword Research tool to plan what to publish next.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
+					'protip'       => esc_html__( "Consistency beats volume. A predictable cadence of useful posts keeps your site fresh in the eyes of both Google and AI answer engines.", 'squirrly-seo' ),
+					'solution'     => esc_html__( "Publish new blog posts regularly to keep your site active", 'squirrly-seo' ),
+					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
+				),
 				'Optimization' => array(
 					'complete'     => false,
 					'title'        => esc_html__( "Average Content Optimization", 'squirrly-seo' ),
@@ -23,7 +35,7 @@ class SQ_Models_Audits {
 					'fail'         => '%s%%. ' . esc_html__( "hmm...", 'squirrly-seo' ),
 					'success_list' => '',
 					'fail_list'    => '',
-					'description'  => sprintf( esc_html__( "How can we fix the SEO optimization of a page on our website? %s Find an amazing keyword set to use for your page. %s If you have a page about a Jazz Concert that John Dane (fictional name used for this example) will do on 9th of August 2025 in Phoenix, AZ, then you can try and find the best keywords you can use, that are related to: 'jazz concert', 'john dane', 'jazz 2025' and 'jazz in phoenix'. Find out what others search for. If you'll optimize the page for those keywords, you'll be certain that jazz fans will find it. The Keyword Research tool available in Squirrly SEO helps you figure out exactly what keywords to use. %s Start optimizing your content.  Use the Live Assistant from Squirrly SEO to do this, as it guides you towards the best practices of optimizing a page for SEO and helps you avoid keyword stuffing.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "Optimizing a page means writing it so both people and engines clearly understand what it answers, not stuffing in keywords. %s Start by finding the words and questions your audience actually searches for; Squirrly's Keyword Research shows you exactly that. %s Then write naturally with the Live Assistant guiding you, so your page becomes the clearest answer available.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "Optimization is NOT about stuffing in keywords. It's about writing the page in such a way that Search Engine bots and Humans alike will easily understand that the page is exactly about the topic they were searching for. Use the Live Assistant from Squirrly SEO to get the job done with ease.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Use tools like Squirrly Keyword Research and Squirrly Live Assistant to optimize your content", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistants' ),
@@ -35,7 +47,7 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "No" ) . '!',
 					'success_list' => '',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "The pages without DcPublisher meta", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => esc_html__( "Dublin Core is a set of standard metadata elements used to describe the contents of a website. It can help with some internal search engines and it does not bloat your code.", 'squirrly-seo' ),
+					'description'  => esc_html__( "Dublin Core is an older set of tags that note who published your content. It's a minor signal today and won't make or break your visibility in search or AI answers, but it doesn't hurt to include it. Squirrly SEO can add it for you.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Add the meta DcPublisher tag in the page's header", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
 				),
@@ -48,7 +60,7 @@ class SQ_Models_Audits {
 					'fail'         => '',
 					'success_list' => '<div class="sq_list_success">%s</div>',
 					'fail_list'    => '<div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "If there is enough data in Google Analytics, you should see the list of pages with the most visitors in the last week in the Traffic section of your SEO Audit. %s Having at least 100 visitors per page every week is crucial. %s Search Engines like Google and Bing will push down a page which doesn't attract visitors.", 'squirrly-seo' ), '<br/><br/>', '<br/>' ),
+					'description'  => sprintf( esc_html__( "This shows the pages that brought you the most visitors in the last week, when there's enough Google Analytics data. %s Pages that consistently attract visitors are seen as valuable by search and AI engines. %s Aim to keep your key pages drawing steady traffic.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
 				),
 				'PageViews' => array(
 					'complete'     => false,
@@ -57,7 +69,7 @@ class SQ_Models_Audits {
 					'fail'         => '',
 					'success_list' => '',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "The pages with low traffic", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we fix the Overall Traffic of the website? %s Make sure you have active listings which can be easily found on various marketplaces / platforms. eg: you have a Shopify app, a Chrome Extension, a Chrome App, a Udemy Course, Slides on SlideShare.com, videos on Youtube, an infographic on Pinterest, etc. These will always bring you constant traffic to the website and once you set it (and make it visible) you can forget it. It will keep bringing you traffic. Of course, the key is to first make these items visible in the places where you publish them. %s You need an email list. Make sure that people who come to your store, do business with you, visit your website, or read your blog give you their email address so you can communicate with them further on. An alternative to this is to make a Chatbot for Facebook Messenger and get them hooked to the bot. By doing any of these, you'll be able to bring those people back to your website. %s Use the Keyword Research tool included in Squirrly SEO, to spot keywords that are easy to rank for: [link]https://plugin.squirrly.co/best-keyword-research-tool-for-seo/[/link] %sRank for more keywords with low competition. This will start building up traffic for your site. %sTo Easily rank new pages, use the SEO Goals: [link]https://plugin.squirrly.co/best-seo-goals/[/link] %sStudy website rankings to learn how to bring more traffic, by using our Special Cloud Services for Rank Checking, available only on: Business Plans [link]https://plugin.squirrly.co/squirrly-seo-pricing/[/link]", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li><li>', '</li><li>', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "This looks at the overall traffic reaching your pages. %s Be present where your audience already is, such as marketplaces, YouTube, Pinterest or an email list, so traffic keeps coming back on its own. %s Rank for topics with low competition; Squirrly's Keyword Research helps you spot the easy wins. %s Use SEO Goals to help new pages rank faster.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "Get each person who arrives on your site once to leave something that you can use later on to bring them to your site again. You can use Facebook Pixel and then retarget them, you can make them subscribe to Desktop Notifications to receive push notifications, you can have them download an app, subscribe to a newsletter, etc. Sometimes it's best if you can create clever funnels that will ensure that any person may start following you on multiple such channels.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Try to gain organic traffic to your site's pages", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -71,8 +83,8 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "No" ) . '!',
 					'success_list' => '',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "The pages with noindex", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we fix the noindex for our pages? %s If you DON'T have a check mark for this task, it means you're currently telling Google not to index some of your pages through a robots tag inside your code. %s On WordPress, it's super easy to control on which pages to place no-index and which pages should never get tagged with no-index if you use the Squirrly SEO Plugin. %s If you decided you 100%% want these pages to be No-Index (you don’t want Google to index them) - then remove these pages from the SEO Audit. Use the SEO Audit for the pages you want to be seen on search engines.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li><li>', '</li></ul>' ),
-					'protip'       => esc_html__( "Some pages are better off if they have an associated no-index tag. Every website has a couple of pages that would be completely pointless to appear in search results, because they wouldn't ever make any sense for potential searchers.", 'squirrly-seo' ),
+					'description'  => sprintf( esc_html__( "If a page is set to no-index, you're telling search and AI engines to ignore it, so it can't appear in results or be used in answers. %s Make sure the pages you want found are not set to no-index; Squirrly SEO lets you control this per page with a click. %s If a page is meant to stay private that's fine, just remove it from this audit.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
+					'protip'       => esc_html__( "Some pages (like thank-you or login pages) are fine to keep hidden. For everything you want found or quoted by AI, make sure no-index is off.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Add the correct meta robots tag in the pages", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
 				),
@@ -83,8 +95,8 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "No" ) . '!',
 					'success_list' => '',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "The pages with nofollow", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we fix the nofollow for our pages? %s If you DON'T have a check mark for this task, it means you're currently telling Google not to follow some of your pages through a robots tag inside your code. %s On WordPress, it's super easy to control on which pages to place nofollow and which pages should never get tagged with nofollow if you use the Squirrly SEO Plugin. %s If you're using something else, make sure you remove <META NAME=“ROBOTS” CONTENT=“NOFOLLOW”> from the <head> of your HTML.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li></ul>' ),
-					'protip'       => esc_html__( "Some pages are better off if they have an associated nofollow tag. Every website has a couple of pages that would be completely pointless to be followed by search results like: Contact Us, Terms and Policy.", 'squirrly-seo' ),
+					'description'  => sprintf( esc_html__( "A no-follow tag tells search and AI crawlers not to follow the links on a page, which can stop them from discovering and connecting your content. %s Make sure the pages you want fully explored are not set to no-follow; Squirrly SEO lets you control this per page with no code.%s", 'squirrly-seo' ), '<ul><li>', '</li></ul>' ),
+					'protip'       => esc_html__( "A few pages (like Contact or Terms) are fine as no-follow. For your main content, keep links followable so engines can map your site.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Add the correct meta robots tag in the pages", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
 				),
@@ -95,8 +107,8 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "No" ) . '!',
 					'success_list' => '',
 					'fail_list'    => '',
-					'description'  => sprintf( esc_html__( "How can we get our website to be Safe Browsing compliant? %s Make sure you find and delete all malware from your website. %s Watch this video to learn more. [link]https://www.youtube.com/embed/7GStGcTeo20[/link] %s Once you feel like you've fixed your problems you can check using this tool from Google: [link]https://transparencyreport.google.com/safe-browsing/search[/link]%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li></ul>' ),
-					'protip'       => esc_html__( "This is a TOP priority if you're having a Safe Browsing problem at the moment. Browsers will NOT allow web visitors to actually access your pages. It will also cause you other problems like lower search rankings.", 'squirrly-seo' ),
+					'description'  => sprintf( esc_html__( "If Google flags your site as unsafe, browsers warn visitors away and search and AI engines stop trusting and surfacing your content. %s Scan your site, remove any malware, and keep WordPress and your plugins updated. %s You can check your current status anytime with Google's Safe Browsing tool.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
+					'protip'       => esc_html__( "This is top priority if you're flagged: browsers will block visitors and your visibility in both search and AI results drops sharply.", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
 				),
 				'Speed'                     => array(
@@ -106,8 +118,8 @@ class SQ_Models_Audits {
 					'fail'         => '{total}' . 's ' . esc_html__( "average is slow" ),
 					'success_list' => '',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "The slow pages are", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we fix the loading speed of the website? %s Use smaller images, or compress them with tools like ShortPixel.com %s Minify Javascripts, use CDNs, use gZip. %s Use a professional service if your site is based on WordPress. Our parent company, Squirrly Limited, offers such a service for WordPress.org based websites [link]https://www.squirrly.co/agency/[/link] %s After you optimize the page, test the loading Speed Index with Google Speed Test here [link]https://developers.google.com/speed/pagespeed/insights/[/link] %s", 'squirrly-seo' ), '<ul><li>', '</li><li class="sq-reference">Squirrly negotiated a special Free Plan for you that gives you more credits for images, then they do on their own sites: <a href="https://www.squirrly.co/wordpress/plugins/short-pixel/" title="shortpixel" target="_blank">https://www.squirrly.co/wordpress/plugins/short-pixel/</a><br /> ShortPixel reduced the size of our images by 84% and kept the same quality” - Andreea, Communications Expert at Squirrly </li><li>', '</li><li>', '</li><li>', '</li></ul>' ),
-					'protip'       => esc_html__( "Increasing loading speed will bring you more engagement, lower bounce rates AND more search engine results.", 'squirrly-seo' ),
+					'description'  => sprintf( esc_html__( "How fast your pages load affects whether people stay, and slow pages get pushed down in search and overlooked by AI answer engines. %s Compress your images (a tool like ShortPixel shrinks them a lot without losing quality) and turn on caching or a speed plugin. %s Then check your score with Google PageSpeed Insights to see what to improve next.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
+					'protip'       => esc_html__( "Faster pages mean more engagement, lower bounce rates, and better visibility in both search and AI answers.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Optimize your site's speed", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
 				),
@@ -118,8 +130,8 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "We found duplicates.", 'squirrly-seo' ),
 					'success_list' => '<div class="sq_list_success"><span class="text-primary">' . esc_html__( "Great!", 'squirrly-seo' ) . '</span> ' . esc_html__( "The pages on your site have unique title tags.", 'squirrly-seo' ) . '</div>',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "The Pages with Duplicate Titles are", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we fix the Duplicate Titles on our pages? %s Features like SEO Automation or SEO Snippet from Squirrly SEO will generate your META title automatically from the content of your page (in case you didn't already place a custom title). Make every single META Title of every page unique (you never repeat it on any other URL from the website). You will write what you want Google to display in the search results as a title for your listing. Make this text awesome and you'll get people clicking on it. %s See if you can assign rules to WordPress to have it change the Title of each URL according to different patterns. Normally the platform will take the Title of the latest product inside the category and add it to the Title of that particular category. In this case you can end up with something like: example.com/shooter-games will have title: 'Counter Strike GO. Buy it Now' and also: example.com/shooter-games/cs-go will also have title: 'Counter Strike GO. Buy it Now'. %s All these problematic cases can be forgotten once you start using Squirrly SEO . With its Patterns feature, it will create rules for WordPress that ensure each title for each page on your site is unique. This feature is available in the Free version of Squirry.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li></ul>' ),
-					'protip'       => esc_html__( "On WordPress you can use Squirrly SEO to control everything about your page Titles and make them stand out on search engines.", 'squirrly-seo' ),
+					'description'  => sprintf( esc_html__( "When two pages share the same title, search engines and AI answer engines can't tell which one to show, so neither gets surfaced or cited well. %s Give every page its own clear title that says exactly what it covers and what question it answers. %s Squirrly SEO's Patterns feature keeps every title unique automatically, with no code needed. It's free.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
+					'protip'       => esc_html__( "A clear, unique title is the first thing Google and AI tools like ChatGPT read to decide what your page answers. Let Squirrly SEO keep them all unique for you.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Add different titles to each page. You can do it manually or use SEO tools (like Squirrly) for that.", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
 				),
@@ -130,8 +142,8 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "We found duplicates.", 'squirrly-seo' ),
 					'success_list' => '<div class="sq_list_success"><span class="text-primary">' . esc_html__( "Great!", 'squirrly-seo' ) . '</span> ' . esc_html__( "The pages on your site have unique meta descriptions.", 'squirrly-seo' ) . '</div>',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "The Pages on which we found duplicates are", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we fix the Duplicate Descriptions on our website? %s Use the SEO Automation feature from Squirrly SEO, because it will generate your META description automatically from the content of your page (in case you didn't already place a custom description). Make every single META description of every page unique (you never repeat it on any other URL from the website). Make this text awesome and you'll get people clicking on it. %s Use the Patterns feature from Squirrly SEO. It will help you create rules for WordPress that ensure each description for each page on your site is unique. This feature is available on all plans. %s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
-					'protip'       => esc_html__( "Use Squirrly SEO’s BULK SEO section to control everything about your META descriptions and make them stand out on search engines.", 'squirrly-seo' ),
+					'description'  => sprintf( esc_html__( "If several pages use the same description, search engines and AI answers can't tell them apart and your pages end up competing with each other. %s Write a short, unique summary for each page that previews the answer it gives. %s Squirrly SEO can generate a unique description for every page automatically.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
+					'protip'       => esc_html__( "Your description is the short summary AI answers and Google snippets often quote. Use Squirrly SEO to keep each one unique and clear.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Add different description to each page. You can do it manually or use SEO tools (like Squirrly) for that.", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
 				),
@@ -142,8 +154,8 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "There are some pages without title.", 'squirrly-seo' ),
 					'success_list' => '<div class="sq_list_success"><span class="text-primary">' . esc_html__( "Great!", 'squirrly-seo' ) . '</span> ' . esc_html__( "all the pages on your site have the title tag defined :-)", 'squirrly-seo' ) . '</div>',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "The pages with empty Title tags are", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we fix the Empty Titles on our pages? %s Use Squirrly’s SEO Automation features or the SEO Snippet to generate your META title automatically from the content of your page. Write what you want Google to display in the search results as a title for your listing. Make this text awesome and you'll get people clicking on it. %s Use the Patterns feature from Squirrly. It will create rules for WordPress that ensure each title for each page on your site is unique. This feature is available on all plans.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
-					'protip'       => esc_html__( "Use Squirrly SEO to create and control everything about your META titles and make them stand out on search engines.", 'squirrly-seo' ),
+					'description'  => sprintf( esc_html__( "A page with no title is almost invisible. Search engines and AI answer engines have nothing to read to understand what it's about, so it rarely gets shown. %s Make sure every page has a clear title stating its main topic. %s Squirrly SEO fills in any missing titles automatically with its Patterns feature.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
+					'protip'       => esc_html__( "Never leave a page without a title; it's the single most important label both Google and AI engines read. Squirrly SEO fills in any that are missing.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Add a Title tag to each page in your site.", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
 				),
@@ -154,8 +166,8 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "There are some pages without description.", 'squirrly-seo' ),
 					'success_list' => '<div class="sq_list_success"><span class="text-primary">' . esc_html__( "Great!", 'squirrly-seo' ) . '</span> ' . esc_html__( "all the pages on your site have meta description", 'squirrly-seo' ) . '</div>',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "The pages with empty description are", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we fix the Empty Descriptions on our website? %s Use Squirrly’s SEO Automation features or the SEO Snippet which will generate your META description automatically from the content of your page.  Make this text awesome and you'll get people clicking on it. %s See if you can assign rules to WordPress to have it create META descriptions for each URL according to different patterns. By having clear rules for all URLs you'll ensure that Empty Descriptions will no longer be a problem in the future. %s All these problematic cases can be forgotten once you start using Squirrly SEO . With its Patterns feature, it will create rules for WordPress that ensure each description for each page on your site is unique. This feature is available on all plans.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li></ul>' ),
-					'protip'       => esc_html__( "Use Squirrly SEO to create and control everything about your META descriptions and make them stand out on search engines.", 'squirrly-seo' ),
+					'description'  => sprintf( esc_html__( "When a page has no description, search engines and AI tools have to guess your summary, and the guess is usually a poor one that gets ignored. %s Add a short, clear description to every page that sums up what it answers. %s Squirrly SEO can write descriptions automatically for any page that's missing one.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
+					'protip'       => esc_html__( "Don't let engines guess your summary. Squirrly SEO writes a clear description for any page that's missing one. For this to work, the page needs to have at least one full paragraph of text inside the page, so that the patterns system (found in snippets and Bulk SEO) can write it.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Add meta description to each page in your site.", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
 				),
@@ -166,7 +178,7 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "No" ),
 					'success_list' => '',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "The pages without title tag are", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we fix the title tags of our pages? %s On WordPress, using Squirrly SEO will ensure your pages have title tags. It will create titles for every page. It will help you customize titles for every page, all while making you write ZERO code. No coding required when you use Squirrly SEO.%s", 'squirrly-seo' ), '<ul><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "Your title is the headline both people and AI answer engines use to decide if your page is worth reading. Without one, your page can't really be understood or surfaced. %s On WordPress, Squirrly SEO makes sure every page has a clear title and lets you fine-tune it, with no code.%s", 'squirrly-seo' ), '<ul><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "Platforms like Shopify handle this aspect with their default engine.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Add a Title tag to this page of your site", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -178,7 +190,7 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "No" ),
 					'success_list' => '',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "The pages without description meta are", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we fix the META Descriptions of our pages? %s First of all, make sure that you understand the following: a poorly written META description will make for a horrible listing inside the Google search page. If people find your listing, they will not click on your listing in case your META Description is horrible to look at, is poorly written, or it doesn't seem to make sense. %s On WordPress, you can use Squirrly SEO for this. It will automatically create META Descriptions for every page. It will help you customize these descriptions for every page, all while making you write ZERO, nada, rien, code. No coding required when you use Squirrly SEO. You can even customize the way it automates your descriptions.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "The description is the short summary shown under your title in Google and often reused in AI answers. A weak or missing one means people scroll right past you. %s Write it like an honest, one-line preview of what the page answers. %s Squirrly SEO can create and customize these for every page automatically.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "Platforms like Shopify handle this with their default engines.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Add meta description to this page of your site", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -190,8 +202,8 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "No keywords.", 'squirrly-seo' ),
 					'success_list' => '<div class="sq_list_success_title">' . esc_html__( "Your keywords are", 'squirrly-seo' ) . ':</div><div class="sq_list_success">%s</div>',
 					'fail_list'    => '',
-					'description'  => esc_html__( "It is important for search engines to know which keywords you are trying to rank for with your website. This also helps bring targeted visitors to your site.", 'squirrly-seo' ),
-					'protip'       => esc_html__( "Make sure that the search for your keywords is on a rising trend", 'squirrly-seo' ),
+					'description'  => esc_html__( "Knowing the main topic of each page helps search engines and AI answer engines match your content to what people actually ask. Focus each page on one clear topic and the questions around it; that matters far more than a long list of keywords.", 'squirrly-seo' ),
+					'protip'       => esc_html__( "Pick topics people are actively searching and asking about. Squirrly's Keyword Research shows you exactly what they want to know.", 'squirrly-seo' ),
 					'solution'     => '',
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
 				),
@@ -202,7 +214,7 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "No" ) . '!',
 					'success_list' => '',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "The pages without canonical meta", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we fix the Canonical Links problems of our pages? %s Add this code to the <head> section of your HTML page: <link rel=\"canonical\" href=\"your site URL\" /> %s Think of a canonical link as the \"preferred version\" of the page. %s Make sure you have this definition on your URL especially if you've copied the content from another LINK on the web. Example: You published a blog post on Medium and then also added it to your own blog on your own domain. If you add the canonical link definition, then you won't be penalized for duplicate content. Medium also allows you to re-publish content from your own site to Medium and helps you get the rel=\"canonical\" inside the medium post to show that the original is hosted on your own site.%s Use Squirrly SEO's Bulk SEO to define canonical links and indexing options for your pages. %s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "A canonical link tells search engines and AI engines which version of a page is the original, so your content gets full credit instead of looking like a duplicate. %s It matters most when the same content lives at more than one address, or when you republish a post somewhere else like Medium. %s Squirrly SEO's Bulk SEO lets you set this for your pages without touching any code.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "Platforms like Shopify handle this with their default engine. On WordPress you can use Squirrly SEO to control canonical links and make sure you avoid having duplicate content.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Add canonical meta link in the page header", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -214,7 +226,7 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "No" ) . '!',
 					'success_list' => '',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "The pages without Json-LD meta", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we fix the meta Json_LD of the website? %s You need to make sure you have this tag inside your page's code: <script type=\"application/ld+json\"> . Or something similar. %s JSON-LD annotates elements on a page, structuring the data, which can then be used by search engines to disambiguate elements and establish facts surrounding entities, which is then associated with creating a more organized, better web overall.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "Structured data (JSON-LD) hands engines your information already organized, so they can understand and reuse it. That makes you far more likely to be quoted in AI answers and shown as a rich result. %s Squirrly SEO adds this for you automatically, including full details for WooCommerce products.%s", 'squirrly-seo' ), '<ul><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "On WordPress you can use Squirrly SEO to add the Json-LD Structured data. Squirrly will automatically structure the information from all your products if you use Woocommerce plugin for eCommerce.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Make sure you activated JSON-LD Structured Data in All Features", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -226,7 +238,7 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "No" ) . '!',
 					'success_list' => '',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "The pages without encoding meta", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we fix the character encoding specifications of the website? %s You'll have to specify this according to the encoding you use for your website. %s Adding your encoding tag to the <head> of the site will fix it. Below, you'll find what you can place, in case your encoding is UTF-8 (the majority of web pages use this) %s <meta http-equiv=“Content-Type” content=“text/html;charset=utf-8” />%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "Page encoding tells browsers and crawlers how to read your text, so letters, symbols and other languages don't turn into garbled characters that confuse readers and AI engines. %s It's a small technical detail, and Squirrly SEO sets it for all your pages automatically.%s", 'squirrly-seo' ), '<ul><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "Platforms like Shopify handle this with their default engine. On WordPress you can use Squirrly SEO  to get encoding specified for all your pages. Without specifying the encoding, search engines such as Google will be more likely to suggest other pages and rank other pages that DO have the specification made.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Add the meta encoding tag in the page's header", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -238,7 +250,7 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "No" ) . '!',
 					'success_list' => '',
 					'fail_list'    => '',
-					'description'  => sprintf( esc_html__( "How can we fix the Feed and Sitemap of the website? %s Make sure that you feed and Sitemap exists and that it is accessible. Your visitors should be able to access it using /feed, or /sitemap.xml %s Make sure your visitors can access it using domainname.com/feed (where the text \"domainname\" is actually your domain. eg. bloggingwithjane.com ) %s On WordPress, you can use Squirrly SEO to generate your FEED and the Sitemap for your whole site. It has some pretty advanced options, so that you feeds will be perfect. This feature is free to use.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "A sitemap is a simple map of your site that helps search and AI engines find and understand all your pages quickly, including your newest content. %s Make sure visitors and bots can reach it, usually at /sitemap.xml. %s Squirrly SEO generates a complete sitemap and feed for your whole site automatically, for free.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "Your feeds and sitemaps should contain the date when your content was published and last updated. This is super important for Google to know, as it's always looking to surface fresh content to people who search on search engines. PLUS, having this gives you the opportunity to show up when users of Google say they want to see only results from the last week. If you had anything published during the last week, these people will see it and you will gain traffic.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Add a RSS feed and Sitemap to your site", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -250,7 +262,7 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "No" ) . '!',
 					'success_list' => '',
 					'fail_list'    => '',
-					'description'  => sprintf( esc_html__( "How can we fix the robots.txt of the website? %s You'll need to have a http://domain.com/robots.txt link on your site that crawlers can access to know which pages they are allowed to crawl. (gather info from) %s Create or Edit a robots.txt file using Squirrly SEO %s Once you have the file, upload it to your ftp (if you don’t want to let Squirrly operate it for you) and make sure it can be accessed. %s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "A robots.txt file tells crawlers, including AI crawlers, which parts of your site they're allowed to read. A correct one makes sure your important pages can be found and cited. %s Squirrly SEO can create and edit this file for you, so you decide exactly what search engines and AI engines can access.%s", 'squirrly-seo' ), '<ul><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "Platforms like Shopify handle this with their default engine. On WordPress you can use Squirrly SEO  to create and customize your robots.txt", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Add robots.txt file in your site", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -262,7 +274,7 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "No" ) . '!',
 					'success_list' => '',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "The pages without viewport meta", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we fix the meta viewport of the website? %s You need to make sure you have this tag inside your page's code: <meta name=“viewport” content=“width=device-width, initial-scale=1”> . Or something similar. %s In case you know that the minimum resolution required to deliver a good user experience to your viewers is 500 px, then write the following: %s <meta name=“viewport” content=“width=500, initial-scale=1”>%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "The viewport setting makes your pages display correctly on phones and tablets. Search and AI engines favor content that works well on mobile, since that's where most people read. %s A good responsive theme, or Squirrly SEO, takes care of this for you.%s", 'squirrly-seo' ), '<ul><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "Platforms like Shopify handle this with their default engine. On WordPress, you need to make sure the WordPress theme you buy is responsive and has this definition.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Add the meta viewport tag in the page's header", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -274,7 +286,7 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "No" ) . '!',
 					'success_list' => '',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "The pages without gzip", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we fix the gzip compression for our website? %s GZIP compression must be installed on the web server, such as in Apache, IIS and nginx. When retrieving the website the web browser will prompt the visitor he/she can receive the GZIP. %s Squirrly’s teams of experts can help you get this done. [link]https://www.squirrly.co/agency/[/link] - Premium Paid Services, separate from any software license you may have from the Squirrly Company. %s Ask your webmaster / developer / host to help you with this. Or try to find plugins to help you with this.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "Compression (GZIP) makes your pages download faster by sending them in a smaller, zipped form, and faster pages are favored by search and AI engines. %s It's switched on at your web server level. %s Ask your host or developer to enable it, or use a performance plugin that turns it on for you.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "Setting this up saves 50% to 80% bandwidth, which will make all your pages load a lot faster.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Use gzip to increase your site's speed", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -286,7 +298,7 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "We found some ...", 'squirrly-seo' ),
 					'success_list' => '',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "The pages with duplicate Open Graph metas", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we fix the duplicate meta codes of our pages? %s Make a list of the pages which have this problem. %s Start fixing them one by one. %s Remove duplicate definitions of code from the <head> section of each page. (eg. you have two instances of og:title << remove one of them!)%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "Duplicate tags in your page's code confuse search and AI engines about which information is correct, which can hurt how your page is shown and shared. %s These usually appear when two plugins add the same tags. %s Squirrly SEO removes duplicate tags from all your pages automatically, with no work from you.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "On WordPress you can use Squirrly SEO to Remove Duplicate Meta codes from all your pages. It removes them automatically. No work on your behalf.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Make sure you don't have duplicate meta tags in your site's header", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -298,7 +310,7 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "We found some ...", 'squirrly-seo' ),
 					'success_list' => '',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "The pages with duplicate Twitter Card metas", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we fix the duplicate meta codes of our pages? %s Make a list of the pages which have this problem. %s Start fixing them one by one. %s Remove duplicate definitions of code from the <head> section of each page. (eg. you have two instances of og:title << remove one of them!)%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "Duplicate tags in your page's code confuse search and AI engines about which information is correct, which can hurt how your page is shown and shared. %s These usually appear when two plugins add the same tags. %s Squirrly SEO removes duplicate tags from all your pages automatically, with no work from you.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "On WordPress you can use Squirrly SEO to Remove Duplicate Meta codes from all your pages. It removes them automatically. No work on your behalf.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Make sure you don't have duplicate meta tags in your site's header", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -310,7 +322,7 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "We found some ...", 'squirrly-seo' ),
 					'success_list' => '',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "The pages with duplicate Title metas", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we fix the duplicate meta codes of our pages? %s Make a list of the pages which have this problem. %s Start fixing them one by one. %s Remove duplicate definitions of code from the <head> section of each page. (eg. you have two instances of og:title << remove one of them!)%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "Duplicate tags in your page's code confuse search and AI engines about which information is correct, which can hurt how your page is shown and shared. %s These usually appear when two plugins add the same tags. %s Squirrly SEO removes duplicate tags from all your pages automatically, with no work from you.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "On WordPress you can use Squirrly SEO to Remove Duplicate Meta codes from all your pages. It removes them automatically. No work on your behalf.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Make sure you don't have duplicate meta tags in your site's header", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -322,7 +334,7 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "We found some ...", 'squirrly-seo' ),
 					'success_list' => '',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "The pages with duplicate Description metas", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we fix the duplicate meta codes of our pages? %s Make a list of the pages which have this problem. %s Start fixing them one by one. %s Remove duplicate definitions of code from the <head> section of each page. (eg. you have two instances of og:title << remove one of them!)%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "Duplicate tags in your page's code confuse search and AI engines about which information is correct, which can hurt how your page is shown and shared. %s These usually appear when two plugins add the same tags. %s Squirrly SEO removes duplicate tags from all your pages automatically, with no work from you.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "On WordPress you can use Squirrly SEO to Remove Duplicate Meta codes from all your pages. It removes them automatically. No work on your behalf.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Make sure you don't have duplicate meta tags in your site's header", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -337,7 +349,7 @@ class SQ_Models_Audits {
 					'fail'         => '',
 					'success_list' => '<div class="sq_list_success">%s</div>',
 					'fail_list'    => '<div class="sq_list_success">%s</div>',
-					'description'  => sprintf( esc_html__( "You can see the list of pages that got the most shares in the Social section of your SEO Audit. %s It’s very important to get more eyes on your content via social media. You need external signals and Authority for your site and pages if you want to get really good rankings. There’s really no skipping this if you want performance. %s The logic behind this is: if nobody shares your site on social media, then your site is not important. That’s how Google’s algorithm “sees” this. %s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "This shows the pages people shared most on social media. %s Shares act as signals of trust and popularity; the more your content is shared, the more search and AI engines treat it as worth surfacing. %s So make your best content easy and rewarding to share.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
 					'protip'       => sprintf( esc_html__( "Find proven methods for sharing on social media inside our free 10,000 Visits from Social Media training. More courses on social media are available within %s Education Cloud PLUS %s: the Premiere education platform of Squirrly.", 'squirrly-seo' ), '<a href="https://www.squirrly.co/learning/education-cloud/" target="_blank" >', '</a>' ),
 				),
 				'Shares'        => array(
@@ -347,7 +359,7 @@ class SQ_Models_Audits {
 					'fail'         => '',
 					'success_list' => '<div class="sq_list_success">%s</div>',
 					'fail_list'    => '<div class="sq_list_success">%s</div>',
-					'description'  => sprintf( htmlentities( esc_html__( "How can we raise the Social Media Shares (or signals) for our pages on Social Media? %s Use a tool like SalesFlare or FullContact (both paid) to extract the social media profiles of your customers, users, email subscribers and even LinkedIN Connections. Then make sure they follow you on Social Media. An easy way to do this is to follow them yourself. They already care about you and your company. They will gladly interact with your profiles. Using tools like these will also give you a clear picture of what Social Media platforms your desired audience uses most, so that you can create profiles only for those social media platforms. %s You should create social media Giveaways, or even viral communities like: [link]https://www.squirrly.co/dmsuperstars/[/link] %s Use a service like [link]https://techfork.xyz/about/[/link] (warning: other social media providers will most likely cause problems, because they use bots. - TechFork has been verified by our community and it has been a partner for over 4 years) %s Learn from our Episode on the Marketing Education Cloud Podcast how to share your pages so that you get better social signals and also 10,000 visits from social media: [link]https://www.squirrly.co/podcast/[/link] %s", 'squirrly-seo' ) ), '<ul><li>', '</li><li>', '</li><li>', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "Social shares are signals that real people find your content useful. %s Make it easy for your audience to follow and share you, and connect with the customers and subscribers you already have on the platforms they use. %s Run the occasional giveaway or campaign to get your best pages in front of more people.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "All the shares and likes that your fans will give your pages will contribute to the total number of shares from social media (social signals). When Google’s algorithm starts “seeing” that people share your pages on social media, it will consider that your site is becoming popular and will increase its rankings.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "You have to share your articles with your fans", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -359,7 +371,7 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "No" ) . '!',
 					'success_list' => '',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "The pages without share buttons", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we get social media share buttons on our website? %s There are many options to help you get social sharing buttons inside your website. However, you should be careful not to let them ruin your loading times. Most plugins and apps will do that. %s Sumo.com is an Okay option. I'm not really happy with them, because I find it slows my pages. %s My current favorites are [link]http://info.zotabox.com/[/link] . I'm using them on Shopify and WordPress. It works with any CMS platform. The loading speed is great and their social media counters work perfectly.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "Share buttons let visitors spread your content in one click, building the social signals that boost trust. %s Place them somewhere easy to spot. %s Choose a lightweight option, since slow-loading buttons can hurt your page speed more than they help.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "All there is to it is: make the buttons obvious, so people can easily find them. Make sure they don't slow your site down. Make sure they look great on mobile.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Add Social Share buttons in your articles", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -371,7 +383,7 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "No" ) . '!',
 					'success_list' => '',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "The pages without social buttons", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we fix the Social Follow Me buttons of the website? %s Add buttons to your website, that allow your visitors to check your social media profiles and follow you on social media. %s This is one of the most important aspects nowadays, if you want to build trust with your website. %s Learn more with Expectation Marketing. Expectation Marketing is all about teaching you how to implement such buttons and other trust elements for your digital brand. [link]http://expectationmarketing.com/[/link] %s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "Follow buttons let visitors connect with you on social media, which builds trust and brings people back to your site. %s Add links to your profiles, ideally in the footer where people expect to find them.%s", 'squirrly-seo' ), '<ul><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "Place the buttons in your site's footer, to make sure they're always accessible. Web users are used to finding them there when they wish to connect to brands on social media.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Add links to your Social Media profiles to strengthen social signals and keep readers engaged.", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -383,7 +395,7 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "No" ) . '!',
 					'success_list' => '',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "The pages without Open Graph metas", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we fix the Open Graph of the website? %s You need to make sure you're going to fix the Open Graph image AS WELL AS all the other open graph elements. %s If you're on WordPress, you're easily getting all the settings you need from Squirrly SEO. Make sure you use it. %s Below, you can see the examples of open graph elements you need to implement in the <head> section of your page's code. Make sure you replace the elements inside content=\" \" with your own data: your own titles, own image URLs, etc. %s <meta property=“og:url” content=“{site}/product/expectation-marketing-ebook/“ /> %s <meta property=“og:title” content=“Expectation Marketing [Book]” /> %s <meta property=“og:description” content=“If you`re wondering why your marketing strategy isn`t bringing the results you expected this is the right ebook for you. Expectation Marketing is about giving you an acti” /> %s <meta property=“og:type” content=“product” /> %s <meta property=“og:image” content=“{site}/image.jpg” /> %s <meta property=“og:image:width” content=“700” /> %s <meta property=“og:image:height” content=“536” /> %s <meta property=“og:image:type” content=“image/jpeg” /> %s <meta property=“og:site_name” content=“Expectation Marketing” /> %s <meta property=“og:locale” content=“en” />%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li></ul><pre style="white-space: initial !important;">', '<br />', '<br />', '<br />', '<br />', '<br />', '<br />', '<br />', '<br />', '<br />', '</pre>' ),
+					'description'  => sprintf( esc_html__( "Open Graph tags control how your page looks when it's shared or shown as a preview: the title, description and image people see. Good previews get far more clicks. %s On WordPress, Squirrly SEO sets all of these for you automatically, including the preview image. %s Just give each page a clear title, description and image.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "Fixing this will improve Click Through Rates on Facebook, LinkedIN. Guaranteed. Make sure you use this to control how your pages look on social media when people share them.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Add the meta Open Graph tag in your page's header.", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -395,7 +407,7 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "No" ) . '!',
 					'success_list' => '',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "The pages without Twitter Card metas", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we fix the Twitter Cards of the website? %s You need to make sure you're going to fix the Twitter Card image AS WELL AS all the other twitter card elements. %s If you're on WordPress, you're easily getting all the settings you need from Squirrly SEO. Make sure you use it. %s Below, you can see examples of twitter card elements you need to implement in the <head> section of your page's code. Make sure you replace the elements inside content=\" \" with your own data: your own titles, own image URLs, etc. %s <meta property=“twitter:url” content=“{site}/product/expectation-marketing-ebook/“ /> %s <meta property=“twitter:title” content=“Expectation Marketing [Book]” /> %s <meta property=“twitter:description” content=“If you`re wondering why your marketing strategy isn`t bringing the results you expected this is the right ebook for you. Expectation Marketing is about giving you an acti” /> %s <meta property=“twitter:image” content=“{site}/image.jpg” /> %s <meta property=“twitter:domain” content=“Expectation Marketing” /> %s <meta property=“twitter:card” content=“summary” />%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li></ul><pre style="white-space: initial!important;">', '<br />', '<br />', '<br />', '<br />', '<br />', '</pre>' ),
+					'description'  => sprintf( esc_html__( "Twitter Cards control how your page looks when shared on X/Twitter: the title, description and image in the preview. %s On WordPress, Squirrly SEO fills these in for you automatically. %s Just give each page a clear title, description and image.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "Fixing this will improve Click Through Rates on Twitter. Guaranteed. Make sure you use this to control how your pages look on social media when people share them.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Add Twitter Card to make your articles look better on Twitter.", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -411,7 +423,7 @@ class SQ_Models_Audits {
 					'fail'         => '{total} ' . esc_html__( "link(s)", 'squirrly-seo' ),
 					'success_list' => '<div class="sq_list_success_title">' . esc_html__( "Moz Backlinks Count", 'squirrly-seo' ) . ':</div><div class="sq_list_success">%s</div>',
 					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "Moz Backlinks Count", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we fix the Inbound Links Number to the latest 10 Pages? %s Many are tempted to go to fiverr.com for something like this. Avoid shady SEO. What you can try, and ONLY if it makes sense, is to get bloggers who sell on fiverr to place your article (with links to your own site) on their site. %s You can easily get backlinks from multiple domains by showing that your business: %s - is an alternative to some other existing business (there are many websites on which people look for alternatives and they'll be happy to include your site as well, because it supports their purpose) %s - has discounts and coupons (there are many websites for coupon and discounts. Just search on Google and you'll find many. They'll happily include your coupon codes and links to your site) %s - hosts giveaways and contests (many websites that will happily link to the contest page on your website) %s Broken Link Building, using tools like Screaming Frog to help you find broken links.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '<br />', '<br />', '<br />', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "Backlinks are links from other sites to yours. They act as votes of confidence that tell search and AI engines your content is trustworthy. %s Earn them honestly: be listed as an alternative to other tools, share coupons or giveaways on relevant sites, or contribute to blogs and communities in your niche. %s Avoid cheap, shady link services; they do more harm than good.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
 					'protip'       => '',
 					'solution'     => esc_html__( "Find more blogs, forums, directories to add links there. Contribute to the respective community and they will appreciate it.", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -423,7 +435,7 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "No" ),
 					'success_list' => '<div class="sq_list_success">%s</div>',
 					'fail_list'    => '',
-					'description'  => sprintf( esc_html__( "How can we fix the No-Follow links of the website? %s You can find an extremely easy way to do this in the SEO Kit of Squirrly: [link]https://www.squirrly.co/seo/kit/[/link] %s You can start doing this even if you don't have an advanced or complex SEO strategy for all your site's inner links. If you have pages in your SEO strategy that are super important (you NEED those pages to be found via search) make sure you add:  <meta name=\"robots\" content=\"index, nofollow\" /> This ensures that Google considers this a final page. If many other pages link on to this page and this is the final one, it means that it is the most valuable resource. %s Identify links on your pages that are not important for you or for the purpose of the site itself. Maybe you're sending a link to chef Jamie Oliver's recipe for hot sauce. You should make sure that you add the No Follow tag to that link going out of your site, because you don't want Google to pass on link juice to Jaime Oliver. You'd give him a part of your SEO Authority and you don't want that. You should also add No-Follow tags to internal links from your very own site. Add no-follow to pages like \"/login\", \"/register\" \"/terms-of-use\", which are not important to be found via search engines. %s  Add rel=\"nofollow\" to links inside your pages to fix this task. If you'd want to NoFollow your Sign In page you could do it like this: <a href=\"signin.php\" rel=\"nofollow\">sign in</a>%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "No-follow tells engines not to pass your site's credit through a particular link, which lets you keep your authority focused where it matters. %s Add no-follow to links that aren't important, like login or terms pages, and to outbound links to sites you don't want to vouch for. %s Keep normal followed links only for high-quality sites you're happy to be associated with.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "You could add no-follow to most of the links from your site that go towards external, third-party websites. The only external sites you should leave without No-Follow are sites that you'd like to be associated with by Google. This is to say that in some cases you may want to send do-follow links to other people's sites if they are super high authority and would help Google better understand what your site's content is all about.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Add nofollow links to pages like Terms and Conditions.", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -439,7 +451,7 @@ class SQ_Models_Audits {
 					'fail'         => '{total} ' . esc_html__( "average authority", 'squirrly-seo' ),
 					'success_list' => '<div class="sq_list_success">%s</div>',
 					'fail_list'    => '<div class="sq_list_success">%s</div>',
-					'description'  => sprintf( esc_html__( "How can we fix the Authority of the website? %s You must start by understanding this: Authority is Squirrly's calculated metric for how well a given webpage is likely to rank in Google's search results. It collects data from social media, google analytics and inbound links (backlinks to your own site) %s You can follow the PRO Tips sections from Audit. %s Get more Buzz on Social Media. Get More Traffic. Get More Sites to link back to your own site. That's how you increase your Authority.%s Read the Traffic section of the Audit for more fixes and ideas. Bringing more Traffic increases Authority. %s Read the Social Media ideas for getting your pages shared on social networks. In the SEO Audit from Squirrly. Get more shares and traffic from social media. That will help boost your overall Web Authority %s Use Focus Pages from Squirrly: everything we tell you there helps boost your authority: [link]https://plugin.squirrly.co/focus-pages/[/link] %s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li><li>', '</li><li>', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "Authority is Squirrly's estimate of how likely your pages are to rank and be trusted, based on traffic, social signals and backlinks. %s Raise it by getting more visitors, more shares, and more sites linking to you. %s The Traffic and Social sections of this audit have ideas for each, and Squirrly's Focus Pages guide you step by step.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "You can build up a solid Content Strategy using the SEO Goals and our brand new Private SEO Consultant. In a Plugin. Powered by Machine Learning and Cloud Services: [link]https://plugin.squirrly.co/best-seo-goals/[/link] or you can start getting more BackLinks using the BackLinks Assistant [link]https://www.producthunt.com/upcoming/backlinks-assistant-by-squirrly[/link].", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Get links to your page from domains with authority.", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -451,7 +463,7 @@ class SQ_Models_Audits {
 					'fail'         => '%s ',
 					'success_list' => '',
 					'fail_list'    => '',
-					'description'  => sprintf( esc_html__( "How can we fix the Semrush Rank of the website? %s Get more traffic to your website. %s Increase your SEO rankings, get more shares on social media. You can use tools like Social Squirrly to make sure you constantly promote your pages, without doing any manual work. And without forgetting to keep posting them. [link]https://www.squirrly.co/social-media/tools-for-digital-marketing/[/link]%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "Semrush Rank is a global position based on how much organic search traffic your site gets, so a LOWER number means more authority - rank #1 is the most visible site in the world. %s There's no fixed pass mark, but the lower the better: getting into the low hundreds of thousands (or below) signals strong, well-recognized authority, while a rank up in the tens of millions means you're still building it. %s The only way to lower it is to grow real traffic - publish and promote useful content consistently so more people find and link to you.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "A certain and tested way of increasing Semrush rank is creating and promoting many pieces of fresh content. An agency like Squirrly's Content Agency can help you with this. [link]http://www.squirrly.co/agency[/link]", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Try to gain organic traffic to your site.", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -463,7 +475,7 @@ class SQ_Models_Audits {
 					'fail'         => '%s ',
 					'success_list' => '',
 					'fail_list'    => '',
-					'description'  => sprintf( esc_html__( "How can we fix the Domain Age of the website? %s While you certainly can't go back and forth in time like the Flash, there are things you can do, like: make sure your domain can be crawled by search engines. %s Ping your domain name as soon as possible using Google Search Console. Ask GSC asap to index your pages. Both by manual URL index and by placing the sitemaps generated by Squirrly. %s Get your website on Way Back Machine. [link]https://archive.org/web/[/link] Archive.org even has a tool called Save Page Now which will guarantee your entry into Way Back Machine.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "Older domains are often trusted a little more, and you can't speed up time, but you can make the most of what you have. %s Make sure your site is fully crawlable and submitted in Google Search Console, with an up-to-date sitemap. %s A newer domain just needs consistency and quality to build trust over time.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "If Squirrly could crawl your website and find your pages + show you the Audit, it means your domain and pages can be crawled. Just make sure you're not stopping the Google crawlers in your code via \"no-index\" or via robots.txt", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Your domain is new. I know it will get older, but still, it's good to know what to expect if it's new :)", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -475,7 +487,7 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "No" ) . '!',
 					'success_list' => '',
 					'fail_list'    => '',
-					'description'  => sprintf( esc_html__( "How can we fix the favicon of the website? %s If you don't already have a favicon, you'll need to create one. The dimensions are 16 x 16 pixels %s You can easily create one using this [link]http://www.favicon.cc/[/link] . Upload it to your own server after creating it. %s Once you have the favicon, use this in the code of your pages: <link rel=“shortcut icon” href=“/images/specialicon.ico” type=“image/x-icon” />%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "A favicon is the small icon shown in the browser tab next to your page title. It's a small branding touch that makes your site look polished and recognizable. %s On WordPress you can upload one in your site settings or through Squirrly SEO.%s", 'squirrly-seo' ), '<ul><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "Platforms like Shopify handle this with their default engine. On WordPress you can use Squirrly SEO to upload and control the favicon displayed on your pages.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Add an icon for your site", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
@@ -487,9 +499,107 @@ class SQ_Models_Audits {
 					'fail'         => esc_html__( "No" ) . '!',
 					'success_list' => '',
 					'fail_list'    => '',
-					'description'  => sprintf( esc_html__( "How can we fix the Apple Icon of the website? %s If you don't already have an Apple Icon, you'll need to create one. The dimensions are 129 x 129 pixels. It will need to be a .png file %s You can easily create one using this [link]https://www.canva.com/[/link] . Upload it to your own server after creating it. %s Once you have the Apple Icon, use this in the code (in the <head> section) of your pages: %s <link rel=“apple-touch-icon” href=“/apple-touch-icon.png” />%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li><li>', '</li><li>', '</li></ul>' ),
+					'description'  => sprintf( esc_html__( "This is the icon shown when someone saves your site to the home screen on an iPhone or iPad. It's a small branding detail that makes your site look professional. %s On WordPress, Squirrly SEO can set it for you.%s", 'squirrly-seo' ), '<ul><li>', '</li></ul>' ),
 					'protip'       => esc_html__( "Platforms like Shopify handle this with their default engine. On WordPress you can use Squirrly SEO to upload and control the Apple Icon displayed on user's home screens when they bookmark your pages.", 'squirrly-seo' ),
 					'solution'     => esc_html__( "Add an icon for your site", 'squirrly-seo' ),
+					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
+				),
+			),
+			'geo'       => array(
+				'AiCrawlers'   => array(
+					'complete'     => false,
+					'title'        => esc_html__( "Allowed for AI crawlers?", 'squirrly-seo' ),
+					'success'      => esc_html__( "Yes" ) . '!',
+					'fail'         => esc_html__( "No" ) . '!',
+					'success_list' => '',
+					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "AI crawlers blocked in robots.txt", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
+					'description'  => sprintf( esc_html__( "Answer engines like ChatGPT, Perplexity, Google AI Overviews and Claude use their own crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended and others). If your robots.txt blocks them, your content can't be cited as an answer. %s Open your Robots File settings and make sure the AI crawlers you want to allow are NOT disallowed. %s Only keep an AI crawler blocked if you intentionally don't want that engine to use your content.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
+					'protip'       => esc_html__( "Being readable by AI crawlers is the first requirement of GEO (Generative Engine Optimization). If the bots can't fetch the page, none of the other answer-readiness work matters.", 'squirrly-seo' ),
+					'solution'     => esc_html__( "Allow AI crawlers in your robots.txt so answer engines can cite your content", 'squirrly-seo' ),
+					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'robots' ),
+				),
+				'LlmsTxt'      => array(
+					'complete'     => false,
+					'title'        => esc_html__( "llms.txt file present?", 'squirrly-seo' ),
+					'success'      => esc_html__( "Yes" ) . '!',
+					'fail'         => esc_html__( "No" ) . '!',
+					'success_list' => '',
+					'fail_list'    => '',
+					'description'  => sprintf( esc_html__( "llms.txt is an emerging standard that tells generative engines which content on your site matters and how to use it. %s Squirrly SEO can generate this file for you from the LLMs File settings. %s Enable it so AI engines get a clean, curated map of your best content.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
+					'protip'       => esc_html__( "Think of llms.txt as a sitemap written for answer engines instead of search crawlers. It's cheap to add and helps generative engines understand your site faster.", 'squirrly-seo' ),
+					'solution'     => esc_html__( "Generate an llms.txt file so generative engines can map your content", 'squirrly-seo' ),
+					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'llms' ),
+				),
+				'AnswerSchema' => array(
+					'complete'     => false,
+					'title'        => esc_html__( "Answer-ready structured data?", 'squirrly-seo' ),
+					'success'      => esc_html__( "Yes" ) . '!',
+					'fail'         => esc_html__( "No" ) . '!',
+					'success_list' => '',
+					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "Pages without answer-ready schema", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
+					'description'  => sprintf( esc_html__( "Answer engines extract answers from structured data. Pages that expose schema like FAQPage, QAPage, HowTo or Article are far more likely to be quoted in AI answers and rich results. On our AISQ blog you can read about the truth behind Schema usage by LLMs. It is a very important read, because schema for AEO / GEO does NOT work the same way it does for SEO. Read all about it here: [link]https://aisq.com/schema-used-for-aeo-geo-the-truth/[/link] %s Use the Squirrly Live Assistant to add the right JSON-LD schema for each page's content type. %s FAQ and How-To pages benefit the most from this.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
+					'protip'       => esc_html__( "Structured data is how you hand an answer engine the answer pre-packaged. A page with clear FAQ/Q&A schema is much easier for an AI to cite than a wall of text.", 'squirrly-seo' ),
+					'solution'     => esc_html__( "Add answer-ready JSON-LD schema (FAQ, How-To, Article) to your pages", 'squirrly-seo' ),
+					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
+				),
+				'AnswerBlock'       => array(
+					'complete'     => false,
+					'title'        => esc_html__( "Opens with a direct answer?", 'squirrly-seo' ),
+					'success'      => esc_html__( "Yes" ) . '!',
+					'fail'         => esc_html__( "No" ) . '!',
+					'success_list' => '',
+					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "Pages that don't lead with a direct answer", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
+					'description'  => sprintf( esc_html__( "Answer engines lift the first clear, concise answer they find. Pages that bury the point under long intros rarely get quoted. %s Put a 2-4 sentence direct answer right below the main heading, then expand on it. %s Lead with the answer, then give the context - not the other way around.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
+					'protip'       => esc_html__( "Write the opening paragraph as if it's the snippet an AI will read aloud: a complete, self-contained answer to the page's main question.", 'squirrly-seo' ),
+					'solution'     => esc_html__( "Open each page with a concise, direct answer to its main question", 'squirrly-seo' ),
+					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
+				),
+				'QuestionHeadings'  => array(
+					'complete'     => false,
+					'title'        => esc_html__( "Uses question-style headings?", 'squirrly-seo' ),
+					'success'      => esc_html__( "Yes" ) . '!',
+					'fail'         => esc_html__( "No" ) . '!',
+					'success_list' => '',
+					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "Pages without question-style headings", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
+					'description'  => sprintf( esc_html__( "Generative engines match real user questions to headings phrased as questions (the People Also Ask shape). %s Turn key subheadings into the actual questions your audience asks, and answer each one right below. %s Mirror the wording people search with.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
+					'protip'       => esc_html__( "Use the Keyword Research tool to find the exact questions people ask, then make those your H2/H3 headings.", 'squirrly-seo' ),
+					'solution'     => esc_html__( "Add question-style H2/H3 headings and answer each one directly", 'squirrly-seo' ),
+					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
+				),
+				'StructuredContent' => array(
+					'complete'     => false,
+					'title'        => esc_html__( "Has extractable lists or tables?", 'squirrly-seo' ),
+					'success'      => esc_html__( "Yes" ) . '!',
+					'fail'         => esc_html__( "No" ) . '!',
+					'success_list' => '',
+					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "Pages without lists or tables", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
+					'description'  => sprintf( esc_html__( "Answer engines pull steps, comparisons and key facts from lists and tables far more easily than from paragraphs. %s Where it fits, present steps as numbered lists, options as bullet lists, and specs or comparisons as tables. %s Make your content easy to chunk and reuse.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
+					'protip'       => esc_html__( "A how-to with a clean numbered list, or a comparison with a table, is exactly the format AI answers reuse. Structure invites citation.", 'squirrly-seo' ),
+					'solution'     => esc_html__( "Add lists and tables so engines can extract steps and facts", 'squirrly-seo' ),
+					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
+				),
+				'ContentDepth'      => array(
+					'complete'     => false,
+					'title'        => esc_html__( "Enough depth to be useful?", 'squirrly-seo' ),
+					'success'      => '{total} ' . esc_html__( "words total", 'squirrly-seo' ),
+					'fail'         => '',
+					'success_list' => '',
+					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "Pages that are too thin to answer well", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
+					'description'  => sprintf( esc_html__( "Thin pages rarely get cited because they don't fully answer the question. Aim for enough depth to cover the topic and the follow-up questions around it. %s Expand thin pages with the sub-questions, examples and details your audience needs. %s Depth beats padding - cover the topic completely, don't just add words.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
+					'protip'       => esc_html__( "Use the Live Assistant to see whether you've covered the topic thoroughly enough to be the best answer available.", 'squirrly-seo' ),
+					'solution'     => esc_html__( "Expand thin pages so they fully answer the topic", 'squirrly-seo' ),
+					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
+				),
+				'Freshness'         => array(
+					'complete'     => false,
+					'title'        => esc_html__( "Is the content fresh?", 'squirrly-seo' ),
+					'success'      => esc_html__( "Yes" ) . '!',
+					'fail'         => esc_html__( "No" ) . '!',
+					'success_list' => '',
+					'fail_list'    => '<div class="sq_list_error_title">' . esc_html__( "Pages that look outdated", 'squirrly-seo' ) . ':</div><div class="sq_list_error">%s</div>',
+					'description'  => sprintf( esc_html__( "Answer engines favor recently updated content, especially for anything that changes over time. A current dateModified signals the page is still accurate. %s Review and update older pages, then make sure the published/updated date is reflected in the page schema. %s Keep your best pages current.%s", 'squirrly-seo' ), '<ul><li>', '</li><li>', '</li></ul>' ),
+					'protip'       => esc_html__( "A quick refresh with a new date often does more for AI visibility than writing a brand-new page from scratch.", 'squirrly-seo' ),
+					'solution'     => esc_html__( "Refresh outdated pages and keep their schema dates current", 'squirrly-seo' ),
 					'link'         => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
 				),
 			)
@@ -523,6 +633,24 @@ class SQ_Models_Audits {
 
 					if ( $audittask->audit_task == 'SemrushRank' && $audittask->value == 0 ) {
 						continue;
+					}
+
+					//RecentPosting: the cloud audit doesn't always send the day count.
+					//Fall back to this site's latest published post so the number always shows.
+					if ( $audittask->audit_task == 'RecentPosting' && ( $audittask->value === null || $audittask->value === '' || $audittask->value === false ) ) {
+						$sq_last_posts = get_posts( array(
+							'numberposts' => 1,
+							'post_status' => 'publish',
+							'post_type'   => 'post',
+							'orderby'     => 'date',
+							'order'       => 'DESC',
+						) );
+
+						if ( ! empty( $sq_last_posts ) ) {
+							$sq_last_time        = (int) get_post_time( 'U', true, $sq_last_posts[0] );
+							$audittask->value    = max( 0, (int) floor( ( time() - $sq_last_time ) / DAY_IN_SECONDS ) );
+							$audittask->complete = ( $audittask->value <= 30 );
+						}
 					}
 
 					$replace = '';
@@ -671,6 +799,11 @@ class SQ_Models_Audits {
 						case 'DuplicateTitleMetas':
 						case 'DuplicateDescriptionMetas':
 						case 'Jsonld':
+						case 'AnswerSchema':
+						case 'AnswerBlock':
+						case 'QuestionHeadings':
+						case 'StructuredContent':
+						case 'Freshness':
 						case 'FollowButtons':
 						case 'ShareButtons':
 						case 'OpenGraph':
@@ -695,6 +828,7 @@ class SQ_Models_Audits {
 						case 'NoFollow':
 						case 'ExternalLinks':
 						case 'PageViews':
+						case 'ContentDepth':
 							if ( ! empty( $audittask->urls ) ) {
 
 								$replace .= '
@@ -827,6 +961,22 @@ class SQ_Models_Audits {
 			if ( ! empty( $this->_todo ) ) {
 				krsort( $this->_todo );
 				add_filter( 'sq_assistant_tasks', array( $this, 'setAssistantTasks' ) );
+			}
+
+			//show the AEO/GEO group first in the audit
+			$sq_priority_group = 'geo';
+			if ( isset( $groups[ $sq_priority_group ] ) ) {
+				$groups = array( $sq_priority_group => $groups[ $sq_priority_group ] ) + $groups;
+			}
+			if ( isset( $audit->audit->$sq_priority_group ) ) {
+				$sq_reordered                     = new stdClass();
+				$sq_reordered->$sq_priority_group = $audit->audit->$sq_priority_group;
+				foreach ( $audit->audit as $sq_group => $sq_rows ) {
+					if ( $sq_group !== $sq_priority_group ) {
+						$sq_reordered->$sq_group = $sq_rows;
+					}
+				}
+				$audit->audit = $sq_reordered;
 			}
 
 			$audit->groups              = json_decode( wp_json_encode( $groups ) );

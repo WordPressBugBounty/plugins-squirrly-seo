@@ -111,22 +111,14 @@ class SQ_Models_PostsList {
 		$str = '';
 		if ( $post = SQ_Classes_ObjController::getClass( 'SQ_Models_Snippet' )->getCurrentSnippet( $post_id, $term_id, $taxonomy, $post_type ) ) {
 			if( $post->sq->doseo ){
-				$str .= '<div>';
-				if( ! $post->sq->noindex ){
-					$str .= '<span style="color: green;">Index</span>';
-				}else{
-					$str .= '<span style="color: red;">NoIndex</span>';
-				}
-				$str .= '</div><div>';
-				if( ! $post->sq->nofollow ){
-					$str .= '<span style="color: green;">Follow</span>';
-				}else{
-					$str .= '<span style="color: red;">NoFollow</span>';
-				}
-
-				$str .= '<div>';
+				$str .= ( ! $post->sq->noindex )
+					? '<span class="sq_badge sq_badge_on">' . esc_html__( "Index", 'squirrly-seo' ) . '</span>'
+					: '<span class="sq_badge sq_badge_off">' . esc_html__( "NoIndex", 'squirrly-seo' ) . '</span>';
+				$str .= ( ! $post->sq->nofollow )
+					? '<span class="sq_badge sq_badge_on">' . esc_html__( "Follow", 'squirrly-seo' ) . '</span>'
+					: '<span class="sq_badge sq_badge_off">' . esc_html__( "NoFollow", 'squirrly-seo' ) . '</span>';
 			}else{
-				$str .= '<div><span style="color: gray;">N/A</span><div>';
+				$str .= '<span class="sq_badge sq_badge_na">' . esc_html__( "N/A", 'squirrly-seo' ) . '</span>';
 			}
 
 		}

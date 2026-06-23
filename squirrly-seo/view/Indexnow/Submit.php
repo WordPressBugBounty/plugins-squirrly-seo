@@ -30,19 +30,58 @@ if ( ! isset( $view ) ) {
                 <div class="sq_breadcrumbs my-4"><?php SQ_Classes_ObjController::getClass( 'SQ_Models_Menu' )->showBreadcrumbs( SQ_Classes_Helpers_Tools::getValue( 'page' ) . '/' . SQ_Classes_Helpers_Tools::getValue( 'tab', 'submit' ) ) ?></div>
 
                 <div class="col-12 p-0 m-0">
+					<?php
+					//Verify the key file is publicly reachable - this is the usual cause of 401/403 errors.
+					$sq_keycheck = $view->model->verifyKeyFile();
+					$sq_key_link = '<a href="' . esc_url( $sq_keycheck['url'] ) . '" target="_blank">' . esc_html( $sq_keycheck['url'] ) . '</a>';
+					if ( ! empty( $sq_keycheck['ok'] ) ) {
+						?>
+                        <div class="col-12 alert alert-success m-0 p-2 px-3 my-3">
+                            <i class="fa-solid fa-circle-check"></i>
+							<?php echo esc_html__( "Your IndexNow key file is publicly accessible, so search engines can verify your submissions.", "squirrly-seo" ); ?>
+                            <a href="<?php echo esc_url( $sq_keycheck['url'] ) ?>" target="_blank" class="ml-1"><?php echo esc_html__( "View key file", "squirrly-seo" ); ?></a>
+                        </div>
+						<?php
+					} elseif ( (int) $sq_keycheck['code'] >= 400 ) {
+						?>
+                        <div class="col-12 alert alert-danger m-0 p-2 px-3 my-3">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <strong><?php echo esc_html__( "Your IndexNow key file is being blocked.", "squirrly-seo" ); ?></strong>
+							<?php echo ' ' . sprintf( esc_html__( "Search engines must read %s to verify your site, but it returns %s. This is the usual cause of 401/403 errors. Check for HTTP authentication, a coming-soon/maintenance mode, a security or firewall plugin, or a CDN bot rule that blocks this URL.", "squirrly-seo" ), $sq_key_link, '<strong>' . esc_html( 'HTTP ' . (int) $sq_keycheck['code'] ) . '</strong>' ); ?>
+                        </div>
+						<?php
+					} elseif ( (int) $sq_keycheck['code'] === 200 ) {
+						//Reachable, but not returning the plain key (cache/another handler/HTML page)
+						?>
+                        <div class="col-12 alert alert-warning m-0 p-2 px-3 my-3">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <strong><?php echo esc_html__( "Your IndexNow key file returns unexpected content.", "squirrly-seo" ); ?></strong>
+							<?php echo ' ' . sprintf( esc_html__( "%s should return only your key, but it returns something else (often a page cache or another plugin handling the URL). Search engines may fail to verify it.", "squirrly-seo" ), $sq_key_link ); ?>
+                        </div>
+						<?php
+					} else {
+						//Could not connect (often a server loopback restriction) - don't alarm, just inform.
+						?>
+                        <div class="col-12 alert alert-warning m-0 p-2 px-3 my-3">
+                            <i class="fa-solid fa-circle-info"></i>
+							<?php echo ' ' . sprintf( esc_html__( "Squirrly could not verify your IndexNow key file from your server (this can happen on hosts that block self-requests). Please open %s in a new tab to confirm it shows your key.", "squirrly-seo" ), $sq_key_link ); ?>
+                        </div>
+						<?php
+					}
+					?>
 					<?php $metas = json_decode( wp_json_encode( SQ_Classes_Helpers_Tools::getOption( 'sq_metas' ) ) ); ?>
                     <form method="POST">
 						<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_seosettings_indexnow_submit' ); ?>
                         <input type="hidden" name="action" value="sq_seosettings_indexnow_submit"/>
 
                         <h3 class="mt-4 card-title">
-							<?php echo esc_html__( "Submit URLs for Auto-Indexing", "squirrly-seo" ); ?>
+							<?php echo esc_html__( "Submit URLs for LLM-Indexing", "squirrly-seo" ); ?>
                             <div class="sq_help_question d-inline">
                                 <a href="https://howto12.squirrly.co/kb/indexnow/" target="_blank"><i class="fa-solid fa-question-circle"></i></a>
                             </div>
                         </h3>
-                        <div class="col-7 small m-0 p-0">
-							<?php echo esc_html__( "Manually send URLs to the IndexNow API AND the Google Indexing API.", "squirrly-seo" ); ?>
+                        <div class="col-10 small m-0 p-0">
+							<?php echo sprintf( esc_html__( "Boost AI discovery by making sure you reach the Retrieval layer of LLMs like ChatGPT, Claude, Perplexity, Gemini, Google AI Overviews, Google AI Mode. %sClick to read more on our AISQ website%s, to understand why this boosts your AI discoverability. Manually send URLs to the IndexNow API AND the Google Indexing API.", "squirrly-seo" ), '<a href="https://aisq.com/boost-ai-indexing-and-ai-search-engine-discovery/" target="_blank">', '</a>' ); ?>
                         </div>
 
                         <div class="col-12 p-0 m-0 my-5">
@@ -51,7 +90,7 @@ if ( ! isset( $view ) ) {
                                 <div class="col-4 m-0 p-0 font-weight-bold">
                                     <label for="indexnow_urls"><?php echo esc_html__( "URLs", "squirrly-seo" ); ?>
                                         :</label>
-                                    <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "Insert the URLs you want to send to the Auto-Indexing (one per line, up to 10,000)", "squirrly-seo" ); ?></div>
+                                    <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "Insert the URLs you want to send to LLM Indexing (one per line, up to 10,000)", "squirrly-seo" ); ?></div>
                                 </div>
                                 <div class="col-8 p-0">
                                     <textarea id="indexnow_urls" class="form-control" name="urls" rows="5" placeholder="<?php echo esc_url( home_url() ) ?>"></textarea>
@@ -71,7 +110,7 @@ if ( ! isset( $view ) ) {
                 <div class="col-12 m-0 p-0">
                     <div class="col-12 m-0 p-0 my-5">
                         <h3 class="py-0 card-title">
-							<?php echo esc_html__( "Auto-Indexing History (sent to both Google Indexing API and IndexNow)", "squirrly-seo" ); ?>
+							<?php echo esc_html__( "LLM Indexing History (sent to both Google Indexing API and IndexNow)", "squirrly-seo" ); ?>
                         </h3>
                         <div class="col-7 small m-0 p-0">
 							<?php echo esc_html__( "Check the log to see how your URLs were submited. Make sure your Google Search Console is connected.", "squirrly-seo" ); ?>
@@ -97,7 +136,9 @@ if ( ! isset( $view ) ) {
 								$log = array_slice( $log, - 20 );
 								$log = array_reverse( $log );
 								foreach ( $log as $row ) {
-									$timestamp = (int) $row['time'] + ( (int) get_option( 'gmt_offset' ) * 3600 );
+									//wp_date() already converts the UTC timestamp to the site timezone,
+									//so we must NOT add gmt_offset again (that double-applies the offset).
+									$timestamp = (int) $row['time'];
 
 									?>
                                     <tr>

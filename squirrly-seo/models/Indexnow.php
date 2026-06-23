@@ -26,67 +26,148 @@ class SQ_Models_Indexnow {
 		SQ_Classes_RemoteController::sendGSCIndex( $args );
 
 		//get the urls from options
-		$this->_apiUrls = SQ_Classes_Helpers_Tools::getOption('indexnow_endpoints');
+		$this->_apiUrls = SQ_Classes_Helpers_Tools::getOption( 'indexnow_endpoints' );
 
-		if(empty($this->_apiUrls)){
+		if ( empty( $this->_apiUrls ) ) {
 			$this->_apiUrls = array(
 				'https://api.indexnow.org',
 				'https://www.bing.com/indexnow',
 			);
 		}
 
-		//Send to all IndexNow APIs
-		foreach ( $this->_apiUrls as $apiurl ) {
-			//fix 404 error on IndexNow when the endpoint is not working
-			if($apiurl == 'https://indexnow.yep.com') {
-				continue;
-			}
+		$headers = array(
+			'Content-Type'  => 'application/json',
+			'User-Agent'    => 'Squirrly/' . md5( esc_url( home_url( '/' ) ) ),
+			'X-Source-Info' => 'https://squirrly.co/' . SQ_VERSION . '/' . $manual,
+		);
 
-			$response = wp_remote_post( $apiurl, [
-					//On auto-indexing (triggered by save_post) fire-and-forget so the post
-					//save isn't blocked waiting for the IndexNow endpoints. Manual submissions
-					//stay blocking so the admin log can report the real result.
-					'blocking' => (bool) $manual,
-					'timeout'  => 5,
-					'body'    => $data,
-					'headers' => [
-						'Content-Type'  => 'application/json',
-						'User-Agent'    => 'Squirrly/' . md5( esc_url( home_url( '/' ) ) ),
-						'X-Source-Info' => 'https://squirrly.co/' . SQ_VERSION . '/' . $manual
-					],
-				] );
-
-			if ( is_wp_error( $response ) ) {
-				$this->addLog( (array) $urls, 0, $manual, 'Error: ' . $response->get_error_message() );
-
-				return false;
-			}
-		}
-
-		//On auto-indexing the request was sent non-blocking, so there's no response
-		//code to read. Log it as submitted and return without waiting.
+		//On auto-indexing (triggered by save_post) fire-and-forget so the post save
+		//isn't blocked waiting for the IndexNow endpoints. There's no response code
+		//to read, so just log it as submitted.
 		if ( ! $manual ) {
+			foreach ( $this->_apiUrls as $apiurl ) {
+				if ( $apiurl == 'https://indexnow.yep.com' ) {
+					continue;
+				}
+
+				wp_remote_post( $apiurl, array(
+					'blocking' => false,
+					'timeout'  => 5,
+					'body'     => $data,
+					'headers'  => $headers,
+				) );
+			}
+
 			$this->_success = true;
 			$this->addLog( (array) $urls, 0, $manual, 'Submitted' );
 
 			return true;
 		}
 
-		$http_code = wp_remote_retrieve_response_code( $response );
-		if ( in_array( $http_code, [ 200, 202, 204 ], true ) ) {
+		//Manual submissions are blocking so the admin log can report the real result.
+		//api.indexnow.org forwards the submission to every participating engine, so we
+		//treat it as a success when ANY endpoint accepts it and only report an error
+		//when they all fail - otherwise a single endpoint's 401/403 would mask a real
+		//success and show "failed" every time.
+		$success_code = 0;
+		$error_code   = 0;
+		$error_msg    = '';
+
+		foreach ( $this->_apiUrls as $apiurl ) {
+			if ( $apiurl == 'https://indexnow.yep.com' ) {
+				continue;
+			}
+
+			$response = wp_remote_post( $apiurl, array(
+				'blocking' => true,
+				'timeout'  => 5,
+				'body'     => $data,
+				'headers'  => $headers,
+			) );
+
+			if ( is_wp_error( $response ) ) {
+				$error_code = 0;
+				$error_msg  = 'Error: ' . $response->get_error_message();
+				continue;
+			}
+
+			$http_code = (int) wp_remote_retrieve_response_code( $response );
+
+			if ( in_array( $http_code, array( 200, 202, 204 ), true ) ) {
+				$success_code = $http_code;
+			} else {
+				$error_code = $http_code;
+				//Prefer our actionable guidance for auth/not-found errors.
+				if ( in_array( $http_code, array( 401, 403, 404 ), true ) ) {
+					$error_msg = $this->getErrorMessage( $http_code );
+				} elseif ( ! $error_msg = wp_remote_retrieve_response_message( $response ) ) {
+					$error_msg = $this->getErrorMessage( $http_code );
+				}
+			}
+		}
+
+		if ( $success_code ) {
 			$this->_success = true;
-			$this->addLog( (array) $urls, $http_code, $manual, 'Success' );
+			$this->addLog( (array) $urls, $success_code, $manual, 'Success' );
 
 			return true;
 		}
 
-		if ( ! $message = wp_remote_retrieve_response_message( $response ) ) {
-			$message = $this->getErrorMessage( $http_code );
-		}
-
-		$this->addLog( (array) $urls, $http_code, $manual, $message );
+		$this->addLog( (array) $urls, $error_code, $manual, $error_msg ? $error_msg : $this->getErrorMessage( $error_code ) );
 
 		return false;
+	}
+
+	/**
+	 * Check whether the IndexNow key file is publicly reachable and returns the key.
+	 * This is the usual cause of 401/403 errors: search engines must read
+	 * https://site.com/{key}.txt to verify the submission. Result is cached.
+	 *
+	 * @param bool $force Re-check ignoring the cache.
+	 *
+	 * @return array { ok, code, url, body_ok, message }
+	 */
+	public function verifyKeyFile( $force = false ) {
+		$cache_key = 'sq_indexnow_keycheck';
+
+		if ( ! $force ) {
+			$cached = get_transient( $cache_key );
+			if ( is_array( $cached ) ) {
+				return $cached;
+			}
+		}
+
+		$key = $this->getKey();
+		$url = $this->getKeyUrl();
+
+		$result = array(
+			'ok'      => false,
+			'code'    => 0,
+			'url'     => $url,
+			'body_ok' => false,
+			'message' => '',
+		);
+
+		$response = wp_remote_get( $url, array(
+			'timeout'     => 5,
+			'sslverify'   => false,
+			'redirection' => 2,
+			'headers'     => array( 'User-Agent' => 'Squirrly-IndexNow/' . SQ_VERSION ),
+		) );
+
+		if ( is_wp_error( $response ) ) {
+			$result['message'] = $response->get_error_message();
+		} else {
+			$code              = (int) wp_remote_retrieve_response_code( $response );
+			$body              = trim( wp_remote_retrieve_body( $response ) );
+			$result['code']    = $code;
+			$result['body_ok'] = ( $body === $key );
+			$result['ok']      = ( $code === 200 && $body === $key );
+		}
+
+		set_transient( $cache_key, $result, HOUR_IN_SECONDS );
+
+		return $result;
 	}
 
 	/**
@@ -154,11 +235,15 @@ class SQ_Models_Indexnow {
 	 */
 	private function getErrorMessage( $http_code ) {
 
+		$key_url = $this->getKeyUrl();
+
 		$message     = __( 'Unknown error.', 'squirrly-seo' );
 		$message_map = [
 			400 => __( 'Invalid request.', 'squirrly-seo' ),
-			403 => __( 'Invalid API key.', 'squirrly-seo' ),
-			422 => __( 'Invalid URL.', 'squirrly-seo' ),
+			401 => sprintf( __( 'Unauthorized. Search engines could not read your IndexNow key file (%s). Your site is likely blocking it - check for HTTP authentication, a coming-soon/maintenance mode, a security/firewall plugin, or a CDN bot rule.', 'squirrly-seo' ), $key_url ),
+			403 => sprintf( __( 'Forbidden. The IndexNow key could not be verified. Make sure %s is publicly accessible and returns the key.', 'squirrly-seo' ), $key_url ),
+			404 => sprintf( __( 'The IndexNow key file was not found. Make sure %s is publicly accessible.', 'squirrly-seo' ), $key_url ),
+			422 => __( 'Invalid URL or the key location does not match this host.', 'squirrly-seo' ),
 			429 => __( 'Too many requests.', 'squirrly-seo' ),
 			500 => __( 'Internal server error.', 'squirrly-seo' ),
 		];
@@ -178,6 +263,9 @@ class SQ_Models_Indexnow {
 
 		$this->_apiKey = $this->generateApiKey();
 		SQ_Classes_Helpers_Tools::saveOptions( 'indexnow_key', $this->_apiKey );
+
+		//the key changed, so the previous key-file check no longer applies
+		delete_transient( 'sq_indexnow_keycheck' );
 
 	}
 

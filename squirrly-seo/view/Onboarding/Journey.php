@@ -25,33 +25,6 @@ if ( ! isset( $view ) ) {
 
 				<?php SQ_Classes_ObjController::getClass( 'SQ_Core_BlockJorney' )->init(); ?>
 
-
-                <div class="sq_tips col-12 m-0 p-0">
-                    <h5 class="text-left my-3 font-weight-bold">
-                        <i class="fa-solid fa-exclamation-circle"></i> <?php echo esc_html__( "You'll get", 'squirrly-seo' ); ?>
-                        :</h5>
-                    <ul class="mx-4">
-                        <li class="text-left">
-							<?php echo esc_html__( "the chance to fix in 14 days mistakes from years of ineffective SEO.", 'squirrly-seo' ); ?>
-                        </li>
-                        <li class="text-left">
-							<?php echo esc_html__( "the skills you need to succeed in 14 days.", 'squirrly-seo' ); ?>
-                        </li>
-                        <li class="text-left">
-							<?php echo esc_html__( "access to the private JourneyTeam community where you can share your experience and talk about it (good and bad, all is accepted).", 'squirrly-seo' ); ?>
-                        </li>
-                        <li class="text-left">
-							<?php echo esc_html__( "receive help from the JourneyTeam and Private Feedback on your journey from Squirrly.", 'squirrly-seo' ); ?>
-                        </li>
-                        <li class="text-left">
-							<?php echo esc_html__( "an exact recipe to follow for 14 Days to bring one of your pages up in rankings, for a hands-on experience.", 'squirrly-seo' ); ?>
-                        </li>
-                        <li class="text-left">
-							<?php echo esc_html__( "all the costs (to third parties) involved with APIs, technology, cloud computing, etc. are fully sponsored by Squirrly. We sponsor every new member who wishes to become part of the winning JourneyTeam.", 'squirrly-seo' ); ?>
-                        </li>
-                    </ul>
-                </div>
-
 				<?php SQ_Classes_ObjController::getClass( 'SQ_Core_BlockKnowledgeBase' )->init(); ?>
 
             </div>

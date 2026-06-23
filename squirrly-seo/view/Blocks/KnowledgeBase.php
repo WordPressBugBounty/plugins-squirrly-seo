@@ -1584,7 +1584,7 @@ if ( ! isset( $view ) ) {
                             <div class="mx-3 my-3 p-0 text-black" style="min-height: 60px; font-size: 1.1rem;">
                                 <div class="pt-3 pb-1" style="color: #696868">
                                     <a href="https://howto12.squirrly.co/kb/seo-audit/#compare_audits" class="text-dark" target="_blank">How
-                                        to Compare SEO Audits</a>
+                                        to Compare GEO Audits</a>
                                 </div>
                             </div>
                         </div>

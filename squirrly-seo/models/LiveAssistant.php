@@ -69,6 +69,7 @@ class SQ_Models_LiveAssistant {
 			'postID'                 => $this->post_id,
 			'__date'                 => esc_html__( 'date', 'squirrly-seo' ),
 			'__noconnection'         => esc_html__( "To load the Live Assistant and optimize this page, click to connect to Squirrly Cloud.", 'squirrly-seo' ),
+			'__reconnect'            => esc_html__( "This site was cloned, staged or moved, so Squirrly Cloud can no longer verify it. Click to reconnect this site.", 'squirrly-seo' ),
 			'__saved'                => esc_html__( 'Saved!', 'squirrly-seo' ),
 			'__readit'               => esc_html__( 'Read it!', 'squirrly-seo' ),
 			'__insertit'             => esc_html__( 'Insert it!', 'squirrly-seo' ),

@@ -99,7 +99,7 @@ class SQ_Models_Focuspages_Indexability extends SQ_Models_Abstract_Assistant {
 
 		if ( ! $this->_audit->sq_analytics_gsc_connected ) {
 			$header .= '<li class="completed">
-                    <a href="' . SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'webmaster' ) . '" class="btn btn-primary text-white col-10 offset-1 mt-3">' . esc_html__( "Connect Google Search", 'squirrly-seo' ) . '</a>
+                    <a href="' . SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'webmaster' ) . '" class="btn btn-primary text-white col-12 mt-3">' . esc_html__( "Connect Google Search", 'squirrly-seo' ) . '</a>
                 </li>';
 		} else {
 			$header .= '<li class="completed text-center sq_save_ajax">

@@ -33,6 +33,8 @@ if ( strtotime( $view->auditpage->audit_datetime ) ) {
 }
 ?>
 
+<td class="align-middle" style="width: 10px;"><input type="checkbox" class="sq_audit_bulk_input" value="<?php echo (int) $view->auditpage->user_post_id ?>"/></td>
+
 <td style="min-width: 380px;">
 
 	<?php if ( $post instanceof SQ_Models_Domain_Post ) { ?>

@@ -58,12 +58,14 @@ class SQ_Controllers_PostsList extends SQ_Classes_FrontController {
 
 
 		foreach ( $this->_types as $type ) {
-			if ( SQ_Classes_ObjController::getClass( 'SQ_Models_Post' )->isSLAEnable( $type ) ) {
-				add_filter( 'manage_' . $type . '_columns', array( $this, 'add_optimized_column' ), 10, 1 );
-			}
-			add_filter( 'manage_' . $type . '_columns', array( $this, 'add_visibility_column' ), 10, 1 );
+			//Single combined "Squirrly" column (visibility + optimization)
+			add_filter( 'manage_' . $type . '_columns', array( $this, 'add_squirrly_column' ), 10, 1 );
 			add_action( 'manage_' . $type . '_custom_column', array( $this, 'add_post_row' ), 10, 2 );
 		}
+
+		//Add "Inspect URL" to the row actions (hover links) for posts, pages and CPTs
+		add_filter( 'post_row_actions', array( $this, 'add_inspect_row_action' ), 10, 2 );
+		add_filter( 'page_row_actions', array( $this, 'add_inspect_row_action' ), 10, 2 );
 
 		foreach ( $this->_taxonomies as $taxonomy ) {
 			add_filter( 'manage_edit-' . $taxonomy . '_columns', array( $this, 'add_tax_visibility_column' ), 10, 1 );
@@ -83,42 +85,32 @@ class SQ_Controllers_PostsList extends SQ_Classes_FrontController {
 	}
 
 	/**
-	 * Add the Squirrly Optimized column in the Post List
+	 * Add the single combined "Squirrly" column in the Post List
 	 *
 	 * @param array $columns
 	 *
 	 * @return array
 	 */
-	public function add_optimized_column( $columns ) {
+	public function add_squirrly_column( $columns ) {
 		$this->loadHead(); //load the js only for post list
 
-		$columns = $this->insert( $columns, array( $this->_slacolumn_id => esc_html__( "Optimized", 'squirrly-seo' ) ), $this->_pos );
+		$columns = $this->insert( $columns, array( $this->_column_id => esc_html__( "Squirrly", 'squirrly-seo' ) ), $this->_pos );
 
 		return $columns;
 	}
 
 	/**
-	 * Add the Squirrly Visibility column in the Post List
-	 *
-	 * @param array $columns
-	 *
-	 * @return array
-	 */
-	public function add_visibility_column( $columns ) {
-		$this->loadHead(); //load the js only for post list
-
-		$columns = $this->insert( $columns, array( $this->_column_id => esc_html__( "Visibility", 'squirrly-seo' ) ), $this->_pos );
-
-		return $columns;
-	}
-
-	/**
-	 * Add row in Post list
+	 * Add row in Post list - renders the combined Squirrly cell:
+	 * visibility (Index/Follow), optimization (for SLA post types) and Inspect URL.
 	 *
 	 * @param object $column
 	 * @param integer $post_id
 	 */
 	public function add_post_row( $column, $post_id ) {
+		if ( $column <> $this->_column_id ) {
+			return;
+		}
+
 		if ( ! $post_type = get_post_type( $post_id ) ) {
 			$post_type = 'post';
 		}
@@ -127,7 +119,15 @@ class SQ_Controllers_PostsList extends SQ_Classes_FrontController {
 			return;
 		}
 
-		if ( $column == $this->_slacolumn_id ) {
+		$is_publish = ( get_post_status( $post_id ) == 'publish' );
+
+		echo '<div class="sq_squirrly_cell">';
+
+		//Visibility (Index / Follow badges)
+		echo '<div class="' . esc_attr( $this->_column_id ) . '_row sq_sq_visibility">' . $this->model->getPostSnippetInfo( $post_id, 0, '', $post_type ) . '</div>';
+
+		//Optimization - only for SLA-enabled post types (lazy-loaded by postslist.js)
+		if ( SQ_Classes_ObjController::getClass( 'SQ_Models_Post' )->isSLAEnable( $post_type ) ) {
 			$html = false;
 			if ( SQ_Classes_Helpers_Tools::isAjax() ) {
 				$args          = array();
@@ -139,19 +139,40 @@ class SQ_Controllers_PostsList extends SQ_Classes_FrontController {
 						$html  = $posts[ $post_id ];
 					}
 				}
-			} else {
-				if ( get_post_status( $post_id ) == 'publish' ) {
-					$this->posts[] = $post_id;
-				}
+			} elseif ( $is_publish ) {
+				$this->posts[] = $post_id;
 			}
 
-			echo '<div class="' . esc_attr( $this->_slacolumn_id ) . '_row" ref="' . esc_attr( $post_id ) . '">' . ( ( $html ) ? wp_kses_post( $html ) : 'loading ...' ) . '</div>';
+			echo '<div class="' . esc_attr( $this->_slacolumn_id ) . '_row sq_sq_optimized" ref="' . esc_attr( $post_id ) . '">' . ( ( $html ) ? wp_kses_post( $html ) : esc_html__( "loading ...", 'squirrly-seo' ) ) . '</div>';
 		}
 
-		if ( $column == $this->_column_id ) {
-			echo '<div class="' . $this->_column_id . '_row" >' . $this->model->getPostSnippetInfo( $post_id, 0, '', $post_type ) . '</div>';
+		echo '</div>';
+	}
+
+	/**
+	 * Add an "Inspect URL" link to the WordPress row actions (hover links under
+	 * the post/page title) - opens the Squirrly inspect overlay for that URL.
+	 *
+	 * @param array $actions
+	 * @param WP_Post $post
+	 *
+	 * @return array
+	 */
+	public function add_inspect_row_action( $actions, $post ) {
+		if ( ! isset( $post->ID ) || $post->post_status !== 'publish' ) {
+			return $actions;
 		}
 
+		if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_focuspages' ) || ! SQ_Classes_Helpers_Tools::userCan( 'edit_post', $post->ID ) ) {
+			return $actions;
+		}
+
+		//Make sure the inspect assets + overlay are available on this screen
+		$this->loadHead();
+
+		$actions['sq_inspecturl'] = '<a href="javascript:void(0)" class="sq_inspecturl_link" data-post_id="' . (int) $post->ID . '" data-url="' . esc_url( get_permalink( $post->ID ) ) . '">' . esc_html__( "Inspect", 'squirrly-seo' ) . '</a>';
+
+		return $actions;
 	}
 
 	/**
@@ -337,6 +358,23 @@ class SQ_Controllers_PostsList extends SQ_Classes_FrontController {
                 var __sq_subscriptionexpired_text = "' . esc_html__( "The Squirrly subscription has expired!", 'squirrly-seo' ) . '";
                 var sq_posts = new Array(' . $posts . ')
                 </script>';
+
+		//Output the Inspect URL overlay once, only on the posts list screen
+		if ( function_exists( 'get_current_screen' ) ) {
+			$screen = get_current_screen();
+			if ( $screen && $screen->base === 'edit' ) {
+				echo '<div id="sq_inspect_overlay" style="display:none;">
+                        <div id="sq_inspect_box">
+                            <div id="sq_inspect_head">
+                                <span id="sq_inspect_title">' . esc_html__( "Squirrly Inspect URL", "squirrly-seo" ) . '</span>
+                                <span id="sq_inspect_refresh" title="' . esc_attr__( "Refresh", "squirrly-seo" ) . '">&#x21bb;</span>
+                                <span id="sq_inspect_close" title="' . esc_attr__( "Close", "squirrly-seo" ) . '">&times;</span>
+                            </div>
+                            <div id="sq_inspect_body"></div>
+                        </div>
+                      </div>';
+			}
+		}
 
 	}
 

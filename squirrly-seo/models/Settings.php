@@ -69,8 +69,20 @@ class SQ_Models_Settings {
 					@rename( ABSPATH . "/" . 'llms.txt', ABSPATH . "/" . 'llms_ren' . time() . '.txt' );
 				}
 
-				SQ_Classes_Helpers_Tools::saveOptions('sq_llms_permission', $llms);
+				//Stored in its own non-autoloaded option (kept out of the sq_options blob).
+				update_option( 'sq_llms', $llms, false );
 			}
+		}
+
+		//Save the full llms-full.txt content (served at /llms-full.txt).
+		//Stored in its OWN non-autoloaded wp_options row - NOT inside the sq_options blob -
+		//because this file can be several MB and would otherwise bloat the main options
+		//row that is read on (almost) every request.
+		if ( SQ_Classes_Helpers_Tools::getIsset( 'llms_full' ) ) {
+			$llms_full = SQ_Classes_Helpers_Tools::getValue( 'llms_full', '', true );
+			$llms_full = str_replace( "\r", "", $llms_full );
+
+			update_option( 'sq_llms_full', $llms_full, false );
 		}
 
 		/* if there is an icon to upload */

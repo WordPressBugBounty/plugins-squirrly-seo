@@ -36,7 +36,7 @@ $page = apply_filters( 'sq_page', SQ_Classes_Helpers_Tools::getValue( 'page', ''
                             </div>
                         </div>
                         <h4><?php echo esc_html__( "Connect Your Site to Squirrly Cloud", "squirrly-seo" ); ?></h4>
-                        <div class="small"><?php echo sprintf( esc_html__( "Get Access to the Non-Human SEO Consultant, Focus Pages, SEO Audits and all our features %s by creating a free account", "squirrly-seo" ), '<br/>' ) ?></div>
+                        <div class="small"><?php echo sprintf( esc_html__( "Get Access to the Non-Human SEO Consultant, Focus Pages, GEO Audits and all our features %s by creating a free account", "squirrly-seo" ), '<br/>' ) ?></div>
                     </div>
 
 					<?php SQ_Classes_ObjController::getClass( 'SQ_Core_Blocklogin' )->init(); ?>

@@ -129,6 +129,7 @@ class SQ_Models_Menu {
 				'leftmenu'   => true,
 				'fullscreen' => false
 			),
+
 			'sq_checkseo'    => array(
 				'title'      => esc_html__( "AI Consultant", 'squirrly-seo' ),
 				'parent'     => 'sq_dashboard',
@@ -140,6 +141,162 @@ class SQ_Models_Menu {
 				'leftmenu'   => false,
 				'fullscreen' => false
 			),
+
+			'sq_audits'      => array(
+				'title'      => esc_html__( "GEO Audit", 'squirrly-seo' ),
+				'parent'     => 'sq_dashboard',
+				'capability' => 'edit_posts',
+				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Audits' ), 'init' ),
+				'href'       => false,
+				'icon'       => 'fa-solid fa-chart-column',
+				'topmenu'    => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_audit' ),
+				'leftmenu'   => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_audit' ),
+				'fullscreen' => true
+			),
+			'sq_aivisibility' => array(
+				'title'      => esc_html__( "AI Visibility", 'squirrly-seo' ),
+				'parent'     => 'sq_dashboard',
+				'capability' => 'edit_posts',
+				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Audits' ), 'init' ),
+				'href'       => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_audits', 'aivisibility' ),
+				'icon'       => 'fa-solid fa-robot',
+				'topmenu'    => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_audit' ),
+				'leftmenu'   => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_audit' ),
+				'fullscreen' => true
+			),
+
+			'sq_research'    => array(
+				'title'      => esc_html__( "AI Research", 'squirrly-seo' ),
+				'parent'     => 'sq_dashboard',
+				'capability' => 'edit_posts',
+				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Research' ), 'init' ),
+				'href'       => false,
+				'icon'       => 'fa-solid fa-microchip-ai',
+				'topmenu'    => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_research' ),
+				'leftmenu'   => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_research' ),
+				'fullscreen' => true
+			),
+
+			'sq_briefcase'   => array(
+				'title'      => esc_html__( "Briefcase", 'squirrly-seo' ),
+				'parent'     => 'sq_dashboard',
+				'capability' => 'edit_posts',
+				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Research' ), 'init' ),
+				'href'       => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_research', 'briefcase' ),
+				'icon'       => 'fa-solid fa-briefcase',
+				'topmenu'    => false,
+				'leftmenu'   => false,
+				'fullscreen' => true
+			),
+
+			'sq_assistant'   => array(
+				'title'      => esc_html__( "Optimize", 'squirrly-seo' ),
+				'parent'     => 'sq_dashboard',
+				'capability' => 'edit_posts',
+				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Assistant' ), 'init' ),
+				'href'       => false,
+				'icon'       => 'fa-solid fa-bolt',
+				'topmenu'    => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_assistant' ),
+				'leftmenu'   => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_assistant' ),
+				'fullscreen' => true
+			),
+
+			'sq_bulkseo'     => array(
+				'title'      => esc_html__( "Bulk SEO", 'squirrly-seo' ),
+				'parent'     => 'sq_dashboard',
+				'capability' => 'edit_posts',
+				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Assistant' ), 'init' ),
+				'href'       => false,
+				'icon'       => 'fa-solid fa-block-brick',
+				'topmenu'    => false,
+				'leftmenu'   => false,
+				'fullscreen' => true
+			),
+
+			'sq_automation'  => array(
+				'title'      => esc_html__( "Automation", 'squirrly-seo' ),
+				'parent'     => 'sq_dashboard',
+				'capability' => 'edit_posts',
+				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Assistant' ), 'init' ),
+				'href'       => false,
+				'icon'       => 'fa-solid fa-bolt',
+				'topmenu'    => false,
+				'leftmenu'   => false,
+				'fullscreen' => true
+			),
+
+			'sq_focuspages'  => array(
+				'title'      => esc_html__( "Focus Pages", 'squirrly-seo' ),
+				'parent'     => 'sq_dashboard',
+				'capability' => 'edit_posts',
+				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_FocusPages' ), 'init' ),
+				'href'       => false,
+				'icon'       => 'fa-solid fa-bullseye-arrow',
+				'topmenu'    => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_focuspages' ),
+				'leftmenu'   => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_focuspages' ),
+				'fullscreen' => true
+			),
+
+			'sq_innerlinks'  => array(
+				'title'      => esc_html__( "Inner Links", 'squirrly-seo' ) ,
+				'parent'     => 'sq_dashboard',
+				'capability' => 'edit_posts',
+				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_FocusPages' ), 'init' ),
+				'href'       => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_focuspages', 'innerlinks' ),
+				'icon'       => 'fa-solid fa-link',
+				'topmenu'    => false,
+				'leftmenu'   => ( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_innelinks' ) && SQ_Classes_Helpers_Tools::getMenuVisible( 'show_innerlinks' ) ),
+				'fullscreen' => false
+			),
+
+			'sq_indexnow'    => array(
+				'title'      => esc_html__( "LLM Indexing", 'squirrly-seo' ),
+				'parent'     => 'sq_dashboard',
+				'capability' => 'edit_posts',
+				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Indexnow' ), 'init' ),
+				'href'       => false,
+				'icon'       => 'fa-solid fa-upload',
+				'topmenu'    => ( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_indexnow' ) && SQ_Classes_Helpers_Tools::getMenuVisible( 'show_indexnow' ) ),
+				'leftmenu'   => ( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_indexnow' ) && SQ_Classes_Helpers_Tools::getMenuVisible( 'show_indexnow' ) ),
+				'fullscreen' => true
+			),
+
+			'sq_seosettings' => array(
+				'title'      => esc_html__( "Technical SEO", 'squirrly-seo' ),
+				'parent'     => 'sq_dashboard',
+				'capability' => 'edit_posts',
+				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_SeoSettings' ), 'init' ),
+				'href'       => false,
+				'icon'       => 'fa-solid fa-gears',
+				'topmenu'    => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_seo' ),
+				'leftmenu'   => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_seo' ),
+				'fullscreen' => true
+			),
+
+			'sq_rankings'    => array(
+				'title'      => esc_html__( "Google Rankings", 'squirrly-seo' ),
+				'parent'     => 'sq_dashboard',
+				'capability' => 'edit_posts',
+				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Ranking' ), 'init' ),
+				'href'       => false,
+				'icon'       => 'fa-solid fa-chart-line',
+				'topmenu'    => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_rankings' ),
+				'leftmenu'   => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_rankings' ),
+				'fullscreen' => true
+			),
+
+			'sq_redirects'   => array(
+				'title'      => esc_html__( "Redirects", 'squirrly-seo' ),
+				'parent'     => 'sq_dashboard',
+				'capability' => 'edit_posts',
+				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_SeoSettings' ), 'init' ),
+				'href'       => false,
+				'icon'       => 'dashicons-before dashicons-leftright',
+				'topmenu'    => ( SQ_Classes_Helpers_Tools::getOption( 'sq_redirects' ) && SQ_Classes_Helpers_Tools::getMenuVisible( 'show_redirects' ) ),
+				'leftmenu'   => ( SQ_Classes_Helpers_Tools::getOption( 'sq_redirects' ) && SQ_Classes_Helpers_Tools::getMenuVisible( 'show_redirects' ) ),
+				'fullscreen' => true
+			),
+
 			'sq_features'    => array(
 				'title'      => esc_html__( "All Features", 'squirrly-seo' ),
 				'parent'     => 'sq_dashboard',
@@ -163,139 +320,7 @@ class SQ_Models_Menu {
 				'leftmenu'   => false,
 				'fullscreen' => true
 			),
-			'sq_research'    => array(
-				'title'      => esc_html__( "AI Research", 'squirrly-seo' ),
-				'parent'     => 'sq_dashboard',
-				'capability' => 'edit_posts',
-				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Research' ), 'init' ),
-				'href'       => false,
-				'icon'       => 'fa-solid fa-microchip-ai',
-				'topmenu'    => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_research' ),
-				'leftmenu'   => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_research' ),
-				'fullscreen' => true
-			),
-			'sq_briefcase'   => array(
-				'title'      => esc_html__( "Briefcase", 'squirrly-seo' ),
-				'parent'     => 'sq_dashboard',
-				'capability' => 'edit_posts',
-				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Research' ), 'init' ),
-				'href'       => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_research', 'briefcase' ),
-				'icon'       => 'fa-solid fa-briefcase',
-				'topmenu'    => false,
-				'leftmenu'   => false,
-				'fullscreen' => true
-			),
-			'sq_assistant'   => array(
-				'title'      => esc_html__( "Optimize", 'squirrly-seo' ),
-				'parent'     => 'sq_dashboard',
-				'capability' => 'edit_posts',
-				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Assistant' ), 'init' ),
-				'href'       => false,
-				'icon'       => 'fa-solid fa-bolt',
-				'topmenu'    => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_assistant' ),
-				'leftmenu'   => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_assistant' ),
-				'fullscreen' => true
-			),
-			'sq_bulkseo'     => array(
-				'title'      => esc_html__( "Bulk SEO", 'squirrly-seo' ),
-				'parent'     => 'sq_dashboard',
-				'capability' => 'edit_posts',
-				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Assistant' ), 'init' ),
-				'href'       => false,
-				'icon'       => 'fa-solid fa-block-brick',
-				'topmenu'    => false,
-				'leftmenu'   => false,
-				'fullscreen' => true
-			),
-			'sq_automation'  => array(
-				'title'      => esc_html__( "Automation", 'squirrly-seo' ),
-				'parent'     => 'sq_dashboard',
-				'capability' => 'edit_posts',
-				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Assistant' ), 'init' ),
-				'href'       => false,
-				'icon'       => 'fa-solid fa-bolt',
-				'topmenu'    => false,
-				'leftmenu'   => false,
-				'fullscreen' => true
-			),
-			'sq_focuspages'  => array(
-				'title'      => esc_html__( "Focus Pages", 'squirrly-seo' ),
-				'parent'     => 'sq_dashboard',
-				'capability' => 'edit_posts',
-				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_FocusPages' ), 'init' ),
-				'href'       => false,
-				'icon'       => 'fa-solid fa-bullseye-arrow',
-				'topmenu'    => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_focuspages' ),
-				'leftmenu'   => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_focuspages' ),
-				'fullscreen' => true
-			),
-			'sq_indexnow'    => array(
-				'title'      => esc_html__( "Auto-Indexing", 'squirrly-seo' ),
-				'parent'     => 'sq_dashboard',
-				'capability' => 'edit_posts',
-				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Indexnow' ), 'init' ),
-				'href'       => false,
-				'icon'       => 'fa-solid fa-upload',
-				'topmenu'    => ( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_indexnow' ) && SQ_Classes_Helpers_Tools::getMenuVisible( 'show_indexnow' ) ),
-				'leftmenu'   => ( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_indexnow' ) && SQ_Classes_Helpers_Tools::getMenuVisible( 'show_indexnow' ) ),
-				'fullscreen' => true
-			),
-			'sq_seosettings' => array(
-				'title'      => esc_html__( "Technical SEO", 'squirrly-seo' ),
-				'parent'     => 'sq_dashboard',
-				'capability' => 'edit_posts',
-				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_SeoSettings' ), 'init' ),
-				'href'       => false,
-				'icon'       => 'fa-solid fa-gears',
-				'topmenu'    => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_seo' ),
-				'leftmenu'   => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_seo' ),
-				'fullscreen' => true
-			),
 
-			'sq_innerlinks'  => array(
-				'title'      => esc_html__( "Inner Links", 'squirrly-seo' ) ,
-				'parent'     => 'sq_dashboard',
-				'capability' => 'edit_posts',
-				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_FocusPages' ), 'init' ),
-				'href'       => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_focuspages', 'innerlinks' ),
-				'icon'       => 'fa-solid fa-link',
-				'topmenu'    => false,
-				'leftmenu'   => ( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_innelinks' ) && SQ_Classes_Helpers_Tools::getMenuVisible( 'show_innerlinks' ) ),
-				'fullscreen' => false
-			),
-			'sq_audits'      => array(
-				'title'      => esc_html__( "SEO Audit", 'squirrly-seo' ),
-				'parent'     => 'sq_dashboard',
-				'capability' => 'edit_posts',
-				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Audits' ), 'init' ),
-				'href'       => false,
-				'icon'       => 'fa-solid fa-chart-column',
-				'topmenu'    => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_audit' ),
-				'leftmenu'   => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_audit' ),
-				'fullscreen' => true
-			),
-			'sq_rankings'    => array(
-				'title'      => esc_html__( "Google Rankings", 'squirrly-seo' ),
-				'parent'     => 'sq_dashboard',
-				'capability' => 'edit_posts',
-				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Ranking' ), 'init' ),
-				'href'       => false,
-				'icon'       => 'fa-solid fa-chart-line',
-				'topmenu'    => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_rankings' ),
-				'leftmenu'   => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_rankings' ),
-				'fullscreen' => true
-			),
-			'sq_redirects'   => array(
-				'title'      => esc_html__( "Redirects", 'squirrly-seo' ),
-				'parent'     => 'sq_dashboard',
-				'capability' => 'edit_posts',
-				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_SeoSettings' ), 'init' ),
-				'href'       => false,
-				'icon'       => 'dashicons-before dashicons-leftright',
-				'topmenu'    => ( SQ_Classes_Helpers_Tools::getOption( 'sq_redirects' ) && SQ_Classes_Helpers_Tools::getMenuVisible( 'show_redirects' ) ),
-				'leftmenu'   => ( SQ_Classes_Helpers_Tools::getOption( 'sq_redirects' ) && SQ_Classes_Helpers_Tools::getMenuVisible( 'show_redirects' ) ),
-				'fullscreen' => true
-			),
 			'sq_onboarding'  => array(
 				'title'      => esc_html__( "Onboarding", 'squirrly-seo' ),
 				'parent'     => 'sq_dashboard',
@@ -319,6 +344,7 @@ class SQ_Models_Menu {
 				'leftmenu'   => false,
 				'fullscreen' => false
 			),
+
 			'sq_account' => array(
 				'title'      => esc_html__( "Account Info", 'squirrly-seo' ),
 				'parent'     => 'sq_dashboard',
@@ -330,6 +356,7 @@ class SQ_Models_Menu {
 				'leftmenu'   => false,
 				'fullscreen' => false
 			),
+
 			'sq_help'    => array(
 				'title'      => esc_html__( "How To & Support", 'squirrly-seo' ),
 				'parent'     => 'sq_dashboard',
@@ -341,6 +368,7 @@ class SQ_Models_Menu {
 				'leftmenu'   => true,
 				'fullscreen' => false
 			),
+
 			'sq_audit'   => array(
 				'title'      => esc_html__( "Audit", 'squirrly-seo' ),
 				'parent'     => 'sq_dashboard',
@@ -838,6 +866,12 @@ class SQ_Models_Menu {
 
 		);
 		$tabs['sq_audit']       = array(
+			'geo'       => array(
+				'title'       => esc_html__( "AEO/GEO", 'squirrly-seo' ),
+				'description' => esc_html__( "Answer & Generative Engine readiness", 'squirrly-seo' ),
+				'capability'  => 'edit_posts',
+				'icon'        => 'fa-solid fa-robot'
+			),
 			'blogging'  => array(
 				'title'       => esc_html__( "Blogging", 'squirrly-seo' ),
 				'description' => esc_html__( "Blogging overwiew", 'squirrly-seo' ),

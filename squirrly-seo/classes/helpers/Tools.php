@@ -341,8 +341,7 @@ class SQ_Classes_Helpers_Tools
             'sq_robots_permission' => array(),
 
 	        //LLMS
-            'sq_auto_llms' => 0,
-            'sq_llms_permission' => array(),
+            'sq_auto_llms' => 1,
 
             //Metas
             'sq_use' => 1,
@@ -508,7 +507,7 @@ class SQ_Classes_Helpers_Tools
                     'noindex' => 0,
                     'nofollow' => 0,
                     'og_type' => 'article',
-                    'jsonld_types' => array('newsarticle'),
+                    'jsonld_types' => array('article'),
                     'do_metas' => 1,
                     'do_sitemap' => 1,
                     'do_jsonld' => 1,
@@ -963,6 +962,23 @@ class SQ_Classes_Helpers_Tools
 			    if ( isset( self::$options['patterns'] ) ) {
 				    self::$options['patterns']['post']['google_news'] = 1;
 				}
+		    }
+
+		    //Move the LLMs data out of the main sq_options blob into their own
+		    //non-autoloaded options. The llms-full.txt file can be several MB and would
+		    //otherwise bloat the sq_options row that is read on almost every request.
+		    if ( isset( self::$options['sq_llms_permission'] ) ) {
+			    if ( get_option( 'sq_llms' ) === false ) {
+				    update_option( 'sq_llms', self::$options['sq_llms_permission'], false );
+			    }
+			    unset( self::$options['sq_llms_permission'] );
+		    }
+
+		    if ( isset( self::$options['sq_llms_full'] ) ) {
+			    if ( get_option( 'sq_llms_full' ) === false ) {
+				    update_option( 'sq_llms_full', self::$options['sq_llms_full'], false );
+			    }
+			    unset( self::$options['sq_llms_full'] );
 		    }
 
 		    //update the version

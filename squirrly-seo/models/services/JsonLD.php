@@ -78,7 +78,14 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 					}
 				}
 
-				return '<script type="application/ld+json">' . wp_json_encode( $data, SQ_DEBUG && ! SQ_Classes_Helpers_Tools::isAjax() ? JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES : JSON_UNESCAPED_SLASHES ) . '</script>';
+				//JSON_HEX_TAG | JSON_HEX_AMP keep "<", ">" and "&" out of the markup so
+				//post-derived values (titles, descriptions, ...) can't break out of the wrapper.
+				$flags = JSON_HEX_TAG | JSON_HEX_AMP;
+				if ( SQ_DEBUG && ! SQ_Classes_Helpers_Tools::isAjax() ) {
+					$flags = $flags | JSON_PRETTY_PRINT;
+				}
+
+				return '<script type="application/ld+json">' . wp_json_encode( $data, $flags ) . '</script>';
 			}
 		}
 
@@ -105,9 +112,13 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 			return '';
 		}
 
-		return '<script type="application/ld+json">'
-			. wp_json_encode( $decoded, JSON_UNESCAPED_SLASHES )
-			. '</script>';
+		//Encode with JSON_HEX_TAG | JSON_HEX_AMP so "<", ">" and "&" become "<"
+		//etc. This is still valid JSON (parsers decode it back), but it makes it
+		//impossible for a value that smuggled in (e.g. unicode-escaped "</script>")
+		//to break out of the wrapper - the regex above is no longer the only defense.
+		$json = wp_json_encode( $decoded, JSON_HEX_TAG | JSON_HEX_AMP );
+
+		return '<script type="application/ld+json">' . $json . '</script>';
 	}
 
 	/**

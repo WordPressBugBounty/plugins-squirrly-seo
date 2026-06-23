@@ -16,6 +16,12 @@ class SQ_Controllers_Audits extends SQ_Classes_FrontController {
 	/** @var SQ_Models_Domain_AuditPage[] List (used in the view) */
 	public $auditpages;
 
+	/** @var false|object AI Visibility data from Google Analytics (used in the view) */
+	public $aivisibility = false;
+
+	/** @var bool Whether Google Analytics is connected (AI Visibility needs it) */
+	public $ga_connected = false;
+
 	/** @var false|SQ_Models_Domain_Post[] All pages that are sent to the view */
 	public $pages = false;
 
@@ -44,6 +50,10 @@ class SQ_Controllers_Audits extends SQ_Classes_FrontController {
 				return;
 			} elseif ( $this->checkin->get_error_message() == 'maintenance' ) {
 				$this->show_view( 'Errors/Maintenance' );
+
+				return;
+			} elseif ( $this->checkin->get_error_message() == 'reconnect' ) {
+				$this->show_view( 'Errors/Reconnect' );
 
 				return;
 			}
@@ -143,6 +153,41 @@ class SQ_Controllers_Audits extends SQ_Classes_FrontController {
 		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'knob' );
 
 		$this->setAuditPages();
+		$this->setAiVisibility();
+	}
+
+	/**
+	 * AI Visibility tab - how much AI engines (ChatGPT, Perplexity, Gemini, ...) send and cite you.
+	 */
+	public function aivisibility() {
+		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'audits' );
+
+		$this->setAiVisibility();
+	}
+
+	/**
+	 * Load the AI Visibility data (AI-engine traffic from Google Analytics).
+	 * Only requested when GA is connected, so we don't hit the cloud for nothing.
+	 *
+	 * @return void
+	 */
+	public function setAiVisibility() {
+		$connect = SQ_Classes_Helpers_Tools::getOption( 'connect' );
+
+		$ga_connected = ( ! empty( $this->checkin->connection_ga ) || ( is_array( $connect ) && ! empty( $connect['google_analytics'] ) ) );
+
+		$this->ga_connected = (bool) $ga_connected;
+
+		if ( ! $ga_connected ) {
+			return;
+		}
+
+		$days_back   = (int) SQ_Classes_Helpers_Tools::getValue( 'days_back', 30 );
+		$aivisibility = SQ_Classes_RemoteController::getAiVisibility( array( 'days_back' => $days_back ) );
+
+		if ( ! is_wp_error( $aivisibility ) && ! empty( $aivisibility ) ) {
+			$this->aivisibility = $aivisibility;
+		}
 	}
 
 	/**
@@ -196,6 +241,7 @@ class SQ_Controllers_Audits extends SQ_Classes_FrontController {
 
                       title : "",
                       chartArea:{width:"80%",height:"70%"},
+                      bar: {groupWidth: 26},
                       vAxis: {title: "",
                             viewWindowMode:"explicit",
                             viewWindow: {
@@ -380,12 +426,70 @@ class SQ_Controllers_Audits extends SQ_Classes_FrontController {
 
 				if ( $post_id = SQ_Classes_Helpers_Tools::getValue( 'id', false ) ) {
 					SQ_Classes_RemoteController::deleteAuditPage( array( 'user_post_id' => $post_id ) );
-					SQ_Classes_Error::setError( esc_html__( "The page is removed from SEO Audit.", 'squirrly-seo' ) . " <br /> ", 'success' );
+					SQ_Classes_Error::setError( esc_html__( "The page is removed from GEO Audit.", 'squirrly-seo' ) . " <br /> ", 'success' );
 				} else {
 					SQ_Classes_Error::setError( esc_html__( "Invalid params!", 'squirrly-seo' ) . " <br /> " );
 				}
 
 				break;
+			case 'sq_ajax_audit_bulk_delete':
+
+				SQ_Classes_Helpers_Tools::setHeader( 'json' );
+
+				if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_focuspages' ) ) {
+					echo wp_json_encode( array( 'error' => esc_html__( "You do not have permission to perform this action", 'squirrly-seo' ) ) );
+					exit();
+				}
+
+				$inputs = SQ_Classes_Helpers_Tools::getValue( 'inputs', array() );
+
+				if ( ! empty( $inputs ) && is_array( $inputs ) ) {
+					foreach ( $inputs as $post_id ) {
+						$post_id = (int) $post_id;
+						if ( $post_id > 0 ) {
+							SQ_Classes_RemoteController::deleteAuditPage( array( 'user_post_id' => $post_id ) );
+						}
+					}
+
+					echo wp_json_encode( array( 'message' => esc_html__( "The selected pages were removed from GEO Audit.", 'squirrly-seo' ) ) );
+				} else {
+					echo wp_json_encode( array( 'error' => esc_html__( "Select at least one page first.", 'squirrly-seo' ) ) );
+				}
+				exit();
+			case 'sq_ajax_audit_bulk_reaudit':
+
+				SQ_Classes_Helpers_Tools::setHeader( 'json' );
+
+				if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_focuspages' ) ) {
+					echo wp_json_encode( array( 'error' => esc_html__( "You do not have permission to perform this action", 'squirrly-seo' ) ) );
+					exit();
+				}
+
+				$inputs = SQ_Classes_Helpers_Tools::getValue( 'inputs', array() );
+
+				if ( ! empty( $inputs ) && is_array( $inputs ) ) {
+					$sent = 0;
+					foreach ( $inputs as $post_id ) {
+						$post_id = (int) $post_id;
+						if ( $post_id > 0 ) {
+							$reaudit = SQ_Classes_RemoteController::updateAudit( array( 'post_id' => $post_id ) );
+							if ( ! is_wp_error( $reaudit ) ) {
+								$sent ++;
+							}
+						}
+					}
+
+					set_transient( 'sq_auditpage_all', time() );
+
+					if ( $sent > 0 ) {
+						echo wp_json_encode( array( 'message' => sprintf( esc_html__( "%d page(s) sent for re-audit. It may take a while so please be patient.", 'squirrly-seo' ), $sent ) ) );
+					} else {
+						echo wp_json_encode( array( 'error' => esc_html__( "Could not send the pages for re-audit. You can request one audit per page per hour.", 'squirrly-seo' ) ) );
+					}
+				} else {
+					echo wp_json_encode( array( 'error' => esc_html__( "Select at least one page first.", 'squirrly-seo' ) ) );
+				}
+				exit();
 		}
 
 	}

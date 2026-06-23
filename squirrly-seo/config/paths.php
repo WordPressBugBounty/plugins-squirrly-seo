@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || die( 'Cheatin\' uh?' );
 $currentDir = dirname( __FILE__ );
 
 define( '_SQ_NAME_', 'squirrly' );
-define( '_SQ_MENU_NAME_', 'Squirrly SEO' );
+define( '_SQ_MENU_NAME_', 'Squirrly' );
 define( '_SQ_NAMESPACE_', 'SQ' );
 define( '_SQ_PLUGIN_NAME_', 'squirrly-seo' ); //THIS LINE WILL BE CHANGED WITH THE USER SETTINGS
 

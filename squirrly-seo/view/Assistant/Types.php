@@ -101,7 +101,7 @@ if ( ! isset( $view ) ) {
 							if ( ! empty( $new_types ) ) { ?>
                                 <div class="col-12 row m-0 p-0">
                                     <div class="col-12 row py-2 mx-0 my-3">
-                                        <div class="col-4 p-1">
+                                        <div class="col-4 p-0 pr-2">
                                             <div class="font-weight-bold">
 												<?php echo esc_html__( "Add Post Type", "squirrly-seo" ); ?>
                                                 :<a href="https://howto12.squirrly.co/kb/seo-automation/#add_post_type" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
