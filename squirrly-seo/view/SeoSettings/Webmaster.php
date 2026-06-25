@@ -136,7 +136,7 @@ if ( ! isset( $view ) ) {
                                             <div class="col-8 m-0 p-0">
 
                                                 <div class="sq_analytics_step1 mt-1">
-                                                    <a href="<?php echo esc_url( SQ_Classes_RemoteController::getApiLink( 'gaoauth' ) ); ?>" onclick="jQuery('.sq_analytics_step1').hide();jQuery('.sq_analytics_step2').show();jQuery(this).sq_clearCache();" target="_blank" type="button" class="btn btn-primary w-100 text-white connect-button connect btn-lg">
+                                                    <a href="<?php echo esc_url( SQ_Classes_RemoteController::getApiLink( 'gaoauth' ) ); ?>" onclick="jQuery('.sq_analytics_step1').hide();jQuery('.sq_analytics_step2').show();jQuery(this).sq_clearCache();window.open(this.href,'sq_connect','width=600,height=720');return false;" target="_blank" type="button" class="btn btn-primary w-100 text-white connect-button connect btn-lg">
                                                         <span class="fasq-brands fa-google"></span> <?php echo esc_html__( "Sign in", 'squirrly-seo' ); ?>
                                                     </a>
                                                 </div>
@@ -183,7 +183,7 @@ if ( ! isset( $view ) ) {
 
                                             <div class="col-8 m-0 p-0">
                                                 <div class="sq_gsc_step1 mt-1">
-                                                    <a href="<?php echo esc_url( SQ_Classes_RemoteController::getApiLink( 'gscoauth' ) ); ?>" onclick="jQuery('.sq_gsc_step1').hide();jQuery('.sq_gsc_step2').show();jQuery(this).sq_clearCache();" target="_blank" type="button" class="btn btn-primary w-100 text-white connect-button connect btn-lg">
+                                                    <a href="<?php echo esc_url( SQ_Classes_RemoteController::getApiLink( 'gscoauth' ) ); ?>" onclick="jQuery('.sq_gsc_step1').hide();jQuery('.sq_gsc_step2').show();jQuery(this).sq_clearCache();window.open(this.href,'sq_connect','width=600,height=720');return false;" target="_blank" type="button" class="btn btn-primary w-100 text-white connect-button connect btn-lg">
                                                         <span class="fasq-brands fa-google"></span> <?php echo esc_html__( "Sign in", 'squirrly-seo' ); ?>
                                                     </a>
                                                 </div>

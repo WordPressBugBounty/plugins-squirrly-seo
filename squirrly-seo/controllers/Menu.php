@@ -199,7 +199,11 @@ class SQ_Controllers_Menu extends SQ_Classes_FrontController {
 							$wp_admin_bar->add_node( array(
 									'id'     => $menuid,
 									'title'  => $item['title'],
-									'href'   => SQ_Classes_Helpers_Tools::getAdminUrl( $menuid ),
+									//Honor the menu item's href (as the left menu does) so items that
+									//point elsewhere - e.g. AI Visibility -> sq_audits&tab=aivisibility -
+									//link to their real registered page instead of the bare slug, which
+									//WordPress denies access to ("you are not allowed to access this page").
+									'href'   => ( isset( $item['href'] ) && $item['href'] ) ? $item['href'] : SQ_Classes_Helpers_Tools::getAdminUrl( $menuid ),
 									'parent' => 'sq_toolbar'
 								) );
 							$tabs = $this->model->getTabs( $menuid );

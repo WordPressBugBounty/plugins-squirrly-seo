@@ -61,6 +61,11 @@ class SQ_Controllers_Audits extends SQ_Classes_FrontController {
 
 		$tab = preg_replace( "/[^a-zA-Z0-9]/", "", SQ_Classes_Helpers_Tools::getValue( 'tab', 'audits' ) );
 
+		//AI Visibility has its own menu slug; when reached as a page (not as the ?tab= link) resolve it to its tab
+		if ( in_array( SQ_Classes_Helpers_Tools::getValue( 'page' ), array( 'sq_aivisibility', 'aivisibility' ), true ) ) {
+			$tab = 'aivisibility';
+		}
+
 		if ( method_exists( $this, $tab ) ) {
 			if ( SQ_Classes_Helpers_Tools::userCan( 'sq_manage_focuspages' ) ) {
 				call_user_func( array( $this, $tab ) );

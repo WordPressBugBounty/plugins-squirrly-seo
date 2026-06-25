@@ -4,7 +4,7 @@ Donate link: https://plugin.squirrly.co/squirrly-seo-pricing/
 Tags: SEO, AEO, GEO, schema, sitemap
 Requires at least: 5.3
 Tested up to: 7.0
-Stable tag: 14.0.0
+Stable tag: 14.0.1
 Requires PHP: 7.0
 License: GPLv2 or later
 
@@ -120,6 +120,10 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 7. Squirrly SEO - SEO Briefcase
 
 == Changelog ==
+= 14.0.1 =
+* Fix: Smoother Live Assistant loading inside the Elementor editor.
+* Fix: Tidied up navigation to the AI Visibility page.
+
 = 14.0.0 =
 * New: Rebranded to the GEO Plugin by Squirrly SEO - SEO, AEO and GEO in one plugin.
 * New: GEO/AEO Audit that scores each page for answer-readiness (direct-answer block, question-style headings, lists and tables, content depth, freshness) and AI crawler access, llms.txt and answer-ready schema.
