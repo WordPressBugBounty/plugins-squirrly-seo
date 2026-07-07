@@ -1123,4 +1123,124 @@ class SQ_Classes_Helpers_Sanitize {
 
 		return apply_filters( 'localization', $in );
 	}
+
+	/**
+	 * Convert a country name (or a nested Country/PostalAddress value) into its
+	 * ISO 3166-1 alpha-2 code (e.g. "Romania" => "RO"). Returns an already-valid
+	 * 2-letter code untouched, and the original value when it can't be mapped.
+	 * Self-contained on purpose so it works without the other plugin present.
+	 *
+	 * @param mixed $value
+	 *
+	 * @return string
+	 */
+	public static function getCountryCode( $value ) {
+
+		if ( is_array( $value ) ) {
+			if ( isset( $value['addressCountry'] ) ) {
+				$value = $value['addressCountry'];
+			} elseif ( isset( $value['name'] ) ) {
+				$value = $value['name'];
+			} else {
+				$value = '';
+			}
+		}
+
+		$value = trim( (string) $value );
+
+		if ( $value === '' ) {
+			return '';
+		}
+
+		$map = array(
+			'afghanistan' => 'AF', 'aland islands' => 'AX', 'albania' => 'AL', 'algeria' => 'DZ',
+			'america' => 'US', 'american samoa' => 'AS', 'andorra' => 'AD', 'angola' => 'AO',
+			'anguilla' => 'AI', 'antarctica' => 'AQ', 'antigua' => 'AG', 'antigua and barbuda' => 'AG',
+			'argentina' => 'AR', 'armenia' => 'AM', 'aruba' => 'AW', 'australia' => 'AU',
+			'austria' => 'AT', 'azerbaijan' => 'AZ', 'bahamas' => 'BS', 'bahrain' => 'BH',
+			'bangladesh' => 'BD', 'barbados' => 'BB', 'belarus' => 'BY', 'belgium' => 'BE',
+			'belize' => 'BZ', 'benin' => 'BJ', 'bermuda' => 'BM', 'bhutan' => 'BT',
+			'bolivia' => 'BO', 'bonaire' => 'BQ', 'bosnia' => 'BA', 'bosnia and herzegovina' => 'BA',
+			'botswana' => 'BW', 'bouvet island' => 'BV', 'brazil' => 'BR', 'british indian ocean territory' => 'IO',
+			'british virgin islands' => 'VG', 'brunei' => 'BN', 'brunei darussalam' => 'BN', 'bulgaria' => 'BG',
+			'burkina faso' => 'BF', 'burma' => 'MM', 'burundi' => 'BI', 'cabo verde' => 'CV',
+			'cambodia' => 'KH', 'cameroon' => 'CM', 'canada' => 'CA', 'cape verde' => 'CV',
+			'cayman islands' => 'KY', 'central african republic' => 'CF', 'chad' => 'TD', 'chile' => 'CL',
+			'china' => 'CN', 'christmas island' => 'CX', 'cocos islands' => 'CC', 'colombia' => 'CO',
+			'comoros' => 'KM', 'congo' => 'CG', 'congo democratic republic' => 'CD', 'cook islands' => 'CK',
+			'costa rica' => 'CR', 'cote d\'ivoire' => 'CI', 'croatia' => 'HR', 'cuba' => 'CU',
+			'curacao' => 'CW', 'curaçao' => 'CW', 'cyprus' => 'CY', 'czech republic' => 'CZ',
+			'czechia' => 'CZ', 'côte d\'ivoire' => 'CI', 'democratic republic of the congo' => 'CD', 'denmark' => 'DK',
+			'djibouti' => 'DJ', 'dominica' => 'DM', 'dominican republic' => 'DO', 'dr congo' => 'CD',
+			'east timor' => 'TL', 'ecuador' => 'EC', 'egypt' => 'EG', 'el salvador' => 'SV',
+			'england' => 'GB', 'equatorial guinea' => 'GQ', 'eritrea' => 'ER', 'estonia' => 'EE',
+			'eswatini' => 'SZ', 'ethiopia' => 'ET', 'falkland islands' => 'FK', 'faroe islands' => 'FO',
+			'fiji' => 'FJ', 'finland' => 'FI', 'france' => 'FR', 'french guiana' => 'GF',
+			'french polynesia' => 'PF', 'gabon' => 'GA', 'gambia' => 'GM', 'georgia' => 'GE',
+			'germany' => 'DE', 'ghana' => 'GH', 'gibraltar' => 'GI', 'great britain' => 'GB',
+			'greece' => 'GR', 'greenland' => 'GL', 'grenada' => 'GD', 'guadeloupe' => 'GP',
+			'guam' => 'GU', 'guatemala' => 'GT', 'guernsey' => 'GG', 'guinea' => 'GN',
+			'guinea-bissau' => 'GW', 'guyana' => 'GY', 'haiti' => 'HT', 'holy see' => 'VA',
+			'honduras' => 'HN', 'hong kong' => 'HK', 'hungary' => 'HU', 'iceland' => 'IS',
+			'india' => 'IN', 'indonesia' => 'ID', 'iran' => 'IR', 'iraq' => 'IQ',
+			'ireland' => 'IE', 'isle of man' => 'IM', 'israel' => 'IL', 'italy' => 'IT',
+			'ivory coast' => 'CI', 'jamaica' => 'JM', 'japan' => 'JP', 'jersey' => 'JE',
+			'jordan' => 'JO', 'kazakhstan' => 'KZ', 'keeling islands' => 'CC', 'kenya' => 'KE',
+			'kiribati' => 'KI', 'korea democratic people\'s republic' => 'KP', 'korea republic' => 'KR', 'kuwait' => 'KW',
+			'kyrgyzstan' => 'KG', 'lao' => 'LA', 'laos' => 'LA', 'latvia' => 'LV',
+			'lebanon' => 'LB', 'lesotho' => 'LS', 'liberia' => 'LR', 'libya' => 'LY',
+			'liechtenstein' => 'LI', 'lithuania' => 'LT', 'luxembourg' => 'LU', 'macao' => 'MO',
+			'macau' => 'MO', 'macedonia' => 'MK', 'madagascar' => 'MG', 'malawi' => 'MW',
+			'malaysia' => 'MY', 'maldives' => 'MV', 'mali' => 'ML', 'malta' => 'MT',
+			'marshall islands' => 'MH', 'martinique' => 'MQ', 'mauritania' => 'MR', 'mauritius' => 'MU',
+			'mayotte' => 'YT', 'mexico' => 'MX', 'micronesia' => 'FM', 'moldova' => 'MD',
+			'monaco' => 'MC', 'mongolia' => 'MN', 'montenegro' => 'ME', 'montserrat' => 'MS',
+			'morocco' => 'MA', 'mozambique' => 'MZ', 'myanmar' => 'MM', 'namibia' => 'NA',
+			'nauru' => 'NR', 'nepal' => 'NP', 'netherlands' => 'NL', 'new caledonia' => 'NC',
+			'new zealand' => 'NZ', 'nicaragua' => 'NI', 'niger' => 'NE', 'nigeria' => 'NG',
+			'niue' => 'NU', 'norfolk island' => 'NF', 'north korea' => 'KP', 'north macedonia' => 'MK',
+			'northern ireland' => 'GB', 'northern mariana islands' => 'MP', 'norway' => 'NO', 'oman' => 'OM',
+			'pakistan' => 'PK', 'palau' => 'PW', 'palestine' => 'PS', 'palestinian territory' => 'PS',
+			'panama' => 'PA', 'papua new guinea' => 'PG', 'paraguay' => 'PY', 'peru' => 'PE',
+			'philippines' => 'PH', 'pitcairn' => 'PN', 'poland' => 'PL', 'portugal' => 'PT',
+			'puerto rico' => 'PR', 'qatar' => 'QA', 'republic of korea' => 'KR', 'republic of the congo' => 'CG',
+			'reunion' => 'RE', 'romania' => 'RO', 'russia' => 'RU', 'russian federation' => 'RU',
+			'rwanda' => 'RW', 'réunion' => 'RE', 'saint barthelemy' => 'BL', 'saint barthélemy' => 'BL',
+			'saint helena' => 'SH', 'saint kitts and nevis' => 'KN', 'saint lucia' => 'LC', 'saint martin' => 'MF',
+			'saint pierre and miquelon' => 'PM', 'saint vincent and the grenadines' => 'VC', 'samoa' => 'WS', 'san marino' => 'SM',
+			'sao tome and principe' => 'ST', 'saudi arabia' => 'SA', 'scotland' => 'GB', 'senegal' => 'SN',
+			'serbia' => 'RS', 'seychelles' => 'SC', 'sierra leone' => 'SL', 'singapore' => 'SG',
+			'sint maarten' => 'SX', 'slovakia' => 'SK', 'slovenia' => 'SI', 'solomon islands' => 'SB',
+			'somalia' => 'SO', 'south africa' => 'ZA', 'south georgia' => 'GS', 'south korea' => 'KR',
+			'south sudan' => 'SS', 'spain' => 'ES', 'sri lanka' => 'LK', 'sudan' => 'SD',
+			'suriname' => 'SR', 'svalbard and jan mayen' => 'SJ', 'swaziland' => 'SZ', 'sweden' => 'SE',
+			'switzerland' => 'CH', 'syria' => 'SY', 'syrian arab republic' => 'SY', 'são tomé and príncipe' => 'ST',
+			'taiwan' => 'TW', 'tajikistan' => 'TJ', 'tanzania' => 'TZ', 'thailand' => 'TH',
+			'the netherlands' => 'NL', 'timor-leste' => 'TL', 'togo' => 'TG', 'tokelau' => 'TK',
+			'tonga' => 'TO', 'trinidad and tobago' => 'TT', 'tunisia' => 'TN', 'turkey' => 'TR',
+			'turkiye' => 'TR', 'turkmenistan' => 'TM', 'turks and caicos islands' => 'TC', 'tuvalu' => 'TV',
+			'türkiye' => 'TR', 'u.s.' => 'US', 'u.s. virgin islands' => 'VI', 'u.s.a.' => 'US',
+			'uae' => 'AE', 'uganda' => 'UG', 'uk' => 'GB', 'ukraine' => 'UA',
+			'united arab emirates' => 'AE', 'united kingdom' => 'GB', 'united states' => 'US', 'united states minor outlying islands' => 'UM',
+			'united states of america' => 'US', 'uruguay' => 'UY', 'usa' => 'US', 'uzbekistan' => 'UZ',
+			'vanuatu' => 'VU', 'vatican' => 'VA', 'vatican city' => 'VA', 'venezuela' => 'VE',
+			'viet nam' => 'VN', 'vietnam' => 'VN', 'virgin islands british' => 'VG', 'virgin islands u.s.' => 'VI',
+			'wales' => 'GB', 'wallis and futuna' => 'WF', 'western sahara' => 'EH', 'yemen' => 'YE',
+			'zambia' => 'ZM', 'zimbabwe' => 'ZW', 'åland islands' => 'AX',
+		);
+
+		$key = strtolower( $value );
+
+		if ( isset( $map[ $key ] ) ) {
+			return $map[ $key ];
+		}
+
+		//otherwise, accept an already-valid 2-letter ISO code as-is
+		if ( preg_match( '/^[A-Za-z]{2}$/', $value ) ) {
+			return strtoupper( $value );
+		}
+
+		return $value;
+	}
+
 }

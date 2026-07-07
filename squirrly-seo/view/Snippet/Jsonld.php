@@ -143,6 +143,14 @@ if ( ! isset( $patterns[ $view->post->post_type ] ) && isset( $patterns['custom'
 										$patterns[ $view->post->post_type ] = $patterns['custom'];
 									}
 
+									//Automation schema types (lowercase) used to materialize the automatic
+									//selection into explicit types when a new schema is added on top of
+									//"SEO Automation", so the automatic types are kept.
+									$auto_jsonld_types = array();
+									if ( isset( $patterns[ $view->post->post_type ]['jsonld_types'] ) ) {
+										$auto_jsonld_types = array_filter( array_map( 'strtolower', (array) $patterns[ $view->post->post_type ]['jsonld_types'] ) );
+									}
+
 									$post_jsonld_types = array();
 									if ( ! empty( $view->post->sq_adm->jsonld_types ) ) {
 										$view->post->sq_adm->jsonld_types = array_filter( (array) $view->post->sq_adm->jsonld_types );
@@ -150,7 +158,7 @@ if ( ! isset( $patterns[ $view->post->post_type ] ) && isset( $patterns['custom'
 									}
 									?>
                                     <div class="sq-col-8 sq-p-0 sq-input-group">
-                                        <select multiple name="sq_jsonld_types[]" class="sq_jsonld_types sq-form-control sq-bg-input sq-mb-1" style="min-height: <?php echo ( ( count( $jsonld_types ) + 2 ) * 20 ) . 'px !important;' ?>">
+                                        <select multiple name="sq_jsonld_types[]" class="sq_jsonld_types sq-form-control sq-bg-input sq-mb-1" data-auto-types="<?php echo esc_attr( implode( ',', $auto_jsonld_types ) ) ?>" style="min-height: <?php echo (int) min( ( count( $jsonld_types ) + 2 ) * 20, 320 ) ?>px; max-height: 320px; overflow-y: auto;">
                                             <option <?php echo( empty( $post_jsonld_types ) ? 'selected="selected"' : '' ) ?> value=""><?php echo esc_html__( "SEO Automation", "squirrly-seo" ) . ' (' . esc_html( join( ', ', $sq_jsonld_types ) ) ?>
                                                 )
                                             </option>
@@ -163,6 +171,19 @@ if ( ! isset( $patterns[ $view->post->post_type ] ) && isset( $patterns['custom'
                                         </select>
                                         <div class="sq-small sq-text-primary sq-my-1 sq-pr-4"><?php echo esc_html__( "Hold Control key (or Command on Mac) to select multiple types.", "squirrly-seo" ); ?></div>
 
+										<?php if ( $view->post->sq_adm->jsonld == '' && ! SQ_Classes_Helpers_Tools::isPluginInstalled( 'squirrly-seo-pack/index.php' ) ) { ?>
+                                            <div class="sq-small sq-my-2 sq-pr-4">
+                                                <i class="fa-solid fa-bolt sq-text-primary"></i>
+												<?php echo esc_html__( "Want to add multiple schemas per page and customize every field?", "squirrly-seo" ); ?>
+                                            </div>
+                                            <form method="post" class="sq-m-0 sq-p-0 sq-my-2">
+												<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_advanced_install', 'sq_nonce' ); ?>
+                                                <input type="hidden" name="action" value="sq_advanced_install"/>
+                                                <button type="submit" class="sq-btn sq-btn-sm sq-btn-primary sq-px-3 sq-py-2 sq-rounded-0"><?php echo esc_html__( "Install/Activate the Advanced Pack - it's free", 'squirrly-seo' ); ?></button>
+                                                <div class="sq-small sq-text-black-50 sq-mt-2"><?php echo esc_html__( "(* no extra cost, gets installed / activated automatically inside WordPress when you click the button, and uses the same account)", 'squirrly-seo' ); ?></div>
+                                            </form>
+										<?php } ?>
+
                                     </div>
 
                                 </div>
@@ -172,7 +193,7 @@ if ( ! isset( $patterns[ $view->post->post_type ] ) && isset( $patterns['custom'
                                     <div class="sq-col-4 sq-p-0 sq-pr-3 sq-font-weight-bold">
 										<?php echo esc_html__( "Breadcrumbs Schema", "squirrly-seo" ); ?>
                                         <a href="https://howto12.squirrly.co/kb/json-ld-structured-data/#breadcrumbs_schema" target="_blank"><i class="fa-solid fa-question-circle sq-m-0 sq-px-1 sq-d-inline"></i></a>
-                                        <div class="sq-small sq-text-black-50 sq-my-3 sq-pr-4"><?php echo sprintf( esc_html__( "Manage BreadcrumbsList Schema from %s Rich Snippets Settings %s.", "squirrly-seo" ), '<a href="' . SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'jsonld' ) . '">', '</a>' ); ?></div>
+                                        <div class="sq-small sq-text-black-50 sq-my-3 sq-pr-4"><?php echo sprintf( esc_html__( "Manage BreadcrumbsList Schema from %s Rich Snippets Settings %s.", "squirrly-seo" ), '<a href="' . esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'jsonld' ) . '#tab=settings' ) . '">', '</a>' ); ?></div>
                                     </div>
 
                                     <div class="sq-col-8 sq-p-0 sq-input-group">

@@ -96,17 +96,35 @@ define( 'SQ_ALL_OG_TYPES', wp_json_encode( apply_filters( 'sq_all_og_types', arr
 	'video'
 ) ) ) );
 define( 'SQ_ALL_JSONLD_TYPES', wp_json_encode( apply_filters( 'sq_all_jsonld_types', array(
-	'website',
+	'about page',
+	'accommodation',
 	'article',
-	'newsarticle',
+	'book',
+	'collection page',
+	'contact page',
+	'course',
+	'event',
 	'FAQ page',
+	'how to',
+	'job posting',
+	'local restaurant',
+	'local store',
+	'movie',
+	'music',
+	'newsarticle',
+	'organization',
+	'person',
+	'podcast',
+	'product',
+	'profile',
 	'question',
+	'real estate',
 	'recipe',
 	'review',
-	'movie',
+	'service',
+	'software application',
 	'video',
-	'local store',
-	'local restaurant',
-	'profile'
+	'video game',
+	'website'
 ) ) ) );
 define( 'SQ_ALL_SEP', wp_json_encode( apply_filters( 'sq_all_sep', $sq_all_separators ) ) );

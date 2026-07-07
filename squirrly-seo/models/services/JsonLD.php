@@ -358,6 +358,76 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 			}
 		}
 
+		if ( in_array( 'person', $this->_post->sq->jsonld_types ) ) {
+			$this->_markups[] = $this->getPersonMarkup();
+		}
+
+		if ( in_array( 'organization', $this->_post->sq->jsonld_types ) ) {
+			if ( $organization = $this->getPublisherMarkup( 'Organization' ) ) {
+				$this->_markups[] = $organization;
+			}
+		}
+
+		if ( in_array( 'event', $this->_post->sq->jsonld_types ) ) {
+			$this->_markups[] = $this->getEventMarkup();
+		}
+
+		if ( in_array( 'how to', $this->_post->sq->jsonld_types ) ) {
+			$this->_markups[] = $this->getHowToMarkup();
+		}
+
+		if ( in_array( 'course', $this->_post->sq->jsonld_types ) ) {
+			$this->_markups[] = $this->getCourseMarkup();
+		}
+
+		if ( in_array( 'book', $this->_post->sq->jsonld_types ) ) {
+			$this->_markups[] = $this->getBookMarkup();
+		}
+
+		if ( in_array( 'job posting', $this->_post->sq->jsonld_types ) ) {
+			$this->_markups[] = $this->getJobPostingMarkup();
+		}
+
+		if ( in_array( 'podcast', $this->_post->sq->jsonld_types ) ) {
+			$this->_markups[] = $this->getPodcastEpisodeMarkup();
+		}
+
+		if ( in_array( 'music', $this->_post->sq->jsonld_types ) ) {
+			$this->_markups[] = $this->getMusicMarkup();
+		}
+
+		if ( in_array( 'service', $this->_post->sq->jsonld_types ) ) {
+			$this->_markups[] = $this->getServiceMarkup();
+		}
+
+		if ( in_array( 'software application', $this->_post->sq->jsonld_types ) ) {
+			$this->_markups[] = $this->getSoftwareApplicationMarkup();
+		}
+
+		if ( in_array( 'video game', $this->_post->sq->jsonld_types ) ) {
+			$this->_markups[] = $this->getVideoGameMarkup();
+		}
+
+		if ( in_array( 'real estate', $this->_post->sq->jsonld_types ) ) {
+			$this->_markups[] = $this->getRealEstateListingMarkup();
+		}
+
+		if ( in_array( 'accommodation', $this->_post->sq->jsonld_types ) ) {
+			$this->_markups[] = $this->getAccommodationMarkup();
+		}
+
+		if ( in_array( 'about page', $this->_post->sq->jsonld_types ) ) {
+			$this->_markups[] = $this->getWebPageMarkup( 'AboutPage' );
+		}
+
+		if ( in_array( 'contact page', $this->_post->sq->jsonld_types ) ) {
+			$this->_markups[] = $this->getWebPageMarkup( 'ContactPage' );
+		}
+
+		if ( in_array( 'collection page', $this->_post->sq->jsonld_types ) ) {
+			$this->_markups[] = $this->getWebPageMarkup( 'CollectionPage' );
+		}
+
 		if ( SQ_Classes_Helpers_Tools::getOption( 'sq_jsonld_woocommerce' ) ) {
 			if ( SQ_Classes_Helpers_Tools::isPluginInstalled( 'woocommerce/woocommerce.php' ) ) {
 				// Generate structured data for Woocommerce 3+.
@@ -365,6 +435,11 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 					$this->_markups[] = $this->getWoocommerceProductMarkup();
 				}
 			}
+		}
+
+		//Generic Product markup when WooCommerce isn't providing the rich product data
+		if ( in_array( 'product', $this->_post->sq->jsonld_types ) && ! ( SQ_Classes_Helpers_Tools::getOption( 'sq_jsonld_woocommerce' ) && SQ_Classes_Helpers_Tools::isPluginInstalled( 'woocommerce/woocommerce.php' ) ) ) {
+			$this->_markups[] = $this->getProductMarkup();
 		}
 
 		if ( SQ_Classes_Helpers_Tools::getOption( 'sq_jsonld_breadcrumbs' ) ) {
@@ -714,6 +789,334 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 	}
 
 	/**
+	 * Build a generic schema markup filled only with the data Squirrly SEO can
+	 * derive automatically from the current post/site (title, description, url,
+	 * image, dates, author, publisher, keywords). Type-specific generators below
+	 * reuse this and add their own auto-fillable fields on top.
+	 *
+	 * @param string $type schema.org @type
+	 * @param array  $args flags controlling which auto fields to include
+	 *
+	 * @return array
+	 */
+	protected function getGenericMarkup( $type, $args = array() ) {
+		$args = array_merge( array(
+			'name_key'      => 'name',   // 'name', 'headline' or 'title'
+			'description'   => true,
+			'image'         => true,
+			'date_key'      => false,    // e.g. 'datePublished', 'datePosted', 'uploadDate'
+			'modified_key'  => false,    // e.g. 'dateModified'
+			'author'        => false,    // false or the property key (e.g. 'author', 'director')
+			'publisher'     => false,    // false or the property key (e.g. 'publisher', 'organizer', 'provider')
+			'keywords'      => false,
+		), $args );
+
+		$markup          = array();
+		$markup['@type'] = $type;
+		$markup['@id']   = $this->_post->url . '#' . strtolower( $type );
+		$markup['url']   = $this->_post->url;
+
+		if ( isset( $this->_post->sq->title ) ) {
+			$markup[ $args['name_key'] ] = $this->cleanText( $this->truncate( $this->_post->sq->title, 0, $this->_post->sq->jsonld_title_maxlength ) );
+		}
+
+		if ( $args['description'] && isset( $this->_post->sq->description ) ) {
+			$markup['description'] = $this->cleanText( $this->truncate( $this->_post->sq->description, 0, $this->_post->sq->jsonld_description_maxlength ) );
+		}
+
+		if ( $args['date_key'] && isset( $this->_post->post_date ) ) {
+			$markup[ $args['date_key'] ] = wp_date( 'c', strtotime( $this->_post->post_date ) );
+		}
+
+		if ( $args['modified_key'] && isset( $this->_post->post_modified ) ) {
+			$markup[ $args['modified_key'] ] = wp_date( 'c', strtotime( $this->_post->post_modified ) );
+		}
+
+		if ( $args['image'] ) {
+			if ( $this->_post->sq->og_media <> '' ) {
+				$markup['image'] = array(
+					"@type"  => "ImageObject",
+					"url"    => $this->_post->sq->og_media,
+					"height" => 500,
+					"width"  => 500,
+				);
+			} else {
+				$this->_setMedia( $markup );
+			}
+		}
+
+		if ( $args['author'] ) {
+			if ( $author = $this->getAuthorMarkup() ) {
+				$markup[ $args['author'] ] = $author;
+			}
+		}
+
+		if ( $args['publisher'] ) {
+			if ( $publisher = $this->getPublisherMarkup( 'Organization' ) ) {
+				$markup[ $args['publisher'] ] = $publisher;
+			}
+		}
+
+		if ( $args['keywords'] && $this->_post->sq->keywords <> '' ) {
+			$markup['keywords'] = $this->_post->sq->keywords;
+		}
+
+		return $markup;
+	}
+
+	/**
+	 * Get the markup for the Person Schema (the entity described by the page)
+	 *
+	 * @return mixed
+	 */
+	public function getPersonMarkup() {
+		$type   = 'Person';
+		$markup = $this->getGenericMarkup( $type );
+
+		return apply_filters( 'sq_jsonld_' . strtolower( $type ) . '_markup', $markup, $this->_post, $type );
+	}
+
+	/**
+	 * Get the markup for the Product Schema (non-WooCommerce)
+	 *
+	 * @return mixed
+	 */
+	public function getProductMarkup() {
+		$type = 'Product';
+
+		//A Product is only eligible for Google when it has offers, review or
+		//aggregateRating - none of which can be derived from post content. To avoid
+		//"Missing field" issues we leave it empty by default (WooCommerce products
+		//are handled by getWoocommerceProductMarkup). The filter lets custom code
+		//add the commerce data when it has it.
+		$markup = array();
+
+		return apply_filters( 'sq_jsonld_' . strtolower( $type ) . '_markup', $markup, $this->_post, $type );
+	}
+
+	/**
+	 * Get the markup for the Event Schema
+	 *
+	 * @return mixed
+	 */
+	public function getEventMarkup() {
+		$type = 'Event';
+
+		//Event is a Google-validated rich result: startDate and location are
+		//required. Pull the dates from The Events Calendar and the location from
+		//the site Organization address; if either is missing we don't emit the
+		//markup so it never fails the Rich Results test.
+		$start = $end = '';
+		if ( $this->_post->ID && SQ_Classes_Helpers_Tools::isPluginInstalled( 'the-events-calendar/the-events-calendar.php' ) ) {
+			$start = get_post_meta( (int) $this->_post->ID, '_EventStartDate', true );
+			$end   = get_post_meta( (int) $this->_post->ID, '_EventEndDate', true );
+		}
+
+		$location     = false;
+		$organization = $this->getPublisherMarkup( 'Organization' );
+		if ( ! empty( $organization['address'] ) ) {
+			$location = array(
+				'@type'   => 'Place',
+				'name'    => ( ! empty( $organization['name'] ) ? $organization['name'] : ( isset( $this->_post->sq->title ) ? $this->cleanText( $this->_post->sq->title ) : '' ) ),
+				'address' => $organization['address'],
+			);
+		}
+
+		if ( $start == '' || ! $location ) {
+			return array();
+		}
+
+		$markup                        = $this->getGenericMarkup( $type, array( 'publisher' => 'organizer' ) );
+		$markup['eventStatus']         = 'https://schema.org/EventScheduled';
+		$markup['eventAttendanceMode'] = 'https://schema.org/OfflineEventAttendanceMode';
+		$markup['startDate']           = wp_date( 'c', strtotime( $start ) );
+		if ( $end <> '' ) {
+			$markup['endDate'] = wp_date( 'c', strtotime( $end ) );
+		}
+		$markup['location'] = $location;
+
+		return apply_filters( 'sq_jsonld_' . strtolower( $type ) . '_markup', $markup, $this->_post, $type );
+	}
+
+	/**
+	 * Get the markup for the HowTo Schema
+	 *
+	 * @return mixed
+	 */
+	public function getHowToMarkup() {
+		$type   = 'HowTo';
+		$markup = $this->getGenericMarkup( $type );
+
+		return apply_filters( 'sq_jsonld_' . strtolower( $type ) . '_markup', $markup, $this->_post, $type );
+	}
+
+	/**
+	 * Get the markup for the Course Schema
+	 *
+	 * @return mixed
+	 */
+	public function getCourseMarkup() {
+		$type   = 'Course';
+		$markup = $this->getGenericMarkup( $type, array( 'publisher' => 'provider' ) );
+
+		return apply_filters( 'sq_jsonld_' . strtolower( $type ) . '_markup', $markup, $this->_post, $type );
+	}
+
+	/**
+	 * Get the markup for the Book Schema
+	 *
+	 * @return mixed
+	 */
+	public function getBookMarkup() {
+		$type   = 'Book';
+		$markup = $this->getGenericMarkup( $type, array( 'author' => 'author' ) );
+
+		return apply_filters( 'sq_jsonld_' . strtolower( $type ) . '_markup', $markup, $this->_post, $type );
+	}
+
+	/**
+	 * Get the markup for the JobPosting Schema
+	 *
+	 * @return mixed
+	 */
+	public function getJobPostingMarkup() {
+		$type = 'JobPosting';
+
+		//JobPosting is a Google-validated rich result requiring a jobLocation.
+		//Build it from the site Organization address; skip when none is configured
+		//so we never emit an incomplete JobPosting that fails the Rich Results test.
+		$organization = $this->getPublisherMarkup( 'Organization' );
+		if ( empty( $organization['address'] ) ) {
+			return array();
+		}
+
+		$markup = $this->getGenericMarkup( $type, array(
+			'name_key'  => 'title',
+			'date_key'  => 'datePosted',
+			'publisher' => 'hiringOrganization',
+		) );
+
+		$markup['jobLocation'] = array(
+			'@type'   => 'Place',
+			'address' => $organization['address'],
+		);
+
+		if ( $this->_post->ID ) {
+			$markup['identifier'] = array(
+				'@type' => 'PropertyValue',
+				'name'  => 'Job ID',
+				'value' => (int) $this->_post->ID,
+			);
+		}
+
+		return apply_filters( 'sq_jsonld_' . strtolower( $type ) . '_markup', $markup, $this->_post, $type );
+	}
+
+	/**
+	 * Get the markup for the PodcastEpisode Schema
+	 *
+	 * @return mixed
+	 */
+	public function getPodcastEpisodeMarkup() {
+		$type   = 'PodcastEpisode';
+		$markup = $this->getGenericMarkup( $type, array( 'date_key' => 'datePublished' ) );
+
+		return apply_filters( 'sq_jsonld_' . strtolower( $type ) . '_markup', $markup, $this->_post, $type );
+	}
+
+	/**
+	 * Get the markup for the Music Schema
+	 *
+	 * @return mixed
+	 */
+	public function getMusicMarkup() {
+		$type   = 'MusicGroup';
+		$markup = $this->getGenericMarkup( $type );
+
+		return apply_filters( 'sq_jsonld_' . strtolower( $type ) . '_markup', $markup, $this->_post, $type );
+	}
+
+	/**
+	 * Get the markup for the Service Schema
+	 *
+	 * @return mixed
+	 */
+	public function getServiceMarkup() {
+		$type   = 'Service';
+		$markup = $this->getGenericMarkup( $type, array( 'publisher' => 'provider' ) );
+
+		return apply_filters( 'sq_jsonld_' . strtolower( $type ) . '_markup', $markup, $this->_post, $type );
+	}
+
+	/**
+	 * Get the markup for the SoftwareApplication Schema
+	 *
+	 * @return mixed
+	 */
+	public function getSoftwareApplicationMarkup() {
+		$type = 'SoftwareApplication';
+
+		//SoftwareApplication requires offers or aggregateRating for Google, which
+		//cannot be derived from post content, so we leave it empty by default to
+		//avoid "Missing field" issues. The filter lets custom code populate it.
+		$markup = array();
+
+		return apply_filters( 'sq_jsonld_' . strtolower( $type ) . '_markup', $markup, $this->_post, $type );
+	}
+
+	/**
+	 * Get the markup for the VideoGame Schema
+	 *
+	 * @return mixed
+	 */
+	public function getVideoGameMarkup() {
+		$type   = 'VideoGame';
+		$markup = $this->getGenericMarkup( $type );
+
+		return apply_filters( 'sq_jsonld_' . strtolower( $type ) . '_markup', $markup, $this->_post, $type );
+	}
+
+	/**
+	 * Get the markup for the RealEstateListing Schema
+	 *
+	 * @return mixed
+	 */
+	public function getRealEstateListingMarkup() {
+		$type   = 'RealEstateListing';
+		$markup = $this->getGenericMarkup( $type, array( 'date_key' => 'datePosted' ) );
+
+		return apply_filters( 'sq_jsonld_' . strtolower( $type ) . '_markup', $markup, $this->_post, $type );
+	}
+
+	/**
+	 * Get the markup for the Accommodation Schema
+	 *
+	 * @return mixed
+	 */
+	public function getAccommodationMarkup() {
+		$type   = 'Accommodation';
+		$markup = $this->getGenericMarkup( $type );
+
+		return apply_filters( 'sq_jsonld_' . strtolower( $type ) . '_markup', $markup, $this->_post, $type );
+	}
+
+	/**
+	 * Get the markup for a WebPage subtype Schema (AboutPage, ContactPage, CollectionPage)
+	 *
+	 * @param string $type
+	 *
+	 * @return mixed
+	 */
+	public function getWebPageMarkup( $type = 'AboutPage' ) {
+		$markup = $this->getGenericMarkup( $type, array(
+			'date_key'     => 'datePublished',
+			'modified_key' => 'dateModified',
+		) );
+
+		return apply_filters( 'sq_jsonld_' . strtolower( $type ) . '_markup', $markup, $this->_post, $type );
+	}
+
+	/**
 	 * Get Local Business Markup
 	 *
 	 * @param string $type
@@ -1012,6 +1415,11 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 			if ( ! empty( $jsonld_socials ) ) {
 				$markup['sameAs'] = $jsonld_socials;
 			}
+		}
+
+		//Normalise the country to an ISO 3166-1 alpha-2 code for addressCountry
+		if ( isset( $markup['address']['addressCountry'] ) && $markup['address']['addressCountry'] ) {
+			$markup['address']['addressCountry'] = SQ_Classes_Helpers_Sanitize::getCountryCode( $markup['address']['addressCountry'] );
 		}
 
 		return apply_filters( 'sq_jsonld_publisher_markup', $markup, $this->_post, $jsonld_type );

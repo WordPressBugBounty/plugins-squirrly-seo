@@ -79,6 +79,7 @@ $sq_assistant_collapsed = ( isset( $_COOKIE['sq_assistant'] ) && $_COOKIE['sq_as
     }
 
     /* on hover, expand to a fixed overlay - exactly like the small-screen sidebar (position:fixed escapes the flex/overflow that pins it to the strip) */
+    /* z-index must sit above the Squirrly Snippet close button (.sq-close-absolute is 10000) so the expanded sidebar isn't overlapped by it on admin pages */
     #sq_wrap .sq_col_side.sq_col_side_collapsed:hover {
         width: 270px !important;
         position: fixed;
@@ -87,7 +88,7 @@ $sq_assistant_collapsed = ( isset( $_COOKIE['sq_assistant'] ) && $_COOKIE['sq_as
         bottom: 0;
         height: auto;
         overflow-y: auto;
-        z-index: 9999;
+        z-index: 10001;
         box-shadow: -3px 0 14px rgba(0, 0, 0, 0.12);
     }
     /* inside the fixed overlay, drop the sticky offset so short/empty content (and the toggle) stays at the very top instead of drifting down */

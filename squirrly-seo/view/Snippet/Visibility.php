@@ -17,6 +17,12 @@ if ( ! SQ_Classes_Helpers_Tools::getOption( 'sq_auto_pattern' ) || ! $view->post
 }
 
 $patterns = SQ_Classes_Helpers_Tools::getOption( 'patterns' );
+
+//The Automation > Configuration tab that actually holds this post type's settings.
+//Post types excluded from Automation (e.g. elementor_library) have no tab of their
+//own and inherit the "custom" tab, so link there instead of a non-existent tab.
+$sq_pattern_tab = isset( $patterns[ $view->post->post_type ] ) ? $view->post->post_type : 'custom';
+
 if ( ! isset( $patterns[ $view->post->post_type ] ) && isset( $patterns['custom'] ) ) {
 	$patterns[ $view->post->post_type ] = $patterns['custom'];
 }
@@ -52,7 +58,7 @@ if ( ! isset( $patterns[ $view->post->post_type ] ) && isset( $patterns['custom'
 					<?php if ( isset( $patterns[ $view->post->post_type ]['noindex'] ) && $patterns[ $view->post->post_type ]['noindex'] ) { ?>
                         <div class="sq_deactivated_label sq-col-12 sq-row sq-m-0 sq-p-2 sq-pr-3 sq_save_ajax">
                             <div class="sq-col-12 sq-p-0 sq-text-center sq-small">
-								<?php echo sprintf( esc_html__( "This Post Type (%s) has Nofollow set in Automation. See %s Squirrly > Automation > Configuration %s.", "squirrly-seo" ), esc_attr( $view->post->post_type ), '<a href="' . esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_automation', 'automation' ) . '#tab=sq_' . esc_attr( $view->post->post_type ) ) . '" target="_blank"><strong>', '</strong></a>' ) ?>
+								<?php echo sprintf( esc_html__( "This Post Type (%s) has Noindex set in Automation. See %s Squirrly > Automation > Configuration %s.", "squirrly-seo" ), esc_attr( $view->post->post_type ), '<a href="' . esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_automation', 'automation' ) . '#tab=sq_' . esc_attr( $sq_pattern_tab ) ) . '" target="_blank"><strong>', '</strong></a>' ) ?>
                             </div>
                         </div>
 					<?php } elseif ( ! SQ_Classes_Helpers_Tools::getOption( 'sq_auto_noindex' ) ) { ?>
@@ -83,7 +89,7 @@ if ( ! isset( $patterns[ $view->post->post_type ] ) && isset( $patterns['custom'
 					<?php if ( isset( $patterns[ $view->post->post_type ]['nofollow'] ) && $patterns[ $view->post->post_type ]['nofollow'] ) { ?>
                         <div class="sq_deactivated_label sq-col-12 sq-row sq-m-0 sq-p-2 sq-pr-3 sq_save_ajax">
                             <div class="sq-col-12 sq-p-0 sq-text-center sq-small">
-								<?php echo sprintf( esc_html__( "This Post Type (%s) has Nofollow set in Automation. See %s Squirrly > Automation > Configuration %s.", "squirrly-seo" ), esc_attr( $view->post->post_type ), '<a href="' . esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_automation', 'automation' ) . '#tab=sq_' . esc_attr( $view->post->post_type ) ) . '" target="_blank"><strong>', '</strong></a>' ) ?>
+								<?php echo sprintf( esc_html__( "This Post Type (%s) has Nofollow set in Automation. See %s Squirrly > Automation > Configuration %s.", "squirrly-seo" ), esc_attr( $view->post->post_type ), '<a href="' . esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_automation', 'automation' ) . '#tab=sq_' . esc_attr( $sq_pattern_tab ) ) . '" target="_blank"><strong>', '</strong></a>' ) ?>
                             </div>
                         </div>
 					<?php } elseif ( ! SQ_Classes_Helpers_Tools::getOption( 'sq_auto_noindex' ) ) { ?>
@@ -113,7 +119,7 @@ if ( ! isset( $patterns[ $view->post->post_type ] ) && isset( $patterns['custom'
 					<?php if ( ! $view->post->sq->do_sitemap ) { ?>
                         <div class="sq_deactivated_label sq-col-12 sq-row sq-m-0 sq-p-2 sq-pr-3 sq_save_ajax">
                             <div class="sq-col-12 sq-p-0 sq-text-center sq-small">
-								<?php echo sprintf( esc_html__( "Show in sitemap for this Post Type (%s) was excluded from %s Squirrly > Automation > Configuration %s.", "squirrly-seo" ), esc_attr( $view->post->post_type ), '<a href="' . esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_automation', 'automation' ) . '#tab=sq_' . esc_attr( $view->post->post_type ) ) . '" target="_blank"><strong>', '</strong></a>' ) ?>
+								<?php echo sprintf( esc_html__( "Show in sitemap for this Post Type (%s) was excluded from %s Squirrly > Automation > Configuration %s.", "squirrly-seo" ), esc_attr( $view->post->post_type ), '<a href="' . esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_automation', 'automation' ) . '#tab=sq_' . esc_attr( $sq_pattern_tab ) ) . '" target="_blank"><strong>', '</strong></a>' ) ?>
                             </div>
                         </div>
 					<?php } elseif ( ! SQ_Classes_Helpers_Tools::getOption( 'sq_auto_sitemap' ) ) { ?>

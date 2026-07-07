@@ -25,6 +25,22 @@ if ( ! isset( $view ) ) {
         <div class="d-flex flex-row flex-nowrap flex-grow-1 bg-light m-0 p-0">
             <div class="flex-grow-1 sq_flex m-0 py-0 px-4">
 				<?php do_action( 'sq_form_notices' ); ?>
+
+				<?php if ( ! SQ_Classes_Helpers_Tools::isPluginInstalled( 'squirrly-seo-pack/index.php' ) ) { ?>
+                    <form method="post" class="col-12 row m-0 p-0 mt-4">
+						<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_advanced_install', 'sq_nonce' ); ?>
+                        <input type="hidden" name="action" value="sq_advanced_install"/>
+                        <div class="col-12 d-flex flex-row align-items-center p-3 m-0 border rounded bg-light">
+                            <i class="fa-solid fa-bolt text-primary p-0 m-0 pr-3" style="font-size: 20px;"></i>
+                            <div class="p-0 m-0 flex-grow-1">
+                                <strong><?php echo esc_html__( "Want full control over your Rich Snippets?", 'squirrly-seo' ); ?></strong>
+                                <div class="small text-black-50"><?php echo esc_html__( "The Advanced Pack lets you add multiple schema types per page and customize every field - ratings, offers, events, FAQs, how-tos and more - with a visual editor. It's free and installs in one click.", 'squirrly-seo' ); ?></div>
+                            </div>
+                            <button type="submit" class="btn btn-sm btn-primary p-0 m-0 px-3 py-2 rounded-0 ml-3" style="white-space: nowrap;"><?php echo esc_html__( "Install now - it's free", 'squirrly-seo' ); ?></button>
+                        </div>
+                    </form>
+				<?php } ?>
+
                 <form method="POST">
 					<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_seosettings_save', 'sq_nonce' ); ?>
                     <input type="hidden" name="action" value="sq_seosettings_save"/>

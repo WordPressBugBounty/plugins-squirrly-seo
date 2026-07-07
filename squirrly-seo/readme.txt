@@ -4,7 +4,7 @@ Donate link: https://plugin.squirrly.co/squirrly-seo-pricing/
 Tags: SEO, AEO, GEO, schema, sitemap
 Requires at least: 5.3
 Tested up to: 7.0
-Stable tag: 14.0.1
+Stable tag: 14.1.0
 Requires PHP: 7.0
 License: GPLv2 or later
 
@@ -120,8 +120,21 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 7. Squirrly SEO - SEO Briefcase
 
 == Changelog ==
+= 14.1.0 =
+* New: Auto-generate many more JSON-LD Schema types from your content - Person, Organization, Product, Event, How-To, Course, Book, Job Posting, Podcast, Music, Service, Software Application, Video Game, Real Estate, Accommodation, About, Contact and Collection pages.
+* New: Google-validated Schema types (Event, Job Posting, and others) are only output when their required fields can be filled in, so the markup passes the Rich Results Test.
+* Improvement: Adding a new Schema over an automatic one now keeps the automatic Schemas instead of replacing them.
+* Improvement: Schema Types are now listed in alphabetical order for easier searching.
+* Improvement: Capped the height of the Schema Types list and added a shortcut to the Advanced Pack.
+* Fix: The Squirrly Snippet close button no longer overlaps the Assistant sidebar.
+* Fix: The Breadcrumbs link in the Snippet now opens the correct Rich Snippets settings tab.
+
+= 14.0.2 =
+* Fix: Output the country as a valid ISO 3166-1 code in Organization and Local Business structured data.
+* Fix: Corrected the Robots message and the Automation link in the Bulk SEO visibility snippet for post types managed by the Custom automation.
+
 = 14.0.1 =
-* Fix: Smoother Live Assistant loading inside the Elementor editor.
+* Fix: Smoother Live Assistant loading inside page builders.
 * Fix: Tidied up navigation to the AI Visibility page.
 
 = 14.0.0 =
