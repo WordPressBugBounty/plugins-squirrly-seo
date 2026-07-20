@@ -103,6 +103,55 @@ class SQ_Models_Qss {
 	}
 
 	/**
+	 * Remove an innerlink straight from the Qss table, by its ID.
+	 *
+	 * Used as a fallback when the "From" post can no longer be loaded (deleted post,
+	 * unregistered post type, IDs changed by a migration). In that case the record is
+	 * orphaned in the table and the regular delete - which needs the post - can't reach it.
+	 *
+	 * @param string $id The innerlink ID (the array key).
+	 *
+	 * @return array|false The removed innerlink, or false when nothing matched.
+	 */
+	public function deleteSqInnerlink( $id ) {
+		global $wpdb;
+
+		if ( ! $id ) {
+			return false;
+		}
+
+		$blog_id = get_current_blog_id();
+		$table   = $wpdb->prefix . _SQ_DB_;
+
+		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `$table` WHERE blog_id = %d AND seo LIKE %s", (int) $blog_id, '%"innerlinks"%' ) );
+
+		if ( ! $rows ) {
+			return false;
+		}
+
+		foreach ( $rows as $row ) {
+			$metas = SQ_Classes_ObjController::getDomain( 'SQ_Models_Domain_Sq', maybe_unserialize( $row->seo ) );
+
+			if ( empty( $metas->innerlinks ) || ! isset( $metas->innerlinks[ $id ] ) ) {
+				continue;
+			}
+
+			$innerlinks = $metas->innerlinks;
+			$innerlink  = $innerlinks[ $id ];
+
+			unset( $innerlinks[ $id ] );
+			$metas->innerlinks = $innerlinks;
+
+			//Keep the row's own URL/hash/post columns - the post may not exist anymore.
+			$this->saveSqSEO( $row->URL, $row->url_hash, $row->post, maybe_serialize( $metas->toArray() ), gmdate( 'Y-m-d H:i:s' ) );
+
+			return (array) $innerlink;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Save the SEO for a specific Post into database
 	 *
 	 * @param string $url

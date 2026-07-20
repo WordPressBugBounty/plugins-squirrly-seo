@@ -142,11 +142,37 @@ if ( ! isset( $view ) ) {
 
 									?>
                                     <tr>
-                                        <td><?php echo esc_html( $row['url'] ) ?>
+                                        <td>
+                                            <?php
+                                            //One entry can hold several URLs (batch submit), stored newline-separated in the url field.
+                                            $row_urls  = array_values( array_filter( explode( "\n", (string) $row['url'] ) ) );
+                                            $first_url = array_shift( $row_urls );
+                                            ?>
+                                            <?php echo esc_html( $first_url ) ?>
                                             <em><?php echo( ! esc_attr( $row['manual'] ) ? '<i title="' . esc_attr__( "Submited automatically", 'squirrly-seo' ) . '" class="dashicons dashicons-cloud-saved m-1"></i>' : '' ) ?></em>
+											<?php if ( ! empty( $row_urls ) ) { ?>
+                                                <details class="small text-black-50 mt-1">
+                                                    <summary style="cursor:pointer"><?php echo esc_html( sprintf( _n( '+%d more URL', '+%d more URLs', count( $row_urls ), 'squirrly-seo' ), count( $row_urls ) ) ) ?></summary>
+													<?php foreach ( $row_urls as $row_url ) { echo esc_html( $row_url ) . '<br>'; } ?>
+                                                </details>
+											<?php } ?>
                                         </td>
-                                        <td><?php echo esc_html( $row['status'] ) ?>
-                                            <em>(<?php echo esc_html( $row['message'] ) ?>)</em></td>
+                                        <?php
+                                        //Endpoints this row was submitted to, stored at submit time so it stays accurate even if the settings change later.
+                                        $row_endpoints = isset( $row['endpoints'] ) ? array_values( array_filter( (array) $row['endpoints'] ) ) : array();
+                                        ?>
+                                        <td>
+											<?php if ( ! empty( $row_endpoints ) ) { ?>
+                                                <a href="#" class="sq_show_endpoints" style="color:inherit;text-decoration:none;cursor:pointer;line-height:20px" data-endpoints="<?php echo esc_attr( wp_json_encode( $row_endpoints ) ) ?>" title="<?php echo esc_attr__( "See where this was submitted", "squirrly-seo" ) ?>">
+													<?php echo esc_html( $row['status'] ) ?>
+                                                    <em>(<?php echo esc_html( $row['message'] ) ?>)</em>
+                                                    <i class="dashicons dashicons-info-outline" style="font-size:14px;height:14px;width:14px;line-height:20px;vertical-align:middle;position:relative;top:-2px;opacity:.5"></i>
+                                                </a>
+											<?php } else { ?>
+												<?php echo esc_html( $row['status'] ) ?>
+                                                <em>(<?php echo esc_html( $row['message'] ) ?>)</em>
+											<?php } ?>
+                                        </td>
                                         <td><?php echo esc_html( wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $timestamp ) ) ?></td>
                                     </tr>
 									<?php
@@ -155,6 +181,32 @@ if ( ! isset( $view ) ) {
 
                                 </tbody>
                             </table>
+
+                            <div id="sq_endpoints_modal" style="display:none;position:fixed;inset:0;z-index:100050;background:rgba(0,0,0,.5)">
+                                <div style="background:#fff;max-width:520px;margin:8% auto;padding:20px 24px;border-radius:6px;position:relative;box-shadow:0 10px 40px rgba(0,0,0,.25)">
+                                    <span id="sq_endpoints_close" style="position:absolute;top:8px;right:14px;cursor:pointer;font-size:22px;line-height:1;color:#555">&times;</span>
+                                    <h5 style="margin:0 0 12px"><?php echo esc_html__( "Submitted to these IndexNow endpoints", "squirrly-seo" ) ?></h5>
+                                    <ul id="sq_endpoints_list" style="margin:0;padding-left:18px;word-break:break-all"></ul>
+                                </div>
+                            </div>
+                            <script>
+                                (function ($) {
+                                    var $modal = $('#sq_endpoints_modal'), $list = $('#sq_endpoints_list');
+
+                                    $(document).on('click', '.sq_show_endpoints', function (e) {
+                                        e.preventDefault();
+                                        var endpoints = [];
+                                        try { endpoints = JSON.parse($(this).attr('data-endpoints')) || []; } catch (err) {}
+                                        $list.empty();
+                                        $.each(endpoints, function (i, url) { $list.append($('<li></li>').text(url)); });
+                                        $modal.show();
+                                    });
+
+                                    $modal.on('click', function (e) { if (e.target === this) $modal.hide(); });
+                                    $('#sq_endpoints_close').on('click', function () { $modal.hide(); });
+                                    $(document).on('keyup', function (e) { if (e.key === 'Escape') $modal.hide(); });
+                                })(jQuery);
+                            </script>
 						<?php } else { ?>
                             <table class="table table-striped table-hover mt-3">
                                 <thead>

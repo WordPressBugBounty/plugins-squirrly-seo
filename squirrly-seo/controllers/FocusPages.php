@@ -776,29 +776,41 @@ class SQ_Controllers_FocusPages extends SQ_Classes_FrontController {
 				$from_post_id = (int) SQ_Classes_Helpers_Tools::getValue( 'from_post_id', 0 );
 				$id      = SQ_Classes_Helpers_Tools::getValue( 'id' );
 
-				if ( $post = SQ_Classes_ObjController::getClass( 'SQ_Models_Snippet' )->setPostByID( $from_post_id ) ) {
+				$innerlink = false;
+
+				if ( $id && $post = SQ_Classes_ObjController::getClass( 'SQ_Models_Snippet' )->setPostByID( $from_post_id ) ) {
 
 					//Set the innerlink in post
 					$innerlinks = $post->sq->innerlinks;
 					if ( isset( $innerlinks[ $id ] )  ) {
-						//send the post to API
-						$args                 = array();
-						$args['from_post_id'] = $innerlinks[ $id ]['from_post_id'];
-						$args['to_post_id']   = $innerlinks[ $id ]['to_post_id'];
-						$args['keyword']      = $innerlinks[ $id ]['keyword'];
-						SQ_Classes_RemoteController::deleteFocusPageInnerlink( $args );
+						$innerlink = (array) $innerlinks[ $id ];
 
 						unset( $innerlinks[ $id ] );
 
 						$post->sq->innerlinks = $innerlinks;
 
 						SQ_Classes_ObjController::getClass( 'SQ_Models_Qss' )->updateSqSeo( $post, $post->sq );
-
-						SQ_Classes_Error::setMessage( esc_html__( "Inner Link Removed", 'squirrly-seo' ) . " <br /> " );
-					} else {
-						SQ_Classes_Error::setError( esc_html__( "Could not delete the innerlink", 'squirrly-seo' ) . " <br /> " );
 					}
 
+				}
+
+				//The From page may no longer be loadable (deleted post, unregistered post type,
+				//IDs changed by a migration). Remove the orphaned record straight from the table.
+				if ( ! $innerlink && $id ) {
+					$innerlink = SQ_Classes_ObjController::getClass( 'SQ_Models_Qss' )->deleteSqInnerlink( $id );
+				}
+
+				if ( $innerlink ) {
+					//send the post to API
+					$args                 = array();
+					$args['from_post_id'] = isset( $innerlink['from_post_id'] ) ? $innerlink['from_post_id'] : $from_post_id;
+					$args['to_post_id']   = isset( $innerlink['to_post_id'] ) ? $innerlink['to_post_id'] : 0;
+					$args['keyword']      = isset( $innerlink['keyword'] ) ? $innerlink['keyword'] : '';
+					SQ_Classes_RemoteController::deleteFocusPageInnerlink( $args );
+
+					SQ_Classes_Error::setMessage( esc_html__( "Inner Link Removed", 'squirrly-seo' ) . " <br /> " );
+				} else {
+					SQ_Classes_Error::setError( esc_html__( "Could not delete the innerlink", 'squirrly-seo' ) . " <br /> " );
 				}
 
 				break;
@@ -980,29 +992,51 @@ class SQ_Controllers_FocusPages extends SQ_Classes_FrontController {
 
 				$ids = SQ_Classes_Helpers_Tools::getValue( 'inputs', array() );
 
-				$innerlinks = SQ_Classes_ObjController::getClass( 'SQ_Models_Qss' )->getSqInnerlinks( array() );
+				$all_innerlinks = SQ_Classes_ObjController::getClass( 'SQ_Models_Qss' )->getSqInnerlinks( array() );
 
 				if ( ! empty( $ids ) ) {
-					foreach ( $ids as $id ) {
-						if ( in_array( $id, array_keys( $innerlinks ) ) ) {
-							if ( $post = SQ_Classes_ObjController::getClass( 'SQ_Models_Snippet' )->setPostByID( $innerlinks[ $id ]->from_post_id ) ) {
+					$deleted = 0;
 
-								//Set the innerlink in post
-								$innerlinks = $post->sq->innerlinks;
-								if ( isset( $innerlinks[ $id ] ) ) {
-									unset( $innerlinks[ $id ] );
-								}
-								$post->sq->innerlinks = $innerlinks;
+					foreach ( (array) $ids as $id ) {
+						if ( ! isset( $all_innerlinks[ $id ] ) ) {
+							continue;
+						}
+
+						$removed = false;
+
+						if ( $post = SQ_Classes_ObjController::getClass( 'SQ_Models_Snippet' )->setPostByID( $all_innerlinks[ $id ]->from_post_id ) ) {
+
+							//Set the innerlink in post
+							$post_innerlinks = $post->sq->innerlinks;
+							if ( isset( $post_innerlinks[ $id ] ) ) {
+								unset( $post_innerlinks[ $id ] );
+
+								$post->sq->innerlinks = $post_innerlinks;
 
 								SQ_Classes_ObjController::getClass( 'SQ_Models_Qss' )->updateSqSeo( $post, $post->sq );
 
+								$removed = true;
 							}
+
 						}
 
+						//Fall back to removing the orphaned record when the From page can't be loaded.
+						if ( ! $removed ) {
+							$removed = (bool) SQ_Classes_ObjController::getClass( 'SQ_Models_Qss' )->deleteSqInnerlink( $id );
+						}
+
+						if ( $removed ) {
+							$deleted ++;
+						}
 					}
 
-					echo wp_json_encode( array( 'message' => esc_html__( "Deleted!", 'squirrly-seo' ) ) );
 					delete_transient( 'sq_innerlinks_suggestion' );
+
+					if ( $deleted ) {
+						echo wp_json_encode( array( 'message' => esc_html__( "Deleted!", 'squirrly-seo' ) ) );
+					} else {
+						echo wp_json_encode( array( 'error' => esc_html__( "Could not delete the selected inner links.", 'squirrly-seo' ) ) );
+					}
 
 				} else {
 					echo wp_json_encode( array( 'error' => esc_html__( "Invalid params!", 'squirrly-seo' ) ) );

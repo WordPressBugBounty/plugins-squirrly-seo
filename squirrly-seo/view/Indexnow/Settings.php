@@ -129,28 +129,33 @@ if ( ! isset( $view ) ) {
                                             <div class="col-4 p-0 font-weight-bold">
                                                 <label for="indexnow_post_type"><?php echo esc_html__( "IndexNow Endpoints", 'squirrly-seo' ); ?>
                                                     :</label>
-                                                <div class="small text-black-50 my-1"><?php echo esc_html__( "Select the IndexNow endpoints you want to submit the URLs to.", 'squirrly-seo' ); ?></div>
+                                                <div class="small text-black-50 my-1"><?php echo esc_html__( "Select the IndexNow endpoints you want to submit the URLs to. api.indexnow.org forwards your URLs to every participating engine (Bing, Yandex, Seznam, Naver, Yep and more), so this one is usually enough - selecting several endpoints multiplies the requests and can trigger rate limits (429).", 'squirrly-seo' ); ?></div>
                                             </div>
 
                                             <div class="col-8 p-0 m-0 form-group">
                                                 <select id="indexnow_endpoints" multiple name="indexnow_endpoints[]" class="selectpicker form-control bg-input mb-1" data-live-search="true">
                                                     <?php
 
-                                                    $dbendpoints = (array) SQ_Classes_Helpers_Tools::getOption( 'indexnow_endpoints' );
+                                                    /** @var SQ_Models_Indexnow $indexnowModel */
+                                                    $indexnowModel = SQ_Classes_ObjController::getClass( 'SQ_Models_Indexnow' );
+
+                                                    //normalize saved endpoints so the legacy bare api.indexnow.org still shows as selected on the new /indexnow option
+                                                    $dbendpoints = array_map( array( $indexnowModel, 'normalizeEndpoint' ), (array) SQ_Classes_Helpers_Tools::getOption( 'indexnow_endpoints' ) );
 
                                                     if(empty( $dbendpoints )){
 	                                                    $dbendpoints = array(
-		                                                    'https://api.indexnow.org',
-		                                                    'https://www.bing.com/indexnow',
+		                                                    'https://api.indexnow.org/indexnow',
 	                                                    );
                                                     }
 
                                                     $endpoints = array(
-                                                        'https://api.indexnow.org',
+                                                        'https://api.indexnow.org/indexnow',
                                                         'https://www.bing.com/indexnow',
                                                         'https://searchadvisor.naver.com/indexnow',
                                                         'https://search.seznam.cz/indexnow',
                                                         'https://yandex.com/indexnow',
+                                                        'https://indexnow.yep.com/indexnow',
+                                                        'https://web-static.archive.org/indexnow',
                                                     );
 
                                                     if ( ! empty( $endpoints ) ) {

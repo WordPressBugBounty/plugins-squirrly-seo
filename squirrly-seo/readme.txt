@@ -4,7 +4,7 @@ Donate link: https://plugin.squirrly.co/squirrly-seo-pricing/
 Tags: SEO, AEO, GEO, schema, sitemap
 Requires at least: 5.3
 Tested up to: 7.0
-Stable tag: 14.1.0
+Stable tag: 14.1.1
 Requires PHP: 7.0
 License: GPLv2 or later
 
@@ -120,6 +120,14 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 7. Squirrly SEO - SEO Briefcase
 
 == Changelog ==
+= 14.1.1 =
+* Fix: Pages are now submitted to LLM Indexing only when their content actually changes in the post editor - moving a post to trash, restoring it, or using Quick Edit / Bulk Edit no longer triggers a submission.
+* Improvement: LLM Indexing (IndexNow) now submits to the api.indexnow.org hub by default, which forwards your URLs to every participating engine (Bing, Yandex, Seznam, Naver, Yep and more) - fewer requests and fewer rate-limit errors.
+* Improvement: The same URL is no longer re-submitted more than once per 24 hours, and repeated errors now pause submissions with an escalating backoff (60s, 5min, 30min) to avoid 429 Too Many Requests.
+* Improvement: Automatic IndexNow submissions run after the page loads and record the real response code instead of always showing "0 (Submitted)", without slowing down saving posts.
+* Improvement: The LLM Indexing log now lists every URL from a bulk submit and, when you click a status, shows the exact IndexNow endpoints each request was sent to.
+* Fix: Manual IndexNow submits now show a clear warning instead of silently failing when a URL was already sent in the last 24 hours or while submissions are paused.
+
 = 14.1.0 =
 * New: Auto-generate many more JSON-LD Schema types from your content - Person, Organization, Product, Event, How-To, Course, Book, Job Posting, Podcast, Music, Service, Software Application, Video Game, Real Estate, Accommodation, About, Contact and Collection pages.
 * New: Google-validated Schema types (Event, Job Posting, and others) are only output when their required fields can be filled in, so the markup passes the Rich Results Test.

@@ -452,10 +452,33 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 		}
 	}
 
+	/**
+	 * Prepare a text for a JSON-LD value.
+	 *
+	 * Titles and descriptions are stored HTML-escaped (see SQ_Classes_Helpers_Sanitize::clearTitle)
+	 * because they are built for the <title> tag and meta attributes, where the browser decodes
+	 * the entities back. JSON-LD lives inside a <script> block, which the HTML spec treats as raw
+	 * text - character references are never decoded there, so an entity would be read literally
+	 * (e.g. "Tenant Information &#038; Support") by Google and any other consumer.
+	 *
+	 * Decode the entities here so the schema carries plain text. wp_json_encode() escapes whatever
+	 * needs escaping at the JSON level afterwards.
+	 *
+	 * @param string $text
+	 *
+	 * @return string
+	 */
 	public function cleanText( $text ) {
-		$text = str_replace( array( '&#034;', '&#8220;', '&#8221;' ), '"', $text );
+		if ( ! is_string( $text ) || $text === '' ) {
+			return $text;
+		}
 
-		return $text;
+		$text = html_entity_decode( $text, ENT_QUOTES, 'UTF-8' );
+
+		//Non-breaking spaces survive the decode as U+00A0 and read as stray spacing in schema.
+		$text = str_replace( "\xc2\xa0", ' ', $text );
+
+		return trim( preg_replace( '/\s{2,}/', ' ', $text ) );
 	}
 
 	/**

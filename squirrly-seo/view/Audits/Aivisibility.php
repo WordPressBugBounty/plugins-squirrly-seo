@@ -33,7 +33,7 @@ if ( ! isset( $view ) ) {
                 <h3 class="mt-4 card-title">
                     <i class="fa-solid fa-robot text-primary"></i> <?php echo esc_html__( "AI Visibility", "squirrly-seo" ); ?>
                     <div class="sq_help_question d-inline">
-                        <a href="https://howto12.squirrly.co/kb/seo-audit/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                        <a href="https://howto12.squirrly.co/kb/ai-visibility/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                     </div>
                 </h3>
                 <div class="col-9 small m-0 p-0 mb-4">

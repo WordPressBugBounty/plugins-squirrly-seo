@@ -25,15 +25,15 @@ class SQ_Models_Indexnow {
 		$args['urls'] = $urls;
 		SQ_Classes_RemoteController::sendGSCIndex( $args );
 
-		//get the urls from options
+		//Default to the api.indexnow.org hub only - it forwards to every engine, so one request avoids the extra rate-limiting of pinging each engine directly.
 		$this->_apiUrls = SQ_Classes_Helpers_Tools::getOption( 'indexnow_endpoints' );
 
 		if ( empty( $this->_apiUrls ) ) {
-			$this->_apiUrls = array(
-				'https://api.indexnow.org',
-				'https://www.bing.com/indexnow',
-			);
+			$this->_apiUrls = array( 'https://api.indexnow.org/indexnow' );
 		}
+
+		//Fix the legacy bare hub URL saved by older versions (it was missing the /indexnow path).
+		$this->_apiUrls = array_map( array( $this, 'normalizeEndpoint' ), (array) $this->_apiUrls );
 
 		$headers = array(
 			'Content-Type'  => 'application/json',
@@ -41,43 +41,12 @@ class SQ_Models_Indexnow {
 			'X-Source-Info' => 'https://squirrly.co/' . SQ_VERSION . '/' . $manual,
 		);
 
-		//On auto-indexing (triggered by save_post) fire-and-forget so the post save
-		//isn't blocked waiting for the IndexNow endpoints. There's no response code
-		//to read, so just log it as submitted.
-		if ( ! $manual ) {
-			foreach ( $this->_apiUrls as $apiurl ) {
-				if ( $apiurl == 'https://indexnow.yep.com' ) {
-					continue;
-				}
-
-				wp_remote_post( $apiurl, array(
-					'blocking' => false,
-					'timeout'  => 5,
-					'body'     => $data,
-					'headers'  => $headers,
-				) );
-			}
-
-			$this->_success = true;
-			$this->addLog( (array) $urls, 0, $manual, 'Submitted' );
-
-			return true;
-		}
-
-		//Manual submissions are blocking so the admin log can report the real result.
-		//api.indexnow.org forwards the submission to every participating engine, so we
-		//treat it as a success when ANY endpoint accepts it and only report an error
-		//when they all fail - otherwise a single endpoint's 401/403 would mask a real
-		//success and show "failed" every time.
+		//Blocking so the real status is logged; auto submissions run on 'shutdown' so the save isn't delayed. api.indexnow.org forwards to every engine, so success = ANY endpoint accepting it.
 		$success_code = 0;
 		$error_code   = 0;
 		$error_msg    = '';
 
 		foreach ( $this->_apiUrls as $apiurl ) {
-			if ( $apiurl == 'https://indexnow.yep.com' ) {
-				continue;
-			}
-
 			$response = wp_remote_post( $apiurl, array(
 				'blocking' => true,
 				'timeout'  => 5,
@@ -108,12 +77,12 @@ class SQ_Models_Indexnow {
 
 		if ( $success_code ) {
 			$this->_success = true;
-			$this->addLog( (array) $urls, $success_code, $manual, 'Success' );
+			$this->addLog( (array) $urls, $success_code, $manual, 'Success', $this->_apiUrls );
 
 			return true;
 		}
 
-		$this->addLog( (array) $urls, $error_code, $manual, $error_msg ? $error_msg : $this->getErrorMessage( $error_code ) );
+		$this->addLog( (array) $urls, $error_code, $manual, $error_msg ? $error_msg : $this->getErrorMessage( $error_code ), $this->_apiUrls );
 
 		return false;
 	}
@@ -168,6 +137,17 @@ class SQ_Models_Indexnow {
 		set_transient( $cache_key, $result, HOUR_IN_SECONDS );
 
 		return $result;
+	}
+
+	/**
+	 * Normalize an IndexNow endpoint: the api.indexnow.org hub must include the /indexnow path.
+	 */
+	public function normalizeEndpoint( $url ) {
+		if ( rtrim( (string) $url, '/' ) === 'https://api.indexnow.org' ) {
+			return 'https://api.indexnow.org/indexnow';
+		}
+
+		return $url;
 	}
 
 	/**
@@ -246,6 +226,7 @@ class SQ_Models_Indexnow {
 			422 => __( 'Invalid URL or the key location does not match this host.', 'squirrly-seo' ),
 			429 => __( 'Too many requests.', 'squirrly-seo' ),
 			500 => __( 'Internal server error.', 'squirrly-seo' ),
+			503 => __( 'Service temporarily unavailable.', 'squirrly-seo' ),
 		];
 
 		if ( isset( $message_map[ $http_code ] ) ) {
@@ -286,10 +267,11 @@ class SQ_Models_Indexnow {
 	 * @param $status
 	 * @param $manual
 	 * @param $message
+	 * @param $endpoints IndexNow endpoints the URLs were submitted to (kept so the log stays accurate if settings change)
 	 *
 	 * @return void
 	 */
-	public function addLog( $urls, $status, $manual, $message = '' ) {
+	public function addLog( $urls, $status, $manual, $message = '', $endpoints = array() ) {
 		$log = $this->getLog();
 		$url = $this->getUrlLog( $urls );
 
@@ -298,11 +280,12 @@ class SQ_Models_Indexnow {
 		}
 
 		$log[] = [
-			'url'     => $url,
-			'status'  => (int) $status,
-			'manual'  => (int) $manual,
-			'message' => $message,
-			'time'    => time(),
+			'url'       => $url,
+			'status'    => (int) $status,
+			'manual'    => (int) $manual,
+			'message'   => $message,
+			'endpoints' => array_values( array_filter( array_map( 'strval', (array) $endpoints ) ) ),
+			'time'      => time(),
 		];
 
 		// Only keep the last 100 records.
@@ -319,18 +302,105 @@ class SQ_Models_Indexnow {
 	 * @return mixed|string
 	 */
 	public function getUrlLog( $urls ) {
-		$urls       = array_values( (array) $urls );
-		$count_urls = count( $urls );
-		if ( ! $count_urls ) {
+		//Store every submitted URL (newline-separated) in the existing url field so the log can show them all - no extra field needed.
+		$urls = array_values( array_filter( array_map( 'strval', (array) $urls ) ) );
+
+		return implode( "\n", $urls );
+	}
+
+	/**
+	 * Backoff state from the log tail: escalating pause (60s, 5min, 30min) after consecutive failed submissions.
+	 */
+	private function getBackoffState() {
+		$state = array( 'limited' => false, 'until' => 0, 'code' => 0 );
+
+		$log = $this->getLog();
+		if ( ! is_array( $log ) || empty( $log ) ) {
+			return $state;
+		}
+
+		//Count the trailing streak of failures (any 4xx/5xx); status 0 (network / old "Submitted") breaks it.
+		$count     = 0;
+		$last_time = 0;
+		$code      = 0;
+		for ( $i = count( $log ) - 1; $i >= 0; $i -- ) {
+			$status = isset( $log[ $i ]['status'] ) ? (int) $log[ $i ]['status'] : 0;
+			if ( $status < 400 ) {
+				break;
+			}
+			$count ++;
+			if ( ! $last_time ) {
+				$last_time = isset( $log[ $i ]['time'] ) ? (int) $log[ $i ]['time'] : 0;
+				$code      = $status;
+			}
+		}
+
+		if ( ! $count ) {
+			return $state;
+		}
+
+		$steps            = array( 60, 300, 1800 ); // 1min, 5min, 30min
+		$interval         = $steps[ min( $count - 1, count( $steps ) - 1 ) ];
+		$state['code']    = $code;
+		$state['until']   = $last_time + $interval;
+		$state['limited'] = ( time() < $state['until'] );
+
+		return $state;
+	}
+
+	/**
+	 * Whether submissions are currently paused because IndexNow keeps returning errors.
+	 */
+	public function isSubmitPaused() {
+		$state = $this->getBackoffState();
+
+		return $state['limited'];
+	}
+
+	/**
+	 * Human message explaining the current pause (empty when not paused).
+	 */
+	public function getBackoffMessage() {
+		$state = $this->getBackoffState();
+		if ( ! $state['limited'] ) {
 			return '';
 		}
 
-		$url = $urls[0];
-		if ( $count_urls > 1 ) {
-			$url .= ' [+' . ( $count_urls - 1 ) . ']';
+		$time = wp_date( get_option( 'time_format' ), $state['until'] );
+
+		if ( $state['code'] === 429 ) {
+			return sprintf( esc_html__( 'IndexNow is rate-limiting your site (429 Too Many Requests). New submissions are paused until %s.', 'squirrly-seo' ), $time );
 		}
 
-		return $url;
+		return sprintf( esc_html__( 'Submissions are paused until %1$s. IndexNow returned %2$d: %3$s', 'squirrly-seo' ), $time, $state['code'], $this->getErrorMessage( $state['code'] ) );
+	}
+
+	/**
+	 * Whether the URL was already submitted within $within seconds (IndexNow "once per 24h" rule).
+	 */
+	public function wasSubmittedRecently( $urls, $within ) {
+		$url = $this->getUrlLog( $urls );
+
+		if ( ! $url ) {
+			return false;
+		}
+
+		$log = $this->getLog();
+		if ( ! is_array( $log ) ) {
+			return false;
+		}
+
+		foreach ( $log as $entry ) {
+			if ( ! isset( $entry['url'], $entry['time'] ) ) {
+				continue;
+			}
+
+			if ( $entry['url'] === $url && ( time() - (int) $entry['time'] ) < (int) $within ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
