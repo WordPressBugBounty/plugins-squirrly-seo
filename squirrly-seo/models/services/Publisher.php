@@ -39,6 +39,8 @@ class SQ_Models_Services_Publisher extends SQ_Models_Abstract_Seo {
 				}
 
 				//Fix for Pinterest Rich Snippets
+				//Note: this makes the head depend on the User-Agent, so SQ_Controllers_Frontend
+				//marks Pinterest requests as non-cacheable. Keep both in sync.
 				if ( isset( $_SERVER['HTTP_USER_AGENT'] ) && strpos( $_SERVER['HTTP_USER_AGENT'], 'Pinterest' ) !== false ) {
 					//Show the author for the current post
 					$display_name = $this->getAuthor( 'display_name' );

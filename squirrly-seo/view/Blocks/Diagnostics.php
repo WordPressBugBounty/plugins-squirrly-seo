@@ -36,8 +36,11 @@ $test_url = add_query_arg( array( 'sq_run_diag' => '1' ) ) . '#sq_diagnostics';
 
     <table class="table table-sm table-bordered bg-white" style="max-width: 900px;">
         <tbody>
-		<?php foreach ( $debug as $key => $value ) {
-			if ( $key === 'live_checkin_response' ) {
+		<?php
+		//multi-line dumps are rendered as <pre> blocks under the table, not as table cells
+		$blocks = array( 'live_checkin_response', 'live_checkin_call', 'last_api_failure_details' );
+		foreach ( $debug as $key => $value ) {
+			if ( in_array( $key, $blocks, true ) ) {
 				continue;
 			}
 			$is_warn = in_array( $key, array( 'user_can_manage_settings', 'request_will_be_signed', 'site_key_present' ), true )
@@ -58,6 +61,20 @@ $test_url = add_query_arg( array( 'sq_run_diag' => '1' ) ) . '#sq_diagnostics';
         <div class="col-12 m-0 p-0 my-2">
             <div class="font-weight-bold small"><?php echo esc_html__( "Raw live checkin response:", 'squirrly-seo' ); ?></div>
             <pre class="bg-light border p-2" style="max-width: 900px; white-space: pre-wrap; word-break: break-all;"><?php echo esc_html( (string) $debug['live_checkin_response'] ); ?></pre>
+        </div>
+	<?php } ?>
+
+	<?php if ( $run_live && isset( $debug['live_checkin_call'] ) ) { ?>
+        <div class="col-12 m-0 p-0 my-2">
+            <div class="font-weight-bold small"><?php echo esc_html__( "What was sent and received:", 'squirrly-seo' ); ?></div>
+            <pre class="bg-light border p-2" style="max-width: 900px; white-space: pre-wrap; word-break: break-all;"><?php echo esc_html( (string) $debug['live_checkin_call'] ); ?></pre>
+        </div>
+	<?php } ?>
+
+	<?php if ( isset( $debug['last_api_failure_details'] ) ) { ?>
+        <div class="col-12 m-0 p-0 my-2">
+            <div class="font-weight-bold small"><?php echo esc_html__( "Last API failure (login / register / connect / token):", 'squirrly-seo' ); ?></div>
+            <pre class="bg-light border p-2" style="max-width: 900px; white-space: pre-wrap; word-break: break-all;"><?php echo esc_html( (string) $debug['last_api_failure_details'] ); ?></pre>
         </div>
 	<?php } ?>
 

@@ -23,6 +23,17 @@ class SQ_Classes_RemoteController
     public static $lastHttpCode = null;
 
     /**
+     * Snapshot of the last sq_wpcall(): url, method, redacted request, http code, raw body and any
+     * WP_Error message. Vague failures like 'no_data' only say "the Cloud didn't answer with data" -
+     * this keeps what was actually sent and received so the real cause (WAF/Cloudflare HTML page,
+     * empty body, 401/403, DNS/SSL failure, PHP notice glued in front of the JSON) is visible.
+     * Secrets are removed by redactSecrets() before anything is stored here.
+     *
+     * @var array
+     */
+    public static $lastCall = array();
+
+    /**
      * Cloud auth errors that mean "this site's identity changed" (it was cloned, staged or moved to
      * a new address, or the Cloud now requires a signed handshake this install can't satisfy). These
      * never self-heal by blindly retrying the same call, so they are handled apart from the generic
@@ -61,6 +72,7 @@ class SQ_Classes_RemoteController
 
         //Reset the last HTTP status; sq_wpcall() sets it when (and only when) a request is actually made.
         self::$lastHttpCode = null;
+        self::$lastCall = array();
 
         //Don't make API calls without the token unless it's login or register
         if (!SQ_Classes_Helpers_Tools::getOption('sq_api')) {
@@ -230,6 +242,16 @@ class SQ_Classes_RemoteController
         //not accepted as option
         unset($options['method']);
 
+        //Keep a redacted snapshot of this call so a later 'no_data' can be explained (see $lastCall).
+        self::$lastCall = array(
+            'url'      => $url,
+            'method'   => strtoupper($method),
+            'request'  => self::redactSecrets($options),
+            'code'     => null,
+            'body'     => null,
+            'wp_error' => '',
+        );
+
         switch ($method) {
         case 'get':
             $response = wp_remote_get($url, $options);
@@ -245,10 +267,14 @@ class SQ_Classes_RemoteController
         if (is_wp_error($response)) {
             SQ_Classes_Error::setError($response->get_error_message());
             self::$lastHttpCode = 0; //server unreachable (DNS/timeout/SSL/network)
+            self::$lastCall['code'] = 0;
+            self::$lastCall['wp_error'] = $response->get_error_code() . ': ' . $response->get_error_message();
             return false;
         }
 
         self::$lastHttpCode = (int) wp_remote_retrieve_response_code($response);
+        self::$lastCall['code'] = self::$lastHttpCode;
+        self::$lastCall['body'] = (string) wp_remote_retrieve_body($response);
 
         $response = self::cleanResponse(wp_remote_retrieve_body($response)); //clear and get the body
 
@@ -279,8 +305,95 @@ class SQ_Classes_RemoteController
             if (isset($options['body']['site_key'])) {
                 $options['body']['site_key'] = '***redacted***';
             }
+            //api/user/login posts the account password - never let it reach a dump, log or screen.
+            if (isset($options['body']['password'])) {
+                $options['body']['password'] = '***redacted*** (len ' . strlen((string) $options['body']['password']) . ')';
+            }
         }
         return $options;
+    }
+
+    /**
+     * Human readable dump of the last API call (see self::$lastCall), safe to show to an admin or
+     * write to the error log: secrets are already redacted and the body is truncated.
+     *
+     * @return string
+     */
+    public static function getLastCallDebug()
+    {
+        if (empty(self::$lastCall)) {
+            return 'no request was made (the call was skipped before reaching the Cloud - usually a missing sq_api token)';
+        }
+
+        $call = self::$lastCall;
+
+        $body = (string) $call['body'];
+        if (strlen($body) > 1500) {
+            $body = substr($body, 0, 1500) . ' ...[truncated]';
+        }
+        if (trim($body) === '') {
+            $body = '(empty body)';
+        }
+
+        $sent = array();
+        if (isset($call['request']['headers']) && is_array($call['request']['headers'])) {
+            foreach ($call['request']['headers'] as $name => $value) {
+                if ($value === false || $value === '') {
+                    $value = '(empty)';
+                }
+                $sent[] = $name . '=' . (is_scalar($value) ? $value : wp_json_encode($value));
+            }
+        }
+
+        $posted = array();
+        if (isset($call['request']['body']) && is_array($call['request']['body'])) {
+            foreach ($call['request']['body'] as $name => $value) {
+                $posted[] = $name . '=' . (is_scalar($value) ? $value : wp_json_encode($value));
+            }
+        }
+
+        $lines = array(
+            'request : ' . $call['method'] . ' ' . $call['url'],
+            'http    : ' . ($call['code'] === null ? '(no response received)' : $call['code']),
+            'headers : ' . implode(', ', $sent),
+        );
+
+        if (!empty($posted)) {
+            $lines[] = 'post    : ' . implode(', ', $posted);
+        }
+        if ($call['wp_error'] !== '') {
+            $lines[] = 'wp_error: ' . $call['wp_error'];
+        }
+
+        $lines[] = 'response: ' . $body;
+        $lines[] = 'ssl     : ' . (SQ_CHECK_SSL ? 'verify on' : 'verify off') . ' | php ' . PHP_VERSION . ' | plugin ' . SQ_VERSION;
+
+        return implode("\n", $lines);
+    }
+
+    /**
+     * Record why an API call failed so the reason survives past the request that produced it.
+     *
+     * The Cloud answers most auth problems with a bare code ('no_data', 'badlogin', ...) which tells
+     * an admin nothing. This stores the full redacted call next to that code - kept for an hour in a
+     * transient so it can be rendered on the login screen / Diagnostics panel after the page reloads,
+     * and mirrored to the PHP error log when WP_DEBUG is on.
+     *
+     * @param  string $module Endpoint that failed, e.g. 'api/user/login'
+     * @param  string $reason Error code returned to the caller, e.g. 'no_data'
+     * @return string The debug text (also returned so it can be attached to the WP_Error)
+     */
+    public static function debugFailure($module, $reason)
+    {
+        $debug = 'Squirrly API [' . $module . '] failed with "' . $reason . '"' . "\n" . self::getLastCallDebug();
+
+        set_transient('sq_last_api_debug', $debug, HOUR_IN_SECONDS);
+
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log('Squirrly SEO: ' . str_replace("\n", ' | ', $debug));
+        }
+
+        return $debug;
     }
 
     /**
@@ -338,7 +451,7 @@ class SQ_Classes_RemoteController
             if ($json->error == 'site_key_already_set' || $json->error == 'site_key_reused') {
                 SQ_Classes_Helpers_SiteAuth::clearSiteKey();
             }
-            return (new WP_Error('api_error', $json->error));
+            return (new WP_Error('api_error', $json->error, self::debugFailure('api/user/connect', $json->error)));
         }
 
         if (isset($json->data->user_blog_id)) {
@@ -364,14 +477,25 @@ class SQ_Classes_RemoteController
 
         $json = json_decode(self::apiCall('api/user/login', $args));
 
+        //Server outage: unreachable (0) or any 5xx. The body of a 5xx is an error page, not JSON, so
+        //without this it falls through to 'no_data' and the user is told their login is wrong when
+        //the Cloud is simply down or erroring.
+        if (self::$lastHttpCode === 0 || (int) self::$lastHttpCode >= 500) {
+            self::debugFailure('api/user/login', 'server_unavailable');
+            return (new WP_Error('maintenance', 'server_unavailable', self::getLastCallDebug()));
+        }
+
         if (isset($json->error) && $json->error <> '') {
-            return (new WP_Error('api_error', $json->error));
+            return (new WP_Error('api_error', $json->error, self::debugFailure('api/user/login', $json->error)));
         } elseif (!isset($json->data)) {
-            return (new WP_Error('api_error', 'no_data'));
+            //The Cloud answered with something that isn't the expected {data:...} payload. Keep the
+            //raw exchange so the real cause is visible instead of a bare "no_data".
+            return (new WP_Error('api_error', 'no_data', self::debugFailure('api/user/login', 'no_data')));
         }
 
         //Refresh the checkin on login
         delete_transient('sq_checkin');
+        delete_transient('sq_last_api_debug');
 
         if (!empty($json->data)) {
             return $json->data;
@@ -392,10 +516,16 @@ class SQ_Classes_RemoteController
 
         $json = json_decode(self::apiCall('api/user/register', $args));
 
+        //See login(): never report a Cloud outage/500 as a problem with what the user typed.
+        if (self::$lastHttpCode === 0 || (int) self::$lastHttpCode >= 500) {
+            self::debugFailure('api/user/register', 'server_unavailable');
+            return (new WP_Error('maintenance', 'server_unavailable', self::getLastCallDebug()));
+        }
+
         if (isset($json->error) && $json->error <> '') {
-            return (new WP_Error('api_error', $json->error));
+            return (new WP_Error('api_error', $json->error, self::debugFailure('api/user/register', $json->error)));
         } elseif (!isset($json->data)) {
-            return (new WP_Error('api_error', 'no_data'));
+            return (new WP_Error('api_error', 'no_data', self::debugFailure('api/user/register', 'no_data')));
         }
 
         //Refresh the checkin on login
@@ -429,9 +559,9 @@ class SQ_Classes_RemoteController
         $json = json_decode(self::apiCall('api/user/token', $args));
 
         if (isset($json->error) && $json->error <> '') {
-            return (new WP_Error('api_error', $json->error));
+            return (new WP_Error('api_error', $json->error, self::debugFailure('api/user/token', $json->error)));
         } elseif (!isset($json->data)) {
-            return (new WP_Error('api_error', 'no_data'));
+            return (new WP_Error('api_error', 'no_data', self::debugFailure('api/user/token', 'no_data')));
         }
 
         if (!empty($json->data)) {
@@ -714,6 +844,7 @@ class SQ_Classes_RemoteController
             'transient_checkin_down'   => (get_transient('sq_checkin_down') ? 'set (server outage back-off)' : 'none'),
             'transient_checkin_clone'  => (get_transient('sq_checkin_clone') ? 'set (clone back-off)' : 'none'),
             'transient_handshake'      => (get_transient('sq_handshake_attempted') ? 'set' : 'none'),
+            'last_api_failure'         => (get_transient('sq_last_api_debug') ? 'recorded (see below)' : 'none in the last hour'),
         );
 
         if ($runLive) {
@@ -724,6 +855,11 @@ class SQ_Classes_RemoteController
             $debug['live_checkin_http']     = (self::$lastHttpCode === null ? '(no request made)' : self::$lastHttpCode);
             $debug['live_checkin_error']    = (isset($json->error) && $json->error <> '' ? $json->error : (isset($json->data) ? '(none - connected)' : '(no data)'));
             $debug['live_checkin_response'] = (is_string($raw) ? $raw : wp_json_encode($raw));
+            $debug['live_checkin_call']     = self::getLastCallDebug();
+        }
+
+        if ($last = get_transient('sq_last_api_debug')) {
+            $debug['last_api_failure_details'] = $last;
         }
 
         return $debug;

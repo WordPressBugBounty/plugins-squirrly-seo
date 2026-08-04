@@ -329,138 +329,91 @@ class SQ_Models_Snippet {
 	 *
 	 * @return array|bool
 	 */
+	/**
+	 * Request-parsing wrapper: turns $_POST into an array for SQ_Models_Api_Seo::saveSeo().
+	 * Must return false on every failure - callers test the return value for truth.
+	 *
+	 * @param int $post_id
+	 * @param int $term_id
+	 * @param string $taxonomy
+	 * @param string $post_type
+	 *
+	 * @return bool true when saved
+	 */
 	public function saveSEO( $post_id = 0, $term_id = 0, $taxonomy = '', $post_type = '' ) {
-		$json = array();
-		if ( SQ_Classes_Helpers_Tools::getIsset( 'sq_hash' ) ) {
-			$sq_hash = SQ_Classes_Helpers_Tools::getValue( 'sq_hash', '' );
 
-			$post_id   = (int) SQ_Classes_Helpers_Tools::getValue( 'post_id', $post_id );
-			$term_id   = (int) SQ_Classes_Helpers_Tools::getValue( 'term_id', $term_id );
-			$taxonomy  = SQ_Classes_Helpers_Tools::getValue( 'taxonomy', $taxonomy );
-			$post_type = SQ_Classes_Helpers_Tools::getValue( 'post_type', $post_type );
-
-			if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_snippets' ) ) {
-				if ( ! SQ_Classes_Helpers_Tools::userCan( 'edit_post', $post_id ) ) {
-					$json['error']         = 1;
-					$json['error_message'] = esc_html__( "You don't have enough pemission to edit this article", 'squirrly-seo' );
-
-					return $json;
-				}
-			}
-
-			$url = SQ_Classes_Helpers_Tools::getValue( 'sq_url', '' );
-
-			$sq = SQ_Classes_ObjController::getClass( 'SQ_Models_Qss' )->getSqSeo( $sq_hash );
-
-			$sq->doseo = SQ_Classes_Helpers_Tools::getValue( 'sq_doseo', 0 );
-
-			$sq->title       = SQ_Classes_Helpers_Sanitize::clearTitle(SQ_Classes_Helpers_Tools::getValue( 'sq_title', '' ));
-			$sq->description = SQ_Classes_Helpers_Sanitize::clearDescription(SQ_Classes_Helpers_Tools::getValue( 'sq_description', '' ));
-			$sq->keywords    = SQ_Classes_Helpers_Sanitize::clearKeywords(SQ_Classes_Helpers_Tools::getValue( 'sq_keywords', '' ));
-			$sq->canonical   = SQ_Classes_Helpers_Tools::getValue( 'sq_canonical', '' );
-			$sq->redirect    = SQ_Classes_Helpers_Tools::getValue( 'sq_redirect', '' );
-			if ( SQ_Classes_Helpers_Tools::getIsset( 'sq_noindex' ) ) {
-				$sq->noindex = SQ_Classes_Helpers_Tools::getValue( 'sq_noindex', 0 );
-			}
-			if ( SQ_Classes_Helpers_Tools::getIsset( 'sq_nofollow' ) ) {
-				$sq->nofollow = SQ_Classes_Helpers_Tools::getValue( 'sq_nofollow', 0 );
-			}
-			if ( SQ_Classes_Helpers_Tools::getIsset( 'sq_nositemap' ) ) {
-				$sq->nositemap = SQ_Classes_Helpers_Tools::getValue( 'sq_nositemap', 0 );
-			}
-
-			$sq->og_title       = SQ_Classes_Helpers_Sanitize::clearTitle(SQ_Classes_Helpers_Tools::getValue( 'sq_og_title', '' ));
-			$sq->og_description = SQ_Classes_Helpers_Sanitize::clearDescription(SQ_Classes_Helpers_Tools::getValue( 'sq_og_description', '' ));
-			$sq->og_author      = SQ_Classes_Helpers_Tools::getValue( 'sq_og_author', '' );
-			$sq->og_type        = SQ_Classes_Helpers_Tools::getValue( 'sq_og_type', '' );
-			$sq->og_media       = SQ_Classes_Helpers_Tools::getValue( 'sq_og_media', '' );
-
-			$sq->tw_title       = SQ_Classes_Helpers_Sanitize::clearTitle(SQ_Classes_Helpers_Tools::getValue( 'sq_tw_title', '' ));
-			$sq->tw_description = SQ_Classes_Helpers_Sanitize::clearDescription(SQ_Classes_Helpers_Tools::getValue( 'sq_tw_description', '' ));
-			$sq->tw_media       = SQ_Classes_Helpers_Tools::getValue( 'sq_tw_media', '' );
-			$sq->tw_type        = SQ_Classes_Helpers_Tools::getValue( 'sq_tw_type', '' );
-
-			//Sanitize Emoticons
-			$sq->title          = wp_encode_emoji( $sq->title );
-			$sq->description    = wp_encode_emoji( $sq->description );
-			$sq->og_title       = wp_encode_emoji( $sq->og_title );
-			$sq->og_description = wp_encode_emoji( $sq->og_description );
-			$sq->tw_title       = wp_encode_emoji( $sq->tw_title );
-			$sq->tw_description = wp_encode_emoji( $sq->tw_description );
-
-			if ( SQ_Classes_Helpers_Tools::getValue( 'sq_jsonld_code_type', 'auto' ) == 'custom' ) {
-				if ( isset( $_POST['sq_jsonld'] ) ) {
-					$allowed_html = array(
-						'script' => array( 'type' => array() ),
-					);
-					$sq->jsonld   = strip_tags( wp_unslash( trim( wp_kses( $_POST['sq_jsonld'], $allowed_html ) ) ) );
-				}
-			} else {
-				$sq->jsonld = '';
-			}
-			$sq->jsonld_types     = array_filter( SQ_Classes_Helpers_Tools::getValue( 'sq_jsonld_types', array() ) );
-			$sq->primary_category = SQ_Classes_Helpers_Tools::getValue( 'sq_primary_category', '' );
-
-			if ( SQ_Classes_Helpers_Tools::getValue( 'sq_fpixel_code_type', 'auto' ) == 'custom' ) {
-				if ( isset( $_POST['sq_fpixel'] ) ) {
-					$allowed_html = array(
-						'script'   => array(),
-						'noscript' => array(),
-					);
-					$sq->fpixel   = wp_unslash( trim( wp_kses( $_POST['sq_fpixel'], $allowed_html ) ) );
-				}
-			} else {
-				$sq->fpixel = '';
-			}
-
-			//Filter the SQ before save
-			// Send SQ_Models_Domain_Sq object
-			$sq = apply_filters( 'sq_seo_before_save', $sq, (int) $post_id, $post_type, (int) $term_id, $taxonomy, $sq_hash );
-
-			//Filter the URL before save
-			$url = apply_filters( 'sq_url_before_save', $url, $sq_hash );
-
-			//Prevent broken url in canonical link
-			if ( strpos( $sq->canonical, '//' ) === false ) {
-				$sq->canonical = '';
-			}
-
-			if ( strpos( $sq->redirect, '//' ) === false || $sq->redirect === $url ) {
-				$sq->redirect = '';
-			}
-
-			try {
-
-				if ( SQ_Classes_ObjController::getClass( 'SQ_Models_Qss' )->saveSqSEO( $url, $sq_hash, maybe_serialize( array(
-							'ID'        => (int) $post_id,
-							'post_type' => $post_type,
-							'term_id'   => (int) $term_id,
-							'taxonomy'  => $taxonomy,
-						) ), maybe_serialize( $sq->toArray() ), gmdate( 'Y-m-d H:i:s' ) ) ) {
-
-					//trigger action after SEO is saved in Squirrly DB
-					do_action( 'sq_save_seo_after' );
-
-					return true;
-				} else {
-					/** @var SQ_Models_Qss $qssModel Create Qss table if not exists */
-					if ( $qssModel = SQ_Classes_ObjController::getClass( 'SQ_Models_Qss' ) ) {
-						$qssModel->checkTableExists();
-						$qssModel->alterTable();
-					}
-				}
-
-			} catch ( Exception $e ) {
-				$json['error']         = 1;
-				$json['error_message'] = esc_html__( "Error! Could not save the data.", 'squirrly-seo' );
-			}
-
-		} else {
-			$json['error']         = 1;
-			$json['error_message'] = esc_html__( "Error! Invalid request.", 'squirrly-seo' );
+		if ( ! SQ_Classes_Helpers_Tools::getIsset( 'sq_hash' ) ) {
+			return false;
 		}
 
-		return $json;
+		$target = array(
+			'hash'      => SQ_Classes_Helpers_Tools::getValue( 'sq_hash', '' ),
+			'url'       => SQ_Classes_Helpers_Tools::getValue( 'sq_url', '' ),
+			'post_id'   => (int) SQ_Classes_Helpers_Tools::getValue( 'post_id', $post_id ),
+			'term_id'   => (int) SQ_Classes_Helpers_Tools::getValue( 'term_id', $term_id ),
+			'taxonomy'  => SQ_Classes_Helpers_Tools::getValue( 'taxonomy', $taxonomy ),
+			'post_type' => SQ_Classes_Helpers_Tools::getValue( 'post_type', $post_type ),
+		);
+
+		//the form posts the whole snippet, so every field is sent and replaced
+		$fields = array(
+			'doseo'            => SQ_Classes_Helpers_Tools::getValue( 'sq_doseo', 0 ),
+			'title'            => SQ_Classes_Helpers_Tools::getValue( 'sq_title', '' ),
+			'description'      => SQ_Classes_Helpers_Tools::getValue( 'sq_description', '' ),
+			'keywords'         => SQ_Classes_Helpers_Tools::getValue( 'sq_keywords', '' ),
+			'canonical'        => SQ_Classes_Helpers_Tools::getValue( 'sq_canonical', '' ),
+			'redirect'         => SQ_Classes_Helpers_Tools::getValue( 'sq_redirect', '' ),
+			'og_title'         => SQ_Classes_Helpers_Tools::getValue( 'sq_og_title', '' ),
+			'og_description'   => SQ_Classes_Helpers_Tools::getValue( 'sq_og_description', '' ),
+			'og_author'        => SQ_Classes_Helpers_Tools::getValue( 'sq_og_author', '' ),
+			'og_type'          => SQ_Classes_Helpers_Tools::getValue( 'sq_og_type', '' ),
+			'og_media'         => SQ_Classes_Helpers_Tools::getValue( 'sq_og_media', '' ),
+			'tw_title'         => SQ_Classes_Helpers_Tools::getValue( 'sq_tw_title', '' ),
+			'tw_description'   => SQ_Classes_Helpers_Tools::getValue( 'sq_tw_description', '' ),
+			'tw_media'         => SQ_Classes_Helpers_Tools::getValue( 'sq_tw_media', '' ),
+			'tw_type'          => SQ_Classes_Helpers_Tools::getValue( 'sq_tw_type', '' ),
+			'jsonld_types'     => SQ_Classes_Helpers_Tools::getValue( 'sq_jsonld_types', array() ),
+			'primary_category' => SQ_Classes_Helpers_Tools::getValue( 'sq_primary_category', '' ),
+		);
+
+		//these three are checkboxes - an unchecked box sends nothing and must not
+		//overwrite what is stored, so they are only included when actually posted
+		foreach ( array( 'noindex', 'nofollow', 'nositemap' ) as $flag ) {
+			if ( SQ_Classes_Helpers_Tools::getIsset( 'sq_' . $flag ) ) {
+				$fields[ $flag ] = SQ_Classes_Helpers_Tools::getValue( 'sq_' . $flag, 0 );
+			}
+		}
+
+		//custom JSON-LD and pixel code can't go through getValue() - it would strip
+		//the markup they are made of - so they are read raw and sanitized by the service
+		if ( SQ_Classes_Helpers_Tools::getValue( 'sq_jsonld_code_type', 'auto' ) == 'custom' ) {
+			if ( isset( $_POST['sq_jsonld'] ) ) {
+				$fields['jsonld'] = wp_unslash( $_POST['sq_jsonld'] );
+			}
+		} else {
+			$fields['jsonld'] = '';
+		}
+
+		if ( SQ_Classes_Helpers_Tools::getValue( 'sq_fpixel_code_type', 'auto' ) == 'custom' ) {
+			if ( isset( $_POST['sq_fpixel'] ) ) {
+				$fields['fpixel'] = wp_unslash( $_POST['sq_fpixel'] );
+			}
+		} else {
+			$fields['fpixel'] = '';
+		}
+
+		/** @var SQ_Models_Api_Seo $service */
+		$service = SQ_Classes_ObjController::getClass( 'SQ_Models_Api_Seo' );
+
+		$result = $service->saveSeo( $target, $fields );
+
+		if ( is_wp_error( $result ) ) {
+			SQ_Classes_Error::setError( $result->get_error_message() );
+
+			return false;
+		}
+
+		return true;
 	}
 
 	public function getCurrentSnippet( $post_id, $term_id = 0, $taxonomy = '', $post_type = '' ) {

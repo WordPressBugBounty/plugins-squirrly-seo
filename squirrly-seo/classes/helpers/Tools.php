@@ -1158,6 +1158,33 @@ class SQ_Classes_Helpers_Tools
     }
 
     /**
+     * Keep the current response out of the page caches.
+     *
+     * Call this as early as possible (template_redirect at the latest) whenever the
+     * response body depends on the request headers. Page caches key their entries on
+     * the URL only, so a bot-specific response would otherwise be stored and served
+     * back to regular visitors until the cache is purged.
+     *
+     * Sending Cache-Control alone is not enough: LiteSpeed Cache writes its own
+     * X-LiteSpeed-Cache-Control on shutdown and overwrites whatever we set here.
+     */
+    public static function setNoCache()
+    {
+        if (!defined('DONOTCACHEPAGE')) {
+            define('DONOTCACHEPAGE', true); //honored by LiteSpeed, WP Rocket, W3TC, Batcache, SG Optimizer ...
+        }
+
+        //LiteSpeed Cache only listens to its own API
+        do_action('litespeed_control_set_nocache', 'squirrly: response varies by request header');
+
+        if (!headers_sent()) {
+            header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+            header("Pragma: no-cache");
+            header("Vary: Accept, User-Agent", false);
+        }
+    }
+
+    /**
      * Set the Nonce action
      *
      * @param  string $action
@@ -1689,6 +1716,16 @@ class SQ_Classes_Helpers_Tools
      */
     public static function getAdminUrl($page, $tab = null, $args = array())
     {
+	    //Never let quotes/tags/backslashes from a request param end up in the URL.
+	    //Some views print this URL inside an HTML attribute or an inline JS string,
+	    //so a stray quote would allow an attribute/script breakout (XSS).
+	    $page = self::sanitizeUrlParam($page);
+	    $tab  = self::sanitizeUrlParam($tab);
+	    if (is_array($args)) {
+		    $args = array_map(array(__CLASS__, 'sanitizeUrlParam'), $args);
+	    } else {
+		    $args = array();
+	    }
 
         if (strpos($page, '.php')) {
             $url = admin_url($page);
@@ -1711,6 +1748,23 @@ class SQ_Classes_Helpers_Tools
 
         return apply_filters('sq_menu_url', $url, $page, $tab, $args);
     }
+
+	/**
+	 * Strip the characters that could break out of an HTML attribute or an inline
+	 * JS string when a menu/tab URL is printed in a view.
+	 *
+	 * @param string $value
+	 *
+	 * @return string
+	 */
+	public static function sanitizeUrlParam($value)
+	{
+		if (!is_scalar($value)) {
+			return '';
+		}
+
+		return str_replace(array('"', "'", '<', '>', '`', '\\', "\r", "\n", "\t"), '', (string) $value);
+	}
 
 
 	/**

@@ -58,17 +58,16 @@ class SQ_Controllers_Frontend extends SQ_Classes_FrontController {
 		//Set the current post
 		$this->model->setPost();
 
-		//If Squirrly Crawler, no cache in header
-		add_filter( 'sq_buffer', function ( $buffer ) {
-
-			if ( isset( $_SERVER['HTTP_REFERER'] ) && $_SERVER['HTTP_REFERER'] == 'https://www.squirrly.co' ) {
-				header( "Cache-Control: no-store, no-cache, must-revalidate, max-age=0" );
-				header( "Cache-Control: post-check=0, pre-check=0", false );
-				header( "Pragma: no-cache" );
-			}
-
-			return $buffer;
-		} );
+		//Keep the request-specific responses out of the page cache.
+		//This has to run here and not in the sq_buffer filter: the buffer is flushed
+		//after the cache plugins have already decided to store the page.
+		if ( isset( $_SERVER['HTTP_REFERER'] ) && $_SERVER['HTTP_REFERER'] == 'https://www.squirrly.co' ) {
+			//Squirrly Crawler, always render a fresh page
+			SQ_Classes_Helpers_Tools::setNoCache();
+		} elseif ( isset( $_SERVER['HTTP_USER_AGENT'] ) && strpos( $_SERVER['HTTP_USER_AGENT'], 'Pinterest' ) !== false ) {
+			//The Publisher service outputs a different article:author for Pinterest
+			SQ_Classes_Helpers_Tools::setNoCache();
+		}
 
 		//If load buffer is set, start the buffer
 		if ( apply_filters( 'sq_load_buffer', true ) ) {

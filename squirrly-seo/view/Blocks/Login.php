@@ -61,6 +61,27 @@ if ( ! isset( $view ) ) {
 
 		<?php do_action( 'sq_login_after' ); ?>
 
+		<?php
+		/**
+		 * Debug panel for a failed login/register/connect call.
+		 *
+		 * The Cloud reports most auth problems with a bare code ('no_data', 'badlogin', ...) shown in
+		 * a notice that fades after 5 seconds. SQ_Classes_RemoteController::debugFailure() stores the
+		 * full redacted exchange (url, http status, headers, response body) for an hour, so it can be
+		 * read here - and copied into a support ticket - instead of guessing.
+		 */
+		if ( SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) && ( $sq_api_debug = get_transient( 'sq_last_api_debug' ) ) ) { ?>
+            <div class="col-12 m-0 p-0 mt-4">
+                <div class="font-weight-bold small text-danger">
+					<?php echo esc_html__( "Last Squirrly Cloud error (debug details, secrets are masked):", 'squirrly-seo' ); ?>
+                </div>
+                <pre class="bg-light border p-2 small" style="white-space: pre-wrap; word-break: break-all;"><?php echo esc_html( (string) $sq_api_debug ); ?></pre>
+                <div class="small text-black-50">
+					<?php echo esc_html__( "This is kept for one hour and only shown to admins. If the response above is an HTML page or is empty, the request never reached the Squirrly API - a firewall, security plugin or the host is blocking outgoing calls.", 'squirrly-seo' ); ?>
+                </div>
+            </div>
+		<?php } ?>
+
     </div>
 
 </div>

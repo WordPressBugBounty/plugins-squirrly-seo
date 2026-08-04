@@ -4,7 +4,7 @@ Donate link: https://plugin.squirrly.co/squirrly-seo-pricing/
 Tags: SEO, AEO, GEO, schema, sitemap
 Requires at least: 5.3
 Tested up to: 7.0
-Stable tag: 14.1.1
+Stable tag: 14.2.0
 Requires PHP: 7.0
 License: GPLv2 or later
 
@@ -14,7 +14,7 @@ Become the brand AI recommends. SEO + AEO + GEO so your WordPress ranks on Googl
 
 **Become the Brand AI Recommends.**
 
-GEO Plugin by Squirrly SEO helps your WordPress site become easier for AI answer engines to understand, trust, cite, and recommend — across ChatGPT, Perplexity, Claude, Gemini, and Google AI Overviews.
+GEO Plugin by Squirrly SEO helps your WordPress site become easier for AI answer engines to understand, trust, cite, and recommend across ChatGPT, Perplexity, Claude, Gemini, and Google AI Overviews.
 
 The GEO Plugin by Squirrly SEO optimizes your WordPress site for the three layers of modern search at once: classic SEO so you rank on Google, AEO (Answer Engine Optimization) so AI engines pull your content as the direct answer, and GEO (Generative Engine Optimization) so ChatGPT, Perplexity, Gemini, Claude and Google AI Overviews cite your pages by name. One plugin to get you found by both search engines and AI.
 
@@ -120,6 +120,13 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 7. Squirrly SEO - SEO Briefcase
 
 == Changelog ==
+= 14.2.0 =
+* New: Connect AI assistants such as Claude and ChatGPT directly to Squirrly. On WordPress 6.9 and above, Squirrly now registers its own WordPress Abilities, so an AI tool can read and update your SEO titles, meta descriptions, keywords, social previews and Schema types, switch Squirrly features on or off, and look up your Briefcase keywords, rankings, Focus Pages and Live Assistant tasks - all with your normal WordPress login and user role, without sharing any Squirrly password or API key.
+* New: The same abilities are available to any app or script over the WordPress REST API and to WP-CLI, so agencies and developers can automate Squirrly across sites. Also requires WordPress 6.9 or newer; the plugin itself still runs on WordPress 5.3 and up and every other feature is unchanged there.
+* Improvement: What an AI tool is allowed to do follows the WordPress user you connect it as - an Editor can update the SEO of the articles they can edit, and only an Administrator can change site-wide Squirrly settings.
+* Fix: Pages requested by the Squirrly Crawler or by the Pinterest bot are no longer stored in the page cache, so LiteSpeed Cache, WP Rocket and similar plugins can't serve a bot-specific version of the page to your visitors.
+* Fix: The Squirrly Snippet now reports an error when a save is refused - for example when your user role can't edit that article - instead of showing it as saved.
+
 = 14.1.1 =
 * Fix: Pages are now submitted to LLM Indexing only when their content actually changes in the post editor - moving a post to trash, restoring it, or using Quick Edit / Bulk Edit no longer triggers a submission.
 * Improvement: LLM Indexing (IndexNow) now submits to the api.indexnow.org hub by default, which forwards your URLs to every participating engine (Bing, Yandex, Seznam, Naver, Yep and more) - fewer requests and fewer rate-limit errors.
@@ -544,6 +551,9 @@ You'll be able to use this seo software once you install the plugin and use your
 For higher content marketing and SEO needs, you can check our Official Site and see what the PRO Plan offers.
 
 == Frequently Asked Questions ==
+
+= The plugin says it requires WordPress 5.3, but connecting an AI assistant needs 6.9. Which is it? =
+Both. The plugin itself still runs on WordPress 5.3 and up, and every SEO, AEO and GEO feature works there exactly as before - we did not raise the requirement. Connecting an AI assistant such as Claude or ChatGPT is the one feature that needs WordPress 6.9 or newer, because it is built on the WordPress Abilities API that ships with core from 6.9. On older versions that feature is simply not offered and nothing else changes. You also need HTTPS on your site, since WordPress only allows Application Passwords over a secure connection.
 
 = What is GEO and AEO, and how does this plugin help? =
 GEO (Generative Engine Optimization) is about getting your content cited by AI engines like ChatGPT, Perplexity, Gemini, Claude and Google AI Overviews. AEO (Answer Engine Optimization) is about structuring your content so those engines can lift it as the direct answer. The GEO Plugin by Squirrly SEO audits every page for the signals AI engines rely on - a direct answer near the top, question-style headings, lists and tables, content depth, freshness and the right schema - and tells you exactly what to fix.

@@ -476,7 +476,7 @@ $view->loadScripts();
                                         <input type="hidden" name="tab" value="<?php echo esc_attr( SQ_Classes_Helpers_Tools::getValue( 'tab' ) ) ?>">
                                         <input type="search" class="d-inline-block align-middle col-7 py-0 px-2 mr-0 rounded-0" id="post-search-input" name="skeyword" value="<?php echo SQ_Classes_Helpers_Sanitize::escapeKeyword( SQ_Classes_Helpers_Tools::getValue( 'skeyword' ) ) ?>" placeholder="<?php echo esc_html__( "Write the keyword you want to search for", 'squirrly-seo' ) ?>"/>
                                         <input type="submit" class="btn btn-primary" value="<?php echo esc_html__( "Search", 'squirrly-seo' ) ?> >"/>
-                                        <button type="button" class="btn btn-link text-primary ml-1" onclick="location.href = '<?php echo SQ_Classes_Helpers_Tools::getAdminUrl( SQ_Classes_Helpers_Tools::getValue( 'page' ), SQ_Classes_Helpers_Tools::getValue( 'tab' ) ) ?>';" style="cursor: pointer"><?php echo esc_html__( "Show All", 'squirrly-seo' ) ?></button>
+                                        <button type="button" class="btn btn-link text-primary ml-1" onclick="location.href = '<?php echo esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( SQ_Classes_Helpers_Tools::getValue( 'page' ), SQ_Classes_Helpers_Tools::getValue( 'tab' ) ) ) ?>';" style="cursor: pointer"><?php echo esc_html__( "Show All", 'squirrly-seo' ) ?></button>
                                     </form>
                                 </div>
                             </div>

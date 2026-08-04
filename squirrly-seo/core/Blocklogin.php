@@ -63,6 +63,9 @@ class SQ_Core_Blocklogin extends SQ_Classes_BlockController {
 
 			if ( is_wp_error( $response ) ) {
 				switch ( $response->get_error_message() ) {
+					case 'server_unavailable':
+						SQ_Classes_Error::setError( esc_html__( "Squirrly Cloud is temporarily unavailable and couldn't process the request. Please try again in a few minutes - details are shown under the form.", 'squirrly-seo' ) );
+						break;
 					case 'alreadyregistered':
 						SQ_Classes_Error::setError( sprintf( esc_html__( "We found your email, so it means you already have a Squirrly.co account. %sClick %sI already have an account%s and login. If you forgot your password, click %shere%s", 'squirrly-seo' ), '<br />', '<a href="' . esc_url(SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_dashboard', 'login' )) . '" style="color:yellow">', '</a>', '<a href="' . _SQ_DASH_URL_ . '/login?action=lostpassword" target="_blank" style="color:yellow">', '</a>' ) );
 						break;
@@ -116,6 +119,9 @@ class SQ_Core_Blocklogin extends SQ_Classes_BlockController {
 			/**  */
 			if ( is_wp_error( $response ) ) {
 				switch ( $response->get_error_message() ) {
+					case 'server_unavailable':
+						SQ_Classes_Error::setError( esc_html__( "Squirrly Cloud is temporarily unavailable and couldn't process the request. Please try again in a few minutes - details are shown under the form.", 'squirrly-seo' ) );
+						break;
 					case 'badlogin':
 						SQ_Classes_Error::setError( esc_html__( "Wrong email or password!", 'squirrly-seo' ) );
 						break;
@@ -124,6 +130,12 @@ class SQ_Core_Blocklogin extends SQ_Classes_BlockController {
 						break;
 					case 'disconnected':
 						SQ_Classes_Error::setError( esc_html__( "You disconnected your website from", 'squirrly-seo' ) . ' ' . _SQ_DASH_URL_ );
+						break;
+					case 'no_data':
+						//The Cloud replied, but not with the expected {data:...} payload. The notice
+						//auto-hides after a few seconds, so the full exchange is also kept in the
+						//sq_last_api_debug transient and printed under the form (see Blocks/Login).
+						SQ_Classes_Error::setError( esc_html__( "Squirrly Cloud didn't return the login data. See the debug details under the login form.", 'squirrly-seo' ) );
 						break;
 					default:
 						if ( ! SQ_Classes_Error::isError() ) {

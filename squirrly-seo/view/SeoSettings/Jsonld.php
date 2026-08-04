@@ -80,6 +80,13 @@ if ( ! isset( $view ) ) {
                                         </h3>
                                         <div class="small text-danger my-1 pr-3"><?php echo esc_html__( "ONLY use this if you have a company", 'squirrly-seo' ); ?></div>
 
+										<?php if ( ! isset( $jsonld['Organization']['name'] ) || trim( (string) $jsonld['Organization']['name'] ) == '' ) { ?>
+                                            <div class="col-12 m-0 mt-3 p-2 px-3 bg-light border rounded small">
+                                                <i class="fa-solid fa-circle-info text-primary"></i>
+												<?php echo esc_html__( "The Organization schema is not published while the company name is empty. Add the name below to output it on the whole site.", 'squirrly-seo' ); ?>
+                                            </div>
+										<?php } ?>
+
                                     </div>
 
                                     <div class="col-12 m-0 p-0 my-5">
@@ -143,6 +150,13 @@ if ( ! isset( $view ) ) {
                                             <a href="https://howto12.squirrly.co/kb/json-ld-structured-data/#Add-JSON-LD-Profile" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                                         </h3>
                                         <div class="small text-danger my-1 pr-3"><?php echo esc_html__( "Only use this if you have a personal brand. You can combine this with JSON-LD for companies, local SEO and more. One doesn't exclude the others.", 'squirrly-seo' ); ?></div>
+
+										<?php if ( ! isset( $jsonld['Person']['name'] ) || trim( (string) $jsonld['Person']['name'] ) == '' ) { ?>
+                                            <div class="col-12 m-0 mt-3 p-2 px-3 bg-light border rounded small">
+                                                <i class="fa-solid fa-circle-info text-primary"></i>
+												<?php echo esc_html__( "Personal Brand Rich Snippets is turned on, but no name is set, so no Person schema is published. Your Company schema is not affected - fill in your name here only if the site also represents a person.", 'squirrly-seo' ); ?>
+                                            </div>
+										<?php } ?>
 
                                     </div>
 
@@ -448,6 +462,9 @@ if ( ! isset( $view ) ) {
 										foreach ( $dayOfWeek as $index => $value ) { ?>
                                             <div class="col-12 row m-0 p-0 my-5">
                                                 <div class="col-4 m-0 p-0 font-weight-bold"><?php echo esc_html( $value ); ?></div>
+												<?php //Save the day with the hours. Without it the row is published as an
+												//OpeningHoursSpecification with no dayOfWeek, which reads as "every day". ?>
+                                                <input type="hidden" name="sq_jsonld_local[openingHoursSpecification][<?php echo esc_attr( $index ) ?>][dayOfWeek][]" value="<?php echo esc_attr( $value ) ?>"/>
                                                 <div class="col-4 m-0 p-0 pr-2">
                                                     <div class="row">
                                                         <div class="col-4  m-0 p-0 py-2 text-right">
