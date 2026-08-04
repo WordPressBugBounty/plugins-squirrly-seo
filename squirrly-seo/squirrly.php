@@ -9,7 +9,7 @@
  * Description: SEO, AEO and GEO for WordPress: rank on Google and get cited by ChatGPT, Perplexity, Gemini and AI Overviews. GEO/AEO Audit, LLM Indexing, llms.txt, Schema, Inner Links, AI Keyword Research.
  * Author: Squirrly
  * Author URI: https://plugin.squirrly.co
- * Version: 14.2.0
+ * Version: 14.2.1
  * Requires at least: 5.3
  * Requires PHP: 7.0
  * License: GPLv2 or later
@@ -20,7 +20,7 @@
 
 if ( ! defined( 'SQ_VERSION' ) ) {
 	/* SET THE CURRENT VERSION ABOVE AND BELOW */
-	define( 'SQ_VERSION', '14.2.0' );
+	define( 'SQ_VERSION', '14.2.1' );
 	//The last stable version
 	define( 'SQ_STABLE_VERSION', '14.1.1' );
 	// Call config files

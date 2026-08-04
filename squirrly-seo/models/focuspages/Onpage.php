@@ -81,7 +81,7 @@ class SQ_Models_Focuspages_Onpage extends SQ_Models_Abstract_Assistant {
 	public function getHeader() {
 		$header = '<li class="completed">';
 		$header .= '<div class="font-weight-bold text-black-50 mb-1">' . esc_html__( "Current URL", 'squirrly-seo' ) . ': </div>';
-		$header .= '<a href="' . $this->_post->url . '" target="_blank" style="word-break: break-word;">' . urldecode( $this->_post->url ) . '</a>';
+		$header .= '<a href="' . esc_url( $this->_post->url ) . '" target="_blank" style="word-break: break-word;">' . esc_html( urldecode( $this->_post->url ) ) . '</a>';
 		$header .= '</li>';
 
 		$header .= '<li class="completed">

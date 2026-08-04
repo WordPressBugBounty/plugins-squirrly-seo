@@ -73,7 +73,9 @@ class SQ_Models_Qss {
 
 		if ( isset( $search ) && trim( $search ) <> '' ) {
 			$search        = sanitize_text_field( $search );
-			$query_where[] = "(`URL` like '%$search%' OR `seo` like '%$search%')";
+			//bind the search phrase instead of interpolating it - sanitize_text_field()
+			//does not escape quotes, so the sink must not rely on the caller
+			$query_where[] = $wpdb->prepare( "(`URL` like %s OR `seo` like %s)", '%' . $search . '%', '%' . $search . '%' );
 		}
 
 		$query_where[] = "seo LIKE '%\"innerlinks\"%'";

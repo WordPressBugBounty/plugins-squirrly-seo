@@ -18,8 +18,9 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 			}
 
 			//decode the URL for json format
+			//decode first, then escape - see SQ_Models_Services_Canonical::generateCanonical()
 			if ( $this->_post->url ) {
-				$this->_post->url = urldecode( esc_url( $this->_post->url ) );
+				$this->_post->url = esc_url( rawurldecode( $this->_post->url ) );
 			}
 
 			//If not yet set

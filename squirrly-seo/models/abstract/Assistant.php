@@ -80,7 +80,7 @@ abstract class SQ_Models_Abstract_Assistant {
 	public function getCurrentURL( $url ) {
 		$html = '';
 		$html .= '<div class="font-weight-bold text-black-50 mb-1">' . esc_html__( "Current URL", 'squirrly-seo' ) . ': </div>';
-		$html .= '<a href="' . $url . '" target="_blank" style="word-break: break-word;">' . urldecode( $url ) . '</a>';
+		$html .= '<a href="' . esc_url( $url ) . '" target="_blank" style="word-break: break-word;">' . esc_html( urldecode( $url ) ) . '</a>';
 
 		return $html;
 	}

@@ -202,7 +202,8 @@ class SQ_Models_Services_OpenGraph extends SQ_Models_Abstract_Seo {
 
 		if ( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_facebook' ) ) {
 			if ( $this->_post->url <> '' ) {
-				$og['og:url'] = apply_filters( 'sq_canonical_url', urldecode( esc_url( $this->_post->url ) ) );
+				//decode first, then escape - see SQ_Models_Services_Canonical::generateCanonical()
+				$og['og:url'] = apply_filters( 'sq_canonical_url', esc_url( rawurldecode( $this->_post->url ) ) );
 			}
 
 			if ( $this->_post->sq->og_title <> '' ) {

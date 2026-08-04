@@ -1716,9 +1716,8 @@ class SQ_Classes_Helpers_Tools
      */
     public static function getAdminUrl($page, $tab = null, $args = array())
     {
-	    //Never let quotes/tags/backslashes from a request param end up in the URL.
-	    //Some views print this URL inside an HTML attribute or an inline JS string,
-	    //so a stray quote would allow an attribute/script breakout (XSS).
+	    //Some views print this URL inside an HTML attribute or an inline JS string, so a
+	    //quote coming from a request param would allow an attribute or script breakout.
 	    $page = self::sanitizeUrlParam($page);
 	    $tab  = self::sanitizeUrlParam($tab);
 	    if (is_array($args)) {
@@ -1750,8 +1749,8 @@ class SQ_Classes_Helpers_Tools
     }
 
 	/**
-	 * Strip the characters that could break out of an HTML attribute or an inline
-	 * JS string when a menu/tab URL is printed in a view.
+	 * Strip the characters that could break out of an HTML attribute or an inline JS string
+	 * when a menu or tab URL is printed in a view.
 	 *
 	 * @param string $value
 	 *

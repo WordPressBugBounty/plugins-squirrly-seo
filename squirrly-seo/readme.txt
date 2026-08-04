@@ -4,7 +4,7 @@ Donate link: https://plugin.squirrly.co/squirrly-seo-pricing/
 Tags: SEO, AEO, GEO, schema, sitemap
 Requires at least: 5.3
 Tested up to: 7.0
-Stable tag: 14.2.0
+Stable tag: 14.2.1
 Requires PHP: 7.0
 License: GPLv2 or later
 
@@ -120,6 +120,9 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 7. Squirrly SEO - SEO Briefcase
 
 == Changelog ==
+= 14.2.1 =
+* Fix: Plugin security and small bugs
+
 = 14.2.0 =
 * New: Connect AI assistants such as Claude and ChatGPT directly to Squirrly. On WordPress 6.9 and above, Squirrly now registers its own WordPress Abilities, so an AI tool can read and update your SEO titles, meta descriptions, keywords, social previews and Schema types, switch Squirrly features on or off, and look up your Briefcase keywords, rankings, Focus Pages and Live Assistant tasks - all with your normal WordPress login and user role, without sharing any Squirrly password or API key.
 * New: The same abilities are available to any app or script over the WordPress REST API and to WP-CLI, so agencies and developers can automate Squirrly across sites. Also requires WordPress 6.9 or newer; the plugin itself still runs on WordPress 5.3 and up and every other feature is unchanged there.

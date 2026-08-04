@@ -25,7 +25,9 @@ class SQ_Models_Services_Canonical extends SQ_Models_Abstract_Seo {
 		if ( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_canonical' ) && isset( $this->_post->sq->canonical ) && $this->_post->sq->canonical <> '' ) {
 			$canonical = esc_url( $this->_post->sq->canonical );
 		} elseif ( isset( $this->_post->url ) && $this->_post->url <> '' ) {
-			$canonical = urldecode( esc_url( $this->_post->url ) );
+			//decode first, then escape - escaping before decoding lets a percent-encoded
+			//payload survive esc_url() and be turned back into markup by urldecode()
+			$canonical = esc_url( rawurldecode( $this->_post->url ) );
 		}
 
 		return apply_filters( 'sq_canonical_url', $canonical );

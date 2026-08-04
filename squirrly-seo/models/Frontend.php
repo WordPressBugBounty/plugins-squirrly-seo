@@ -691,7 +691,8 @@ class SQ_Models_Frontend {
 			$post->url = home_url() . '/' . $post->post_type . '/';
 			$search    = get_query_var( 's' );
 			if ( $search !== '' ) {
-				$post->url  .= $search;
+				//encode the search phrase so it can't carry markup into the head output
+				$post->url  .= rawurlencode( $search );
 				$post->hash = md5( $post->post_type . $search );
 			}
 
