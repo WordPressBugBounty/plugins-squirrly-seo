@@ -416,6 +416,10 @@ if ( ! isset( $view ) ) {
                     <div class="col-12 small text-black-50 mb-3 p-0">
 						<?php echo esc_html__( "Enter a keyword and a target URL. Squirrly finds your published posts that already mention the keyword, so you can quickly link them to the target page. The inner links use your default settings.", "squirrly-seo" ); ?>
                     </div>
+                    <div class="col-12 small mb-3 p-2 border rounded" style="background:#eef6ff;color:#0d47a1;border-color:#b6d4fe !important;">
+                        <strong><?php echo esc_html__( "Good to know:", "squirrly-seo" ); ?></strong>
+						<?php echo esc_html__( "The keyword does not need to appear on the target page. It must appear on your other published pages - those are the ones Squirrly will link to this target.", "squirrly-seo" ); ?>
+                    </div>
                     <div class="form-group">
                         <label><?php echo esc_html__( "Keyword", "squirrly-seo" ); ?></label>
                         <input type="text" class="form-control sq_lo_keyword" maxlength="255" placeholder="<?php echo esc_attr__( "The keyword you want to link", "squirrly-seo" ) ?>"/>
@@ -510,8 +514,20 @@ if ( ! isset( $view ) ) {
 
                             html += '</tbody></table>';
                             $results.html(html);
+                        } else if (response && response.success) {
+                            //genuine empty result set - remind the user where the keyword must live
+                            $results.html('<div class="text-center text-black-50 my-3">'
+                                + '<?php echo esc_js( esc_html__( "No opportunities found for this keyword.", "squirrly-seo" ) ); ?><br>'
+                                + '<span class="small"><?php echo esc_js( esc_html__( "The keyword must appear on your other published pages (not on the target page) so Squirrly can link them here.", "squirrly-seo" ) ); ?></span>'
+                                + '</div>');
                         } else {
-                            $results.html('<div class="text-center text-black-50 my-3"><?php echo esc_js( esc_html__( "No opportunities found for this keyword.", "squirrly-seo" ) ); ?></div>');
+                            //server refused the request (permission, missing target, ...) - show why
+                            //instead of masking every failure as "no opportunities found"
+                            var msg = (response && response.data && typeof response.data === 'string')
+                                ? response.data
+                                : '<?php echo esc_js( esc_html__( "Search failed. Please try again.", "squirrly-seo" ) ); ?>';
+                            $results.html('<div class="text-danger my-2"></div>');
+                            $results.find('div').text(msg);
                         }
                     }).fail(function () {
                         $btn.removeClass('sq_minloading');

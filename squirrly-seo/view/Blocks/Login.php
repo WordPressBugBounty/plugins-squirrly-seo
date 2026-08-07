@@ -69,8 +69,10 @@ if ( ! isset( $view ) ) {
 		 * a notice that fades after 5 seconds. SQ_Classes_RemoteController::debugFailure() stores the
 		 * full redacted exchange (url, http status, headers, response body) for an hour, so it can be
 		 * read here - and copied into a support ticket - instead of guessing.
+		 *
+		 * Only rendered when SQ_DEBUG is on, so the raw exchange stays hidden on normal installs.
 		 */
-		if ( SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) && ( $sq_api_debug = get_transient( 'sq_last_api_debug' ) ) ) { ?>
+		if ( SQ_DEBUG && SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) && ( $sq_api_debug = get_transient( 'sq_last_api_debug' ) ) ) { ?>
             <div class="col-12 m-0 p-0 mt-4">
                 <div class="font-weight-bold small text-danger">
 					<?php echo esc_html__( "Last Squirrly Cloud error (debug details, secrets are masked):", 'squirrly-seo' ); ?>
