@@ -4,7 +4,7 @@ Donate link: https://plugin.squirrly.co/squirrly-seo-pricing/
 Tags: SEO, AEO, GEO, schema, sitemap
 Requires at least: 5.3
 Tested up to: 7.0
-Stable tag: 14.2.1
+Stable tag: 14.2.2
 Requires PHP: 7.0
 License: GPLv2 or later
 
@@ -120,6 +120,9 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 7. Squirrly SEO - SEO Briefcase
 
 == Changelog ==
+= 14.2.2 =
+* Fix: AI assistants connected through an MCP plugin can now see and use the Squirrly abilities.
+
 = 14.2.1 =
 * Improvement: Strengthened data escaping across the admin screens and the front-end SEO tags for safer, standards-compliant output.
 * Improvement: Hardened how Squirrly Cloud messages are displayed in the dashboard and refined role-based permission checks for Inner Links and Focus Pages.

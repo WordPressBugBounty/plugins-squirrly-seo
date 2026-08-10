@@ -5,6 +5,9 @@ defined( 'ABSPATH' ) || die( 'Cheatin\' uh?' );
  * Exposes Squirrly through the WordPress Abilities API (core, since WP 6.9), so MCP clients,
  * REST apps and WP-CLI all reach it with an Application Password. Inert below WP 6.9.
  *
+ * Every ability sets meta.public: MCP servers hide abilities that do not, so without it
+ * an AI client sees nothing. Execution is still gated by each permission_callback.
+ *
  * Class SQ_Classes_AbilitiesController
  */
 class SQ_Classes_AbilitiesController {
@@ -89,6 +92,7 @@ class SQ_Classes_AbilitiesController {
 			'execute_callback'    => array( $this, 'executeGetSeo' ),
 			'permission_callback' => array( $this, 'canReadSeo' ),
 			'meta'                => array(
+				'public'       => true,
 				'show_in_rest' => true,
 				'annotations'  => array( 'readonly' => true, 'idempotent' => true ),
 			),
@@ -138,6 +142,7 @@ class SQ_Classes_AbilitiesController {
 			'execute_callback'    => array( $this, 'executeUpdateSeo' ),
 			'permission_callback' => array( $this, 'canWriteSeo' ),
 			'meta'                => array(
+				'public'       => true,
 				'show_in_rest' => true,
 				'annotations'  => array( 'readonly' => false, 'destructive' => false, 'idempotent' => true ),
 			),
@@ -157,6 +162,7 @@ class SQ_Classes_AbilitiesController {
 			'execute_callback'    => array( $this, 'executeGetSettings' ),
 			'permission_callback' => array( $this, 'canManageSettings' ),
 			'meta'                => array(
+				'public'       => true,
 				'show_in_rest' => true,
 				'annotations'  => array( 'readonly' => true, 'idempotent' => true ),
 			),
@@ -182,6 +188,7 @@ class SQ_Classes_AbilitiesController {
 			'execute_callback'    => array( $this, 'executeUpdateSettings' ),
 			'permission_callback' => array( $this, 'canManageSettings' ),
 			'meta'                => array(
+				'public'       => true,
 				'show_in_rest' => true,
 				'annotations'  => array( 'readonly' => false, 'destructive' => false, 'idempotent' => true ),
 			),
@@ -273,6 +280,7 @@ class SQ_Classes_AbilitiesController {
 				return (bool) SQ_Classes_Helpers_Tools::userCan( $cap );
 			},
 			'meta'                => array(
+				'public'       => true,
 				'show_in_rest' => true,
 				'annotations'  => array( 'readonly' => true, 'idempotent' => true ),
 			),
