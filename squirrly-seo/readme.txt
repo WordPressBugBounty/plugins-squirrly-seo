@@ -121,6 +121,7 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 
 == Changelog ==
 = 14.2.2 =
+* Fix: In the Squirrly Snippet, the "JSON-LD is disabled for this Post Type" notice no longer covers the Refresh and Save buttons on the Rich Snippets tab.
 * Fix: AI assistants connected through an MCP plugin can now see and use the Squirrly abilities.
 
 = 14.2.1 =

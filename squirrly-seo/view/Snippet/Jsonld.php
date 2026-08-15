@@ -46,7 +46,9 @@ if ( ! isset( $patterns[ $view->post->post_type ] ) && isset( $patterns['custom'
                 </div>
             </div>
 		<?php } elseif ( ! $view->post->sq->do_jsonld ) { ?>
-            <div class="sq_deactivated_label sq-col-12 sq-row sq-m-0 sq-p-2 sq-pr-3 sq_save_ajax">
+            <?php //sq_inline_label keeps this notice in the flow: the panel below stays active here,
+            //so an absolute label would sit on top of the Refresh and Save buttons ?>
+            <div class="sq_deactivated_label sq_inline_label sq-col-12 sq-row sq-m-0 sq-p-2 sq-pr-3 sq_save_ajax">
                 <div class="sq-col-12 sq-p-0 sq-text-center sq-small">
 					<?php echo sprintf( esc_html__( "JSON-LD is disable for this Post Type (%s). See %s Squirrly > Automation > Configuration %s.", "squirrly-seo" ), esc_attr( $view->post->post_type ), '<a href="' . SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_automation', 'automation' ) . '#tab=sq_' . esc_attr( $view->post->post_type ) . '" target="_blank"><strong>', '</strong></a>' ) ?>
                 </div>
