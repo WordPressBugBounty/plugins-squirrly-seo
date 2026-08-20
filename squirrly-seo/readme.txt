@@ -4,7 +4,7 @@ Donate link: https://plugin.squirrly.co/squirrly-seo-pricing/
 Tags: SEO, AEO, GEO, schema, sitemap
 Requires at least: 5.3
 Tested up to: 7.0
-Stable tag: 14.2.2
+Stable tag: 14.2.3
 Requires PHP: 7.0
 License: GPLv2 or later
 
@@ -120,6 +120,10 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 7. Squirrly SEO - SEO Briefcase
 
 == Changelog ==
+= 14.2.3 =
+* Security: General security hardening in the WordPress admin screens. Recommended update for all sites.
+* Improvement: Additional output escaping in the admin scripts, with no change to how your keywords, patterns and snippets are displayed or saved.
+
 = 14.2.2 =
 * Fix: In the Squirrly Snippet, the "JSON-LD is disabled for this Post Type" notice no longer covers the Refresh and Save buttons on the Rich Snippets tab.
 * Fix: AI assistants connected through an MCP plugin can now see and use the Squirrly abilities.
@@ -530,6 +534,9 @@ google seo metas
 * Changelog Archive: <a href="https://plugin.squirrly.co/squirrly-seo-changelog/">https://plugin.squirrly.co/squirrly-seo-changelog/</a>
 
 == Upgrade Notice ==
+
+= 14.2.3 =
+General security hardening in the WordPress admin screens. Recommended for all sites. No settings or content are changed by this update.
 
 = 12.5.0 =
 GEO release. Adds the GEO/AEO Audit, LLM Indexing (IndexNow + Google), llms.txt / llms-full.txt, AI crawler control and Link Opportunities, so you optimize for Google and for AI engines like ChatGPT, Perplexity, Gemini and AI Overviews. Your existing settings are migrated automatically.
