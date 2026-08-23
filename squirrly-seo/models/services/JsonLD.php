@@ -1242,14 +1242,24 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 		$markup['@id']   = $this->_post->url . '#' . strtolower( $type );
 		$markup['url']   = $this->_post->url;
 
-		if ( $jsonld[ $jsonld_type ]['name'] ) {
-			$markup['name'] = $jsonld[ $jsonld_type ]['name'];
-		} elseif ( isset( $this->_post->sq->title ) ) {
-			$markup['name'] = $this->cleanText( $this->truncate( $this->_post->sq->title, 0, $this->_post->sq->jsonld_title_maxlength ) );
+
+		//The short recognisable name of the site, the one Google shows above the result - the
+		//WordPress Site Title, the same value the Site Name field of the Advanced Pack takes by
+		//default. It used to be the SEO title of the home page, a sentence written for the
+		//search result that gets truncated when it is published as a name.
+		if ( trim( (string) get_bloginfo( 'name' ) ) <> '' ) {
+			$markup['name'] = $this->cleanText( get_bloginfo( 'name' ) );
+		} elseif ( isset( $jsonld['Organization']['name'] ) && $jsonld['Organization']['name'] ) {
+			$markup['name'] = $this->cleanText( $jsonld['Organization']['name'] );
 		}
 
-		if ( isset( $this->_post->sq->description ) ) {
-			$markup['headline'] = $this->cleanText( $this->truncate( $this->_post->sq->description, 0, $this->_post->sq->jsonld_description_maxlength ) );
+		if ( isset( $this->_post->sq->title ) && $this->_post->sq->title <> '' ) {
+			$markup['headline'] = $this->cleanText( $this->truncate( $this->_post->sq->title, 0, $this->_post->sq->jsonld_title_maxlength ) );
+		}
+
+		//An empty property says nothing, so it is left out instead of published as "".
+		if ( isset( $this->_post->sq->description ) && $this->_post->sq->description <> '' ) {
+			$markup['description'] = $this->cleanText( $this->truncate( $this->_post->sq->description, 0, $this->_post->sq->jsonld_description_maxlength ) );
 		}
 
 		$markup['mainEntityOfPage'] = array(
@@ -1362,13 +1372,24 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 				"@type" => $jsonld_type,
 				"@id"   => $this->_post->url . "#$jsonld_type",
 				"url"   => $this->_post->url,
-				"name"  => ( $jsonld[ $jsonld_type ]['name'] ? $jsonld[ $jsonld_type ]['name'] : get_bloginfo( 'title' ) ),
+				//cleanText decodes the entities the settings store the name with, so a company
+				//saved as "Smith &#038; Sons" is not published with the entity in the markup.
+				"name"  => $this->cleanText( $jsonld[ $jsonld_type ]['name'] ? $jsonld[ $jsonld_type ]['name'] : get_bloginfo( 'name' ) ),
 			);
 
 			foreach ( $jsonld[ $jsonld_type ] as $key => $value ) {
 				if ( $key == 'place' ) {
 					continue;
 				} //don't show geo for the organization schema
+				if ( $key == 'name' ) {
+					continue;
+				} //the name is already set above, with its fallback and its entities decoded
+
+				//The settings store the free text with entities in it ("Smith &#038; Sons"),
+				//so decode it here instead of publishing the entity inside the markup.
+				if ( is_string( $value ) ) {
+					$value = $this->cleanText( $value );
+				}
 				if ( is_array( $value ) ) {
 					$value = @array_filter( $value );
 
@@ -1404,7 +1425,7 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 						}
 
 						if ( $jsonld[ $jsonld_type ]['name'] ) {
-							$value['caption'] = $jsonld[ $jsonld_type ]['name'];
+							$value['caption'] = $this->cleanText( $jsonld[ $jsonld_type ]['name'] );
 						}
 					}
 

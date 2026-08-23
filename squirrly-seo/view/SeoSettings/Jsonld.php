@@ -83,7 +83,11 @@ if ( ! isset( $view ) ) {
 										<?php if ( ! isset( $jsonld['Organization']['name'] ) || trim( (string) $jsonld['Organization']['name'] ) == '' ) { ?>
                                             <div class="col-12 m-0 mt-3 p-2 px-3 bg-light border rounded small">
                                                 <i class="fa-solid fa-circle-info text-primary"></i>
-												<?php echo esc_html__( "The Organization schema is not published while the company name is empty. Add the name below to output it on the whole site.", 'squirrly-seo' ); ?>
+												<?php if ( SQ_Classes_Helpers_Tools::isPluginInstalled( 'squirrly-seo-pack/index.php' ) ) { ?>
+													<?php echo esc_html__( "The Organization schema is not published while the company name is empty. Add the name below to output it on the whole site.", 'squirrly-seo' ); ?>
+												<?php } else { ?>
+													<?php echo esc_html__( "No company name is set, so the Organization schema is published with your WordPress Site Title as the name. Add your company name below to output it on the whole site.", 'squirrly-seo' ); ?>
+												<?php } ?>
                                             </div>
 										<?php } ?>
 
@@ -154,7 +158,11 @@ if ( ! isset( $view ) ) {
 										<?php if ( ! isset( $jsonld['Person']['name'] ) || trim( (string) $jsonld['Person']['name'] ) == '' ) { ?>
                                             <div class="col-12 m-0 mt-3 p-2 px-3 bg-light border rounded small">
                                                 <i class="fa-solid fa-circle-info text-primary"></i>
-												<?php echo esc_html__( "Personal Brand Rich Snippets is turned on, but no name is set, so no Person schema is published. Your Company schema is not affected - fill in your name here only if the site also represents a person.", 'squirrly-seo' ); ?>
+												<?php if ( SQ_Classes_Helpers_Tools::isPluginInstalled( 'squirrly-seo-pack/index.php' ) ) { ?>
+													<?php echo esc_html__( "Personal Brand Rich Snippets is turned on, but no name is set, so no Person schema is published. Your Company schema is not affected - fill in your name here only if the site also represents a person.", 'squirrly-seo' ); ?>
+												<?php } else { ?>
+													<?php echo esc_html__( "Personal Brand Rich Snippets is turned on, but no name is set, so the Person schema is published with your WordPress Site Title as the name. Your Company schema is not affected - fill in your name here only if the site also represents a person.", 'squirrly-seo' ); ?>
+												<?php } ?>
                                             </div>
 										<?php } ?>
 
