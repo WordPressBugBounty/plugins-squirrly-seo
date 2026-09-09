@@ -539,7 +539,9 @@ class SQ_Controllers_FocusPages extends SQ_Classes_FrontController {
 												unset( $this->innerlinks[ $index ] );
 											}
 
-											if ( ! $valid || ! isset( $from_post->ID ) || $from_post->post_status <> 'publish' || ! post_type_exists( $from_post->post_type ) || $from_post->post_type == 'profile' ) {
+											//post_type_exists() is true for internal types like nav_menu_item, whose posts are published and get a permalink but 404 when opened, so they were suggested as inner
+											//links and then reported as broken.
+											if ( ! $valid || ! isset( $from_post->ID ) || $from_post->post_status <> 'publish' || ! post_type_exists( $from_post->post_type ) || ! is_post_type_viewable( $from_post->post_type ) || $from_post->post_type == 'profile' ) {
 												unset( $this->innerlinks[ $index ] );
 											}
 										}

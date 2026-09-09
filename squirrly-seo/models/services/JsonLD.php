@@ -1243,10 +1243,6 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 		$markup['url']   = $this->_post->url;
 
 
-		//The short recognisable name of the site, the one Google shows above the result - the
-		//WordPress Site Title, the same value the Site Name field of the Advanced Pack takes by
-		//default. It used to be the SEO title of the home page, a sentence written for the
-		//search result that gets truncated when it is published as a name.
 		if ( trim( (string) get_bloginfo( 'name' ) ) <> '' ) {
 			$markup['name'] = $this->cleanText( get_bloginfo( 'name' ) );
 		} elseif ( isset( $jsonld['Organization']['name'] ) && $jsonld['Organization']['name'] ) {

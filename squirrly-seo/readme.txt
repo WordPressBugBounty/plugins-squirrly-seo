@@ -4,7 +4,7 @@ Donate link: https://plugin.squirrly.co/squirrly-seo-pricing/
 Tags: SEO, AEO, GEO, schema, sitemap
 Requires at least: 5.3
 Tested up to: 7.0
-Stable tag: 14.2.3
+Stable tag: 14.2.4
 Requires PHP: 7.0
 License: GPLv2 or later
 
@@ -120,6 +120,15 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 7. Squirrly SEO - SEO Briefcase
 
 == Changelog ==
+= 14.2.4 =
+* Fix: The Inner Links suggestions no longer include WordPress menu items. Menu items are stored as posts and have an address of their own, but that address is not a real page and returns "not found" when opened, so they were being suggested as pages to link from and then reported as broken links in the Inspect report.
+* Fix: The WebSite structured data now publishes your WordPress Site Title as the name of your site - the short name Google shows above your results - instead of the SEO title of the home page. The SEO title is a sentence written for the search result and was being cut short when Google read it as the site name.
+* Fix: The home page SEO title and meta description are now published in the JSON-LD properties they belong in - headline and description - instead of the description being published as the headline.
+* Fix: Company and personal brand names written with characters like "&" are no longer published with the HTML entity inside the structured data.
+* Fix: The Rich Snippets settings now describe correctly what is published when the company or personal brand name is left empty.
+* Fix: The description in your Rich Snippets Schema now follows the Meta Description you wrote for the page, instead of falling back to the raw page content. The {{excerpt}} pattern in a Schema field behaves like the {{title}} pattern already did with your SEO title, so an optimised Meta Description no longer has to be copied into the Rich Snippets by hand and kept in sync there.
+* Fix: The headline in your Rich Snippets Schema no longer repeats your site name when the Automation title pattern already ends with it - "Post Title | Site Name | Site Name" is now published as "Post Title | Site Name".
+
 = 14.2.3 =
 * Security: General security hardening in the WordPress admin screens. Recommended update for all sites.
 * Improvement: Additional output escaping in the admin scripts, with no change to how your keywords, patterns and snippets are displayed or saved.
@@ -534,6 +543,9 @@ google seo metas
 * Changelog Archive: <a href="https://plugin.squirrly.co/squirrly-seo-changelog/">https://plugin.squirrly.co/squirrly-seo-changelog/</a>
 
 == Upgrade Notice ==
+
+= 14.2.4 =
+Fixes the name published in the WebSite structured data: it is now your site name, not the SEO title of the home page. Rich Snippets settings are not changed by this update.
 
 = 14.2.3 =
 General security hardening in the WordPress admin screens. Recommended for all sites. No settings or content are changed by this update.
