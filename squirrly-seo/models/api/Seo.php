@@ -74,16 +74,16 @@ class SQ_Models_Api_Seo {
 			if ( $post_id > 0 ) {
 				$normalized['post_id'] = (int) $post_id;
 			} else {
-				return new WP_Error( 'sq_target_not_found', esc_html__( "Couldn't find a page for this URL", 'squirrly-seo' ) );
+				return new WP_Error( 'sq_target_not_found', __( "Couldn't find a page for this URL", 'squirrly-seo' ) );
 			}
 		}
 
 		if ( $normalized['term_id'] > 0 && $normalized['taxonomy'] === '' ) {
-			return new WP_Error( 'sq_target_invalid', esc_html__( "A taxonomy is required when targeting a term", 'squirrly-seo' ) );
+			return new WP_Error( 'sq_target_invalid', __( "A taxonomy is required when targeting a term", 'squirrly-seo' ) );
 		}
 
 		if ( $normalized['post_id'] === 0 && $normalized['term_id'] === 0 && $normalized['post_type'] === '' ) {
-			return new WP_Error( 'sq_target_invalid', esc_html__( "Specify a post_id, a term_id with its taxonomy, a url or the homepage", 'squirrly-seo' ) );
+			return new WP_Error( 'sq_target_invalid', __( "Specify a post_id, a term_id with its taxonomy, a url or the homepage", 'squirrly-seo' ) );
 		}
 
 		return $normalized;
@@ -109,7 +109,7 @@ class SQ_Models_Api_Seo {
 		$post = $snippet->getCurrentSnippet( $target['post_id'], $target['term_id'], $target['taxonomy'], $target['post_type'] );
 
 		if ( ! $post || ! isset( $post->hash ) || $post->hash == '' ) {
-			return new WP_Error( 'sq_target_not_found', esc_html__( "Couldn't find the page", 'squirrly-seo' ) );
+			return new WP_Error( 'sq_target_not_found', __( "Couldn't find the page", 'squirrly-seo' ) );
 		}
 
 		return $post;
@@ -132,7 +132,7 @@ class SQ_Models_Api_Seo {
 			$hash = strtolower( preg_replace( '/[^a-f0-9]/i', '', $target['hash'] ) );
 
 			if ( strlen( $hash ) !== 32 ) {
-				return new WP_Error( 'sq_target_invalid', esc_html__( "Error! Invalid request.", 'squirrly-seo' ) );
+				return new WP_Error( 'sq_target_invalid', __( "Error! Invalid request.", 'squirrly-seo' ) );
 			}
 
 			return array(
@@ -178,6 +178,25 @@ class SQ_Models_Api_Seo {
 	}
 
 	/**
+	 * Turn a stored, HTML-escaped value back into the text a client sent or would send.
+	 *
+	 * Numeric references such as &#124; for a pipe come from ent2ncr(); &amp; comes from
+	 * esc_html(). Both are correct in the page source and wrong in a JSON field.
+	 *
+	 * @param mixed $value
+	 *
+	 * @return mixed Non-strings are returned untouched.
+	 */
+	protected static function decodeForRead( $value ) {
+
+		if ( ! is_string( $value ) || $value === '' ) {
+			return $value;
+		}
+
+		return html_entity_decode( $value, ENT_QUOTES, get_bloginfo( 'charset' ) ?: 'UTF-8' );
+	}
+
+	/**
 	 * Read the SEO of a page. 'seo' is what is stored; 'computed' is what the frontend
 	 * outputs and may come from an Automation pattern, so never write it back blindly.
 	 *
@@ -195,18 +214,64 @@ class SQ_Models_Api_Seo {
 		/** @var SQ_Models_Domain_Sq $stored */
 		$stored = SQ_Classes_ObjController::getClass( 'SQ_Models_Qss' )->getSqSeo( $post->hash );
 
+		//Squirrly stores titles and descriptions already escaped for HTML - clearTitle() runs
+		//ent2ncr() and esc_html() - and the frontend emits those bytes directly, which renders
+		//correctly. A client reading through this service wants the text, not the markup: handed
+		//"Demo &amp; Co &#124; GEO" it would miscount the length and write the escaping back in,
+		//compounding it on every edit. Decode for reading only; storage and output are untouched.
 		$seo = array();
 		foreach ( array_keys( self::writableFields() ) as $field ) {
-			$seo[ $field ] = $stored->$field;
+			$seo[ $field ] = self::decodeForRead( $stored->$field );
 		}
 
 		$computed = array();
 		if ( $effective = $post->sq ) {
 			$computed = array(
-				'title'       => $effective->title,
-				'description' => $effective->description,
-				'keywords'    => $effective->keywords,
+				'title'       => self::decodeForRead( $effective->title ),
+				'description' => self::decodeForRead( $effective->description ),
+				'keywords'    => self::decodeForRead( $effective->keywords ),
 			);
+
+			//Say where these values came from. Without it a client that finds a bad title can
+			//only guess whether the page or the pattern produced it, and pinning a fixed value
+			//onto this one page is the wrong repair when the pattern is at fault - every other
+			//page of the same type stays broken, and this one stops following Automation.
+			/** @var SQ_Models_Api_Patterns $patterns_api */
+			$patterns_api = SQ_Classes_ObjController::getClass( 'SQ_Models_Api_Patterns' );
+			$requested    = $patterns_api->contextFor( $post );
+			$context      = $patterns_api->effectiveContext( $requested );
+			$pattern      = $patterns_api->forContext( $context );
+
+			if ( ! empty( $pattern ) ) {
+				$title_pattern       = isset( $pattern['title'] ) ? (string) $pattern['title'] : '';
+				$description_pattern = isset( $pattern['description'] ) ? (string) $pattern['description'] : '';
+
+				$tokens = array_merge(
+					$patterns_api->tokensIn( $title_pattern ),
+					$patterns_api->tokensIn( $description_pattern )
+				);
+
+				$computed['source'] = array(
+					'pattern_context'     => $context,
+					'title_pattern'       => $title_pattern,
+					'description_pattern' => $description_pattern,
+					'empty_tokens'        => $patterns_api->emptySiteTokens( $tokens ),
+					'fix_at_the_source'   => __( "These values come from the Automation pattern above, not from anything saved on this page. Read squirrly/get-patterns before changing them: if the problem is in the pattern, every page of this type shares it, and editing this one page fixes only this page.", 'squirrly-seo' ),
+				);
+
+				//This type has no pattern of its own and is borrowing the shared one, so say so:
+				//editing it changes every other post type and taxonomy in the same position.
+				if ( $context !== $requested ) {
+					$computed['source']['pattern_inherited_from'] = $context;
+					$computed['source']['pattern_requested']      = $requested;
+					$computed['source']['shared_pattern_warning'] = sprintf(
+					/* translators: %1$s: the context being viewed, %2$s: the pattern context it falls back to */
+						__( "'%1\$s' has no Automation pattern of its own, so it uses the shared '%2\$s' pattern. Changing that pattern changes every other post type and taxonomy without one. To change only this type, add a pattern for it in Squirrly's Automation screen.", 'squirrly-seo' ),
+						$requested,
+						$context
+					);
+				}
+			}
 		}
 
 		return array(
@@ -240,11 +305,11 @@ class SQ_Models_Api_Seo {
 		}
 
 		if ( $write['hash'] === '' ) {
-			return new WP_Error( 'sq_target_invalid', esc_html__( "Error! Invalid request.", 'squirrly-seo' ) );
+			return new WP_Error( 'sq_target_invalid', __( "Error! Invalid request.", 'squirrly-seo' ) );
 		}
 
 		if ( ! self::canEdit( $write['post_id'] ) ) {
-			return new WP_Error( 'sq_forbidden', esc_html__( "You don't have enough pemission to edit this article", 'squirrly-seo' ) );
+			return new WP_Error( 'sq_forbidden', __( "You don't have enough pemission to edit this article", 'squirrly-seo' ) );
 		}
 
 		$url  = $write['url'];
@@ -291,7 +356,7 @@ class SQ_Models_Api_Seo {
 			) ), maybe_serialize( $sq->toArray() ), gmdate( 'Y-m-d H:i:s' ) );
 
 		} catch ( Exception $e ) {
-			return new WP_Error( 'sq_save_failed', esc_html__( "Error! Could not save the data.", 'squirrly-seo' ) );
+			return new WP_Error( 'sq_save_failed', __( "Error! Could not save the data.", 'squirrly-seo' ) );
 		}
 
 		if ( ! $saved ) {
@@ -299,7 +364,7 @@ class SQ_Models_Api_Seo {
 			$qssModel->checkTableExists();
 			$qssModel->alterTable();
 
-			return new WP_Error( 'sq_save_failed', esc_html__( "Error! Could not save the data.", 'squirrly-seo' ) );
+			return new WP_Error( 'sq_save_failed', __( "Error! Could not save the data.", 'squirrly-seo' ) );
 		}
 
 		//trigger action after SEO is saved in Squirrly DB

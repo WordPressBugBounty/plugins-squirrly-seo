@@ -80,7 +80,15 @@ class SQ_Controllers_Patterns extends SQ_Classes_FrontController
 	                }
 
                     if(is_string($value) && $value <> '') {
-	                    $object->{$name} = preg_replace_callback('/\{\{([^\}\s]+)\}\}/',array($this, 'processPattern'), $value);
+	                    $replaced = preg_replace_callback('/\{\{([^\}\s]+)\}\}/',array($this, 'processPattern'), $value);
+
+	                    //A pattern is written for the case where every placeholder has a value.
+	                    //When one resolves to nothing - an unset tagline empties {{sitedesc}},
+	                    //and {{page}} is empty on page 1, which is most views - the spacing and
+	                    //separators around it are left behind, so "{{sitename}} {{page}} {{sep}}
+	                    //{{sitedesc}}" ships as "Site Name  | " in the title tag. Tidy the result
+	                    //rather than the pattern, so saved patterns keep working as written.
+	                    $object->{$name} = $this->cleanupPattern( $replaced, $object->sep );
                     }
 
                 }
@@ -89,6 +97,42 @@ class SQ_Controllers_Patterns extends SQ_Classes_FrontController
 
         return $object;
     }
+
+	/**
+	 * Tidy a pattern once every placeholder has been substituted.
+	 *
+	 * Only removes what an empty placeholder left behind: runs of whitespace, a separator with
+	 * nothing on one side, and leading or trailing space. A separator with real text on both
+	 * sides is never touched, so a title that legitimately contains the separator character
+	 * comes through unchanged.
+	 *
+	 * @param string $value The substituted string.
+	 * @param string $sep   The separator this pattern uses.
+	 *
+	 * @return string
+	 */
+	public function cleanupPattern( $value, $sep ) {
+
+		if ( ! is_string( $value ) || $value === '' ) {
+			return $value;
+		}
+
+		//collapse any run of whitespace, including the non-breaking spaces themes inject
+		$value = preg_replace( '/[\s\x{00A0}]+/u', ' ', $value );
+
+		if ( is_string( $sep ) && $sep <> '' ) {
+			$quoted = preg_quote( $sep, '/' );
+
+			//two separators that ended up next to each other with nothing between them
+			$value = preg_replace( '/(?:' . $quoted . '\s*){2,}/u', $sep . ' ', $value );
+
+			//a separator with nothing before it, or nothing after it
+			$value = preg_replace( '/^\s*(?:' . $quoted . '\s*)+/u', '', $value );
+			$value = preg_replace( '/(?:\s*' . $quoted . ')+\s*$/u', '', $value );
+		}
+
+		return trim( $value );
+	}
 
 	/**
 	 * Replace the found pattern with the value

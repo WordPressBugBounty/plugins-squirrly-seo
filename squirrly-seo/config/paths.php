@@ -30,6 +30,7 @@ define( '_SQ_MODEL_DIR_', _SQ_ROOT_DIR_ . 'models/' );
 define( '_SQ_SERVICE_DIR_', _SQ_MODEL_DIR_ . 'services/' );
 define( '_SQ_TRANSLATIONS_DIR_', _SQ_ROOT_DIR_ . 'translations/' );
 define( '_SQ_CORE_DIR_', _SQ_ROOT_DIR_ . 'core/' );
+define( '_SQ_MCP_DIR_', _SQ_ROOT_DIR_ . 'mcp/' );
 define( '_SQ_THEME_DIR_', _SQ_ROOT_DIR_ . 'view/' );
 define( '_SQ_ASSETS_DIR_', _SQ_THEME_DIR_ . 'assets/' );
 

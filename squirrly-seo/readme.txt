@@ -4,7 +4,7 @@ Donate link: https://plugin.squirrly.co/squirrly-seo-pricing/
 Tags: SEO, AEO, GEO, schema, sitemap
 Requires at least: 5.3
 Tested up to: 7.0
-Stable tag: 14.2.4
+Stable tag: 14.2.5
 Requires PHP: 7.0
 License: GPLv2 or later
 
@@ -120,6 +120,14 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 7. Squirrly SEO - SEO Briefcase
 
 == Changelog ==
+= 14.2.5 =
+* New: Connect Claude or OpenAI Codex to your site from Technical SEO - Connect Tools - AI Tools. No separate program to install and no Application Password to create by hand.
+* New: AI assistants can now read your Automation patterns, so they can point at the pattern behind a wrong title instead of overriding a single page.
+* Fix: Squirrly's SEO tools are now visible to AI assistants. Until now an assistant could connect and find none of them.
+* Fix: Titles and descriptions no longer keep the spacing and separator of a placeholder that resolved to nothing, which published titles such as "Site Name  | ".
+* Fix: The tagline WordPress installs with, "Just another WordPress site", is no longer published in your home page title.
+* Fix: Information from Squirrly Cloud is reduced to plain text before an AI assistant reads it.
+
 = 14.2.4 =
 * Fix: The Inner Links suggestions no longer include WordPress menu items. Menu items are stored as posts and have an address of their own, but that address is not a real page and returns "not found" when opened, so they were being suggested as pages to link from and then reported as broken links in the Inspect report.
 * Fix: The WebSite structured data now publishes your WordPress Site Title as the name of your site - the short name Google shows above your results - instead of the SEO title of the home page. The SEO title is a sentence written for the search result and was being cut short when Google read it as the site name.
@@ -543,6 +551,9 @@ google seo metas
 * Changelog Archive: <a href="https://plugin.squirrly.co/squirrly-seo-changelog/">https://plugin.squirrly.co/squirrly-seo-changelog/</a>
 
 == Upgrade Notice ==
+
+= 14.2.5 =
+Squirrly's SEO tools are now visible to AI assistants, which they were not before, and you can add Squirrly to Claude as a connector from the new AI Tools screen. No settings are changed by this update.
 
 = 14.2.4 =
 Fixes the name published in the WebSite structured data: it is now your site name, not the SEO title of the home page. Rich Snippets settings are not changed by this update.

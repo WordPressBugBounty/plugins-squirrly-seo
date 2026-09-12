@@ -453,6 +453,7 @@ class SQ_Classes_Helpers_Tools
             'sq_tracking_logged_users' => 0,
             'sq_tracking_ip_users' => 1,
             'sq_auto_webmasters' => 0,
+            'sq_mcp_oauth' => 0,
             'sq_analytics_google_js' => 'analytics',
             'codes' => array(
                 'google_wt' => "",

@@ -106,6 +106,22 @@ class SQ_Models_Domain_Patterns extends SQ_Models_Abstract_Domain {
 	public function getSitedesc() {
 		$description = SQ_Classes_Helpers_Sanitize::clearDescription( get_bloginfo( 'description' ) );
 
+		//WordPress installs with a placeholder tagline and most sites never change it. Publishing
+		//it puts "Just another WordPress site" in the title tag of the home page, which is worse
+		//than publishing nothing, so it counts as unset and the separator around it is dropped
+		//with it. Compare against the translated string, since that is what WordPress stored.
+		if ( trim( $description ) !== '' && trim( $description ) === trim( __( 'Just another WordPress site' ) ) ) {
+			/**
+			 * Whether the untouched WordPress placeholder tagline is treated as no tagline.
+			 *
+			 * @param bool   $ignore      Default true.
+			 * @param string $description The tagline as stored.
+			 */
+			if ( apply_filters( 'sq_ignore_default_tagline', true, $description ) ) {
+				return '';
+			}
+		}
+
 		return $this->truncate( $description, 10, $this->getDescription_maxlength() );
 	}
 

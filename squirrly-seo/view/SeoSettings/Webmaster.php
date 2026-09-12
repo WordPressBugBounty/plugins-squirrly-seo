@@ -431,6 +431,146 @@ if ( ! isset( $view ) ) {
                                     </div>
 
                                 </div>
+
+                                <div id="aitools" class="col-12 py-0 px-4 m-0 tab-panel">
+
+                                    <div class="col-12 m-0 p-0 my-2">
+                                        <h3 class="card-title"><?php echo esc_html__( "AI Tools", 'squirrly-seo' ); ?>
+                                            <div class="sq_help_question d-inline">
+                                                <a href="https://howto12.squirrly.co/kb/connect-squirrly-to-ai-assistants/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                                            </div>
+                                        </h3>
+                                        <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "Let an AI assistant read and update your SEO from inside your own site, instead of pasting page content into a chat window and pasting suggestions back.", 'squirrly-seo' ); ?></div>
+                                    </div>
+
+                                    <div class="col-12 m-0 p-0 my-5">
+
+										<?php $sq_mcp_blocker = SQ_Classes_McpOauthController::getBlocker(); ?>
+
+										<?php if ( $sq_mcp_blocker <> '' ) { ?>
+                                            <div class="col-12 alert alert-warning m-0 p-3 mb-4">
+                                                <strong><?php echo esc_html__( "Fix this first", 'squirrly-seo' ); ?></strong>
+                                                <div class="mt-1"><?php echo esc_html( $sq_mcp_blocker ); ?></div>
+                                            </div>
+										<?php } ?>
+
+                                        <div class="col-12 row m-0 p-0 mb-5">
+                                            <div class="checker col-12 row m-0 p-0">
+                                                <div class="col-12 m-0 p-0 sq-switch sq-switch-sm">
+                                                    <input type="hidden" name="sq_mcp_oauth" value="0"/>
+                                                    <input type="checkbox" id="sq_mcp_oauth" name="sq_mcp_oauth" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_mcp_oauth' ) ? 'checked="checked"' : '' ) ?> value="1"/>
+                                                    <label for="sq_mcp_oauth" class="ml-1"><?php echo esc_html__( "Allow AI assistants to connect with a sign-in", 'squirrly-seo' ); ?>
+                                                        <a href="https://howto12.squirrly.co/kb/how-to-connect-mcp-plugins-to-squirrly-seo/" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                    </label>
+                                                    <div class="small text-black-50 ml-5"><?php echo esc_html__( "Off by default. Nothing about your site is exposed until you turn this on and approve a connection from your own WordPress login screen.", 'squirrly-seo' ); ?></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+										<?php
+										//Only show the address and the server checks once the switch is on and nothing
+										//is blocking it. Showing an address that cannot work, above two red failures
+										//caused by the blocker itself, reads as a broken feature rather than a setting
+										//waiting on one fix.
+										if ( SQ_Classes_McpOauthController::isActive() && $sq_mcp_blocker === '' ) {
+											$sq_mcp_checks = SQ_Classes_McpOauthController::checkDiscovery();
+											$sq_mcp_failed = 0;
+											foreach ( $sq_mcp_checks as $sq_mcp_check ) {
+												if ( ! $sq_mcp_check['ok'] ) {
+													$sq_mcp_failed ++;
+												}
+											}
+											?>
+
+                                            <div class="col-12 row m-0 p-0 my-5">
+                                                <div class="col-4 m-0 p-0 pr-2 font-weight-bold">
+													<?php echo esc_html__( "Your connector address", 'squirrly-seo' ); ?>:
+                                                    <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "Paste this into Add custom connector in your AI tool.", 'squirrly-seo' ); ?></div>
+                                                </div>
+                                                <div class="col-8 m-0 p-0">
+                                                    <input type="text" class="form-control" readonly="readonly" onclick="this.select();" value="<?php echo esc_attr( SQ_Classes_McpOauthController::getServerUrl() ); ?>"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 row m-0 p-0 my-5">
+                                                <div class="col-4 m-0 p-0 pr-2 font-weight-bold">
+													<?php echo esc_html__( "Can your server be reached", 'squirrly-seo' ); ?>:
+                                                    <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "An AI assistant does not ask you for a password. It fetches these two addresses to find out how to sign in.", 'squirrly-seo' ); ?></div>
+                                                </div>
+                                                <div class="col-8 m-0 p-0">
+
+													<?php foreach ( $sq_mcp_checks as $sq_mcp_label => $sq_mcp_check ) { ?>
+                                                        <div class="col-12 m-0 p-0 mb-2">
+															<?php if ( $sq_mcp_check['ok'] ) { ?>
+                                                                <i class="fa-solid fa-circle-check text-success"></i>
+															<?php } else { ?>
+                                                                <i class="fa-solid fa-circle-xmark text-danger"></i>
+															<?php } ?>
+                                                            <span class="ml-1"><?php echo esc_html( home_url( SQ_Classes_McpOauthController::$discovery[ $sq_mcp_label ] ) ); ?></span>
+                                                            <span class="small text-black-50 ml-1"><?php echo esc_html( $sq_mcp_check['code'] ? $sq_mcp_check['code'] : '-' ); ?></span>
+                                                        </div>
+													<?php } ?>
+
+													<?php if ( $sq_mcp_failed === 0 ) { ?>
+                                                        <div class="small text-black-50 mt-2"><?php echo esc_html__( "Both addresses are being served correctly. Your site is ready to connect.", 'squirrly-seo' ); ?></div>
+													<?php } ?>
+                                                </div>
+                                            </div>
+
+											<?php
+											//One set of instructions, not one per address: both fail for the same reason
+											$sq_mcp_help = array();
+											foreach ( $sq_mcp_checks as $sq_mcp_check ) {
+												if ( ! $sq_mcp_check['ok'] && ! empty( $sq_mcp_check['message'] ) ) {
+													$sq_mcp_help = $sq_mcp_check['message'];
+													break;
+												}
+											}
+											?>
+
+											<?php if ( ! empty( $sq_mcp_help ) ) { ?>
+                                                <div class="col-12 row m-0 p-0 my-5">
+                                                    <div class="col-4 m-0 p-0 pr-2 font-weight-bold">
+														<?php echo esc_html__( "How to fix it", 'squirrly-seo' ); ?>:
+                                                    </div>
+                                                    <div class="col-8 m-0 p-0">
+
+                                                        <div class="alert alert-warning m-0 p-3">
+															<?php echo esc_html( $sq_mcp_help['cause'] ); ?>
+                                                        </div>
+
+														<?php if ( ! empty( $sq_mcp_help['find_label'] ) ) { ?>
+                                                            <div class="small text-black-50 mt-3 mb-1"><?php echo esc_html( $sq_mcp_help['find_label'] ); ?></div>
+                                                            <pre class="bg-light border m-0 p-3" style="white-space: pre-wrap;"><code><?php echo esc_html( $sq_mcp_help['find_code'] ); ?></code></pre>
+														<?php } ?>
+
+														<?php if ( ! empty( $sq_mcp_help['fix_label'] ) ) { ?>
+                                                            <div class="small text-black-50 mt-3 mb-1"><?php echo esc_html( $sq_mcp_help['fix_label'] ); ?></div>
+                                                            <pre class="bg-light border m-0 p-3" style="white-space: pre-wrap;"><code><?php echo esc_html( $sq_mcp_help['fix_code'] ); ?></code></pre>
+														<?php } ?>
+
+														<?php if ( ! empty( $sq_mcp_help['footnote'] ) ) { ?>
+                                                            <div class="small text-black-50 mt-3"><?php echo esc_html( $sq_mcp_help['footnote'] ); ?></div>
+														<?php } ?>
+
+                                                        <div class="small text-black-50 mt-3">
+															<?php echo esc_html__( "Your host can make this change if you do not manage the server yourself. Save this page again to re-run the check.", 'squirrly-seo' ); ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+											<?php } ?>
+
+										<?php } ?>
+
+										<?php do_action( 'sq_webmaster_aitools_after' ); ?>
+
+                                        <div class="col-12 m-0 p-0 mt-5">
+                                            <button type="submit" class="btn btn-primary btn-lg m-0 p-0 py-2 px-4 rounded-0"><?php echo esc_html__( "Save Settings", 'squirrly-seo' ); ?></button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
                             </form>
 
                         </div>

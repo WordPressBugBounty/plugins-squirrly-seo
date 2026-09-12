@@ -831,6 +831,10 @@ class SQ_Models_Menu {
 						'tab'   => 'webmasters',
 						'show'  => SQ_Classes_Helpers_Tools::getOption( 'sq_auto_webmasters' ),
 					),
+					array(
+						'title' => esc_html__( "AI Tools", 'squirrly-seo' ),
+						'tab'   => 'aitools',
+					),
 				)
 			),
 			'sq_seosettings/category'  => array(

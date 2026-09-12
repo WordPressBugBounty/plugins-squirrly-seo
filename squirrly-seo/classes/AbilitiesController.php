@@ -46,6 +46,7 @@ class SQ_Classes_AbilitiesController {
 	 */
 	public function registerAbilities() {
 		$this->registerSeoAbilities();
+		$this->registerPatternAbilities();
 		$this->registerSettingsAbilities();
 		$this->registerCloudAbilities();
 	}
@@ -79,7 +80,7 @@ class SQ_Classes_AbilitiesController {
 
 		wp_register_ability( 'squirrly/get-seo', array(
 			'label'               => esc_html__( 'Get page SEO', 'squirrly-seo' ),
-			'description'         => 'Read the SEO that Squirrly stores for one page: title, meta description, keywords, canonical, robots flags, Open Graph, Twitter Card and JSON-LD. Identify the page with post_id, or term_id plus taxonomy, or url, or homepage. Returns "seo" (the values actually saved for this page, which is what update-seo would overwrite) and "computed" (what the page currently outputs, which may come from an Automation pattern rather than a saved value). Do not copy "computed" values into update-seo unless you intend to turn an inherited Automation setting into a fixed value for that page.',
+			'description'         => 'Read the SEO that Squirrly stores for one page: title, meta description, keywords, canonical, robots flags, Open Graph, Twitter Card and JSON-LD. Identify the page with post_id, or term_id plus taxonomy, or url, or homepage. Returns "seo" (the values actually saved for this page, which is what update-seo would overwrite) and "computed" (what the page currently outputs). When "seo" fields are null and "computed" has values, this page is following an Automation pattern - "computed.source" names that pattern and flags any token in it that currently resolves to nothing. Diagnosing from "computed" alone will mislead you: a wrong title usually means a wrong pattern, shared by every page of that type, so read squirrly/get-patterns before deciding what to change.',
 			'category'            => self::CATEGORY,
 			'input_schema'        => array(
 				'type'       => 'object',
@@ -93,6 +94,11 @@ class SQ_Classes_AbilitiesController {
 			'permission_callback' => array( $this, 'canReadSeo' ),
 			'meta'                => array(
 				'public'       => true,
+				//MCP servers read the nested key, not the flat one above: is_ability_mcp_public()
+				//checks meta['mcp']['public'], so without this every Squirrly ability is filtered
+				//out of discover-abilities and no MCP client can see it. 'annotations' below is
+				//read flat, which is why the two sit at different depths.
+				'mcp'          => array( 'public' => true ),
 				'show_in_rest' => true,
 				'annotations'  => array( 'readonly' => true, 'idempotent' => true ),
 			),
@@ -130,7 +136,7 @@ class SQ_Classes_AbilitiesController {
 
 		wp_register_ability( 'squirrly/update-seo', array(
 			'label'               => esc_html__( 'Update page SEO', 'squirrly-seo' ),
-			'description'         => 'Change the SEO Squirrly stores for one page. Identify the page the same way as get-seo and pass the fields to change in "seo". This is a partial update: fields you omit keep their current value. Read the page with get-seo first so you know what is already set.',
+			'description'         => 'Change the SEO Squirrly stores for one page. Identify the page the same way as get-seo and pass the fields to change in "seo". This is a partial update: fields you omit keep their current value. Read the page with get-seo first so you know what is already set. Writing a field here pins a fixed value to this one page and detaches it from Automation, so the page stops adapting when its content or the site changes. Use it when this specific page genuinely needs wording of its own. When the problem is shared by pages of the same type - a separator left stranded by an empty token, a brand name that is wrong everywhere - the pattern is at fault, not the page: read squirrly/get-patterns and correct it there instead, and every page of that type follows.',
 			'category'            => self::CATEGORY,
 			'input_schema'        => array(
 				'type'       => 'object',
@@ -143,6 +149,11 @@ class SQ_Classes_AbilitiesController {
 			'permission_callback' => array( $this, 'canWriteSeo' ),
 			'meta'                => array(
 				'public'       => true,
+				//MCP servers read the nested key, not the flat one above: is_ability_mcp_public()
+				//checks meta['mcp']['public'], so without this every Squirrly ability is filtered
+				//out of discover-abilities and no MCP client can see it. 'annotations' below is
+				//read flat, which is why the two sit at different depths.
+				'mcp'          => array( 'public' => true ),
 				'show_in_rest' => true,
 				'annotations'  => array( 'readonly' => false, 'destructive' => false, 'idempotent' => true ),
 			),
@@ -152,6 +163,41 @@ class SQ_Classes_AbilitiesController {
 	/**
 	 * Global settings. Reads are broad, writes are limited to a curated list.
 	 */
+	/**
+	 * Automation patterns. Read-only: one pattern drives every page of its type.
+	 */
+	protected function registerPatternAbilities() {
+		wp_register_ability( 'squirrly/get-patterns', array(
+			'label'               => esc_html__( 'Get Automation patterns', 'squirrly-seo' ),
+			'description'         => 'Read Squirrly\'s Automation patterns - the templates that generate the title, meta description, Open Graph type and Schema types for every page of a given type, and keep them adapting as content changes. Pass "context" to read one (for example "home", "post", "page", "product", "category"), or omit it for all of them. Returns each pattern with the {{tokens}} it uses, the site-wide token values, "empty_tokens" naming any token that currently resolves to nothing and how to fix it, and "available_tokens" listing every token you may use. Read this before changing the SEO of an individual page: if a title or description is wrong on more than one page, the pattern is the cause and editing single pages will not fix it.',
+			'category'            => self::CATEGORY,
+			'input_schema'        => array(
+				'type'       => 'object',
+				'properties' => array(
+					'context' => array(
+						'type'        => 'string',
+						'description' => 'One pattern context, for example "home", "post", "page", "product", "category". Omit to read every context.',
+					),
+				),
+				//without a default, core passes null when a client sends no input at all
+				'default'    => array(),
+			),
+			'output_schema'       => array( 'type' => 'object' ),
+			'execute_callback'    => array( $this, 'executeGetPatterns' ),
+			'permission_callback' => array( $this, 'canReadSeo' ),
+			'meta'                => array(
+				'public'       => true,
+				//MCP servers read the nested key, not the flat one above: is_ability_mcp_public()
+				//checks meta['mcp']['public'], so without this every Squirrly ability is filtered
+				//out of discover-abilities and no MCP client can see it. 'annotations' below is
+				//read flat, which is why the two sit at different depths.
+				'mcp'          => array( 'public' => true ),
+				'show_in_rest' => true,
+				'annotations'  => array( 'readonly' => true, 'idempotent' => true ),
+			),
+		) );
+	}
+
 	protected function registerSettingsAbilities() {
 		wp_register_ability( 'squirrly/get-settings', array(
 			'label'               => esc_html__( 'Get Squirrly settings', 'squirrly-seo' ),
@@ -163,6 +209,11 @@ class SQ_Classes_AbilitiesController {
 			'permission_callback' => array( $this, 'canManageSettings' ),
 			'meta'                => array(
 				'public'       => true,
+				//MCP servers read the nested key, not the flat one above: is_ability_mcp_public()
+				//checks meta['mcp']['public'], so without this every Squirrly ability is filtered
+				//out of discover-abilities and no MCP client can see it. 'annotations' below is
+				//read flat, which is why the two sit at different depths.
+				'mcp'          => array( 'public' => true ),
 				'show_in_rest' => true,
 				'annotations'  => array( 'readonly' => true, 'idempotent' => true ),
 			),
@@ -189,6 +240,11 @@ class SQ_Classes_AbilitiesController {
 			'permission_callback' => array( $this, 'canManageSettings' ),
 			'meta'                => array(
 				'public'       => true,
+				//MCP servers read the nested key, not the flat one above: is_ability_mcp_public()
+				//checks meta['mcp']['public'], so without this every Squirrly ability is filtered
+				//out of discover-abilities and no MCP client can see it. 'annotations' below is
+				//read flat, which is why the two sit at different depths.
+				'mcp'          => array( 'public' => true ),
 				'show_in_rest' => true,
 				'annotations'  => array( 'readonly' => false, 'destructive' => false, 'idempotent' => true ),
 			),
@@ -281,6 +337,11 @@ class SQ_Classes_AbilitiesController {
 			},
 			'meta'                => array(
 				'public'       => true,
+				//MCP servers read the nested key, not the flat one above: is_ability_mcp_public()
+				//checks meta['mcp']['public'], so without this every Squirrly ability is filtered
+				//out of discover-abilities and no MCP client can see it. 'annotations' below is
+				//read flat, which is why the two sit at different depths.
+				'mcp'          => array( 'public' => true ),
 				'show_in_rest' => true,
 				'annotations'  => array( 'readonly' => true, 'idempotent' => true ),
 			),
@@ -326,6 +387,12 @@ class SQ_Classes_AbilitiesController {
 		$service = SQ_Classes_ObjController::getClass( 'SQ_Models_Api_Seo' );
 
 		return $service->saveSeo( $input, $seo );
+	}
+
+	public function executeGetPatterns( $input = array() ) {
+		$context = isset( $input['context'] ) ? (string) $input['context'] : '';
+
+		return SQ_Classes_ObjController::getClass( 'SQ_Models_Api_Patterns' )->getPatterns( $context );
 	}
 
 	public function executeGetSettings() {
@@ -382,12 +449,62 @@ class SQ_Classes_AbilitiesController {
 
 		//an empty response means "nothing set up yet", not an error
 		$result = array(
-			'results' => $response === false ? array() : json_decode( wp_json_encode( $response ), true ),
+			'results' => $response === false
+				? array()
+				: $this->sanitizeCloudResult( json_decode( wp_json_encode( $response ), true ) ),
 		);
 
 		set_transient( $key, $result, self::CACHE_TTL );
 
 		return $result;
+	}
+
+	/**
+	 * Reduce a Cloud response to plain text before it leaves the site.
+	 *
+	 * Some Cloud endpoints answer with material meant for the WordPress admin screens rather
+	 * than for a machine - the Live Assistant checklist arrives as markup with jQuery in it.
+	 * An AI client gets nothing usable from that, and passing markup straight from a remote
+	 * service into a model's context, and from there into whatever renders the answer, is an
+	 * injection channel we should not open. Cloud output is treated as untrusted here for the
+	 * same reason SQ_Classes_Helpers_Sanitize::cloudHtml() exists for admin notifications.
+	 *
+	 * Entities are decoded before tags are stripped, and the pair repeats until the string
+	 * stops changing, so an encoded "&lt;script&gt;" cannot survive as markup.
+	 *
+	 * @param mixed $value Decoded Cloud response.
+	 *
+	 * @return mixed
+	 */
+	protected function sanitizeCloudResult( $value ) {
+
+		if ( is_array( $value ) ) {
+			$clean = array();
+			foreach ( $value as $key => $item ) {
+				$clean[ $key ] = $this->sanitizeCloudResult( $item );
+			}
+
+			return $clean;
+		}
+
+		if ( ! is_string( $value ) || $value === '' ) {
+			return $value;
+		}
+
+		//script and style bodies carry no readable text, so drop them whole rather than
+		//leaving their contents behind as loose words
+		$value = preg_replace( '#<(script|style)\b[^>]*>.*?</\1>#is', ' ', $value );
+
+		$previous = null;
+		$passes   = 0;
+
+		while ( $previous !== $value && $passes < 3 ) {
+			$previous = $value;
+			$value    = wp_strip_all_tags( html_entity_decode( $value, ENT_QUOTES, 'UTF-8' ) );
+			$passes ++;
+		}
+
+		return trim( preg_replace( '/[ \t]+/', ' ', $value ) );
 	}
 
 	/**
