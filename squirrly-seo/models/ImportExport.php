@@ -726,7 +726,7 @@ class SQ_Models_ImportExport {
 								}
 
 								if ( $row->meta_key == 'rank_math_robots' ) {
-									$value                      = unserialize( $value );
+									$value                      = @unserialize( $value, array( 'allowed_classes' => false ) );
 									$metas[ $hash ]['noindex']  = in_array( 'noindex', (array) $value );
 									$metas[ $hash ]['nofollow'] = in_array( 'nofollow', (array) $value );
 								} else {
@@ -776,7 +776,7 @@ class SQ_Models_ImportExport {
 									}
 
 									if ( $row->meta_key == 'rank_math_robots' ) {
-										$value                      = unserialize( $value );
+										$value                      = @unserialize( $value, array( 'allowed_classes' => false ) );
 										$metas[ $hash ]['noindex']  = in_array( 'noindex', (array) $value );
 										$metas[ $hash ]['nofollow'] = in_array( 'nofollow', (array) $value );
 									} else {
@@ -982,7 +982,10 @@ class SQ_Models_ImportExport {
 						if ( $post->meta_value <> '' ) {
 							$sq_woocommerce = array();
 
-							$data = unserialize( $post->meta_value );
+							$data = @unserialize( $post->meta_value, array( 'allowed_classes' => false ) );
+							if ( ! is_array( $data ) ) {
+								continue;
+							}
 							foreach ( $wc_fields as $field => $value ) {
 								if ( isset( $data[ $value ] ) && $data[ $value ] <> '' ) {
 									$sq_woocommerce[ $field ] = $data[ $value ];
@@ -1495,8 +1498,8 @@ class SQ_Models_ImportExport {
 			if ( $table == $wpdb->prefix . _SQ_DB_ ) {
 				$results = $wpdb->get_results( "SELECT post,seo FROM `$table`" );
 				foreach ( $results as $row ) {
-					$post     = (array) unserialize( $row->post );
-					$seo      = (array) unserialize( $row->seo );
+					$post     = (array) @unserialize( $row->post, array( 'allowed_classes' => false ) );
+					$seo      = (array) @unserialize( $row->seo, array( 'allowed_classes' => false ) );
 					$seo      = array_intersect_key( $seo, array_flip( $keys ) );
 					$output[] = array_merge( $post, $seo );
 				}

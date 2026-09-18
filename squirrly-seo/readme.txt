@@ -4,7 +4,7 @@ Donate link: https://plugin.squirrly.co/squirrly-seo-pricing/
 Tags: SEO, AEO, GEO, schema, sitemap
 Requires at least: 5.3
 Tested up to: 7.0
-Stable tag: 14.2.5
+Stable tag: 14.2.6
 Requires PHP: 7.0
 License: GPLv2 or later
 
@@ -120,6 +120,13 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 7. Squirrly SEO - SEO Briefcase
 
 == Changelog ==
+= 14.2.6 =
+* Fix: Importing your SEO from Yoast, Yoast WooCommerce SEO or Rank Math now ignores any stored value that those plugins did not write themselves. A user allowed to write posts on your site could leave a specially prepared value behind for the import to pick up, and the import was reading it as trusted data.
+* Fix: Plugin screens no longer carry out an action from the web address without the security token WordPress issues for it. A link prepared by someone else could make an administrator's browser run an import, a delete or a plugin rollback just by being opened.
+* Fix: The Google Analytics and Facebook Pixel fields now accept only the characters a tracking ID is made of. A value with punctuation in it was published inside the tracking script on every page of the site, where a browser would run it as code.
+* Fix: Opening a plugin screen with an unexpected tab name in the address no longer keeps the page loading until it runs out of memory.
+* Fix: The XML sitemap no longer stops responding if the number of links per sitemap page has been saved empty or as something that is not a number. It falls back to 500, the normal setting.
+
 = 14.2.5 =
 * New: Connect Claude or OpenAI Codex to your site from Technical SEO - Connect Tools - AI Tools. No separate program to install and no Application Password to create by hand.
 * New: AI assistants can now read your Automation patterns, so they can point at the pattern behind a wrong title instead of overriding a single page.
@@ -551,6 +558,9 @@ google seo metas
 * Changelog Archive: <a href="https://plugin.squirrly.co/squirrly-seo-changelog/">https://plugin.squirrly.co/squirrly-seo-changelog/</a>
 
 == Upgrade Notice ==
+
+= 14.2.6 =
+Security release. Fixes the SEO import from Yoast, Yoast WooCommerce SEO and Rank Math, adds the missing security token check to plugin actions, and tightens the Google Analytics and Facebook Pixel fields.
 
 = 14.2.5 =
 Squirrly's SEO tools are now visible to AI assistants, which they were not before, and you can add Squirrly to Claude as a connector from the new AI Tools screen. No settings are changed by this update.

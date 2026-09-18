@@ -695,7 +695,11 @@ class SQ_Classes_Helpers_Sanitize {
 				}
 			}
 
-			if ( strpos( $code, 'UA-' ) === false && strpos( $code, 'G-' ) === false ) {
+			//the ID is printed inside a <script> block, so a value carrying
+			//anything but the characters of a tracking ID could close the
+			//JavaScript string it sits in and run code on every page
+			if ( ( strpos( $code, 'UA-' ) === false && strpos( $code, 'G-' ) === false )
+			     || ! preg_match( '/^[A-Za-z0-9-]+$/', $code ) ) {
 				$code = '';
 				SQ_Classes_Error::setError( esc_html__( "The code for Google Analytics is incorrect.", 'squirrly-seo' ) );
 			}
@@ -1077,7 +1081,8 @@ class SQ_Classes_Helpers_Sanitize {
 		}
 
 		if ( $code <> '' ) {
-			if ( (int) $code == 0 ) {
+			//printed inside fbq('init', '...') so it must be digits only
+			if ( ! preg_match( '/^[0-9]+$/', $code ) ) {
 				SQ_Classes_Error::setError( esc_html__( "The code for Facebook Pixel must only contain numbers.", 'squirrly-seo' ) );
 				$code = '';
 			}

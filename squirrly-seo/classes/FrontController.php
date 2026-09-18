@@ -181,6 +181,34 @@ class SQ_Classes_FrontController {
 	}
 
 	/**
+	 * Check if a ?tab= value may be called as a method on this controller.
+	 *
+	 * Tabs are view names. Lifecycle and dispatcher methods are public for
+	 * other reasons and must never be reachable this way: action() would run
+	 * the action switch outside the nonce check in the ActionController, and
+	 * init() would call itself until the request runs out of memory.
+	 *
+	 * @param string $tab
+	 *
+	 * @return bool
+	 */
+	protected function isTabCallable( $tab ) {
+		$reserved = array( 'action', 'init', 'construct', 'istabcallable' );
+		$tab      = (string) $tab;
+
+		if ( $tab == '' || in_array( strtolower( $tab ), $reserved ) ) {
+			return false;
+		}
+
+		//hook* methods are WordPress callbacks, not tabs
+		if ( strpos( strtolower( $tab ), 'hook' ) === 0 ) {
+			return false;
+		}
+
+		return method_exists( $this, $tab );
+	}
+
+	/**
 	 * first function call for any class
 	 */
 	protected function action() {

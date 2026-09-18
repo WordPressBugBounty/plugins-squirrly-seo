@@ -24,7 +24,7 @@ class SQ_Controllers_SeoSettings extends SQ_Classes_FrontController {
 
 		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'seosettings' );
 
-		if ( method_exists( $this, $tab ) ) {
+		if ( $this->isTabCallable( $tab ) ) {
 			call_user_func( array( $this, $tab ) );
 		}
 

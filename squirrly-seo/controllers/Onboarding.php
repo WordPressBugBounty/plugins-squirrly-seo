@@ -20,7 +20,7 @@ class SQ_Controllers_Onboarding extends SQ_Classes_FrontController {
 
 		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'onboarding' );
 
-		if ( method_exists( $this, $tab ) ) {
+		if ( $this->isTabCallable( $tab ) ) {
 			if ( SQ_Classes_Helpers_Tools::userCan( 'sq_manage_snippets' ) ) {
 				call_user_func( array( $this, $tab ) );
 			}

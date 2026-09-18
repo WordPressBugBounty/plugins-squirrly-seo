@@ -66,7 +66,7 @@ class SQ_Controllers_Audits extends SQ_Classes_FrontController {
 			$tab = 'aivisibility';
 		}
 
-		if ( method_exists( $this, $tab ) ) {
+		if ( $this->isTabCallable( $tab ) ) {
 			if ( SQ_Classes_Helpers_Tools::userCan( 'sq_manage_focuspages' ) ) {
 				call_user_func( array( $this, $tab ) );
 			}

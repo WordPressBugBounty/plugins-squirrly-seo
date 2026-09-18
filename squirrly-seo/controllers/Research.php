@@ -83,7 +83,7 @@ class SQ_Controllers_Research extends SQ_Classes_FrontController {
 		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( $tab );
 		SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia( 'chart' );
 
-		if ( method_exists( $this, $tab ) ) {
+		if ( $this->isTabCallable( $tab ) ) {
 			if ( SQ_Classes_Helpers_Tools::userCan( 'sq_manage_snippet' ) ) {
 				call_user_func( array( $this, $tab ) );
 			}

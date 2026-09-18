@@ -23,7 +23,12 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 		SQ_Classes_ObjController::getClass( 'SQ_Models_Abstract_Seo' );
 
 		//set the limits
-		$this->posts_limit = SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap_perpage' );
+		//a zero or non-numeric value divides by zero below when counting the index
+		//pages, so fall back to the default instead of trusting the stored option
+		$this->posts_limit = (int) SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap_perpage' );
+		if ( $this->posts_limit < 1 ) {
+			$this->posts_limit = 500;
+		}
 
 		//load the sitemap if there are xml calls
 		add_action( 'init', array( $this, 'initSitemap' ) );
