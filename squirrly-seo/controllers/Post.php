@@ -408,6 +408,13 @@ class SQ_Controllers_Post extends SQ_Classes_FrontController {
 
 				$post_id = (int) SQ_Classes_Helpers_Tools::getValue( 'post_id' );
 
+				//the Live Assistant asks for the post it is editing; nobody needs another one
+				if ( $post_id > 0 && ! SQ_Classes_Helpers_Tools::userCan( 'edit_post', $post_id ) ) {
+					$response['error'] = SQ_Classes_Error::showNotices( esc_html__( "You do not have permission to perform this action", 'squirrly-seo' ), 'error' );
+					echo wp_json_encode( $response );
+					exit();
+				}
+
 				if ( $post_id > 0 ) {
 					if ( $post = SQ_Classes_ObjController::getClass( 'SQ_Models_Snippet' )->getCurrentSnippet( $post_id ) ) {
 						if ( $post->post_status <> 'publish' ) {

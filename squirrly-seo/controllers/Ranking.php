@@ -159,9 +159,11 @@ class SQ_Controllers_Ranking extends SQ_Classes_FrontController {
 					return;
 				}
 
-				//Save the settings
+				//Save only the fields of this form; the action is open to the Editor-level role
 				if ( isset( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] === 'POST' ) {
-					SQ_Classes_ObjController::getClass( 'SQ_Models_Settings' )->saveValues( $_POST );
+					$allowed = array( 'sq_google_country', 'sq_google_device', 'sq_google_language' );
+
+					SQ_Classes_ObjController::getClass( 'SQ_Models_Settings' )->saveValues( array_intersect_key( $_POST, array_flip( $allowed ) ) );
 				}
 
 				//Save the settings on API too

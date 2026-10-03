@@ -88,9 +88,9 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 				if ( isset( $query['sq_feed'] ) && strpos( $query['sq_feed'], 'sitemap' ) !== false ) {
 					//set current sitemap params
 					$this->sitemap  = $query['sq_feed'];
-					$this->page     = ( isset( $query['page'] ) ? $query['page'] : 0 );
-					$this->type     = ( isset( $query['type'] ) ? $query['type'] : false );
-					$this->taxonomy = ( isset( $query['taxonomy'] ) ? $query['taxonomy'] : false );
+					$this->page     = ( isset( $query['page'] ) ? (int) $query['page'] : 0 );
+					$this->type     = ( isset( $query['type'] ) ? sanitize_key( $query['type'] ) : false );
+					$this->taxonomy = ( isset( $query['taxonomy'] ) ? sanitize_key( $query['taxonomy'] ) : false );
 
 					//set the sitemap type
 					$this->model->setCurrentSitemap( $this->sitemap );
@@ -133,9 +133,9 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 								parse_str( $parseurl['query'], $query );
 
 								//set sitemap params
-								$this->page     = ( isset( $query['page'] ) ? $query['page'] : 0 );
-								$this->type     = ( isset( $query['type'] ) ? $query['type'] : false );
-								$this->taxonomy = ( isset( $query['taxonomy'] ) ? $query['taxonomy'] : false );
+								$this->page     = ( isset( $query['page'] ) ? (int) $query['page'] : 0 );
+								$this->type     = ( isset( $query['type'] ) ? sanitize_key( $query['type'] ) : false );
+								$this->taxonomy = ( isset( $query['taxonomy'] ) ? sanitize_key( $query['taxonomy'] ) : false );
 
 							}
 
@@ -148,8 +148,8 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 
 				ini_set( 'display_errors', 0 );
 
-				//check sitemap cache
-				if ( SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap_do_cache' ) ) {
+				//check sitemap cache; the search sitemap skips it so every response tells page caches not to keep it
+				if ( SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap_do_cache' ) && $this->sitemap <> 'sitemap-search' ) {
 					//Load cache
 					/** @var SQ_Classes_Helpers_Cache $cache */
 					$cache = SQ_Classes_ObjController::getClass( 'SQ_Classes_Helpers_Cache' );
@@ -186,7 +186,11 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 					//get the buffer when sitemap ends
 					add_action( 'sq_sitemap_xml_after_show', function () use ( $cache, $type ) {
 						$sitemap = ob_get_clean();
-						$cache->saveSitemap( $type, $this->page, $sitemap, true );
+
+						//An empty sitemap is a page or type the site does not have; caching it would grow without limit
+						if ( strpos( $sitemap, '<loc>' ) !== false ) {
+							$cache->saveSitemap( $type, $this->page, $sitemap, true );
+						}
 
 						echo trim( $sitemap );
 						die();
@@ -484,7 +488,12 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 	public function getSquirrlyHeader( $header ) {
 
 		if ( $this->sitemap <> 'locations' ) {
-			$header = '<?xml-stylesheet type="text/xsl" href="/' . _SQ_ASSETS_RELATIVE_URL_ . 'css/sitemap' . ( $this->sitemap == 'sitemap' ? 'index' : ( $this->sitemap == 'sitemap-news' ? 'news' : '' ) ) . '.xsl"?>' . "\n";
+			//the XSL style is only for people opening the sitemap in a browser; Chrome drops XSLT in November 2026
+			if ( SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap_style' ) ) {
+				$header = '<?xml-stylesheet type="text/xsl" href="/' . _SQ_ASSETS_RELATIVE_URL_ . 'css/sitemap' . ( $this->sitemap == 'sitemap' ? 'index' : ( $this->sitemap == 'sitemap-news' ? 'news' : '' ) ) . '.xsl"?>' . "\n";
+			} else {
+				$header = '';
+			}
 			$header .= '<!-- generated-on="' . date( 'Y-m-d\TH:i:s+00:00' ) . '" -->' . "\n";
 			$header .= '<!-- generator="Squirrly SEO Sitemap" -->' . "\n";
 			$header .= '<!-- generator-url="https://wordpress.org/plugins/squirrly-seo/" -->' . "\n";
@@ -598,11 +607,17 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 
 								//check if available from SEO Automation
 								$pname = str_replace( array( 'sitemap-', 'post_' ), '', $name );
+
+								//search pages stay noindex until they qualify, so only list it when some did
+								if ( $name == 'sitemap-search' && ! SQ_Classes_ObjController::getClass( 'SQ_Models_Searches' )->getQualified( 1 ) ) {
+									continue;
+								}
+
 								if ( isset( $patterns[ $pname ]['do_sitemap'] ) && ! $patterns[ $pname ]['do_sitemap'] ) {
 									continue;
 								} elseif ( isset( $patterns[ $pname ]['doseo'] ) && ! $patterns[ $pname ]['doseo'] ) {
 									continue;
-								} elseif ( SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap_exclude_noindex' ) &&
+								} elseif ( $name <> 'sitemap-search' && SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap_exclude_noindex' ) &&
 								           isset( $patterns[ $pname ]['noindex'] ) && $patterns[ $pname ]['noindex'] ) {
 									continue;
 								}
@@ -807,6 +822,11 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 				break;
 			case 'sitemap-author':
 				$this->showPackXml( $this->model->getListAuthors() );
+				break;
+			case 'sitemap-search':
+				//changes whenever a search qualifies, and the query is cheap, so page caches must not keep it
+				SQ_Classes_Helpers_Tools::setNoCache();
+				$this->showPackXml( $this->model->getListSearches( $this->posts_limit, (int) $this->page * $this->posts_limit ) );
 				break;
 			case 'sitemap-archive':
 				$this->showPackXml( $this->model->getListArchive() );

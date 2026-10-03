@@ -204,6 +204,9 @@ class SQ_Controllers_SeoSettings extends SQ_Classes_FrontController {
 				foreach ( SQ_Classes_Helpers_SiteAuth::authOptionKeys() as $authKey ) {
 					unset( $exportOptions[ $authKey ] );
 				}
+
+				//the cloud token is a credential, not a setting to carry over
+				unset( $exportOptions['sq_api'], $exportOptions['sq_cloud_token'] );
 				echo wp_json_encode( $exportOptions );
 
 				exit();
@@ -416,7 +419,8 @@ class SQ_Controllers_SeoSettings extends SQ_Classes_FrontController {
 				break;
 			case 'sq_rollback':
 
-				if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
+				//replacing plugin files is what install_plugins and DISALLOW_FILE_MODS govern
+				if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) || ! current_user_can( 'install_plugins' ) || ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS ) ) {
 					SQ_Classes_Error::setError( esc_html__( "You do not have permission to perform this action", 'squirrly-seo' ) );
 
 					return;
@@ -443,7 +447,8 @@ class SQ_Controllers_SeoSettings extends SQ_Classes_FrontController {
 				break;
 			case 'sq_reinstall':
 
-				if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
+				//replacing plugin files is what install_plugins and DISALLOW_FILE_MODS govern
+				if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) || ! current_user_can( 'install_plugins' ) || ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS ) ) {
 					SQ_Classes_Error::setError( esc_html__( "You do not have permission to perform this action", 'squirrly-seo' ) );
 
 					return;

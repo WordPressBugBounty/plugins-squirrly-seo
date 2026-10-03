@@ -135,13 +135,28 @@ class SQ_Models_Api_Seo {
 				return new WP_Error( 'sq_target_invalid', __( "Error! Invalid request.", 'squirrly-seo' ) );
 			}
 
+			$post_id   = isset( $target['post_id'] ) ? (int) $target['post_id'] : 0;
+			$term_id   = isset( $target['term_id'] ) ? (int) $target['term_id'] : 0;
+			$taxonomy  = isset( $target['taxonomy'] ) ? sanitize_key( $target['taxonomy'] ) : '';
+			$post_type = isset( $target['post_type'] ) ? sanitize_key( $target['post_type'] ) : '';
+
+			//The hash is predictable, so it is rebuilt from the target the way the form built it
+			//and must match; otherwise a user could write the SEO row of any other page.
+			$snippet = SQ_Classes_ObjController::getClass( 'SQ_Models_Snippet' )->getCurrentSnippet( $post_id, $term_id, $taxonomy, $post_type );
+
+			if ( empty( $snippet ) || ! isset( $snippet->hash ) || $snippet->hash !== $hash ) {
+				return new WP_Error( 'sq_target_invalid', __( "Error! Invalid request.", 'squirrly-seo' ) );
+			}
+
+			//Permission is checked on the page the hash resolves to, not on the post id sent with it
 			return array(
 				'hash'      => $hash,
 				'url'       => isset( $target['url'] ) ? esc_url_raw( $target['url'] ) : '',
-				'post_id'   => isset( $target['post_id'] ) ? (int) $target['post_id'] : 0,
-				'term_id'   => isset( $target['term_id'] ) ? (int) $target['term_id'] : 0,
-				'taxonomy'  => isset( $target['taxonomy'] ) ? $target['taxonomy'] : '',
-				'post_type' => isset( $target['post_type'] ) ? $target['post_type'] : '',
+				//an author page carries the user id, which is no post to check edit_post on
+				'post_id'   => ( $post_type !== 'profile' && isset( $snippet->ID ) ) ? (int) $snippet->ID : 0,
+				'term_id'   => isset( $snippet->term_id ) ? (int) $snippet->term_id : $term_id,
+				'taxonomy'  => isset( $snippet->taxonomy ) && $snippet->taxonomy ? $snippet->taxonomy : $taxonomy,
+				'post_type' => isset( $snippet->post_type ) && $snippet->post_type ? $snippet->post_type : $post_type,
 			);
 		}
 
@@ -433,6 +448,11 @@ class SQ_Models_Api_Seo {
 				//tracking pixels legitimately need their script/noscript wrapper
 				if ( ! is_string( $value ) ) {
 					return '';
+				}
+
+				//Printed raw in the head for every visitor, so only unfiltered_html users keep the script tags
+				if ( ! current_user_can( 'unfiltered_html' ) ) {
+					return trim( wp_kses( $value, array( 'noscript' => array() ) ) );
 				}
 
 				return trim( wp_kses( $value, array( 'script' => array(), 'noscript' => array() ) ) );

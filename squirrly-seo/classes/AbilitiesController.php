@@ -379,6 +379,14 @@ class SQ_Classes_AbilitiesController {
 		$input = (array) $input;
 		$seo   = isset( $input['seo'] ) ? (array) $input['seo'] : array();
 
+		//Only the fields the schema documents reach the saver
+		$documented = array(
+			'title', 'description', 'keywords', 'canonical', 'redirect', 'noindex', 'nofollow', 'nositemap',
+			'og_title', 'og_description', 'og_type', 'og_media', 'tw_title', 'tw_description', 'tw_media', 'tw_type',
+			'jsonld_types', 'primary_category',
+		);
+		$seo        = array_intersect_key( $seo, array_flip( $documented ) );
+
 		if ( empty( $seo ) ) {
 			return new WP_Error( 'sq_no_fields', esc_html__( "No SEO fields to save.", 'squirrly-seo' ) );
 		}

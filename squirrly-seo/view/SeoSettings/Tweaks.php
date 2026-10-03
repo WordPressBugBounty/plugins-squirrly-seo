@@ -359,6 +359,17 @@ if ( ! isset( $view ) ) {
 
                                                 </div>
                                             </div>
+                                            <div class="col-12 row m-0 p-0 my-5">
+                                                <div class="checker col-12 row m-0 p-0">
+                                                    <div class="col-12 m-0 p-0 sq-switch sq-switch-sm">
+                                                        <input type="hidden" name="sq_sitemap_style" value="0"/>
+                                                        <input type="checkbox" id="sq_sitemap_style" name="sq_sitemap_style" class="sq-switch" <?php echo( ( SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap_style' ) ) ? 'checked="checked"' : '' ); ?> value="1"/>
+                                                        <label for="sq_sitemap_style" class="ml-1"><?php echo esc_html__( "Show Sitemap Style in Browsers", 'squirrly-seo' ); ?></label>
+                                                        <div class="small text-black-50 ml-5"><?php echo esc_html__( "Show the sitemap as a readable table when it is opened in a browser. Search engines read the XML and ignore the style.", 'squirrly-seo' ); ?></div>
+                                                        <div class="small text-black-50 ml-5"><?php echo esc_html__( "Chrome warns about this style now and stops showing it from November 2026. Switch this off to show the plain XML without the warning.", 'squirrly-seo' ); ?></div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="col-12 row m-0 p-0 my-5 sq_advanced">
                                                 <div class="col-4 m-0 p-0">
                                                     <div class="font-weight-bold"><?php echo esc_html__( "Sitemap Pagination", 'squirrly-seo' ); ?>

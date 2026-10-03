@@ -376,8 +376,9 @@ class SQ_Models_Domain_Patterns extends SQ_Models_Abstract_Domain {
 			if ( $search !== '' ) {
 				$this->_searchphrase = esc_html( $search );
 			}
+			//on /search/term/ there is no ?s= and getValue returns false, which used to blank the phrase
 			$search = SQ_Classes_Helpers_Tools::getValue( 's' );
-			if ( $search !== '' ) {
+			if ( is_string( $search ) && $search !== '' ) {
 				$this->_searchphrase = esc_html( $search );
 			}
 		}

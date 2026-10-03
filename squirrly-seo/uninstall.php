@@ -23,6 +23,8 @@ try {
 
 		global $wpdb;
 		$wpdb->query( "DROP TABLE IF EXISTS `" . $wpdb->prefix . _SQ_DB_ . "`" );
+		$wpdb->query( "DROP TABLE IF EXISTS `" . $wpdb->prefix . "qss_searches`" );
+		$wpdb->query( "DROP TABLE IF EXISTS `" . $wpdb->prefix . "qss_searches_visitors`" );
 	}
 
 } catch ( Exception $e ) {

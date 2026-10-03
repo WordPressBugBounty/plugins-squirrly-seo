@@ -390,9 +390,11 @@ class SQ_Controllers_FocusPages extends SQ_Classes_FrontController {
 		switch ( SQ_Classes_Helpers_Tools::getValue( 'action' ) ) {
 			case 'sq_focus_pages_settings':
 
-				//Save the settings
+				//Save only the fields of this form; the action is open to the Editor-level role
 				if ( isset( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] === 'POST' ) {
-					SQ_Classes_ObjController::getClass( 'SQ_Models_Settings' )->saveSettings();
+					$allowed = array( 'sq_auto_innelinks', 'sq_innelinks_link_blank', 'sq_innelinks_link_nofollow', 'sq_innelinks_links_per_keyword', 'sq_innelinks_links_per_target' );
+
+					SQ_Classes_ObjController::getClass( 'SQ_Models_Settings' )->saveValues( array_intersect_key( $_POST, array_flip( $allowed ) ) );
 					SQ_Classes_Helpers_Tools::saveOptions( 'sq_innelinks_link_template', wp_kses( $_POST['sq_innelinks_link_template'], array(
 						'a' => array(
 							'href'  => array(),

@@ -113,7 +113,7 @@ class SQ_Models_Services_TwitterCard extends SQ_Models_Abstract_Seo {
 	public function packTwitterCard( $tw = array() ) {
 		if ( ! empty( $tw ) ) {
 			foreach ( $tw as $key => &$value ) {
-				$value = '<meta name="' . $key . '" content="' . $value . '" />';
+				$value = '<meta name="' . $key . '" content="' . esc_attr( $value ) . '" />';
 			}
 
 			return "\n" . join( "\n", array_values( $tw ) );

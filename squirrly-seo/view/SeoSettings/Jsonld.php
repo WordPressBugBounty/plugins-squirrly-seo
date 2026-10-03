@@ -268,6 +268,22 @@ if ( ! isset( $view ) ) {
                                             </div>
                                         </div>
 
+                                        <?php if ( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_sitemap' ) && SQ_Classes_Helpers_Tools::isEcommerce() ) {
+	                                        $sq_search_patterns = SQ_Classes_Helpers_Tools::getOption( 'patterns' );
+	                                        $sq_search_model   = SQ_Classes_ObjController::getClass( 'SQ_Models_Searches' ); $sq_search_limits = $sq_search_model ? $sq_search_model->getThresholds() : array( 'results' => 3, 'hits' => 3 ); ?>
+                                            <div class="col-12 row m-0 p-0 my-5">
+                                                <div class="checker col-12 row m-0 p-0">
+                                                    <div class="col-12 m-0 p-0 sq-switch sq-switch-sm">
+                                                        <input type="hidden" name="sq_search_sitemap" value="0"/>
+                                                        <input type="checkbox" id="sq_search_sitemap" name="sq_search_sitemap" class="sq-switch" <?php echo( ! empty( $sq_search_patterns['search']['do_sitemap'] ) ? 'checked="checked"' : '' ) ?> value="1"/>
+                                                        <label for="sq_search_sitemap" class="ml-1"><?php echo esc_html__( "Include Product Searches In Sitemap", 'squirrly-seo' ); ?></label>
+                                                        <div class="small text-black-50 ml-5"><?php echo esc_html( sprintf( __( "Squirrly records the WooCommerce product searches that return results. A search made by at least %1\$d visitors that finds at least %2\$d products is opened to search engines and added to the Sitemap XML.", 'squirrly-seo' ), $sq_search_limits['hits'], $sq_search_limits['results'] ) ); ?></div>
+                                                        <div class="small text-black-50 ml-5"><?php echo esc_html__( "This is the same option as Automation > Search > Include In Sitemap.", 'squirrly-seo' ); ?></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+
                                         <div class="sq_jsonld_woocommerce">
                                             <div class="col-12 row m-0 p-0 my-5 sq_advanced">
                                                 <div class="checker col-12 row m-0 p-0">

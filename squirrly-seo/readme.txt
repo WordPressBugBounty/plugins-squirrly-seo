@@ -4,7 +4,7 @@ Donate link: https://plugin.squirrly.co/squirrly-seo-pricing/
 Tags: SEO, AEO, GEO, schema, sitemap
 Requires at least: 5.3
 Tested up to: 7.0
-Stable tag: 14.2.6
+Stable tag: 14.2.7
 Requires PHP: 7.0
 License: GPLv2 or later
 
@@ -120,6 +120,24 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 7. Squirrly SEO - SEO Briefcase
 
 == Changelog ==
+= 14.2.7 =
+* Fix: The favicon is served only from the plugin's own cache folder. A path stored in the favicon setting could point the request at any file on the server, including the configuration file.
+* Fix: The Rankings, Focus Pages and Check SEO screens save only the settings they show. They handed the whole form to the general settings saver, so an editor could change any plugin setting from those screens.
+* Fix: Saving the SEO of a page writes the page that was opened and no other. The page identifier sent with the form was taken on trust, so a user who could edit one post could change the title, the redirect or the index setting of any page, including the home page.
+* Fix: The tracking pixel field keeps script tags only for users WordPress allows to publish script. Anyone else keeps the text without them.
+* Fix: The post search used by the snippet puts the search text into the database query as a bound value.
+* Fix: The post lookup used by the Live Assistant answers only for a post the user can edit.
+* Fix: The keyword shown in the posts list is escaped. It comes from a custom field any author can set.
+* Fix: Social meta values are escaped as attribute values.
+* Fix: A sitemap page with nothing in it is not cached. Each such request wrote a file and a settings entry.
+* Fix: Plugin rollback and reinstall respect the WordPress plugin install permission and the DISALLOW_FILE_MODS setting.
+* Fix: The settings backup no longer contains the cloud connection token.
+* Fix: Fields the update-seo ability does not document are ignored.
+* New: With WooCommerce, Automation > Search > Include In Sitemap now records the product searches that find results. A search made by at least 3 visitors that finds at least 3 products gets a clean URL like /search/red-shoes/, is opened to search engines and is listed in sitemap-search.xml. Bots, editors, empty results and terms with links, emails or phone numbers are ignored. The search sitemap is never kept by page caches, and the sitemap refreshes by itself when a search starts or stops qualifying. The same option is in JSON-LD > WooCommerce.
+* New: Sitemap settings have a Show Sitemap Style in Browsers switch. Chrome warns about the XSL style used to show the sitemap as a table and stops showing it from November 2026. Switch it off to serve the plain XML. Search engines read the XML either way.
+* Fix: The {{searchphrase}} pattern was empty on /search/term/ URLs.
+* Fix: LLM Indexing waits 15 seconds instead of 5 for the IndexNow hub, falls back to Bing's own endpoint, and retries a timeout, a 429 or a 5xx from cron after 5, 15 and 45 minutes. The log says when a retry is scheduled.
+
 = 14.2.6 =
 * Fix: Importing your SEO from Yoast, Yoast WooCommerce SEO or Rank Math now ignores any stored value that those plugins did not write themselves. A user allowed to write posts on your site could leave a specially prepared value behind for the import to pick up, and the import was reading it as trusted data.
 * Fix: Plugin screens no longer carry out an action from the web address without the security token WordPress issues for it. A link prepared by someone else could make an administrator's browser run an import, a delete or a plugin rollback just by being opened.

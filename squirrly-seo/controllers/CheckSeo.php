@@ -287,7 +287,10 @@ class SQ_Controllers_CheckSeo extends SQ_Classes_FrontController {
 				$name  = SQ_Classes_Helpers_Tools::getValue( 'name' );
 				$value = SQ_Classes_Helpers_Tools::getValue( 'value' );
 
-				if ( $name ) {
+				//Only the switches the Check SEO tasks offer to fix
+				$fixable = apply_filters( 'sq_checkseo_fixable_options', array( 'sq_auto_title', 'sq_auto_amp', 'sq_auto_pattern' ) );
+
+				if ( $name && in_array( $name, $fixable, true ) ) {
 					if ( in_array( $name, array_keys( SQ_Classes_Helpers_Tools::$options ) ) ) {
 						SQ_Classes_Helpers_Tools::saveOptions( $name, (bool) $value );
 

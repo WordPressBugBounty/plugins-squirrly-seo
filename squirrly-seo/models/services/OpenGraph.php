@@ -599,11 +599,11 @@ class SQ_Models_Services_OpenGraph extends SQ_Models_Abstract_Seo {
 				if ( is_array( $value ) ) {
 					$str = '';
 					foreach ( $value as $subvalue ) {
-						$str .= '<meta property="' . $key . '" content="' . $subvalue . '" />' . ( ( count( (array) $value ) > 1 ) ? "\n" : '' );
+						$str .= '<meta property="' . $key . '" content="' . esc_attr( $subvalue ) . '" />' . ( ( count( (array) $value ) > 1 ) ? "\n" : '' );
 					}
 					$value = $str;
 				} else {
-					$value = '<meta property="' . $key . '" content="' . $value . '" />';
+					$value = '<meta property="' . $key . '" content="' . esc_attr( $value ) . '" />';
 				}
 			}
 

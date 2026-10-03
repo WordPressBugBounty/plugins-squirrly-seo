@@ -13,6 +13,13 @@ class SQ_Models_Settings {
 		//Save the settings
 		$this->saveValues( $_POST );
 
+		//the WooCommerce tab sets Automation > Search > Include In Sitemap, nothing else of the pattern
+		if ( SQ_Classes_Helpers_Tools::getIsset( 'sq_search_sitemap' ) ) {
+			$patterns                         = SQ_Classes_Helpers_Tools::getOption( 'patterns' );
+			$patterns['search']['do_sitemap'] = (int) SQ_Classes_Helpers_Tools::getValue( 'sq_search_sitemap' ) ? 1 : 0;
+			SQ_Classes_Helpers_Tools::saveOptions( 'patterns', $patterns );
+		}
+
 		//Save custom links
 		if ( SQ_Classes_Helpers_Tools::getIsset( 'links_permission' ) ) {
 			$links = SQ_Classes_Helpers_Tools::getValue( 'links_permission', '', true );

@@ -16,20 +16,25 @@ class SQ_Models_Indexnow {
 
 	protected $_success;
 
-	public function submitUrl( $urls, $manual = 0 ) {
+	//transient failures are retried from cron with this backoff, in minutes
+	const RETRY_MINUTES = array( 5, 15, 45 );
+
+	public function submitUrl( $urls, $manual = 0, $attempt = 0 ) {
 
 		$data = $this->getLinks( $urls );
 
 		//Send the ULRs to Google API Indexing
 		//Requires GSC Connection
 		$args['urls'] = $urls;
-		SQ_Classes_RemoteController::sendGSCIndex( $args );
+		//loaded here because a cron retry boots like the frontend, where this class is not preloaded
+		SQ_Classes_ObjController::getClass( 'SQ_Classes_RemoteController' )::sendGSCIndex( $args );
 
 		//Default to the api.indexnow.org hub only - it forwards to every engine, so one request avoids the extra rate-limiting of pinging each engine directly.
 		$this->_apiUrls = SQ_Classes_Helpers_Tools::getOption( 'indexnow_endpoints' );
 
 		if ( empty( $this->_apiUrls ) ) {
-			$this->_apiUrls = array( 'https://api.indexnow.org/indexnow' );
+			//the hub first; Bing's own endpoint is the fallback when the hub times out or fails
+			$this->_apiUrls = array( 'https://api.indexnow.org/indexnow', 'https://www.bing.com/indexnow' );
 		}
 
 		//Fix the legacy bare hub URL saved by older versions (it was missing the /indexnow path).
@@ -49,7 +54,7 @@ class SQ_Models_Indexnow {
 		foreach ( $this->_apiUrls as $apiurl ) {
 			$response = wp_remote_post( $apiurl, array(
 				'blocking' => true,
-				'timeout'  => 5,
+				'timeout'  => 15,
 				'body'     => $data,
 				'headers'  => $headers,
 			) );
@@ -64,6 +69,7 @@ class SQ_Models_Indexnow {
 
 			if ( in_array( $http_code, array( 200, 202, 204 ), true ) ) {
 				$success_code = $http_code;
+				break;
 			} else {
 				$error_code = $http_code;
 				//Prefer our actionable guidance for auth/not-found errors.
@@ -82,9 +88,27 @@ class SQ_Models_Indexnow {
 			return true;
 		}
 
-		$this->addLog( (array) $urls, $error_code, $manual, $error_msg ? $error_msg : $this->getErrorMessage( $error_code ), $this->_apiUrls );
+		$error_msg = $error_msg ? $error_msg : $this->getErrorMessage( $error_code );
+
+		//a timeout, a 429 or a 5xx is the endpoint's problem for now, so the URLs are retried later
+		if ( ( $error_code === 0 || $error_code === 429 || $error_code >= 500 ) && isset( self::RETRY_MINUTES[ $attempt ] ) ) {
+			wp_schedule_single_event( time() + self::RETRY_MINUTES[ $attempt ] * MINUTE_IN_SECONDS, 'sq_indexnow_retry', array( (array) $urls, $attempt + 1 ) );
+			$error_msg .= sprintf( ' - %s', sprintf( esc_html__( 'retry %d of %d scheduled in %d minutes', 'squirrly-seo' ), $attempt + 1, count( self::RETRY_MINUTES ), self::RETRY_MINUTES[ $attempt ] ) );
+		}
+
+		$this->addLog( (array) $urls, $error_code, $manual, $error_msg, $this->_apiUrls );
 
 		return false;
+	}
+
+	/**
+	 * Cron handler for a scheduled retry
+	 *
+	 * @param array $urls
+	 * @param int $attempt
+	 */
+	public function retry( $urls, $attempt = 1 ) {
+		$this->submitUrl( (array) $urls, 0, (int) $attempt );
 	}
 
 	/**

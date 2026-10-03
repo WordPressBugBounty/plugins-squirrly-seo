@@ -271,7 +271,7 @@ if ( ! isset( $view ) ) {
 															<?php } ?>
 														<?php } ?>
 
-														<?php if ( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_sitemap' ) && $pattern <> 'profile' && $pattern <> 'search' && $pattern <> '404' ) { ?>
+														<?php if ( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_sitemap' ) && $pattern <> 'profile' && $pattern <> '404' && ( $pattern <> 'search' || SQ_Classes_Helpers_Tools::isEcommerce() ) ) { ?>
                                                             <div class="col-12 row m-0 p-0 my-5">
                                                                 <div class="checker col-12 row m-0 p-0">
                                                                     <div class="col-12 p-0 sq-switch sq-switch-sm">
@@ -280,8 +280,14 @@ if ( ! isset( $view ) ) {
                                                                         <label for="sq_patterns_<?php echo esc_attr( $pattern ) ?>_do_sitemap" class="ml-1"><?php echo esc_html__( "Include In Sitemap", "squirrly-seo" ); ?>
                                                                             <a href="https://howto12.squirrly.co/kb/seo-automation/#send_to_sitemap" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                                         </label>
-                                                                        <div class="small text-black-50 ml-5"><?php echo esc_html__( "Let Squirrly SEO include this post type in Squirrly Sitemap XML.", "squirrly-seo" ); ?></div>
-                                                                        <div class="small text-black-50 ml-5"><?php echo esc_html__( "If you switch off this option, Squirrly will not load the Sitemap for this post type.", "squirrly-seo" ); ?></div>
+                                                                        <?php if ( $pattern == 'search' ) { ?>
+                                                                            <?php $sq_search_model = SQ_Classes_ObjController::getClass( 'SQ_Models_Searches' ); $sq_search_limits = $sq_search_model ? $sq_search_model->getThresholds() : array( 'results' => 3, 'hits' => 3 ); ?>
+                                                                            <div class="small text-black-50 ml-5"><?php echo esc_html( sprintf( __( "Squirrly records the WooCommerce product searches that return results. A search made by at least %1\$d visitors that finds at least %2\$d products is opened to search engines and added to the Sitemap XML.", "squirrly-seo" ), $sq_search_limits['hits'], $sq_search_limits['results'] ) ); ?></div>
+                                                                            <div class="small text-black-50 ml-5"><?php echo esc_html__( "All other searches keep the noindex setting. Switch this off to stop recording searches and remove them from the Sitemap.", "squirrly-seo" ); ?></div>
+                                                                        <?php } else { ?>
+                                                                            <div class="small text-black-50 ml-5"><?php echo esc_html__( "Let Squirrly SEO include this post type in Squirrly Sitemap XML.", "squirrly-seo" ); ?></div>
+                                                                            <div class="small text-black-50 ml-5"><?php echo esc_html__( "If you switch off this option, Squirrly will not load the Sitemap for this post type.", "squirrly-seo" ); ?></div>
+                                                                        <?php } ?>
                                                                     </div>
                                                                 </div>
                                                             </div>

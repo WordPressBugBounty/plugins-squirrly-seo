@@ -32,9 +32,9 @@ class SQ_Models_PostsList {
 				$html = '';
 				if ( isset( $row->optimized ) && (int) $row->optimized > 0 ) {
 					$html .= '<progress class="sq_post_progress" max="100" value="' . esc_attr( $row->optimized ) . '" title="' . esc_attr__( "Optimized", 'squirrly-seo' ) . ': ' . esc_attr( $row->optimized ) . '% ' . '" ></progress>';
-					$html .= '<div class="sq_post_keyword" >' . $row->keyword . '</div>';
+					$html .= '<div class="sq_post_keyword" >' . esc_html( $row->keyword ) . '</div>';
 				} elseif ( ! empty( $row->keyword ) ) {
-					$html .= '<div class="sq_post_keyword" >' . $row->keyword . '</div>';
+					$html .= '<div class="sq_post_keyword" >' . esc_html( $row->keyword ) . '</div>';
 				} else {
 					$html .= '<a class="sq_optimize" href="' . admin_url( 'post.php?action=edit&post_type=' . esc_attr( $post_type ) . '&post=' . esc_attr( $post_id ) ) . '" title="' . esc_attr__( "Optimize it with Squirrly Live Assistant", 'squirrly-seo' ) . '">' . esc_html__( "Optimize it with SLA", 'squirrly-seo' ) . '</span>';
 				}

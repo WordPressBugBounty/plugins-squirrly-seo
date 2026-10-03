@@ -140,7 +140,17 @@ class SQ_Classes_FrontController {
 	 *
 	 * @return void
 	 */
+	/**
+	 * The retry runs from wp-cron, which boots like the frontend, so both paths register it
+	 */
+	public static function hookIndexnowRetry() {
+		add_action( 'sq_indexnow_retry', function( $urls, $attempt = 1 ) {
+			SQ_Classes_ObjController::getClass( 'SQ_Models_Indexnow' )->retry( $urls, $attempt );
+		}, 10, 2 );
+	}
+
 	public function runAdmin() {
+		self::hookIndexnowRetry();
 
 		// load the remote controller in admin
 		SQ_Classes_ObjController::getClass( 'SQ_Classes_RemoteController' );
@@ -158,6 +168,12 @@ class SQ_Classes_FrontController {
 	 * Run fron frontend
 	 */
 	public function runFrontend() {
+		self::hookIndexnowRetry();
+
+		//WooCommerce product searches as indexable pages; guarded so a missing file can never break the frontend
+		if ( $searches = SQ_Classes_ObjController::getClass( 'SQ_Models_Searches' ) ) {
+			$searches->hookFrontend();
+		}
 		//load the frontend builders support
 		SQ_Classes_ObjController::getClass( 'SQ_Models_Compatibility' )->hookBuildersFrontend();
 

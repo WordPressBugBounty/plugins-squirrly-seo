@@ -121,19 +121,25 @@ class SQ_Controllers_Frontend extends SQ_Classes_FrontController {
 				}
 			}
 
-			//Show the favicon icons
-			if ( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_favicon' ) && SQ_Classes_Helpers_Tools::getOption( 'favicon' ) <> '' ) {
+			//Show the favicon icons. Only a plain file name inside the cache directory is served
+			$favicon = (string) SQ_Classes_Helpers_Tools::getOption( 'favicon' );
+
+			if ( $favicon <> '' && ( $favicon !== basename( $favicon ) || strpos( $favicon, "\0" ) !== false ) ) {
+				$favicon = '';
+			}
+
+			if ( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_favicon' ) && $favicon <> '' ) {
 				if ( $basename == "favicon.ico" ) {
 					SQ_Classes_Helpers_Tools::setHeader( 'ico' );
-					@readfile( _SQ_CACHE_DIR_ . SQ_Classes_Helpers_Tools::getOption( 'favicon' ) );
+					@readfile( _SQ_CACHE_DIR_ . $favicon );
 					exit();
 				} elseif ( $basename == "touch-icon.png" ) {
 					SQ_Classes_Helpers_Tools::setHeader( 'png' );
 					$appleSizes = preg_split( '/[,]+/', _SQ_MOBILE_ICON_SIZES );
-					if ( file_exists( _SQ_CACHE_DIR_ . SQ_Classes_Helpers_Tools::getOption( 'favicon' ) . end( $appleSizes ) ) ) {
-						@readfile( _SQ_CACHE_DIR_ . SQ_Classes_Helpers_Tools::getOption( 'favicon' ) . end( $appleSizes ) );
+					if ( file_exists( _SQ_CACHE_DIR_ . $favicon . end( $appleSizes ) ) ) {
+						@readfile( _SQ_CACHE_DIR_ . $favicon . end( $appleSizes ) );
 					} else {
-						@readfile( _SQ_CACHE_DIR_ . SQ_Classes_Helpers_Tools::getOption( 'favicon' ) );
+						@readfile( _SQ_CACHE_DIR_ . $favicon );
 					}
 					exit();
 				} else {
@@ -141,7 +147,7 @@ class SQ_Controllers_Frontend extends SQ_Classes_FrontController {
 					foreach ( $appleSizes as $appleSize ) {
 						if ( $basename == "touch-icon$appleSize.png" ) {
 							SQ_Classes_Helpers_Tools::setHeader( 'png' );
-							@readfile( _SQ_CACHE_DIR_ . SQ_Classes_Helpers_Tools::getOption( 'favicon' ) . $appleSize );
+							@readfile( _SQ_CACHE_DIR_ . $favicon . $appleSize );
 							exit();
 						}
 					}

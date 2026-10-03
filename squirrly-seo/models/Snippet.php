@@ -88,7 +88,8 @@ class SQ_Models_Snippet {
 				add_filter( 'posts_orderby', function ( $orderby ) use ( $search ) {
 					global $wpdb;
 
-					return "({$wpdb->posts}.post_name = '$search') desc, length({$wpdb->posts}.post_name)" . ( $orderby ? ',' . $orderby : '' );
+					//the search text is request input, so it goes in as a bound value
+					return $wpdb->prepare( "({$wpdb->posts}.post_name = %s) desc, length({$wpdb->posts}.post_name)", $search ) . ( $orderby ? ',' . $orderby : '' );
 				}, 10, 1 );
 
 				//add data in where

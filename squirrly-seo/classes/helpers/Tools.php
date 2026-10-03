@@ -319,6 +319,7 @@ class SQ_Classes_Helpers_Tools
             'sq_sitemap_frequency' => 'weekly',
             'sq_sitemap_combinelangs' => 0,
 			'sq_sitemap_do_cache' => 1,
+			'sq_sitemap_style' => 1,
 			'sq_sitemap_cache' => array(),
             'sq_sitemap' => array(
                 'sitemap' => array('sitemap.xml', 1),

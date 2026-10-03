@@ -30,6 +30,7 @@ class SQ_Models_Sitemaps extends SQ_Models_Abstract_Seo {
 			'sitemap-post'        => array( 1, 'hourly' ),
 			'sitemap-page'        => array( 0.6, 'hourly' ),
 			'sitemap-category'    => array( 0.5, 'daily' ),
+			'sitemap-search'      => array( 0.5, 'daily' ),
 			'sitemap-post_tag'    => array( 0.5, 'daily' ),
 			'sitemap-archive'     => array( 0.3, 'monthly' ),
 			'sitemap-author'      => array( 0.3, 'daily' ),
@@ -43,6 +44,7 @@ class SQ_Models_Sitemaps extends SQ_Models_Abstract_Seo {
 			'sitemap-post'        => array( 0.8, 'daily' ),
 			'sitemap-page'        => array( 0.6, 'weekly' ),
 			'sitemap-category'    => array( 0.5, 'weekly' ),
+			'sitemap-search'      => array( 0.5, 'weekly' ),
 			'sitemap-post_tag'    => array( 0.5, 'daily' ),
 			'sitemap-archive'     => array( 0.3, 'monthly' ),
 			'sitemap-author'      => array( 0.3, 'weekly' ),
@@ -56,6 +58,7 @@ class SQ_Models_Sitemaps extends SQ_Models_Abstract_Seo {
 			'sitemap-post'        => array( 0.8, 'weekly' ),
 			'sitemap-page'        => array( 0.6, 'monthly' ),
 			'sitemap-category'    => array( 0.3, 'monthly' ),
+			'sitemap-search'      => array( 0.3, 'monthly' ),
 			'sitemap-post_tag'    => array( 0.5, 'weekly' ),
 			'sitemap-archive'     => array( 0.3, 'monthly' ),
 			'sitemap-author'      => array( 0.3, 'weekly' ),
@@ -68,6 +71,7 @@ class SQ_Models_Sitemaps extends SQ_Models_Abstract_Seo {
 		                                     'sitemap-post'        => array( 0.8, 'monthly' ),
 		                                     'sitemap-page'        => array( 0.6, 'monthly' ),
 		                                     'sitemap-category'    => array( 0.3, 'monthly' ),
+		                                     'sitemap-search'      => array( 0.3, 'monthly' ),
 		                                     'sitemap-post_tag'    => array( 0.5, 'monthly' ),
 		                                     'sitemap-archive'     => array( 0.3, 'monthly' ),
 		                                     'sitemap-author'      => array( 0.3, 'monthly' ),
@@ -80,6 +84,7 @@ class SQ_Models_Sitemaps extends SQ_Models_Abstract_Seo {
 		                                     'sitemap-post'        => array( 0.8, 'monthly' ),
 		                                     'sitemap-page'        => array( 0.6, 'yearly' ),
 		                                     'sitemap-category'    => array( 0.3, 'yearly' ),
+		                                     'sitemap-search'      => array( 0.3, 'yearly' ),
 		                                     'sitemap-post_tag'    => array( 0.5, 'monthly' ),
 		                                     'sitemap-archive'     => array( 0.3, 'yearly' ),
 		                                     'sitemap-author'      => array( 0.3, 'yearly' ),
@@ -527,6 +532,32 @@ class SQ_Models_Sitemaps extends SQ_Models_Abstract_Seo {
 	 *
 	 * @return array
 	 */
+	public function getListSearches( $limit = 500, $offset = 0 ) {
+		$array    = array();
+		$searches = SQ_Classes_ObjController::getClass( 'SQ_Models_Searches' );
+
+		if ( ! $searches || ! $searches->isEnabled() ) {
+			return $array;
+		}
+
+		//the results change when the products change
+		$lastmod   = get_lastpostmodified( 'gmt', 'product' );
+		$frequency = $this->frequency[ SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap_frequency' ) ]['sitemap-search'];
+
+		foreach ( $searches->getQualified( $limit, $offset ) as $row ) {
+			$xml        = array( 'loc' => $searches->getUrl( $row->term ) );
+			if ( $lastmod ) {
+				$xml['lastmod'] = date( 'Y-m-d\TH:i:s+00:00', strtotime( $lastmod ) );
+			}
+			$xml['changefreq'] = $frequency[1];
+			$xml['priority']   = $frequency[0];
+
+			$array[] = $xml;
+		}
+
+		return $array;
+	}
+
 	public function getListAuthors() {
 		$array   = array();
 		$authors = apply_filters( 'sq-sitemap-authors', $this->sitemap );
