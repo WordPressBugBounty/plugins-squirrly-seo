@@ -140,8 +140,10 @@ class ClaudeClientVerifier {
 		// Redirect URI validation at authorize time is AuthorizeEndpoint::redirect_uri_matches()'s
 		// responsibility. Checking the redirect_uri shape here would break verification when
 		// the publisher's CIMD document includes additional redirect URIs for other products.
-		$auth_method = (string) ( $doc['token_endpoint_auth_method'] ?? 'none' );
+		// Squirrly patch: also accept a client that lists "none" among its supported methods (ChatGPT).
+		$auth_method    = (string) ( $doc['token_endpoint_auth_method'] ?? 'none' );
+		$auth_supported = isset( $doc['token_endpoint_auth_methods_supported'] ) && is_array( $doc['token_endpoint_auth_methods_supported'] ) ? array_map( 'strval', $doc['token_endpoint_auth_methods_supported'] ) : [];
 
-		return 'none' === $auth_method;
+		return 'none' === $auth_method || in_array( 'none', $auth_supported, true );
 	}
 }

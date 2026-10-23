@@ -120,11 +120,12 @@ class SQ_Classes_McpOauthController {
 
 		$publishers = (array) $publishers;
 
-		//OpenAI Codex. Verified against https://chatgpt.com/oauth/codex/client.json - a native
-		//public client with loopback redirect URIs, the same shape as Claude Code's.
+		//OpenAI Codex (native, loopback redirects) and the ChatGPT web connector, which redirects
+		//to chatgpt.com and lists "none" among its token methods. Both documents checked 2026-10-16.
 		$publishers['openai'] = array(
 			'client_ids' => array(
 				'https://chatgpt.com/oauth/codex/client.json',
+				'https://chatgpt.com/oauth/client.json',
 			),
 			'host'       => 'chatgpt.com',
 		);

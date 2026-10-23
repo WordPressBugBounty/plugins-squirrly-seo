@@ -714,7 +714,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'jsonld' ),
 				'details'     => 'https://howto12.squirrly.co/kb/json-ld-structured-data/#ACF',
 				'keywords'    => 'rich,snippets,jsonld,advanced,custom,fields,acf,video',
-				'show'        => SQ_Classes_Helpers_Tools::isPluginInstalled( 'advanced-custom-fields/acf.php' ),
+				'show'        => SQ_Classes_Helpers_Tools::isAcfActive(),
 			), //Advanced Custom Fields
 			array(
 				'title'       => "Google News",

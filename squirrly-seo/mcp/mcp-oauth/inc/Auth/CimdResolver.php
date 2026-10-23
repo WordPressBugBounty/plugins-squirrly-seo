@@ -242,8 +242,10 @@ class CimdResolver {
 		}
 
 		// Only public clients are supported (no shared secret to authenticate).
+		// Squirrly patch: ChatGPT prefers private_key_jwt but also lists "none" as supported.
 		$auth_method = isset( $doc['token_endpoint_auth_method'] ) ? (string) $doc['token_endpoint_auth_method'] : 'none';
-		if ( 'none' !== $auth_method ) {
+		$auth_supported = isset( $doc['token_endpoint_auth_methods_supported'] ) && is_array( $doc['token_endpoint_auth_methods_supported'] ) ? array_map( 'strval', $doc['token_endpoint_auth_methods_supported'] ) : [];
+		if ( 'none' !== $auth_method && ! in_array( 'none', $auth_supported, true ) ) {
 			McpLogger::log(
 				'CIMD',
 				'rejected: unsupported token_endpoint_auth_method',

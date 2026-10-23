@@ -307,6 +307,12 @@ class SQ_Models_Services_OpenGraph extends SQ_Models_Abstract_Seo {
 					}
 				}
 
+				//lets the Advanced Pack name the same author as the Article schema
+				$author_name = apply_filters( 'sq_og_article_author', isset( $og['article:author'] ) ? $og['article:author'] : '', $this->_post );
+				if ( is_string( $author_name ) && $author_name !== '' ) {
+					$og['article:author'] = $author_name;
+				}
+
 				if ( $this->_post->sq->keywords <> '' ) {
 					$keywords = explode( ',', $this->_post->sq->keywords );
 				}

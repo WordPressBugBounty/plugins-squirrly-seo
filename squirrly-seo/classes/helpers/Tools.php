@@ -1532,6 +1532,16 @@ class SQ_Classes_Helpers_Tools
     }
 
     /**
+     * Check whether ACF, ACF Pro or Secure Custom Fields is loaded.
+     *
+     * @return boolean
+     */
+    public static function isAcfActive()
+    {
+        return class_exists( 'ACF' );
+    }
+
+    /**
      * Check whether the theme is active.
      *
      * @param string $theme Theme folder/main file.

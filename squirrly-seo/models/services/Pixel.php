@@ -199,7 +199,7 @@ class SQ_Models_Services_Pixel extends SQ_Models_Abstract_Seo {
 		} else {
 
 			//Compatibility with ACF
-			if ( SQ_Classes_Helpers_Tools::isPluginInstalled( 'advanced-custom-fields/acf.php' ) ) {
+			if ( SQ_Classes_Helpers_Tools::isAcfActive() ) {
 				if ( isset( $this->_post->ID ) && $this->_post->ID ) {
 					if ( $_sq_pixel_custom = get_post_meta( $this->_post->ID, '_sq_pixel_custom', true ) ) {
 						if ( strpos( $_sq_pixel_custom, '<script>' ) !== false ) {
