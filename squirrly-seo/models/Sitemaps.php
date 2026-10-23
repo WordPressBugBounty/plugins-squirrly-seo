@@ -458,9 +458,9 @@ class SQ_Models_Sitemaps extends SQ_Models_Abstract_Seo {
 									);
 
 									//set the first keyword for this video
-									$keywords = $post->sq->keywords;
-									$keywords = preg_split( '/,/', $keywords );
-									if ( is_array( $keywords ) ) {
+									//Posts without Squirrly keywords get no video:tag (null in preg_split is deprecated on PHP 8.1+)
+									if ( (string) $post->sq->keywords <> '' ) {
+										$keywords = preg_split( '/,/', (string) $post->sq->keywords );
 										$xml['video:video'][ $index ]['video:tag'] = SQ_Classes_Helpers_Sanitize::clearKeywords( $keywords[0] );
 									}
 								}
@@ -737,9 +737,9 @@ class SQ_Models_Sitemaps extends SQ_Models_Abstract_Seo {
 						);
 
 						//set the first keyword for this video
-						$keywords = $post->sq->keywords;
-						$keywords = preg_split( '/,/', $keywords );
-						if ( is_array( $keywords ) ) {
+						//Posts without Squirrly keywords get no video:tag (null in preg_split is deprecated on PHP 8.1+)
+						if ( (string) $post->sq->keywords <> '' ) {
+							$keywords = preg_split( '/,/', (string) $post->sq->keywords );
 							$xml['video:video'][ $index ]['video:tag'] = SQ_Classes_Helpers_Sanitize::clearKeywords( $keywords[0] );
 						}
 					}
