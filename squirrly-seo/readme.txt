@@ -4,7 +4,7 @@ Donate link: https://plugin.squirrly.co/squirrly-seo-pricing/
 Tags: SEO, AEO, GEO, schema, sitemap
 Requires at least: 5.3
 Tested up to: 7.0
-Stable tag: 14.2.7
+Stable tag: 14.2.8
 Requires PHP: 7.0
 License: GPLv2 or later
 
@@ -120,6 +120,14 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 7. Squirrly SEO - SEO Briefcase
 
 == Changelog ==
+= 14.2.8 =
+* Fix: Live Assistant keyword highlight and counter in the classic and block editors.
+* Fix: Live Assistant title checks update when the title changes.
+* Fix: Live Assistant keyword count in Elementor.
+* Fix: PHP 8.1 notice in the video sitemap for posts without keywords.
+* Fix: Rankings show the home page as / in every row.
+* Fix: Open Graph and JSON-LD images use their real width and height.
+
 = 14.2.7 =
 * New: WooCommerce product searches can get indexable /search/term/ pages, listed in the sitemap.
 * New: Option to turn off the sitemap style in browsers.
@@ -127,9 +135,6 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 * Security: Hardened the favicon, settings, SEO save, tracking pixel, post search and Live Assistant requests.
 * Security: Escaped the posts list keyword and the social meta values.
 * Fix: ChatGPT can connect to the MCP server.
-* Fix: Live Assistant keyword highlight in the block editor.
-* Fix: Live Assistant title checks update when the title changes.
-* Fix: Live Assistant keyword count in Elementor.
 * Fix: Custom JSON-LD, video and pixel fields work with ACF Pro and Secure Custom Fields.
 * Fix: {{searchphrase}} was empty on /search/term/ URLs.
 * Fix: LLM Indexing retries IndexNow errors and falls back to Bing.

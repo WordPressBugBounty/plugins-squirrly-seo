@@ -270,7 +270,7 @@ $view->loadScripts();
 											<?php } else { ?>
                                                 <td>
 													<?php $path = str_replace( parse_url( $row->permalink, PHP_URL_SCHEME ) . '://' . parse_url( $row->permalink, PHP_URL_HOST ), '', $row->permalink ); ?>
-                                                    <a href="<?php echo esc_url( $row->permalink ) ?>" target="_blank"><?php echo esc_html( $path <> '' ? urldecode( $path ) : urldecode( $row->permalink ) ) ?></a>
+                                                    <a href="<?php echo esc_url( $row->permalink ) ?>" target="_blank"><?php echo esc_html( $path <> '' ? urldecode( $path ) : ( $row->permalink <> '' ? '/' : '' ) ) ?></a>
                                                 </td>
 												<?php if ( $view->checkin->subscription_serpcheck ) { ?>
                                                     <td style="white-space: nowrap;">

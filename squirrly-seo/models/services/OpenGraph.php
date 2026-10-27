@@ -235,8 +235,13 @@ class SQ_Models_Services_OpenGraph extends SQ_Models_Abstract_Seo {
 			}
 
 			if ( $this->_post->sq->og_media <> '' ) {
-				$og['og:image']       = $this->_post->sq->og_media;
-				$og['og:image:width'] = '500';
+				$og['og:image'] = $this->_post->sq->og_media;
+				if ( $size = $this->getImageSize( $this->_post->sq->og_media ) ) {
+					$og['og:image:width']  = $size[0];
+					$og['og:image:height'] = $size[1];
+				} else {
+					$og['og:image:width'] = '500';
+				}
 
 				$imagetype = $this->getImageType( $this->_post->sq->og_media );
 				if ( $imagetype ) {
@@ -253,8 +258,13 @@ class SQ_Models_Services_OpenGraph extends SQ_Models_Abstract_Seo {
 			//Get the default global image for Open Graph
 			if ( SQ_Classes_Helpers_Tools::getOption( 'sq_og_image' ) ) {
 				if ( ! isset( $og['og:image'] ) ) {
-					$og['og:image']       = SQ_Classes_Helpers_Tools::getOption( 'sq_og_image' );
-					$og['og:image:width'] = '500';
+					$og['og:image'] = SQ_Classes_Helpers_Tools::getOption( 'sq_og_image' );
+					if ( $size = $this->getImageSize( $og['og:image'] ) ) {
+						$og['og:image:width']  = $size[0];
+						$og['og:image:height'] = $size[1];
+					} else {
+						$og['og:image:width'] = '500';
+					}
 
 					$imagetype = $this->getImageType( SQ_Classes_Helpers_Tools::getOption( 'sq_og_image' ) );
 					if ( $imagetype ) {

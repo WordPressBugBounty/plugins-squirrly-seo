@@ -175,12 +175,14 @@ abstract class SQ_Models_Abstract_Seo {
 						$match[1] = ( SQ_SSL ? 'https:' : 'http:' ) . $match[1];
 					}
 
+					//The sitemap lists every post and does not use the size
+					$size     = $all ? false : $this->getImageSize( $match[1] );
 					$images[] = array(
 						'src'         => esc_url( $match[1] ),
 						'title'       => SQ_Classes_Helpers_Sanitize::clearTitle( ! empty( $alt[1] ) ? $alt[1] : '' ),
 						'description' => '',
-						'width'       => '500',
-						'height'      => null,
+						'width'       => $size ? $size[0] : '500',
+						'height'      => $size ? $size[1] : null,
 					);
 				}
 			}
@@ -188,6 +190,41 @@ abstract class SQ_Models_Abstract_Seo {
 
 
 		return apply_filters( 'sq_post_images', $images );
+	}
+
+	/**
+	 * Get the real width and height of an image from this site's uploads folder
+	 *
+	 * @param string $url
+	 *
+	 * @return array|false array( width, height ), or false when the file is not on this server
+	 */
+	public function getImageSize( $url = '' ) {
+		static $sizes = array();
+
+		$url = (string) $url;
+		if ( $url == '' || strpos( $url, 'data:' ) === 0 ) {
+			return false;
+		}
+
+		if ( isset( $sizes[ $url ] ) ) {
+			return $sizes[ $url ];
+		}
+
+		$size = false;
+
+		//Read the image file itself: no database query, and it is the exact file social networks download
+		$uploads = wp_get_upload_dir();
+		$path    = rawurldecode( (string) wp_parse_url( $url, PHP_URL_PATH ) );
+		$base    = (string) wp_parse_url( $uploads['baseurl'], PHP_URL_PATH );
+		if ( $base !== '' && strpos( $path, $base . '/' ) === 0 && strpos( $path, '..' ) === false ) {
+			$file = $uploads['basedir'] . substr( $path, strlen( $base ) );
+			if ( is_file( $file ) && ( $image = @getimagesize( $file ) ) && $image[0] && $image[1] ) {
+				$size = array( (int) $image[0], (int) $image[1] );
+			}
+		}
+
+		return $sizes[ $url ] = $size;
 	}
 
 	/**
