@@ -16,7 +16,7 @@ if ( ! isset( $view ) ) {
     <div id="sq_content" class="d-flex flex-row bg-white my-0 p-0 m-0">
 		<?php
 		if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
-			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role.", 'squirrly-seo' ) . '</div>';
+			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role.", 'squirrly-seo' ) . '<a href="https://howto.squirrly.co/ht_kb/squirrly-user-roles/#error" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></div>';
 
 			return;
 		}
@@ -34,7 +34,7 @@ if ( ! isset( $view ) ) {
                     <h3 class="mt-4 card-title">
 						<?php echo esc_html__( "Connect Tools", 'squirrly-seo' ); ?>
                         <div class="sq_help_question d-inline">
-                            <a href="https://howto12.squirrly.co/kb/google-analytics-tracking-tool/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                            <a href="https://howto.squirrly.co/kb/google-analytics-tracking-tool/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                         </div>
                     </h3>
                     <div class="col-7 small m-0 p-0">
@@ -59,7 +59,7 @@ if ( ! isset( $view ) ) {
 
                                 <div class="col-12 m-0 p-0 my-2">
                                     <h3 class="card-title"><?php echo esc_html__( "Connect Tools", 'squirrly-seo' ); ?>
-                                        <a href="https://howto12.squirrly.co/kb/google-analytics-tracking-tool/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                                        <a href="https://howto.squirrly.co/kb/google-analytics-tracking-tool/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                                     </h3>
                                 </div>
 
@@ -68,7 +68,7 @@ if ( ! isset( $view ) ) {
 										<?php if ( $connect->google_analytics ) { ?>
                                             <div class="col-4 m-0 p-0 pr-2 font-weight-bold">
 												<?php echo esc_html__( "Google Analytics", 'squirrly-seo' ); ?>:
-                                                <a href="https://howto12.squirrly.co/kb/google-analytics-tracking-tool/#google_analytics" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                <a href="https://howto.squirrly.co/kb/google-analytics-tracking-tool/#google_analytics" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                 <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "You are connected to Google Analytics", 'squirrly-seo' ); ?></div>
                                             </div>
                                             <div class="col-8 m-0 p-0">
@@ -130,7 +130,7 @@ if ( ! isset( $view ) ) {
 										<?php } else { ?>
                                             <div class="col-4 m-0 p-0 pr-2 font-weight-bold">
 												<?php echo esc_html__( "Google Analytics", 'squirrly-seo' ); ?>:
-                                                <a href="https://howto12.squirrly.co/kb/google-analytics-tracking-tool/#google_analytics" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                <a href="https://howto.squirrly.co/kb/google-analytics-tracking-tool/#google_analytics" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                 <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "Connect to Google Analytics", 'squirrly-seo' ); ?></div>
                                             </div>
                                             <div class="col-8 m-0 p-0">
@@ -160,7 +160,7 @@ if ( ! isset( $view ) ) {
 										<?php if ( $connect->google_search_console ) { ?>
                                             <div class="col-4 m-0 p-0 pr-2 font-weight-bold">
 												<?php echo esc_html__( "Google Search Console", 'squirrly-seo' ); ?>:
-                                                <a href="https://howto12.squirrly.co/kb/webmaster-tools-settings/#gsc" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                <a href="https://howto.squirrly.co/kb/webmaster-tools-settings/#gsc" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                 <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "You are connected to Google Search Console", 'squirrly-seo' ); ?></div>
                                             </div>
                                             <div class="col-8 m-0 p-0">
@@ -177,7 +177,7 @@ if ( ! isset( $view ) ) {
 										<?php } else { ?>
                                             <div class="col-4 m-0 p-0 pr-2 font-weight-bold">
 												<?php echo esc_html__( "Google Search Console", 'squirrly-seo' ); ?>:
-                                                <a href="https://howto12.squirrly.co/kb/webmaster-tools-settings/#gsc" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                <a href="https://howto.squirrly.co/kb/webmaster-tools-settings/#gsc" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                 <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "Connect to Google Search Console", 'squirrly-seo' ); ?></div>
                                             </div>
 
@@ -224,7 +224,7 @@ if ( ! isset( $view ) ) {
                                             <div class="col-12 row m-0 p-0 my-5">
                                                 <div class="col-4 m-0 p-0 pr-2 font-weight-bold">
 													<?php echo esc_html__( "Google Analytics ID", 'squirrly-seo' ); ?>:
-                                                    <a href="https://howto12.squirrly.co/kb/google-analytics-tracking-tool/#google_analytics" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                    <a href="https://howto.squirrly.co/kb/google-analytics-tracking-tool/#google_analytics" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     <div class="small text-black-50 my-1 pr-3"><?php echo sprintf( esc_html__( "Squirrly adds the Google Tracking script for your Analytics ID. %sGet the Analytics ID%s", 'squirrly-seo' ), '<a href="https://analytics.google.com/analytics/web/" target="_blank"><strong>', '</strong></a>' ); ?></div>
                                                 </div>
                                                 <div class="col-8 p-0 input-group input-group-lg">
@@ -242,7 +242,7 @@ if ( ! isset( $view ) ) {
                                             <div class="col-12 row m-0 p-0 my-5 sq_advanced">
                                                 <div class="col-4 m-0 p-0 pr-2 font-weight-bold">
 													<?php echo esc_html__( "Google Tracking Mode", 'squirrly-seo' ); ?>:
-                                                    <a href="https://howto12.squirrly.co/kb/google-analytics-tracking-tool/#receive_tracking_code" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                    <a href="https://howto.squirrly.co/kb/google-analytics-tracking-tool/#receive_tracking_code" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     <div class="small text-black-50 my-1 pr-3"><?php echo sprintf( esc_html__( "Choose gtag.js if you use %sGoogle Tag Manager%s or the %sGoogle Analytics 4%s. Otherwise select analytics.js to track the website traffic.", 'squirrly-seo' ), '<a href="https://tagmanager.google.com/" target="_blank"><strong>', '</strong></a>', '<a href="https://support.google.com/analytics/answer/10089681" target="_blank"><strong>', '</strong></a>' ); ?></div>
                                                 </div>
                                                 <div class="col-8 p-0 input-group input-group-lg">
@@ -253,7 +253,7 @@ if ( ! isset( $view ) ) {
                                                 </div>
 
                                                 <div class="col-12 text-center p-0 my-4">
-                                                    <h6><?php echo sprintf( esc_html__( "%sNeed Help Connecting Google Analytics?%s", 'squirrly-seo' ), '<a href="https://howto12.squirrly.co/faq/how-do-i-connect-google-analytics-both-tracking-code-and-the-api-connection/" target="_blank">', '</a>' ) ?></h6>
+                                                    <h6><?php echo sprintf( esc_html__( "%sNeed Help Connecting Google Analytics?%s", 'squirrly-seo' ), '<a href="https://howto.squirrly.co/faq/how-do-i-connect-google-analytics-both-tracking-code-and-the-api-connection/" target="_blank">', '</a>' ) ?></h6>
                                                 </div>
                                             </div>
 										<?php } ?>
@@ -263,7 +263,7 @@ if ( ! isset( $view ) ) {
                                             <div class="col-12 row m-0 p-0 my-5">
                                                 <div class="col-4 m-0 p-0 pr-2 font-weight-bold">
 													<?php echo esc_html__( "Facebook Pixel", 'squirrly-seo' ); ?>:
-                                                    <a href="https://howto12.squirrly.co/kb/google-analytics-tracking-tool/#facebook_pixel" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                    <a href="https://howto.squirrly.co/kb/google-analytics-tracking-tool/#facebook_pixel" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     <div class="small text-black-50 my-1 pr-3"><?php echo sprintf( esc_html__( "Use FB Pixel to track the visitors events and to use Facebook Ads more efficient. %sLearn More%s", 'squirrly-seo' ), '<a href="https://developers.facebook.com/docs/facebook-pixel" target="_blank"><strong>', '</strong></a>' ); ?></div>
                                                 </div>
                                                 <div class="col-8 p-0 input-group input-group-lg">
@@ -277,7 +277,7 @@ if ( ! isset( $view ) ) {
                                                 <div class="col-4 m-0 p-0 pr-2 font-weight-bold">
 													<?php echo esc_html__( "Google Search Console", 'squirrly-seo' ); ?>
                                                     :
-                                                    <a href="https://howto12.squirrly.co/kb/webmaster-tools-settings/#gsc" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                    <a href="https://howto.squirrly.co/kb/webmaster-tools-settings/#gsc" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     <div class="small text-black-50 my-1 pr-3"><?php echo sprintf( esc_html__( "Add the Google META verification code to connect to %sGoogle Search Console%s", 'squirrly-seo' ), '<a href="https://www.google.com/webmasters/verification/verification?siteUrl=' . esc_url( home_url() ) . '&priorities=vmeta" target="_blank">', '</a>' ); ?></div>
                                                 </div>
                                                 <div class="col-8 m-0 p-0 input-group input-group-lg">
@@ -292,7 +292,7 @@ if ( ! isset( $view ) ) {
                                                 </div>
 
                                                 <div class="col-12 text-center p-0 my-4">
-                                                    <h6><?php echo sprintf( esc_html__( "%sNeed Help Connecting Google Search Console?%s", 'squirrly-seo' ), '<a href="https://howto12.squirrly.co/faq/need-help-connecting-google-search-console-both-tracking-code-and-api-connection/" target="_blank">', '</a>' ) ?></h6>
+                                                    <h6><?php echo sprintf( esc_html__( "%sNeed Help Connecting Google Search Console?%s", 'squirrly-seo' ), '<a href="https://howto.squirrly.co/faq/need-help-connecting-google-search-console-both-tracking-code-and-api-connection/" target="_blank">', '</a>' ) ?></h6>
                                                 </div>
                                             </div>
 										<?php } ?>
@@ -304,7 +304,7 @@ if ( ! isset( $view ) ) {
                                                         <input type="hidden" name="sq_tracking_logged_users" value="0"/>
                                                         <input type="checkbox" id="sq_tracking_logged_users" name="sq_tracking_logged_users" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_tracking_logged_users' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                         <label for="sq_tracking_logged_users" class="ml-1"><?php echo esc_html__( "Load Tracking for Logged Users", 'squirrly-seo' ); ?>
-                                                            <a href="https://howto12.squirrly.co/kb/google-analytics-tracking-tool/#logged_users" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                            <a href="https://howto.squirrly.co/kb/google-analytics-tracking-tool/#logged_users" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                         </label>
                                                         <div class="small text-black-50 ml-5"><?php echo esc_html__( "Load the tracking codes for logged users too.", 'squirrly-seo' ); ?></div>
                                                     </div>
@@ -344,7 +344,7 @@ if ( ! isset( $view ) ) {
                                                     <input type="hidden" name="sq_auto_amp" value="0"/>
                                                     <input type="checkbox" id="sq_auto_amp" name="sq_auto_amp" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_amp' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                     <label for="sq_auto_amp" class="ml-1"><?php echo esc_html__( "Load the AMP Support on AMP pages", 'squirrly-seo' ); ?>
-                                                        <a href="https://howto12.squirrly.co/kb/google-analytics-tracking-tool/#amp_support" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                        <a href="https://howto.squirrly.co/kb/google-analytics-tracking-tool/#amp_support" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     </label>
                                                     <div class="small text-black-50 ml-5"><?php echo sprintf( esc_html__( "Load the Accelerate Mobile Pages (AMP) support for plugins like %sAMP for WP%s or %sAMP%s detected", 'squirrly-seo' ), '<a href="https://wordpress.org/plugins/accelerated-mobile-pages/" target="_blank">', '</a>', '<a href="https://wordpress.org/plugins/amp/" target="_blank">', '</a>' ); ?></div>
                                                 </div>
@@ -370,7 +370,7 @@ if ( ! isset( $view ) ) {
                                         <div class="col-12 row m-0 p-0 my-5">
                                             <div class="col-4 m-0 p-0 pr-2 font-weight-bold">
 												<?php echo esc_html__( "Bing Webmaster Tools", 'squirrly-seo' ); ?>:
-                                                <a href="https://howto12.squirrly.co/kb/webmaster-tools-settings/#bing_webmaster" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                <a href="https://howto.squirrly.co/kb/webmaster-tools-settings/#bing_webmaster" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                 <div class="small text-black-50 my-1 pr-3"><?php echo sprintf( esc_html__( "Add the Bing META verification code to connect to %sBing Webmaster Tool%s", 'squirrly-seo' ), '<a href="https://www.bing.com/toolbox/webmaster/" target="_blank">', '</a>' ); ?></div>
                                             </div>
                                             <div class="col-8 m-0 p-0 input-group input-group-lg">
@@ -381,7 +381,7 @@ if ( ! isset( $view ) ) {
                                         <div class="col-12 row m-0 p-0 my-5">
                                             <div class="col-4 m-0 p-0 pr-2 font-weight-bold">
 												<?php echo esc_html__( "Baidu Webmaster Tools", 'squirrly-seo' ); ?>:
-                                                <a href="https://howto12.squirrly.co/kb/webmaster-tools-settings/#baidu_webmaster" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                <a href="https://howto.squirrly.co/kb/webmaster-tools-settings/#baidu_webmaster" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                 <div class="small text-black-50 my-1 pr-3"><?php echo sprintf( esc_html__( "Add the Baidu META verification code to connect to %sBaidu Webmaster Tool%s", 'squirrly-seo' ), '<a href="https://ziyuan.baidu.com/site/" target="_blank">', '</a>' ); ?></div>
                                             </div>
                                             <div class="col-8 m-0 p-0 input-group input-group-lg">
@@ -392,7 +392,7 @@ if ( ! isset( $view ) ) {
                                         <div class="col-12 row m-0 p-0 my-5">
                                             <div class="col-4 m-0 p-0 pr-2 font-weight-bold">
 												<?php echo esc_html__( "Yandex Webmaster Code", 'squirrly-seo' ); ?>:
-                                                <a href="https://howto12.squirrly.co/kb/webmaster-tools-settings/#yandex_webmaster" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                <a href="https://howto.squirrly.co/kb/webmaster-tools-settings/#yandex_webmaster" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                 <div class="small text-black-50 my-1 pr-3"><?php echo sprintf( esc_html__( "Add the Yandex META verification code to connect to %sYandex Webmaster Tool%s", 'squirrly-seo' ), '<a href="https://webmaster.yandex.com/sites/" target="_blank">', '</a>' ); ?></div>
                                             </div>
                                             <div class="col-8 m-0 p-0 input-group input-group-lg">
@@ -404,7 +404,7 @@ if ( ! isset( $view ) ) {
                                             <div class="col-4 m-0 p-0 pr-2 font-weight-bold">
 												<?php echo esc_html__( "Pinterest Website Validator Code", 'squirrly-seo' ); ?>
                                                 :
-                                                <a href="https://howto12.squirrly.co/kb/webmaster-tools-settings/#pinterest_validation" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                <a href="https://howto.squirrly.co/kb/webmaster-tools-settings/#pinterest_validation" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                 <div class="small text-black-50 my-1 pr-3"><?php echo sprintf( esc_html__( "Add the Pinterest verification code to connect your website to your Pinterest account. Visit the %sRich Pins Validator%s", 'squirrly-seo' ), '<a href="https://developers.pinterest.com/tools/url-debugger/" target="_blank">', '</a>' ); ?></div>
                                             </div>
                                             <div class="col-8 m-0 p-0 input-group input-group-lg">
@@ -415,7 +415,7 @@ if ( ! isset( $view ) ) {
                                         <div class="col-12 row m-0 p-0 my-5 sq_advanced">
                                             <div class="col-4 m-0 p-0 pr-2 font-weight-bold">
 												<?php echo esc_html__( "Norton Safe Web Code", 'squirrly-seo' ); ?>:
-                                                <a href="https://howto12.squirrly.co/kb/webmaster-tools-settings/#norton_safe_code" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                <a href="https://howto.squirrly.co/kb/webmaster-tools-settings/#norton_safe_code" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                 <div class="small text-black-50 my-1 pr-3"><?php echo sprintf( esc_html__( "Add the Norton Safe Web verification code or ID to connect your website to Norton Safe Web. Visit the %sNorton Ownership Verification Page%s", 'squirrly-seo' ), '<a href="https://support.norton.com/sp/en/in/home/current/solutions/kb20090410134005EN" target="_blank">', '</a>' ); ?></div>
                                             </div>
                                             <div class="col-8 m-0 p-0 input-group input-group-lg">
@@ -437,7 +437,7 @@ if ( ! isset( $view ) ) {
                                     <div class="col-12 m-0 p-0 my-2">
                                         <h3 class="card-title"><?php echo esc_html__( "AI Tools", 'squirrly-seo' ); ?>
                                             <div class="sq_help_question d-inline">
-                                                <a href="https://howto12.squirrly.co/kb/connect-squirrly-to-ai-assistants/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                                                <a href="https://howto.squirrly.co/kb/connect-squirrly-to-ai-assistants/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                                             </div>
                                         </h3>
                                         <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "Let an AI assistant read and update your SEO from inside your own site, instead of pasting page content into a chat window and pasting suggestions back.", 'squirrly-seo' ); ?></div>
@@ -460,7 +460,7 @@ if ( ! isset( $view ) ) {
                                                     <input type="hidden" name="sq_mcp_oauth" value="0"/>
                                                     <input type="checkbox" id="sq_mcp_oauth" name="sq_mcp_oauth" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_mcp_oauth' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                     <label for="sq_mcp_oauth" class="ml-1"><?php echo esc_html__( "Allow AI assistants to connect with a sign-in", 'squirrly-seo' ); ?>
-                                                        <a href="https://howto12.squirrly.co/kb/how-to-connect-mcp-plugins-to-squirrly-seo/" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                        <a href="https://howto.squirrly.co/kb/how-to-connect-mcp-plugins-to-squirrly-seo/" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     </label>
                                                     <div class="small text-black-50 ml-5"><?php echo esc_html__( "Off by default. Nothing about your site is exposed until you turn this on and approve a connection from your own WordPress login screen.", 'squirrly-seo' ); ?></div>
                                                 </div>
@@ -482,10 +482,22 @@ if ( ! isset( $view ) ) {
 											}
 											?>
 
+											<?php if ( $sq_mcp_failed === 0 ) { ?>
+                                                <div class="col-12 row m-0 p-0 my-5">
+                                                    <div class="col-4 m-0 p-0 pr-2 font-weight-bold">
+														<?php echo esc_html__( "Connect Claude", 'squirrly-seo' ); ?>:
+                                                        <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "Claude opens its Add custom connector box with this site already filled in. Check that the address matches the one below, click Continue, then sign in to your site and approve access.", 'squirrly-seo' ); ?></div>
+                                                    </div>
+                                                    <div class="col-8 m-0 p-0">
+                                                        <a href="<?php echo esc_url( SQ_Classes_McpOauthController::getClaudeConnectUrl() ); ?>" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg m-0 py-2 px-4 rounded-0 text-white"><?php echo esc_html__( "Add Squirrly to Claude", 'squirrly-seo' ); ?></a>
+                                                    </div>
+                                                </div>
+											<?php } ?>
+
                                             <div class="col-12 row m-0 p-0 my-5">
                                                 <div class="col-4 m-0 p-0 pr-2 font-weight-bold">
 													<?php echo esc_html__( "Your connector address", 'squirrly-seo' ); ?>:
-                                                    <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "Paste this into Add custom connector in your AI tool.", 'squirrly-seo' ); ?></div>
+                                                    <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "For ChatGPT, OpenAI Codex or another AI tool, paste this into Add custom connector.", 'squirrly-seo' ); ?></div>
                                                 </div>
                                                 <div class="col-8 m-0 p-0">
                                                     <input type="text" class="form-control" readonly="readonly" onclick="this.select();" value="<?php echo esc_attr( SQ_Classes_McpOauthController::getServerUrl() ); ?>"/>

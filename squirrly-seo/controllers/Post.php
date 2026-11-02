@@ -502,13 +502,18 @@ class SQ_Controllers_Post extends SQ_Classes_FrontController {
 
 				if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_snippet' ) ) {
 					$response['error'] = SQ_Classes_Error::showNotices( esc_html__( "You do not have permission to perform this action", 'squirrly-seo' ), 'error' );
+					$response['code']  = 'permission';
 					echo wp_json_encode( $response );
 					exit();
 				}
 
+				//checkin() can print admin notices (Cloud unreachable, maintenance): keep them out of the JSON reply
+				ob_start();
 				$checkin = SQ_Classes_RemoteController::checkin();
+				ob_end_clean();
 				if ( is_wp_error( $checkin ) ) {
-					echo wp_json_encode( array( 'error' => $checkin->get_error_message() ) );
+					//Send the error code too (maintenance / reconnect / api_error) so the Live Assistant shows the right message
+					echo wp_json_encode( array( 'error' => $checkin->get_error_message(), 'code' => $checkin->get_error_code() ) );
 				} else {
 					echo wp_json_encode( array( 'data' => $checkin ) );
 				}

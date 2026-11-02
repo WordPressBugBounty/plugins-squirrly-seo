@@ -125,7 +125,7 @@ if ( ! isset( $patterns[ $view->post->post_type ] ) && isset( $patterns['custom'
                                 <div class="sq-col-12 sq-row sq-my-2 sq-px-0 sq-mx-0 sq-py-1 sq-px-2">
                                     <div class="sq-col-4 sq-p-0 sq-pr-3 sq-font-weight-bold">
 										<?php echo esc_html__( "Schema Types", "squirrly-seo" ); ?>
-                                        :<a href="https://howto12.squirrly.co/kb/bulk-seo/#bulk_seo_snippet_jsonld" target="_blank"><i class="fa-solid fa-question-circle sq-m-0 sq-px-1 sq-d-inline"></i></a>
+                                        :<a href="https://howto.squirrly.co/kb/bulk-seo/#bulk_seo_snippet_jsonld" target="_blank"><i class="fa-solid fa-question-circle sq-m-0 sq-px-1 sq-d-inline"></i></a>
                                         <div class="sq-small sq-text-black-50 sq-my-3 sq-pr-4"><?php echo esc_html__( "JSON-LD will load the Schema for the selected types.", "squirrly-seo" ); ?></div>
                                         <div class="sq-small sq-text-black-50 sq-my-3 sq-pr-4"><?php echo sprintf( esc_html__( "Setup JSON-LD for this Post Type by using %s SEO Automation %s", "squirrly-seo" ), '<a href="' . SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_automation', 'automation' ) . '">', '</a>' ); ?></div>
                                     </div>
@@ -194,7 +194,7 @@ if ( ! isset( $patterns[ $view->post->post_type ] ) && isset( $patterns['custom'
 
                                     <div class="sq-col-4 sq-p-0 sq-pr-3 sq-font-weight-bold">
 										<?php echo esc_html__( "Breadcrumbs Schema", "squirrly-seo" ); ?>
-                                        <a href="https://howto12.squirrly.co/kb/json-ld-structured-data/#breadcrumbs_schema" target="_blank"><i class="fa-solid fa-question-circle sq-m-0 sq-px-1 sq-d-inline"></i></a>
+                                        <a href="https://howto.squirrly.co/kb/json-ld-structured-data/#breadcrumbs_schema" target="_blank"><i class="fa-solid fa-question-circle sq-m-0 sq-px-1 sq-d-inline"></i></a>
                                         <div class="sq-small sq-text-black-50 sq-my-3 sq-pr-4"><?php echo sprintf( esc_html__( "Manage BreadcrumbsList Schema from %s Rich Snippets Settings %s.", "squirrly-seo" ), '<a href="' . esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'jsonld' ) . '#tab=settings' ) . '">', '</a>' ); ?></div>
                                     </div>
 
@@ -216,7 +216,7 @@ if ( ! isset( $patterns[ $view->post->post_type ] ) && isset( $patterns['custom'
 
                                             <div class="sq-col-4 sq-p-0 sq-pr-3 sq-font-weight-bold">
 												<?php echo esc_html__( "Primary Category", "squirrly-seo" ); ?>
-                                                <a href="https://howto12.squirrly.co/kb/json-ld-structured-data/#breadcrumbs_schema" target="_blank"><i class="fa-solid fa-question-circle sq-m-0 sq-px-1 sq-d-inline"></i></a>
+                                                <a href="https://howto.squirrly.co/kb/json-ld-structured-data/#breadcrumbs_schema" target="_blank"><i class="fa-solid fa-question-circle sq-m-0 sq-px-1 sq-d-inline"></i></a>
                                                 <div class="sq-small sq-text-black-50 sq-my-3 sq-pr-4"><?php echo esc_html__( "Set the Primary Category for Breadcrumbs.", 'squirrly-seo' ); ?></div>
                                             </div>
 
@@ -242,7 +242,7 @@ if ( ! isset( $patterns[ $view->post->post_type ] ) && isset( $patterns['custom'
 
                                         <div class="sq-col-4 sq-p-0 sq-pr-3 sq-font-weight-bold">
 											<?php echo esc_html__( "Woocommerce Product Support", 'squirrly-seo' ); ?>
-                                            <a href="https://howto12.squirrly.co/kb/json-ld-structured-data/#woocommerce" target="_blank"><i class="fa-solid fa-question-circle sq-m-0 sq-px-1 sq-d-inline"></i></a>
+                                            <a href="https://howto.squirrly.co/kb/json-ld-structured-data/#woocommerce" target="_blank"><i class="fa-solid fa-question-circle sq-m-0 sq-px-1 sq-d-inline"></i></a>
                                             <div class="sq-small sq-text-black-50 sq-my-3 sq-pr-4"><?php echo sprintf( esc_html__( "Manage Woocommerce Support from %s JSON-LD Settings %s.", 'squirrly-seo' ), '<a href="' . SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'jsonld' ) . '">', '</a>' ); ?></div>
                                         </div>
 
@@ -269,7 +269,7 @@ if ( ! isset( $patterns[ $view->post->post_type ] ) && isset( $patterns['custom'
                         <div class="sq-col-12 sq-row sq-my-2 sq-px-0 sq-mx-0 sq-py-1 sq-px-2">
                             <div class="sq-col-4 sq-p-0 sq-pr-3 sq-font-weight-bold">
                                 <?php echo esc_html__( "Custom Schema", 'squirrly-seo' ); ?>
-                                :<a href="https://howto12.squirrly.co/kb/bulk-seo/#jsonld_custom_code" target="_blank"><i class="fa-solid fa-question-circle sq-m-0 sq-px-1 sq-d-inline"></i></a>
+                                :<a href="https://howto.squirrly.co/kb/bulk-seo/#jsonld_custom_code" target="_blank"><i class="fa-solid fa-question-circle sq-m-0 sq-px-1 sq-d-inline"></i></a>
                                 <div class="sq-small sq-text-black-50 sq-my-3 sq-pr-4"><?php echo esc_html__( "Choose Custom Code to replace the automatic schema with your own JSON-LD for this page.", 'squirrly-seo' ); ?></div>
                             </div>
                             <div class="sq-col-8 sq-p-0 sq-input-group">
@@ -277,7 +277,7 @@ if ( ! isset( $patterns[ $view->post->post_type ] ) && isset( $patterns['custom'
                                     <option <?php echo( ( $view->post->sq_adm->jsonld == '' ) ? 'selected="selected"' : '' ) ?> value="auto"><?php echo esc_html__( "(Auto)", 'squirrly-seo' ) ?></option>
                                     <option <?php echo( ( $view->post->sq_adm->jsonld <> '' ) ? 'selected="selected"' : '' ) ?> value="custom"><?php echo esc_html__( "Custom Code", 'squirrly-seo' ) ?></option>
                                 </select>
-                                <div class="sq-small sq-text-black-50 sq-my-3 sq-pr-4"><?php echo sprintf( esc_html__( "You can also use the Advanced Custom Fields (ACF) plugin to add custom JSON-LD. %s Learn More %s", 'squirrly-seo' ), '<a href="https://howto12.squirrly.co/kb/json-ld-structured-data/#ACF" class="sq-m-0 sq-p-0" target="_blank" style="font-weight: bold !important; font-size: 12px !important;">', '</a>' ); ?></div>
+                                <div class="sq-small sq-text-black-50 sq-my-3 sq-pr-4"><?php echo sprintf( esc_html__( "You can also use the Advanced Custom Fields (ACF) plugin to add custom JSON-LD. %s Learn More %s", 'squirrly-seo' ), '<a href="https://howto.squirrly.co/kb/json-ld-structured-data/#ACF" class="sq-m-0 sq-p-0" target="_blank" style="font-weight: bold !important; font-size: 12px !important;">', '</a>' ); ?></div>
                             </div>
                         </div>
 

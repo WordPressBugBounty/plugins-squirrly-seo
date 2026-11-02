@@ -383,7 +383,8 @@ class SQ_Controllers_Research extends SQ_Classes_FrontController {
 
 				SQ_Classes_Helpers_Tools::setHeader( 'json' );
 				$keyword   = (string) SQ_Classes_Helpers_Tools::getValue( 'keyword', '' );
-				$do_serp   = (int) SQ_Classes_Helpers_Tools::getValue( 'doserp', 0 );
+				//Sending to Google Rankings needs the same access as the Rankings screen (Editor)
+				$do_serp   = SQ_Classes_Helpers_Tools::userCan( 'sq_manage_focuspages' ) ? (int) SQ_Classes_Helpers_Tools::getValue( 'doserp', 0 ) : 0;
 				$is_hidden = (int) SQ_Classes_Helpers_Tools::getValue( 'hidden', 0 );
 
 				if ( $keyword <> '' ) {
@@ -713,7 +714,7 @@ class SQ_Controllers_Research extends SQ_Classes_FrontController {
 
 			SQ_Classes_Helpers_Tools::setHeader( 'json' );
 
-			if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
+			if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_focuspages' ) ) {
 				$response['error'] = SQ_Classes_Error::showNotices( esc_html__( "You do not have permission to perform this action", 'squirrly-seo' ), 'error' );
 				echo wp_json_encode( $response );
 				exit();
@@ -968,7 +969,7 @@ class SQ_Controllers_Research extends SQ_Classes_FrontController {
 
 				SQ_Classes_Helpers_Tools::setHeader( 'json' );
 
-				if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
+				if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_focuspages' ) ) {
 					$response['error'] = SQ_Classes_Error::showNotices( esc_html__( "You do not have permission to perform this action", 'squirrly-seo' ), 'error' );
 					echo wp_json_encode( $response );
 					exit();

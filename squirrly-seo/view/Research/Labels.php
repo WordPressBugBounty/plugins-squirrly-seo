@@ -17,7 +17,7 @@ if ( ! isset( $view ) ) {
     <div id="sq_content" class="d-flex flex-row bg-white my-0 p-0 m-0">
 		<?php
 		if ( ! apply_filters( 'sq_load_snippet', true ) || ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_snippet' ) ) {
-			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Editor role.", 'squirrly-seo' ) . '</div>';
+			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need a WordPress role that can edit posts, like Author or Editor.", 'squirrly-seo' ) . '<a href="https://howto.squirrly.co/ht_kb/squirrly-user-roles/#error" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></div>';
 
 			return;
 		}
@@ -31,7 +31,7 @@ if ( ! isset( $view ) ) {
                 <h3 class="mt-4 card-title">
 					<?php echo esc_html__( "Briefcase Labels", 'squirrly-seo' ); ?>
                     <div class="sq_help_question d-inline">
-                        <a href="https://howto12.squirrly.co/kb/keyword-research-and-seo-strategy/#labels" target="_blank"><i class="fa-solid fa-question-circle"></i></a>
+                        <a href="https://howto.squirrly.co/kb/keyword-research-and-seo-strategy/#labels" target="_blank"><i class="fa-solid fa-question-circle"></i></a>
                     </div>
                 </h3>
                 <div class="col-7 small m-0 p-0">
@@ -239,19 +239,19 @@ if ( ! isset( $view ) ) {
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <label for="sq_labelname"><?php echo esc_html__( "Label Name", 'squirrly-seo' ); ?></label>
-                                        <input type="text" class="form-control" id="sq_labelname" maxlength="35"/>
+                                        <label for="sq_editlabelname"><?php echo esc_html__( "Label Name", 'squirrly-seo' ); ?></label>
+                                        <input type="text" class="form-control" id="sq_editlabelname" maxlength="35"/>
                                     </div>
                                     <div class="form-group">
                                         <div>
-                                            <label for="sq_labelcolor"><?php echo esc_html__( "Label Color", 'squirrly-seo' ); ?></label>
+                                            <label for="sq_editlabelcolor"><?php echo esc_html__( "Label Color", 'squirrly-seo' ); ?></label>
                                         </div>
-                                        <input type="text" id="sq_labelcolor"/>
+                                        <input type="text" id="sq_editlabelcolor"/>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
                                     <input type="hidden" id="sq_labelid"/>
-                                    <button type="button" id="sq_save_label" class="btn btn-primary"><?php echo esc_html__( "Save Label", 'squirrly-seo' ); ?></button>
+                                    <button type="button" id="sq_update_label" class="btn btn-primary"><?php echo esc_html__( "Save Label", 'squirrly-seo' ); ?></button>
                                 </div>
                             </div>
                         </div>

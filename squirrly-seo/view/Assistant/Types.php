@@ -16,7 +16,7 @@ if ( ! isset( $view ) ) {
     <div id="sq_content" class="d-flex flex-row bg-white my-0 p-0 m-0">
 		<?php
 		if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
-			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role.", "squirrly-seo" ) . '</div>';
+			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role.", "squirrly-seo" ) . '<a href="https://howto.squirrly.co/ht_kb/squirrly-user-roles/#error" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></div>';
 
 			return;
 		}
@@ -35,7 +35,7 @@ if ( ! isset( $view ) ) {
                         <h3 class="mt-4 card-title">
 							<?php echo esc_html__( "Automation", "squirrly-seo" ); ?>
                             <div class="sq_help_question d-inline">
-                                <a href="https://howto12.squirrly.co/kb/seo-automation/" target="_blank"><i class="fa-solid fa-question-circle" style="margin: 0;"></i></a>
+                                <a href="https://howto.squirrly.co/kb/seo-automation/" target="_blank"><i class="fa-solid fa-question-circle" style="margin: 0;"></i></a>
                             </div>
                         </h3>
                         <div class="col-7 small m-0 p-0">
@@ -104,7 +104,7 @@ if ( ! isset( $view ) ) {
                                         <div class="col-4 p-0 pr-2">
                                             <div class="font-weight-bold">
 												<?php echo esc_html__( "Add Post Type", "squirrly-seo" ); ?>
-                                                :<a href="https://howto12.squirrly.co/kb/seo-automation/#add_post_type" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                :<a href="https://howto.squirrly.co/kb/seo-automation/#add_post_type" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                             </div>
                                             <div class="small text-black-50"><?php echo esc_html__( "Add new post types in the list and customize the automation for it.", "squirrly-seo" ); ?></div>
                                         </div>

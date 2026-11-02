@@ -60,9 +60,9 @@ class SQ_Classes_McpOauthController {
 	 */
 	public function load() {
 
-		//The MCP Adapter plugin provides the MCP protocol itself. Without it there is no
-		//server to authenticate against, so the OAuth endpoints would lead nowhere.
-		if ( ! class_exists( '\WP\MCP\Core\McpAdapter' ) ) {
+		//The MCP Adapter provides the MCP protocol itself. Without it there is no server to
+		//authenticate against, so the OAuth endpoints would lead nowhere.
+		if ( ! self::loadAdapter() ) {
 			return;
 		}
 
@@ -91,6 +91,7 @@ class SQ_Classes_McpOauthController {
 		}
 
 		add_filter( 'wpmedia_mcp_oauth_trusted_publishers', array( $this, 'trustedPublishers' ) );
+		add_filter( 'wpmedia_mcp_oauth_server_tools', array( $this, 'serverTools' ) );
 
 		//Belt and braces: whatever the library does, it must never be able to break the site
 		try {
@@ -98,6 +99,90 @@ class SQ_Classes_McpOauthController {
 		} catch ( Throwable $e ) {
 			return;
 		}
+	}
+
+	/**
+	 * Use the MCP Adapter another plugin provides (the MCP Adapter plugin, WooCommerce, Elementor),
+	 * or the copy bundled with Squirrly when none does. Starts it when nobody else has.
+	 *
+	 * @return bool whether an adapter is available
+	 */
+	public static function loadAdapter() {
+		if ( ! class_exists( '\WP\MCP\Core\McpAdapter' ) ) {
+			if ( ! self::hasBundledAdapter() ) {
+				return false;
+			}
+
+			//register only now, so another plugin's copy always wins
+			spl_autoload_register( array( __CLASS__, 'autoloadAdapter' ) );
+
+			if ( ! class_exists( '\WP\MCP\Plugin' ) ) {
+				return false;
+			}
+
+			\WP\MCP\Plugin::instance();
+		}
+
+		//a bundled copy may be present but never started, as WooCommerce does with its MCP feature off
+		\WP\MCP\Core\McpAdapter::instance();
+
+		return true;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function hasBundledAdapter() {
+		return is_readable( _SQ_MCP_DIR_ . 'mcp-adapter/includes/Plugin.php' );
+	}
+
+	/**
+	 * Load a class of the bundled MCP Adapter or of its MCP schema package.
+	 *
+	 * @param string $class
+	 */
+	public static function autoloadAdapter( $class ) {
+		$map = array(
+			'WP\\McpSchema\\' => _SQ_MCP_DIR_ . 'mcp-adapter/vendor/wordpress/php-mcp-schema/src/',
+			'WP\\MCP\\'       => _SQ_MCP_DIR_ . 'mcp-adapter/includes/',
+		);
+
+		foreach ( $map as $prefix => $dir ) {
+			if ( strpos( $class, $prefix ) === 0 ) {
+				$file = $dir . str_replace( '\\', '/', substr( $class, strlen( $prefix ) ) ) . '.php';
+
+				if ( is_readable( $file ) ) {
+					require $file;
+				}
+
+				return;
+			}
+		}
+	}
+
+	/**
+	 * Publish each Squirrly ability as its own tool on the connector, so the AI client can
+	 * list and permit them one by one. Falls back to the generic tools when none are found.
+	 *
+	 * @param array $tools The generic discover, info and execute tools.
+	 *
+	 * @return array
+	 */
+	public function serverTools( $tools ) {
+		if ( ! function_exists( 'wp_get_abilities' ) ) {
+			return $tools;
+		}
+
+		$squirrly = array();
+		foreach ( wp_get_abilities() as $ability ) {
+			$meta = $ability->get_meta();
+
+			if ( strpos( $ability->get_name(), 'squirrly/' ) === 0 && ! empty( $meta['mcp']['public'] ) ) {
+				$squirrly[] = $ability->get_name();
+			}
+		}
+
+		return apply_filters( 'sq_mcp_server_tools', ! empty( $squirrly ) ? $squirrly : (array) $tools, (array) $tools );
 	}
 
 	/**
@@ -174,7 +259,7 @@ class SQ_Classes_McpOauthController {
 		return (
 			version_compare( PHP_VERSION, self::MIN_PHP, '>=' )
 			&& function_exists( 'wp_register_ability' )
-			&& class_exists( '\WP\MCP\Core\McpAdapter' )
+			&& ( class_exists( '\WP\MCP\Core\McpAdapter' ) || self::hasBundledAdapter() )
 			&& SQ_Classes_Helpers_Tools::getOption( 'sq_mcp_oauth' )
 		);
 	}
@@ -186,6 +271,22 @@ class SQ_Classes_McpOauthController {
 	 */
 	public static function getServerUrl() {
 		return get_rest_url( null, self::SERVER_ROUTE );
+	}
+
+	/**
+	 * Link that opens Claude's Add custom connector box with this site already filled in.
+	 * The domain is in the name so a user connecting several sites can tell them apart.
+	 *
+	 * @return string
+	 */
+	public static function getClaudeConnectUrl() {
+		$host = (string) wp_parse_url( home_url(), PHP_URL_HOST );
+
+		return 'https://claude.ai/customize/connectors?' . http_build_query( array(
+				'modal'         => 'add-custom-connector',
+				'connectorName' => trim( 'Squirrly SEO ' . ( $host <> '' ? '(' . $host . ')' : '' ) ),
+				'connectorUrl'  => self::getServerUrl(),
+			), '', '&', PHP_QUERY_RFC3986 );
 	}
 
 	/**
@@ -208,7 +309,7 @@ class SQ_Classes_McpOauthController {
 			return esc_html__( "This needs WordPress 6.9 or newer, where the Abilities API is part of WordPress itself.", 'squirrly-seo' );
 		}
 
-		if ( ! class_exists( '\WP\MCP\Core\McpAdapter' ) ) {
+		if ( ! class_exists( '\WP\MCP\Core\McpAdapter' ) && ! self::hasBundledAdapter() ) {
 			return esc_html__( "Install the free MCP Adapter plugin, from Plugins - Add New, and activate it. Squirrly registers the SEO tools; the MCP Adapter is what carries them to an AI assistant.", 'squirrly-seo' );
 		}
 

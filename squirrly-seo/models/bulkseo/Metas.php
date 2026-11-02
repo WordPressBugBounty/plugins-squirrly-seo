@@ -154,7 +154,7 @@ class SQ_Models_Bulkseo_Metas extends SQ_Models_Abstract_Assistant {
 		}
 
 		if ( ! $this->_post->sq->do_metas ) {
-			$errors[] = sprintf( esc_html__( "SEO Metas for this post type are deactivated from %s Squirrly > Automation > META Lengths %s.", 'squirrly-seo' ), '<a href="' . SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_automation', 'automation' ) . '#tab=sq_' . $this->_post->post_type . '" >', '</a>' );
+			$errors[] = sprintf( esc_html__( "SEO Metas for this post type are deactivated from %s Squirrly > Automation > Load SEO Metas %s.", 'squirrly-seo' ), '<a href="' . SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_automation', 'automation' ) . '#tab=sq_' . $this->_post->post_type . '" >', '</a>' );
 		}
 
 		if ( ! SQ_Classes_Helpers_Tools::getOption( 'sq_auto_title' ) ) {

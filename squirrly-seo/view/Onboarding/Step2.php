@@ -11,7 +11,7 @@ if ( ! isset( $view ) ) {
     <div id="sq_content" class="d-flex flex-row bg-white my-0 p-0 m-0">
 		<?php
 		if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
-			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role", 'squirrly-seo' ) . '</div>';
+			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role", 'squirrly-seo' ) . '<a href="https://howto.squirrly.co/ht_kb/squirrly-user-roles/#error" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></div>';
 
 			return;
 		}
@@ -69,7 +69,7 @@ if ( ! isset( $view ) ) {
                                         <div class="col-12 m-0 p-0 sq-switch sq-switch-sm">
                                             <input type="checkbox" id="sq_sitemap_news" name="sitemap[sitemap-news]" class="sq-switch" value="1" <?php echo( ( $sitemap['sitemap-news'][1] == 1 ) ? 'checked="checked"' : '' ); ?> />
                                             <label for="sq_sitemap_news" class="ml-1"><?php echo esc_html__( "Google News", 'squirrly-seo' ); ?>
-                                                <a href="https://howto12.squirrly.co/kb/sitemap-xml-settings/#news_sitemap" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                <a href="https://howto.squirrly.co/kb/sitemap-xml-settings/#news_sitemap" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                             </label>
                                             <div class="small text-black-50 ml-5"><?php echo sprintf( esc_html__( "Only if you have a News website. Make sure you submit your website to %sGoogle News%s first.", 'squirrly-seo' ), '<a href="https://support.google.com/news/publisher-center/answer/9607025" target="_blank">', '</a>' ); ?><?php echo '<a href="' . esc_url( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Sitemaps' )->getXmlUrl( 'sitemap-news' ) ) . '" target="_blank" style="font-size: 13px; text-decoration: none; color: #999;"><strong>' . esc_url( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Sitemaps' )->getXmlUrl( 'sitemap-news' ) ) . '</strong></a>' ?></div>
                                         </div>
@@ -154,7 +154,7 @@ if ( ! isset( $view ) ) {
                                             <div class="col-12 m-0 p-0 sq-switch sq-switch-sm">
                                                 <input type="checkbox" id="sq_sitemap_product" name="sitemap[sitemap-product]" class="sq-switch" value="1" <?php echo( ( $sitemap['sitemap-product'][1] == 1 ) ? 'checked="checked"' : '' ); ?> />
                                                 <label for="sq_sitemap_product" class="ml-1"><?php echo esc_html__( "Products", 'squirrly-seo' ); ?>
-                                                    <a href="https://howto12.squirrly.co/kb/sitemap-xml-settings/#product_sitemap" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                    <a href="https://howto.squirrly.co/kb/sitemap-xml-settings/#product_sitemap" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                 </label>
                                                 <div class="small text-black-50 ml-5"><?php echo esc_html__( "Build the sitemap for your e-commerce products.", 'squirrly-seo' ); ?></div>
                                             </div>
@@ -168,7 +168,7 @@ if ( ! isset( $view ) ) {
                                             <input type="hidden" name="sq_sitemap_show[images]" value="0"/>
                                             <input type="checkbox" id="sq_sitemap_show_images" name="sq_sitemap_show[images]" class="sq-switch" <?php echo( ( $sitemapshow['images'] ) ? 'checked="checked"' : '' ); ?> value="1"/>
                                             <label for="sq_sitemap_show_images" class="ml-1"><?php echo esc_html__( "Include Images in Sitemap", 'squirrly-seo' ); ?>
-                                                <a href="https://howto12.squirrly.co/kb/sitemap-xml-settings/#image_sitemap" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                <a href="https://howto.squirrly.co/kb/sitemap-xml-settings/#image_sitemap" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                             </label>
                                             <div class="small text-black-50 ml-5"><?php echo esc_html__( "Add the image tag for each post with feature image to index your images in Google Image Search.", 'squirrly-seo' ); ?></div>
                                         </div>
@@ -180,7 +180,7 @@ if ( ! isset( $view ) ) {
                                             <input type="hidden" name="sq_sitemap_show[videos]" value="0"/>
                                             <input type="checkbox" id="sq_sitemap_show_video" name="sq_sitemap_show[videos]" class="sq-switch" <?php echo( ( $sitemapshow['videos'] ) ? 'checked="checked"' : '' ); ?> value="1"/>
                                             <label for="sq_sitemap_show_video" class="ml-1"><?php echo esc_html__( "Include Videos in Sitemap", 'squirrly-seo' ); ?>
-                                                <a href="https://howto12.squirrly.co/kb/sitemap-xml-settings/#video_sitemap" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                <a href="https://howto.squirrly.co/kb/sitemap-xml-settings/#video_sitemap" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                             </label>
                                             <div class="small text-black-50 ml-5"><?php echo esc_html__( "Add the video tag for each post with embed video in it.", 'squirrly-seo' ); ?></div>
                                         </div>
@@ -192,7 +192,7 @@ if ( ! isset( $view ) ) {
                                             <input type="hidden" name="sq_sitemap_ping" value="0"/>
                                             <input type="checkbox" id="sq_sitemap_ping" name="sq_sitemap_ping" class="sq-switch" <?php echo( ( SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap_ping' ) ) ? 'checked="checked"' : '' ); ?> value="1"/>
                                             <label for="sq_sitemap_ping" class="ml-1"><?php echo esc_html__( "Ping New Posts to Search Engines", 'squirrly-seo' ); ?>
-                                                <a href="https://howto12.squirrly.co/kb/sitemap-xml-settings/#ping_sitemap" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                <a href="https://howto.squirrly.co/kb/sitemap-xml-settings/#ping_sitemap" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                             </label>
                                             <div class="small text-black-50 ml-5"><?php echo esc_html__( "Ping your sitemap to Search Engines when a new post is published.", 'squirrly-seo' ); ?></div>
                                         </div>
@@ -258,7 +258,7 @@ if ( ! isset( $view ) ) {
                                         <input type="hidden" name="sq_auto_title" value="0"/>
                                         <input type="checkbox" id="sq_auto_title" name="sq_auto_title" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_title' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                         <label for="sq_auto_title" class="ml-1"><?php echo esc_html__( "Optimize the Titles", 'squirrly-seo' ); ?>
-                                            <a href="https://howto12.squirrly.co/kb/seo-metas/#Optimize-The-Titles" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></label>
+                                            <a href="https://howto.squirrly.co/kb/seo-metas/#Optimize-The-Titles" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></label>
                                         <div class="small text-black-50 ml-5"><?php echo esc_html__( "Add the Title Tag in the page header. You can customize it using the Bulk SEO and Squirrly SEO Snippet.", 'squirrly-seo' ); ?></div>
                                     </div>
                                 </div>
@@ -269,7 +269,7 @@ if ( ! isset( $view ) ) {
                                         <input type="hidden" name="sq_auto_description" value="0"/>
                                         <input type="checkbox" id="sq_auto_description" name="sq_auto_description" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_description' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                         <label for="sq_auto_description" class="ml-1"><?php echo esc_html__( "Optimize Descriptions", 'squirrly-seo' ); ?>
-                                            <a href="https://howto12.squirrly.co/kb/seo-metas/#Optimize-The-Description" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></label>
+                                            <a href="https://howto.squirrly.co/kb/seo-metas/#Optimize-The-Description" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></label>
                                         <div class="small text-black-50 ml-5"><?php echo esc_html__( "Add the Description meta in the page header. You can customize it using the Bulk SEO and Squirrly SEO Snippet.", 'squirrly-seo' ); ?></div>
                                     </div>
                                 </div>
@@ -281,7 +281,7 @@ if ( ! isset( $view ) ) {
                                             <input type="hidden" name="sq_auto_keywords" value="0"/>
                                             <input type="checkbox" id="sq_auto_keywords" name="sq_auto_keywords" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_keywords' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                             <label for="sq_auto_keywords" class="ml-1"><?php echo esc_html__( "Optimize Keywords", 'squirrly-seo' ); ?>
-                                                <a href="https://howto12.squirrly.co/kb/seo-metas/#Optimize-Keywords" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></label>
+                                                <a href="https://howto.squirrly.co/kb/seo-metas/#Optimize-Keywords" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></label>
                                             <div class="small text-black-50 ml-5"><?php echo esc_html__( "Add the Keyword meta in the page header. You can customize it using the Bulk SEO and Squirrly SEO Snippet.", 'squirrly-seo' ); ?></div>
                                             <div class="small text-black-50 ml-5"><?php echo esc_html__( "This meta is not mandatory for Google but other search engines still use it for ranking", 'squirrly-seo' ); ?></div>
                                         </div>
@@ -293,7 +293,7 @@ if ( ! isset( $view ) ) {
                                             <input type="hidden" name="sq_auto_canonical" value="0"/>
                                             <input type="checkbox" id="sq_auto_canonical" name="sq_auto_canonical" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_canonical' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                             <label for="sq_auto_canonical" class="ml-1"><?php echo esc_html__( "Add Canonical Meta Link", 'squirrly-seo' ); ?>
-                                                <a href="https://howto12.squirrly.co/kb/seo-metas/#Add-Canonical-Meta-Link" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></label>
+                                                <a href="https://howto.squirrly.co/kb/seo-metas/#Add-Canonical-Meta-Link" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></label>
                                             <div class="small text-black-50 ml-5"><?php echo esc_html__( "Add canonical link meta in the page header. You can customize the canonical link on each page.", 'squirrly-seo' ); ?></div>
                                             <div class="small text-black-50 ml-5"><?php echo esc_html__( "Also add prev & next links METAs in the page header when navigate between blog pages.", 'squirrly-seo' ); ?></div>
                                         </div>
@@ -305,7 +305,7 @@ if ( ! isset( $view ) ) {
                                             <input type="hidden" name="sq_auto_dublincore" value="0"/>
                                             <input type="checkbox" id="sq_auto_dublincore" name="sq_auto_dublincore" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_dublincore' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                             <label for="sq_auto_dublincore" class="ml-1"><?php echo esc_html__( "Add Dublin Core Meta", 'squirrly-seo' ); ?>
-                                                <a href="https://howto12.squirrly.co/kb/seo-metas/#Add-Dublin-Core-Meta" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></label>
+                                                <a href="https://howto.squirrly.co/kb/seo-metas/#Add-Dublin-Core-Meta" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></label>
                                             <div class="small text-black-50 ml-5"><?php echo esc_html__( "Add the Dublin Core meta in the page header.", 'squirrly-seo' ); ?></div>
                                         </div>
                                     </div>
@@ -316,7 +316,7 @@ if ( ! isset( $view ) ) {
                                             <input type="hidden" name="sq_auto_noindex" value="0"/>
                                             <input type="checkbox" id="sq_auto_noindex" name="sq_auto_noindex" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_noindex' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                             <label for="sq_auto_noindex" class="ml-1"><?php echo esc_html__( "Add Robots Meta", 'squirrly-seo' ); ?>
-                                                <a href="https://howto12.squirrly.co/kb/seo-metas/#Add-Robots-Meta" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></label>
+                                                <a href="https://howto.squirrly.co/kb/seo-metas/#Add-Robots-Meta" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></label>
                                             <div class="small text-black-50 ml-5"><?php echo esc_html__( "Add the Index/Noindex and Follow/Nofollow options in Squirrly SEO Snippet.", 'squirrly-seo' ); ?></div>
                                             <div class="small text-black-50 ml-5"><?php echo esc_html__( "Add googlebot and bingbot METAs for better performance.", 'squirrly-seo' ); ?></div>
                                         </div>
@@ -354,7 +354,7 @@ if ( ! isset( $view ) ) {
                                             <input type="hidden" name="socials[twitter_card_type]" value="summary"/>
                                             <input type="checkbox" id="twitter_card_type" name="socials[twitter_card_type]" class="sq-switch" <?php echo( $socials->twitter_card_type == 'summary_large_image' ? 'checked="checked"' : '' ) ?> value="summary_large_image"/>
                                             <label for="twitter_card_type" class="ml-1"><?php echo esc_html__( "Share Large Images", 'squirrly-seo' ); ?>
-                                                <a href="https://howto12.squirrly.co/kb/social-media-settings/#twitter_card_large_images" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                <a href="https://howto.squirrly.co/kb/social-media-settings/#twitter_card_large_images" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                             </label>
                                             <div class="small text-black-50 ml-5"><?php echo esc_html__( "Activate this option only if you upload images with sizes between 500px and 4096px width in Twitter Card.", 'squirrly-seo' ); ?></div>
                                             <div class="small text-black-50 ml-5"><?php echo sprintf( esc_html__( "This option will show the twitter card image as a shared image and not as a summary. Visit %sSummary Card with Large Image%s", 'squirrly-seo' ), '<a href="https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summary-card-with-large-image.html" target="_blank" ><strong>', '</strong></a>' ); ?></div>
@@ -385,7 +385,7 @@ if ( ! isset( $view ) ) {
                                             <input type="hidden" name="sq_jsonld_breadcrumbs" value="0"/>
                                             <input type="checkbox" id="sq_jsonld_breadcrumbs" name="sq_jsonld_breadcrumbs" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_jsonld_breadcrumbs' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                             <label for="sq_jsonld_breadcrumbs" class="ml-1"><?php echo esc_html__( "Add Breadcrumbs in Json-LD", 'squirrly-seo' ); ?>
-                                                <a href="https://howto12.squirrly.co/kb/json-ld-structured-data/#breadcrumbs_schema" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                <a href="https://howto.squirrly.co/kb/json-ld-structured-data/#breadcrumbs_schema" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                             </label>
                                             <div class="small text-black-50 ml-5"><?php echo esc_html__( "Add the BreadcrumbsList Schema into Json-LD including all parent categories.", 'squirrly-seo' ); ?></div>
                                         </div>

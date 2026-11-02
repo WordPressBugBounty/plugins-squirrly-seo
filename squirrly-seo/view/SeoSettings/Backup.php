@@ -17,7 +17,7 @@ if ( ! isset( $view ) ) {
     <div id="sq_content" class="d-flex flex-row bg-white my-0 p-0 m-0">
 		<?php
 		if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
-			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role", 'squirrly-seo' ) . '</div>';
+			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role", 'squirrly-seo' ) . '<a href="https://howto.squirrly.co/ht_kb/squirrly-user-roles/#error" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></div>';
 
 			return;
 		}
@@ -34,7 +34,7 @@ if ( ! isset( $view ) ) {
                     <h3 class="mt-4 card-title">
 						<?php echo esc_html__( "Import & Data", 'squirrly-seo' ); ?>
                         <div class="sq_help_question d-inline">
-                            <a href="https://howto12.squirrly.co/kb/import-export-seo-settings/#import_seo" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                            <a href="https://howto.squirrly.co/kb/import-export-seo-settings/#import_seo" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                         </div>
                     </h3>
                     <div class="col-7 small m-0 p-0">
@@ -58,7 +58,7 @@ if ( ! isset( $view ) ) {
 
                                 <div class="col-12 m-0 p-0 my-2">
                                     <h3 class="card-title"><?php echo esc_html__( "Import Settings & SEO", 'squirrly-seo' ); ?>
-                                        <a href="https://howto12.squirrly.co/kb/import-export-seo-settings/#import_seo" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                                        <a href="https://howto.squirrly.co/kb/import-export-seo-settings/#import_seo" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                                     </h3>
                                     <div class="col-12 small m-0 p-0">
 										<?php echo esc_html__( "Import the settings and SEO from other plugins so you can use only Squirrly SEO for on-page SEO.", 'squirrly-seo' ); ?>
@@ -155,7 +155,7 @@ if ( ! isset( $view ) ) {
 
                                 <div class="col-12 m-0 p-0 my-2">
                                     <h3 class="card-title"><?php echo esc_html__( "Backup Settings & SEO", 'squirrly-seo' ); ?>
-                                        <a href="https://howto12.squirrly.co/kb/import-export-seo-settings/#backup_seo" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                                        <a href="https://howto.squirrly.co/kb/import-export-seo-settings/#backup_seo" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                                     </h3>
                                     <div class="col-12 text-left m-0 p-0">
                                         <div class="col-12 small m-0 p-0"><?php echo esc_html__( "Download your Squirrly settings in an SQL file before importing the SEO settings from another plugin. This way, you can always go back to your Squirrly settings.", 'squirrly-seo' ); ?></div>
@@ -229,7 +229,7 @@ if ( ! isset( $view ) ) {
 
                                 <div class="col-12 m-0 p-0 my-2">
                                     <h3 class="card-title"><?php echo esc_html__( "Restore Settings & SEO", 'squirrly-seo' ); ?>
-                                        <a href="https://howto12.squirrly.co/kb/import-export-seo-settings/#restore_seo" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                                        <a href="https://howto.squirrly.co/kb/import-export-seo-settings/#restore_seo" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                                     </h3>
                                     <div class="col-12 small m-0 p-0">
 										<?php echo esc_html__( "Restore the settings and all the pages optimized with Squirrly SEO.", 'squirrly-seo' ); ?>
@@ -305,7 +305,7 @@ if ( ! isset( $view ) ) {
 
                                 <div class="col-12 m-0 p-0 my-2">
                                     <h3 class="card-title"><?php echo esc_html__( "Rollback Plugin", 'squirrly-seo' ); ?>
-                                        <a href="https://howto12.squirrly.co/kb/import-export-seo-settings/#rollback_squirrly_seo" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                                        <a href="https://howto.squirrly.co/kb/import-export-seo-settings/#rollback_squirrly_seo" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                                     </h3>
                                     <div class="col-12 small m-0 p-0">
 										<?php echo esc_html__( "You can rollback Squirrly SEO plugin to the last stable version.", 'squirrly-seo' ); ?>

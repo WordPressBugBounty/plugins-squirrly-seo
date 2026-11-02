@@ -56,7 +56,7 @@ if ( ! empty( $view->focuspages ) ) { ?>
 	} ?>
 
     <div class="col-12 m-0 p-0 position-relative">
-        <div class="<?php echo( ! SQ_Classes_Helpers_Tools::getValue( 'sid' ) ? 'sq_overflow' : '' ) ?> col-12 m-0 p-0 flexcroll" <?php echo( ! SQ_Classes_Helpers_Tools::getValue( 'sid' ) ? 'style="max-height: 590px;"' : '' ) ?>>
+        <div class="<?php echo( ! SQ_Classes_Helpers_Tools::getValue( 'sid' ) ? 'sq_overflow' : '' ) ?> col-12 m-0 p-0 flexcroll"><?php //full height: every Focus Page shows; the frame only scrolls left/right ?>
             <div class="col-12 m-0 p-0 border-0 " style="display: inline-block;">
                 <table class="table table-striped table-hover <?php echo( SQ_Classes_Helpers_Tools::getValue( 'sid' ) ? 'detailed' : 'sq_focuspages_sticky' ) ?>">
                     <thead>

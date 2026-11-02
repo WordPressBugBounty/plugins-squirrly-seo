@@ -49,7 +49,7 @@ if ( ! isset( $view ) ) {
             <div class="row text-left m-0 p-0" style="max-width: 550px;">
                 <div class="col px-2 py-3">
                     <div class="col-12 m-0 p-0">
-                        <h3><?php echo esc_html__( "Squirrly SEO Main Features", "squirrly-seo" ) ?></h3>
+                        <h3><?php echo esc_html__( "Squirrly SEO Main Features", "squirrly-seo" ) ?> <div class="sq_help_question d-inline"><a href="https://howto.squirrly.co/kb/all-features/" target="_blank"><i class="fa-solid fa-question-circle"></i></a></div></h3>
                         <div class="small text-dark"><?php echo esc_html__( "Manage the features & access them directly from here.", "squirrly-seo" ); ?></div>
                         <a href="https://www.squirrly.co/wordpress/plugins/seo/" class="small" target="_blank">
 							<?php if ( SQ_Classes_Helpers_Tools::getIsset( 'sfeature' ) ) { ?>

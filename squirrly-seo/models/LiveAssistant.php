@@ -70,6 +70,16 @@ class SQ_Models_LiveAssistant {
 			'__date'                 => esc_html__( 'date', 'squirrly-seo' ),
 			'__noconnection'         => esc_html__( "To load the Live Assistant and optimize this page, click to connect to Squirrly Cloud.", 'squirrly-seo' ),
 			'__reconnect'            => esc_html__( "This site was cloned, staged or moved, so Squirrly Cloud can no longer verify it. Click to reconnect this site.", 'squirrly-seo' ),
+			//One message per checkin error, so a Cloud outage or a blocked request is not shown as a cloned site
+			'__maintenance'          => esc_html__( "Squirrly Cloud is down for a bit of maintenance right now. But we'll be back in a minute.", 'squirrly-seo' ),
+			'__unavailable'          => esc_html__( "This website can't reach Squirrly Cloud right now. Refresh the page in a minute. If the message stays, ask your host to allow outgoing connections to api.squirrly.co.", 'squirrly-seo' ),
+			'__urlchange'            => esc_html__( "Squirrly Cloud noticed this site's address changed and is verifying it. This takes about a minute - please refresh the page shortly.", 'squirrly-seo' ),
+			'__toomanyrequests'      => esc_html__( "Too many API attempts, please slow down the request.", 'squirrly-seo' ),
+			'__nopermission'         => esc_html__( "You do not have permission to perform this action", 'squirrly-seo' ),
+			'__checkinerror'         => esc_html__( "Squirrly Cloud couldn't load the Live Assistant data. Refresh the page in a minute. Error code:", 'squirrly-seo' ),
+			//Absolute admin links: the Floating Box also runs on front-end pages, where a relative admin.php link breaks
+			'dashboard_url'          => esc_url( admin_url( 'admin.php?page=sq_dashboard' ) ),
+			'reconnect_url'          => esc_url( wp_nonce_url( admin_url( 'admin.php?page=sq_dashboard&action=sq_account_reconnect' ), 'sq_account_reconnect', 'sq_nonce' ) ),
 			'__saved'                => esc_html__( 'Saved!', 'squirrly-seo' ),
 			'__readit'               => esc_html__( 'Read it!', 'squirrly-seo' ),
 			'__insertit'             => esc_html__( 'Insert it!', 'squirrly-seo' ),

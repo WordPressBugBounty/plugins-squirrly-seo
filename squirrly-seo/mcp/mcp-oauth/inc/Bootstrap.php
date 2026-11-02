@@ -38,7 +38,7 @@ final class Bootstrap {
 	/**
 	 * Bumped whenever any endpoint's or discovery document's rewrite regex changes.
 	 */
-	private const REWRITE_VERSION = '1';
+	private const REWRITE_VERSION = '2';
 
 	/**
 	 * Option storing the rewrite-rules version last flushed for.

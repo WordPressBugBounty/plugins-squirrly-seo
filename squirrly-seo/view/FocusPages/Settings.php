@@ -17,7 +17,7 @@ if ( ! isset( $view ) ) {
     <div id="sq_content" class="d-flex flex-row bg-white my-0 p-0 m-0">
 		<?php
 		if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_focuspages' ) ) {
-			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role.", 'squirrly-seo' ) . '</div>';
+			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Editor role.", 'squirrly-seo' ) . '<a href="https://howto.squirrly.co/ht_kb/squirrly-user-roles/#error" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></div>';
 
 			return;
 		}
@@ -37,7 +37,7 @@ if ( ! isset( $view ) ) {
                     <h3 class="mt-4 card-title">
 						<?php echo esc_html__( "Focus Pages Settings", 'squirrly-seo' ); ?>
                         <div class="sq_help_question d-inline">
-                            <a href="https://howto12.squirrly.co/kb/focus-pages-innerlinks/#settings" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                            <a href="https://howto.squirrly.co/kb/focus-pages-innerlinks/#settings" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                         </div>
                     </h3>
 
@@ -51,7 +51,7 @@ if ( ! isset( $view ) ) {
                                         <input type="hidden" name="sq_auto_innelinks" value="0"/>
                                         <input type="checkbox" id="sq_auto_innelinks" name="sq_auto_innelinks" class="sq-switch" <?php echo( ( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_innelinks' ) ) ? 'checked="checked"' : '' ); ?> value="1"/>
                                         <label for="sq_auto_innelinks" class="ml-1"><?php echo esc_html__( "Use Inner Links Assistant", 'squirrly-seo' ); ?>
-                                            <a href="https://howto12.squirrly.co/kb/focus-pages-innerlinks/#activate" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                            <a href="https://howto.squirrly.co/kb/focus-pages-innerlinks/#activate" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                         </label>
                                         <div class="small text-black-50 ml-5"><?php echo esc_html__( "Activate Inner Links to Focus Pages based on optimized keywords", 'squirrly-seo' ); ?></div>
                                     </div>
@@ -62,7 +62,7 @@ if ( ! isset( $view ) ) {
                                 <div class="col-4 p-0 pr-3 font-weight-bold">
                                     <label for="sq_innelinks_links_per_keyword"><?php echo esc_html__( "Maximum Inner Links Per Keyword", 'squirrly-seo' ); ?>
                                         :</label>
-                                    <a href="https://howto12.squirrly.co/kb/focus-pages-innerlinks/#max_links_per_keyword" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                    <a href="https://howto.squirrly.co/kb/focus-pages-innerlinks/#max_links_per_keyword" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                     <div class="small text-black-50 my-1"><?php echo esc_html__( "The maximum number of keywords that will have links to a Focus Page once it is found.", 'squirrly-seo' ); ?></div>
                                 </div>
                                 <div class="col-2 p-0 input-group">
@@ -74,7 +74,7 @@ if ( ! isset( $view ) ) {
                                 <div class="col-4 p-0 pr-3 font-weight-bold">
                                     <label for="sq_innelinks_links_per_target"><?php echo esc_html__( "Maximum Inner Links Per Target", 'squirrly-seo' ); ?>
                                         :</label>
-                                    <a href="https://howto12.squirrly.co/kb/focus-pages-innerlinks/#max_links_per_target" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                    <a href="https://howto.squirrly.co/kb/focus-pages-innerlinks/#max_links_per_target" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                     <div class="small text-black-50 my-1"><?php echo esc_html__( "The maximum number of links that will point to a Focus Page once a keyword is found.", 'squirrly-seo' ); ?></div>
                                 </div>
                                 <div class="col-2 p-0 input-group">
@@ -88,7 +88,7 @@ if ( ! isset( $view ) ) {
                                         <input type="hidden" name="sq_innelinks_link_nofollow" value="0"/>
                                         <input type="checkbox" id="sq_innelinks_link_nofollow" name="sq_innelinks_link_nofollow" class="sq-switch" <?php echo( ( SQ_Classes_Helpers_Tools::getOption( 'sq_innelinks_link_nofollow' ) ) ? 'checked="checked"' : '' ); ?> value="1"/>
                                         <label for="sq_innelinks_link_nofollow" class="ml-1"><?php echo esc_html__( "Default NoFollow Inner Links", 'squirrly-seo' ); ?>
-                                            <a href="https://howto12.squirrly.co/kb/focus-pages-innerlinks/#nofollow" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                            <a href="https://howto.squirrly.co/kb/focus-pages-innerlinks/#nofollow" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                         </label>
                                         <div class="small text-black-50 ml-5"><?php echo esc_html__( "Add re=nofollow by default to all inner links.", 'squirrly-seo' ); ?></div>
                                     </div>
@@ -101,7 +101,7 @@ if ( ! isset( $view ) ) {
                                         <input type="hidden" name="sq_innelinks_link_blank" value="0"/>
                                         <input type="checkbox" id="sq_innelinks_link_blank" name="sq_innelinks_link_blank" class="sq-switch" <?php echo( ( SQ_Classes_Helpers_Tools::getOption( 'sq_innelinks_link_blank' ) ) ? 'checked="checked"' : '' ); ?> value="1"/>
                                         <label for="sq_innelinks_link_blank" class="ml-1"><?php echo esc_html__( "Default Open Inner Links in New Tab", 'squirrly-seo' ); ?>
-                                            <a href="https://howto12.squirrly.co/kb/focus-pages-innerlinks/#blank" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                            <a href="https://howto.squirrly.co/kb/focus-pages-innerlinks/#blank" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                         </label>
                                         <div class="small text-black-50 ml-5"><?php echo esc_html__( "Open all inner links in a new tab by default.", 'squirrly-seo' ); ?></div>
                                     </div>

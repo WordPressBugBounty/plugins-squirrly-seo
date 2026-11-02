@@ -11,6 +11,11 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 		if ( SQ_Classes_Helpers_Tools::userCan( 'sq_manage_snippet' ) ) {
 			if ($this->features === false ) {
 				$this->features = SQ_Classes_ObjController::getClass( 'SQ_Core_BlockFeatures' )->getFeatures();
+
+				//Links like &sfeature=seo+automation open the list already filtered (read-only, no form nonce needed)
+				if ( SQ_Classes_Helpers_Tools::getValue( 'sfeature', '' ) <> '' ) {
+					$this->filterFeatures( (string) SQ_Classes_Helpers_Tools::getValue( 'sfeature', '' ) );
+				}
 			}
 		}
 
@@ -49,7 +54,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => true,
 				'logo'        => 'fa-solid fa-cloud',
 				'link'        => SQ_Classes_RemoteController::getMySquirrlyLink( 'dashboard' ),
-				'details'     => 'https://howto12.squirrly.co/kb/squirrly-cloud-app/',
+				'details'     => 'https://howto.squirrly.co/kb/squirrly-cloud-app/',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_account_info' ),
 			), //Squirrly Cloud
 			array(
@@ -63,7 +68,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => true,
 				'logo'        => 'fa-solid fa-car',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_onboarding', 'journey' ),
-				'details'     => 'https://howto12.squirrly.co/kb/install-squirrly-seo-plugin/#journey',
+				'details'     => 'https://howto.squirrly.co/kb/14-days-journey/',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_journey' ),
 			), //14 Days Journey Course
 			array(
@@ -77,7 +82,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => true,
 				'logo'        => 'fa-solid fa-forward-step',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_checkseo' ),
-				'details'     => 'https://howto12.squirrly.co/kb/next-seo-goals/',
+				'details'     => 'https://howto.squirrly.co/kb/next-seo-goals/',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_seogoals' ),
 			),//Next SEO Goals
 			array(
@@ -91,7 +96,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => true,
 				'logo'        => 'fa-solid fa-dumbbell',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_dashboard', '', array( '#progress' ) ),
-				'details'     => 'https://howto12.squirrly.co/kb/next-seo-goals/',
+				'details'     => 'https://howto.squirrly.co/kb/next-seo-goals/',
 				'show'        => true,
 			),//Progress
 			array(
@@ -105,7 +110,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => true,
 				'logo'        => 'fa-solid fa-bullseye-arrow',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_focuspages', 'pagelist' ),
-				'details'     => 'https://howto12.squirrly.co/kb/focus-pages-page-audits/',
+				'details'     => 'https://howto.squirrly.co/kb/focus-pages-page-audits/',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_focuspages' ),
 			), //Focus Pages
 			array(
@@ -119,7 +124,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => true,
 				'logo'        => 'fa-solid fa-image',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'settings' ),
-				'details'     => 'https://howto12.squirrly.co/kb/squirrly-live-assistant/#copyright_free_images',
+				'details'     => 'https://howto.squirrly.co/kb/squirrly-live-assistant/#copyright_free_images',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_assistant' ),
 			), //Blogging Assistant
 			array(
@@ -133,7 +138,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-message-image',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'settings' ),
-				'details'     => 'https://howto12.squirrly.co/kb/squirrly-live-assistant/#seo_image',
+				'details'     => 'https://howto.squirrly.co/kb/squirrly-live-assistant/#seo_image',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_assistant' ),
 			), //
 			array(
@@ -162,7 +167,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fasq-brands fa-facebook-f',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'social' ),
-				'details'     => 'https://howto12.squirrly.co/kb/social-media-settings/#opengraph',
+				'details'     => 'https://howto.squirrly.co/kb/social-media-settings/#opengraph',
 				'show'        => true,
 			),//Open Graph Optimization
 			array(
@@ -176,7 +181,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fasq-brands fa-x-twitter',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'social' ),
-				'details'     => 'https://howto12.squirrly.co/kb/social-media-settings/#twittercard',
+				'details'     => 'https://howto.squirrly.co/kb/social-media-settings/#twittercard',
 				'show'        => true,
 			),//Twitter Card Optimization
 			array(
@@ -190,7 +195,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fasq-brands fa-facebook-f',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'webmaster#tab=trackers' ),
-				'details'     => 'https://howto12.squirrly.co/kb/google-analytics-tracking-tool/#facebook_pixel',
+				'details'     => 'https://howto.squirrly.co/kb/google-analytics-tracking-tool/#facebook_pixel',
 				'show'        => true,
 			), //Facebook Pixel Tracking
 
@@ -205,7 +210,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => true,
 				'logo'        => 'fa-solid fa-key',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_research', 'research' ),
-				'details'     => 'https://howto12.squirrly.co/kb/keyword-research-and-seo-strategy/',
+				'details'     => 'https://howto.squirrly.co/kb/keyword-research-and-seo-strategy/',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_research' ),
 			), //AI Research
 			array(
@@ -219,7 +224,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => true,
 				'logo'        => 'fa-solid fa-briefcase',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_research', 'briefcase' ),
-				'details'     => 'https://howto12.squirrly.co/kb/keyword-research-and-seo-strategy/#briefcase',
+				'details'     => 'https://howto.squirrly.co/kb/keyword-research-and-seo-strategy/#briefcase',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_research' ),
 			),//SEO Briefcase
 			array(
@@ -233,7 +238,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => true,
 				'logo'        => 'fa-solid fa-arrow-trend-up',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_focuspages', 'pagelist' ),
-				'details'     => 'https://howto12.squirrly.co/kb/focus-pages-page-audits/#chance_to_rank',
+				'details'     => 'https://howto.squirrly.co/kb/focus-pages-page-audits/#chance_to_rank',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_focuspages' ),
 			), //Chances of Ranking
 			array(
@@ -247,7 +252,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => true,
 				'logo'        => 'fa-solid fa-chart-waterfall',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_research', 'research' ),
-				'details'     => 'https://howto12.squirrly.co/kb/keyword-research-and-seo-strategy/',
+				'details'     => 'https://howto.squirrly.co/kb/keyword-research-and-seo-strategy/',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_research' ),
 			), //AI Research
 			array(
@@ -261,7 +266,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => true,
 				'logo'        => 'fa-solid fa-chart-line',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_rankings', 'rankings' ),
-				'details'     => 'https://howto12.squirrly.co/kb/ranking-serp-checker/',
+				'details'     => 'https://howto.squirrly.co/kb/ranking-serp-checker/',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_rankings' ),
 			),//Google SERP with GSC
 			array(
@@ -275,7 +280,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => true,
 				'logo'        => 'fa-solid fa-key',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant' ),
-				'details'     => 'https://howto12.squirrly.co/kb/squirrly-live-assistant/#add_keyword',
+				'details'     => 'https://howto.squirrly.co/kb/squirrly-live-assistant/#add_keyword',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_assistant' ),
 			),//Keywords Optimization
 			array(
@@ -289,7 +294,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-bolt',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'category' ),
-				'details'     => 'https://howto12.squirrly.co/ht_kb/how-to-remove-the-category-base-from-wordpress/',
+				'details'     => 'https://howto.squirrly.co/kb/no-category-base/',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_categories' ),
 				'keywords'    => 'categories,category,path'
 			),
@@ -304,7 +309,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => true,
 				'logo'        => 'fa-solid fa-message',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant' ),
-				'details'     => 'https://howto12.squirrly.co/kb/squirrly-live-assistant/',
+				'details'     => 'https://howto.squirrly.co/kb/squirrly-live-assistant/',
 				'keywords'    => 'live,assistant',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_assistant' ),
 			),//Live Assistant
@@ -319,7 +324,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-message',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'settings' ),
-				'details'     => 'https://howto12.squirrly.co/kb/squirrly-live-assistant/#elementor',
+				'details'     => 'https://howto.squirrly.co/kb/squirrly-live-assistant/#elementor',
 				'show'        => ( SQ_Classes_Helpers_Tools::isPluginInstalled( 'elementor/elementor.php' ) && SQ_Classes_Helpers_Tools::getMenuVisible( 'show_assistant' ) ),
 			),//Live Assistant Elementor
 			array(
@@ -333,7 +338,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-message',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'settings' ),
-				'details'     => 'https://howto12.squirrly.co/kb/squirrly-live-assistant/#oxygen',
+				'details'     => 'https://howto.squirrly.co/kb/squirrly-live-assistant/#oxygen',
 				'show'        => ( SQ_Classes_Helpers_Tools::isPluginInstalled( 'oxygen/functions.php' ) && SQ_Classes_Helpers_Tools::getMenuVisible( 'show_assistant' ) ),
 			),//Live Assistant Oxygen
 			array(
@@ -347,7 +352,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-message',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'settings' ),
-				'details'     => 'https://howto12.squirrly.co/kb/squirrly-live-assistant/#divi',
+				'details'     => 'https://howto.squirrly.co/kb/squirrly-live-assistant/#divi',
 				'show'        => ( SQ_Classes_Helpers_Tools::isPluginInstalled( 'divi-builder/divi-builder.php' ) || SQ_Classes_Helpers_Tools::isThemeActive( 'Divi' ) ),
 			),//Live Assistant Divi
 			array(
@@ -361,7 +366,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-message',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'settings' ),
-				'details'     => 'https://howto12.squirrly.co/kb/squirrly-live-assistant/#thrive',
+				'details'     => 'https://howto.squirrly.co/kb/squirrly-live-assistant/#thrive',
 				'show'        => SQ_Classes_Helpers_Tools::isPluginInstalled( 'thrive-visual-editor/thrive-visual-editor.php' ),
 			),//Live Assistant Thrive Architect
 			array(
@@ -375,7 +380,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-message',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'settings' ),
-				'details'     => 'https://howto12.squirrly.co/kb/squirrly-live-assistant/#bricks',
+				'details'     => 'https://howto.squirrly.co/kb/squirrly-live-assistant/#bricks',
 				'show'        => SQ_Classes_Helpers_Tools::isThemeActive( 'bricks' ),
 			),//Live Assistant Bricks Website Builder
 			array(
@@ -389,7 +394,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-message',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'settings' ),
-				'details'     => 'https://howto12.squirrly.co/kb/squirrly-live-assistant/#wpbakery',
+				'details'     => 'https://howto.squirrly.co/kb/squirrly-live-assistant/#wpbakery',
 				'show'        => SQ_Classes_Helpers_Tools::isPluginInstalled( 'js_composer/js_composer.php' ),
 			),//Live Assistant WPBakery Builder
 			array(
@@ -403,7 +408,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-message',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'settings' ),
-				'details'     => 'https://howto12.squirrly.co/kb/squirrly-live-assistant/#zion',
+				'details'     => 'https://howto.squirrly.co/kb/squirrly-live-assistant/#zion',
 				'show'        => SQ_Classes_Helpers_Tools::isPluginInstalled( 'zionbuilder/zionbuilder.php' ),
 			),//Live Assistant Zion Editor
 			array(
@@ -417,7 +422,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => true,
 				'logo'        => 'fa-solid fa-messages',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant' ),
-				'details'     => 'https://howto12.squirrly.co/kb/squirrly-live-assistant/#live_assistant_box',
+				'details'     => 'https://howto.squirrly.co/kb/squirrly-live-assistant/#live_assistant_box',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_assistant' ),
 			), //Blogging Assistant
 			array(
@@ -445,7 +450,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-code-simple',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'metas' ),
-				'details'     => 'https://howto12.squirrly.co/kb/seo-metas/',
+				'details'     => 'https://howto.squirrly.co/kb/seo-metas/',
 				'show'        => true,
 			), //On-Page SEO METAs
 			array(
@@ -459,7 +464,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-block-brick',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
-				'details'     => 'https://howto12.squirrly.co/kb/bulk-seo/',
+				'details'     => 'https://howto.squirrly.co/kb/bulk-seo/',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_bulkseo' ),
 			),//Bulk SEO
 			array(
@@ -473,7 +478,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-align-justify',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'metas' ),
-				'details'     => 'https://howto12.squirrly.co/kb/seo-metas/#Add-Snippet-in-Frontend',
+				'details'     => 'https://howto.squirrly.co/kb/seo-metas/#Add-Snippet-in-Frontend',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_assistant' ),
 			),//Frontend SEO Snippet
 			array(
@@ -487,7 +492,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => true,
 				'logo'        => 'fa-solid fa-arrows-repeat',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'settings' ),
-				'details'     => 'https://howto12.squirrly.co/kb/squirrly-live-assistant/#fetch_social',
+				'details'     => 'https://howto.squirrly.co/kb/squirrly-live-assistant/#fetch_social',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_assistant' ),
 			), //
 			array(
@@ -501,7 +506,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-copy',
 				'link'        => false,
-				'details'     => 'https://howto12.squirrly.co/kb/seo-metas/#remove_duplicates',
+				'details'     => 'https://howto.squirrly.co/kb/seo-metas/#remove_duplicates',
 				'show'        => true,
 			), //Remove META Duplicate
 			array(
@@ -515,7 +520,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-arrow-up-from-bracket',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'backup' ),
-				'details'     => 'https://howto12.squirrly.co/kb/import-export-seo-settings/',
+				'details'     => 'https://howto.squirrly.co/kb/import-export-seo-settings/',
 				'show'        => true,
 			), //Import SEO & Settings
 			array(
@@ -529,7 +534,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-link',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'tweaks#tab=links' ),
-				'details'     => 'https://howto12.squirrly.co/kb/seo-links/',
+				'details'     => 'https://howto.squirrly.co/kb/seo-links/',
 				'show'        => true,
 			), //SEO Links
 			array(
@@ -543,7 +548,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-link',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_focuspages', 'innerlinks' ),
-				'details'     => 'https://howto12.squirrly.co/kb/focus-pages-innerlinks',
+				'details'     => 'https://howto.squirrly.co/kb/focus-pages-innerlinks',
 				'keywords'    => 'innerlink,innerlinks,backlink,backlinks',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_innerlinks' ),
 			), //SEO Links
@@ -558,7 +563,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-angles-right',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_automation', 'automation', array( '#tab=sq_post' ) ),
-				'details'     => 'https://howto12.squirrly.co/kb/seo-automation/#redirect_broken_urls',
+				'details'     => 'https://howto.squirrly.co/kb/seo-automation/#redirect_broken_urls',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_redirects' ),
 			), //404 Redirects
 			array(
@@ -586,7 +591,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-chart-line-up',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'webmaster#tab=trackers' ),
-				'details'     => 'https://howto12.squirrly.co/kb/google-analytics-tracking-tool/#google_analytics',
+				'details'     => 'https://howto.squirrly.co/kb/google-analytics-tracking-tool/#google_analytics',
 				'show'        => true,
 			), //Google Analytics Tracking
 			array(
@@ -600,7 +605,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => true,
 				'logo'        => 'fasq-brands fa-google',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_rankings', 'settings' ),
-				'details'     => 'https://howto12.squirrly.co/kb/ranking-serp-checker/#google_search_console',
+				'details'     => 'https://howto.squirrly.co/kb/ranking-serp-checker/#google_search_console',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_rankings' ),
 			), //Google Search Console
 			array(
@@ -614,9 +619,23 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-wrench',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'webmaster#tab=connect' ),
-				'details'     => 'https://howto12.squirrly.co/kb/webmaster-tools-settings/',
+				'details'     => 'https://howto.squirrly.co/kb/webmaster-tools-settings/',
 				'show'        => true,
 			), //Webmaster Tools
+			array(
+				'title'       => "Connect Claude & AI Assistants",
+				'description' => "Let <strong>Claude, ChatGPT or OpenAI Codex</strong> read and update your SEO, add Briefcase keywords and Focus Pages, and request a GEO Audit. You approve the connection from your own WordPress login.",
+				'category'    => "Integration Features",
+				'mainfeature' => false,
+				'option'      => 'sq_mcp_oauth',
+				'active'      => SQ_Classes_Helpers_Tools::getOption( 'sq_mcp_oauth' ),
+				'optional'    => true,
+				'connection'  => false,
+				'logo'        => 'fa-solid fa-robot',
+				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'webmaster#tab=aitools' ),
+				'details'     => 'https://howto.squirrly.co/kb/how-to-connect-mcp-plugins-to-squirrly-seo/',
+				'show'        => true,
+			), //AI Assistants (MCP)
 			array(
 				'title'       => "Plugins Integration",
 				'description' => "Squirrly SEO works with all websites types and popular plugins like <strong>E-commerce plugins, Page Builder plugins, Cache plugins, SEO plugins, Multilingual plugins, and more</strong>.",
@@ -628,7 +647,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-puzzle-piece',
 				'link'        => false,
-				'details'     => 'https://howto12.squirrly.co/',
+				'details'     => 'https://howto.squirrly.co/',
 				'show'        => true,
 			), //
 			array(
@@ -642,7 +661,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => true,
 				'logo'        => 'fa-solid fa-puzzle-piece',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_audits', 'audits' ),
-				'details'     => 'https://howto12.squirrly.co/kb/seo-audit/#moz',
+				'details'     => 'https://howto.squirrly.co/kb/seo-audit/#moz',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_audit' ),
 			), //SEO Audit Moz
 			array(
@@ -656,7 +675,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => true,
 				'logo'        => 'fa-solid fa-puzzle-piece',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_audits', 'audits' ),
-				'details'     => 'https://howto12.squirrly.co/kb/focus-pages-page-audits/#page_authority',
+				'details'     => 'https://howto.squirrly.co/kb/focus-pages-page-audits/#page_authority',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_audit' ),
 			), //SEO Focus Pages Majestic
 			array(
@@ -670,7 +689,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => true,
 				'logo'        => 'fa-solid fa-puzzle-piece',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_audits', 'audits' ),
-				'details'     => 'https://howto12.squirrly.co/kb/seo-audit/#semrush',
+				'details'     => 'https://howto.squirrly.co/kb/seo-audit/#semrush',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_audit' ),
 			), //SEO Audit Semrush
 			array(
@@ -684,7 +703,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-puzzle-piece',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo' ),
-				'details'     => 'https://howto12.squirrly.co/wordpress-seo/compatibility-with-polylang-plugin/',
+				'details'     => 'https://howto.squirrly.co/ht_kb/compatibility-with-polylang-plugin/',
 				'show'        => ( SQ_Classes_Helpers_Tools::isPluginInstalled( 'polylang/polylang.php' ) || SQ_Classes_Helpers_Tools::isPluginInstalled( 'polylang-pro/polylang.php' ) ),
 			), //
 			array(
@@ -698,7 +717,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-puzzle-piece',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'bulkseo', array( 'stype=product' ) ),
-				'details'     => 'https://howto12.squirrly.co/kb/json-ld-structured-data/#woocommerce',
+				'details'     => 'https://howto.squirrly.co/kb/json-ld-structured-data/#woocommerce',
 				'show'        => SQ_Classes_Helpers_Tools::isEcommerce(),
 			), //
 			array(
@@ -712,7 +731,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-puzzle-piece',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'jsonld' ),
-				'details'     => 'https://howto12.squirrly.co/kb/json-ld-structured-data/#ACF',
+				'details'     => 'https://howto.squirrly.co/kb/json-ld-structured-data/#ACF',
 				'keywords'    => 'rich,snippets,jsonld,advanced,custom,fields,acf,video',
 				'show'        => SQ_Classes_Helpers_Tools::isAcfActive(),
 			), //Advanced Custom Fields
@@ -727,7 +746,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fasq-brands fa-google',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'tweaks' ),
-				'details'     => 'https://howto12.squirrly.co/kb/sitemap-xml-settings/#news_sitemap',
+				'details'     => 'https://howto.squirrly.co/kb/sitemap-xml-settings/#news_sitemap',
 				'show'        => true,
 			), //Sitemap Instant Indexing
 			array(
@@ -741,7 +760,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-bolt',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'webmaster#tab=amp' ),
-				'details'     => 'https://howto12.squirrly.co/kb/google-analytics-tracking-tool/#amp_support',
+				'details'     => 'https://howto.squirrly.co/kb/google-analytics-tracking-tool/#amp_support',
 				'keywords'    => 'mobile,pad,speed',
 				'show'        => true,
 			), //
@@ -756,7 +775,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => true,
 				'logo'        => 'fa-solid fa-gauge-high',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_audits', 'audits' ),
-				'details'     => 'https://howto12.squirrly.co/kb/seo-audit/#google_pagespeed',
+				'details'     => 'https://howto.squirrly.co/kb/seo-audit/#google_pagespeed',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_audit' ),
 			), //SEO Audit Google PageSpeed
 			array(
@@ -770,7 +789,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => true,
 				'logo'        => 'fa-solid fa-chart-line',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_rankings', 'rankings' ),
-				'details'     => 'https://howto12.squirrly.co/kb/ranking-serp-checker/',
+				'details'     => 'https://howto.squirrly.co/kb/ranking-serp-checker/',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_rankings' ),
 			), //Google SERP Checker
 			array(
@@ -784,7 +803,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => true,
 				'logo'        => 'fa-solid fa-chart-column',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_audits', 'audits' ),
-				'details'     => 'https://howto12.squirrly.co/kb/seo-audit/',
+				'details'     => 'https://howto.squirrly.co/kb/seo-audit/',
 				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_audit' ),
 			), //SEO Audit
 			array(
@@ -798,7 +817,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-map',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'tweaks' ),
-				'details'     => 'https://howto12.squirrly.co/kb/sitemap-xml-settings/',
+				'details'     => 'https://howto.squirrly.co/kb/sitemap-xml-settings/',
 				'show'        => true,
 			), //XML Sitemap
 			array(
@@ -812,7 +831,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-barcode-read',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'jsonld' ),
-				'details'     => 'https://howto12.squirrly.co/kb/json-ld-structured-data/',
+				'details'     => 'https://howto.squirrly.co/kb/json-ld-structured-data/',
 				'keywords'    => 'rich,snippets,jsonld,video',
 				'show'        => true,
 			), //JSON-LD Optimizaition
@@ -827,7 +846,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-barcode-read',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'jsonld#tab=personal' ),
-				'details'     => 'https://howto12.squirrly.co/kb/json-ld-structured-data/#Add-JSON-LD-Profile',
+				'details'     => 'https://howto.squirrly.co/kb/json-ld-structured-data/#Add-JSON-LD-Profile',
 				'keywords'    => 'rich,snippets,jsonld,personal,video',
 				'show'        => true,
 			), //JSON-LD Optimizaition
@@ -870,7 +889,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-image',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'tweaks#tab=favicon' ),
-				'details'     => 'https://howto12.squirrly.co/kb/website-favicon-settings/',
+				'details'     => 'https://howto.squirrly.co/kb/website-favicon-settings/',
 				'show'        => true,
 			), //Favicon Site Icon
 			array(
@@ -884,7 +903,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-location-dot',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'jsonld', array( '#localseo' ) ),
-				'details'     => 'https://howto12.squirrly.co/kb/json-ld-structured-data/#local_seo',
+				'details'     => 'https://howto.squirrly.co/kb/json-ld-structured-data/#local_seo',
 				'show'        => true,
 			), //
 			array(
@@ -898,7 +917,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'connection'  => false,
 				'logo'        => 'fa-solid fa-bolt',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', 'automation' ),
-				'details'     => 'https://howto12.squirrly.co/kb/seo-automation/',
+				'details'     => 'https://howto.squirrly.co/kb/seo-automation/',
 				'show'        => true,
 				'keywords'    => 'pattern,patterns,automation,seo'
 			),//SEO Automation
@@ -938,58 +957,67 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 		switch ( SQ_Classes_Helpers_Tools::getValue( 'action' ) ) {
 			case 'sq_features_search':
 
-				$search      = (string) SQ_Classes_Helpers_Tools::getValue( 'sfeature', '' );
 				$this->features = SQ_Classes_ObjController::getClass( 'SQ_Core_BlockFeatures' )->getFeatures();
-
-				//Search in the features
-				if ( $search <> '' ) {
-					foreach ( $this->features as $index => $feature ) {
-
-						if ( isset( $feature['show'] ) && ! $feature['show'] ) {
-							unset( $this->features[ $index ] );
-							continue;
-						}
-
-						$this->features[ $index ]['relevant'] = 0;
-
-						$sfeatures = SQ_Classes_Helpers_Tools::getValue( 'sfeature' );
-						$sfeatures = explode( ' ', $sfeatures );
-						if ( ! empty( $sfeatures ) ) {
-							$found = 0;
-
-							foreach ( $sfeatures as $sfeature ) {
-								if ( $sfeature <> '' ) {
-									if ( stripos( $feature['title'], $sfeature ) !== false ) {
-										$found ++;
-									}
-									if ( stripos( $feature['description'], $sfeature ) !== false ) {
-										$found ++;
-									}
-									if ( isset( $feature['keywords'] ) && $feature['keywords'] <> '' ) {
-										if ( SQ_Classes_Helpers_Tools::findStr( $feature['keywords'], $sfeature ) !== false ) {
-											$found ++;
-										}
-									}
-								}
-							}
-
-							if ( ! $found ) {
-								$this->features[ $index ]['show'] = false;
-							} else {
-								$this->features[ $index ]['relevant'] = $found;
-							}
-
-						}
-					}
-
-					usort( $this->features, function ( $a, $b ) {
-						return ( $a['relevant'] > $b['relevant'] ) ? - 1 : 1;
-					} );
-
-				}
+				$this->filterFeatures( (string) SQ_Classes_Helpers_Tools::getValue( 'sfeature', '' ) );
 
 				break;
 		}
 
+	}
+
+	/**
+	 * Keep only the features that match the search words (title, description, keywords)
+	 *
+	 * @param string $search
+	 *
+	 * @return void
+	 */
+	public function filterFeatures( $search ) {
+		//Search in the features
+		if ( $search <> '' ) {
+			foreach ( $this->features as $index => $feature ) {
+
+				if ( isset( $feature['show'] ) && ! $feature['show'] ) {
+					unset( $this->features[ $index ] );
+					continue;
+				}
+
+				$this->features[ $index ]['relevant'] = 0;
+
+				$sfeatures = $search;
+				$sfeatures = explode( ' ', $sfeatures );
+				if ( ! empty( $sfeatures ) ) {
+					$found = 0;
+
+					foreach ( $sfeatures as $sfeature ) {
+						if ( $sfeature <> '' ) {
+							if ( stripos( $feature['title'], $sfeature ) !== false ) {
+								$found ++;
+							}
+							if ( stripos( $feature['description'], $sfeature ) !== false ) {
+								$found ++;
+							}
+							if ( isset( $feature['keywords'] ) && $feature['keywords'] <> '' ) {
+								if ( SQ_Classes_Helpers_Tools::findStr( $feature['keywords'], $sfeature ) !== false ) {
+									$found ++;
+								}
+							}
+						}
+					}
+
+					if ( ! $found ) {
+						$this->features[ $index ]['show'] = false;
+					} else {
+						$this->features[ $index ]['relevant'] = $found;
+					}
+
+				}
+			}
+
+			usort( $this->features, function ( $a, $b ) {
+				return ( $a['relevant'] > $b['relevant'] ) ? - 1 : 1;
+			} );
+
+		}
 	}
 }

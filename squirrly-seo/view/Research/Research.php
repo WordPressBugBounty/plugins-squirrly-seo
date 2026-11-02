@@ -16,7 +16,7 @@ if ( ! isset( $view ) ) {
     <div id="sq_content" class="d-flex flex-row bg-white my-0 p-0 m-0">
 		<?php
 		if ( ! apply_filters( 'sq_load_snippet', true ) || ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_snippet' ) ) {
-			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Editor role.", 'squirrly-seo' ) . '</div>';
+			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need a WordPress role that can edit posts, like Author or Editor.", 'squirrly-seo' ) . '<a href="https://howto.squirrly.co/ht_kb/squirrly-user-roles/#error" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></div>';
 
 			return;
 		}
@@ -45,7 +45,7 @@ if ( ! isset( $view ) ) {
                     <h3 class="mt-4 card-title">
 						<?php echo esc_html__( "Keyword Research", 'squirrly-seo' )  . ' 1/3'; ?>
                         <div class="sq_help_question d-inline">
-                            <a href="https://howto12.squirrly.co/kb/keyword-research-and-seo-strategy/#keyword_research" target="_blank"><i class="fa-solid fa-question-circle"></i></a>
+                            <a href="https://howto.squirrly.co/kb/keyword-research-and-seo-strategy/#keyword_research" target="_blank"><i class="fa-solid fa-question-circle"></i></a>
                         </div>
                     </h3>
                     <div class="col-7 small m-0 p-0">
@@ -129,7 +129,7 @@ if ( ! isset( $view ) ) {
                     <h3 class="card-title">
 						<?php echo esc_html__( "Keyword Research - Suggestions", 'squirrly-seo' ) . ' 2/3'; ?>
                         <div class="sq_help_question d-inline">
-                            <a href="https://howto12.squirrly.co/kb/keyword-research-and-seo-strategy/#keyword_research" target="_blank"><i class="fa-solid fa-question-circle"></i></a>
+                            <a href="https://howto.squirrly.co/kb/keyword-research-and-seo-strategy/#keyword_research" target="_blank"><i class="fa-solid fa-question-circle"></i></a>
                         </div>
                     </h3>
                     <div class="col-7 small m-0 p-0"><?php echo esc_html__( "(optional) Select similar keywords from below. Each keyword is worth a credit; meaning each keyword you choose will consume one research from your quota.", 'squirrly-seo' ) ?></div>
@@ -239,7 +239,7 @@ if ( ! isset( $view ) ) {
                     <h3 class="sq_research_success card-title" style="display: none">
 						<?php echo esc_html__( "Keyword Research - Results", 'squirrly-seo' ) . ' 3/3'; ?>
                         <div class="sq_help_question d-inline">
-                            <a href="https://howto12.squirrly.co/kb/keyword-research-and-seo-strategy/#keyword_research" target="_blank"><i class="fa-solid fa-question-circle"></i></a>
+                            <a href="https://howto.squirrly.co/kb/keyword-research-and-seo-strategy/#keyword_research" target="_blank"><i class="fa-solid fa-question-circle"></i></a>
                         </div>
                     </h3>
                     <div class="sq_research_success col-7 small m-0 p-0" style="display: none">
@@ -296,13 +296,13 @@ if ( ! isset( $view ) ) {
 								<?php echo esc_html__( "To determine if a keyword has a high ranking chance, we look at the TOP 10 positions in Google for that keyword and compare your web authority against theirs.", 'squirrly-seo' ) ?>
                             </li>
                             <li class="text-left">
-								<?php echo sprintf( esc_html__( "We use our Market Intelligence for this. %s Learn more %s .", 'squirrly-seo' ), '<a href="https://howto12.squirrly.co/faq/how-does-squirrly-determine-if-a-keyword-is-easy-to-rank-for/" target="_blank" >', '</a>' ) ?>
+								<?php echo sprintf( esc_html__( "We use our Market Intelligence for this. %s Learn more %s .", 'squirrly-seo' ), '<a href="https://howto.squirrly.co/faq/how-does-squirrly-determine-if-a-keyword-is-easy-to-rank-for/" target="_blank" >', '</a>' ) ?>
                             </li>
                             <li class="text-left">
 								<?php echo esc_html__( "You have the option to add keywords to Briefcase individually for more controlled organization.", 'squirrly-seo' ) ?>
                             </li>
                             <li class="text-left">
-								<?php echo sprintf( esc_html__( "The Keyword Research Tool can be used to identify keywords for Social Media as well. %s Learn more %s .", 'squirrly-seo' ), '<a href="https://howto12.squirrly.co/ht_kb/gives-you-keywords-according-to-how-much-people-talk-about-them-on-social-media-and-forums/" target="_blank" >', '</a>' ) ?>
+								<?php echo sprintf( esc_html__( "The Keyword Research Tool can be used to identify keywords for Social Media as well. %s Learn more %s .", 'squirrly-seo' ), '<a href="https://howto.squirrly.co/ht_kb/gives-you-keywords-according-to-how-much-people-talk-about-them-on-social-media-and-forums/" target="_blank" >', '</a>' ) ?>
                             </li>
                             <li class="text-left">
 								<?php echo esc_html__( "Did not find what you wanted this time? Try doing a different keyword research. ", 'squirrly-seo' ) ?>

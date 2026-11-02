@@ -120,6 +120,7 @@ if ( ! isset( $view ) ) {
                         <div class="col-12 m-0 p-0 py-4 shadow-0 rounded-0">
                             <h3 class="p-0 m-0">
 			                    <?php echo esc_html__( "Squirrly", "squirrly-seo" ) ?>:
+			                    <div class="sq_help_question d-inline"><a href="https://howto.squirrly.co/kb/squirrly-home/" target="_blank"><i class="fa-solid fa-question-circle"></i></a></div>
                             </h3>
                             <div>
 			                    <?php echo esc_html__( "Become the Brand AI Recommends", "squirrly-seo" ) ?>:
@@ -186,10 +187,36 @@ if ( ! isset( $view ) ) {
                                 </div>
                             </div>
 
+	                        <?php if ( SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) && SQ_Classes_ObjController::getClass( 'SQ_Classes_McpOauthController' ) ) { ?>
+                                <div class="card px-3 py-1 mx-0 my-2">
+                                    <div class="card-body p-0 m-0">
+                                        <div class="row p-0 m-0">
+                                            <div class="py-2 px-0 m-0 text-center" style="width: 50px"><i class="fa-solid fa-robot" style="font-size: 36px; line-height: 50px; color: #d97757"></i></div>
+                                            <div class="col p-0 px-3 m-0">
+                                                <div class="font-weight-bold"><?php echo esc_html__( "Connect Claude & AI Assistants", "squirrly-seo" ) ?></div>
+						                        <?php if ( SQ_Classes_McpOauthController::isActive() && SQ_Classes_McpOauthController::getBlocker() === '' ) { ?>
+                                                    <div class="row p-0 m-0">
+                                                        <div class="text-success"><?php echo esc_html__( "Active", "squirrly-seo" ) ?></div>
+                                                        <a href="<?php echo esc_url( SQ_Classes_McpOauthController::getClaudeConnectUrl() ) ?>" class="btn btn-sm btn-primary p-0 m-0 px-3 mx-3 font-weight-normal" style="min-width: 250px" target="_blank" rel="noopener noreferrer"><?php echo esc_html__( "Add Squirrly to Claude", "squirrly-seo" ) ?> <i class="dashicons dashicons-external" style="font-size:12px;vertical-align:-2px;height:10px;"></i></a>
+                                                    </div>
+                                                    <a href="<?php echo esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'webmaster#tab=aitools' ) ) ?>" class="font-weight-normal" style="font-size: 11px;"><?php echo esc_html__( "Check the connection and see the address for ChatGPT or Codex", "squirrly-seo" ) ?></a>
+						                        <?php } else { ?>
+                                                    <div class="row p-0 m-0">
+                                                        <div class="text-danger"><?php echo esc_html__( "Inactive", "squirrly-seo" ) ?></div>
+                                                        <a href="<?php echo esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'webmaster#tab=aitools' ) ) ?>" class="btn btn-sm btn-primary p-0 m-0 px-3 mx-3 font-weight-normal" style="min-width: 250px"><?php echo esc_html__( "Turn on AI assistants", "squirrly-seo" ) ?></a>
+                                                    </div>
+                                                    <div class="text-black-50" style="font-size: 11px;"><?php echo esc_html__( "(let Claude, ChatGPT or Codex read and update your SEO, after you approve it)", "squirrly-seo" ) ?></div>
+						                        <?php } ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+	                        <?php } ?>
+
                             <div class="p-0 m-0 py-3 ">
 		                        <?php if ( !SQ_Classes_Helpers_DevKit::getOption( 'sq_auto_devkit' ) ) { ?>
                                     <span class="font-weight-bold"><?php echo esc_html__( "Do you have SEO clients?", "squirrly-seo" ) ?></span>
-                                    <a href="https://howto12.squirrly.co/kb/web-dev-kit-all-plugin-customization-options/" class="p-0 m-0 mx-2 font-weight-normal" target="_blank"><?php echo esc_html__( "learn how to configure different packages for them and customize their experience. Your clients will love your agency more!", "squirrly-seo" ) ?> <i class="dashicons dashicons-external" style="font-size:12px;vertical-align:-2px;height:10px;"></i></a>
+                                    <a href="https://howto.squirrly.co/kb/web-dev-kit-all-plugin-customization-options/" class="p-0 m-0 mx-2 font-weight-normal" target="_blank"><?php echo esc_html__( "learn how to configure different packages for them and customize their experience. Your clients will love your agency more!", "squirrly-seo" ) ?> <i class="dashicons dashicons-external" style="font-size:12px;vertical-align:-2px;height:10px;"></i></a>
 		                        <?php } ?>
                             </div>
 

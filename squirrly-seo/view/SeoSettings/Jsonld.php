@@ -16,7 +16,7 @@ if ( ! isset( $view ) ) {
     <div id="sq_content" class="d-flex flex-row bg-white my-0 p-0 m-0">
 		<?php
 		if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
-			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role", 'squirrly-seo' ) . '</div>';
+			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role", 'squirrly-seo' ) . '<a href="https://howto.squirrly.co/ht_kb/squirrly-user-roles/#error" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></div>';
 
 			return;
 		}
@@ -52,7 +52,7 @@ if ( ! isset( $view ) ) {
                         <h3 class="mt-4 card-title">
 							<?php echo esc_html__( "Rich Snippets", 'squirrly-seo' ); ?>
                             <div class="sq_help_question d-inline">
-                                <a href="https://howto12.squirrly.co/kb/json-ld-structured-data/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                                <a href="https://howto.squirrly.co/kb/json-ld-structured-data/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                             </div>
                         </h3>
                         <div class="col-7 small m-0 p-0">
@@ -76,7 +76,7 @@ if ( ! isset( $view ) ) {
 
                                     <div class="col-12 m-0 p-0 my-2">
                                         <h3 class="card-title"><?php echo esc_html__( "Company", 'squirrly-seo' ); ?>
-                                            <a href="https://howto12.squirrly.co/kb/json-ld-structured-data/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                                            <a href="https://howto.squirrly.co/kb/json-ld-structured-data/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                                         </h3>
                                         <div class="small text-danger my-1 pr-3"><?php echo esc_html__( "ONLY use this if you have a company", 'squirrly-seo' ); ?></div>
 
@@ -99,7 +99,7 @@ if ( ! isset( $view ) ) {
                                             <div class="col-4 m-0 p-0 font-weight-bold">
                                                 <label for="sq_jsonld_Organization_name"><?php echo esc_html__( "Your Organization Name", 'squirrly-seo' ); ?>
                                                     :</label>
-                                                <a href="https://howto12.squirrly.co/kb/json-ld-structured-data/" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                <a href="https://howto.squirrly.co/kb/json-ld-structured-data/" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                 <div class="small text-black-50 my-1 pr-3">e.g. COMPANY LTD</div>
                                             </div>
                                             <div class="col-8 p-0 input-group input-group-lg">
@@ -151,7 +151,7 @@ if ( ! isset( $view ) ) {
 
                                     <div class="col-12 m-0 p-0 my-2">
                                         <h3 class="card-title"><?php echo esc_html__( "Personal Brand / Author", 'squirrly-seo' ); ?>
-                                            <a href="https://howto12.squirrly.co/kb/json-ld-structured-data/#Add-JSON-LD-Profile" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                                            <a href="https://howto.squirrly.co/kb/json-ld-structured-data/#Add-JSON-LD-Profile" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                                         </h3>
                                         <div class="small text-danger my-1 pr-3"><?php echo esc_html__( "Only use this if you have a personal brand. You can combine this with JSON-LD for companies, local SEO and more. One doesn't exclude the others.", 'squirrly-seo' ); ?></div>
 
@@ -174,7 +174,7 @@ if ( ! isset( $view ) ) {
                                             <div class="col-4 m-0 p-0 font-weight-bold">
                                                 <label for="sq_jsonld_Person_name"><?php echo esc_html__( "Your Name", 'squirrly-seo' ); ?>
                                                     :</label>
-                                                <a href="https://howto12.squirrly.co/kb/json-ld-structured-data/#Add-JSON-LD-Profile" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                <a href="https://howto.squirrly.co/kb/json-ld-structured-data/#Add-JSON-LD-Profile" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                 <div class="small text-black-50 my-1 pr-3">e.g. John Smith</div>
                                             </div>
                                             <div class="col-8 p-0 input-group input-group-lg">
@@ -229,7 +229,7 @@ if ( ! isset( $view ) ) {
                                                     <input type="hidden" name="sq_jsonld_global_person" value="0"/>
                                                     <input type="checkbox" id="sq_jsonld_global_person" name="sq_jsonld_global_person" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_jsonld_global_person' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                     <label for="sq_jsonld_global_person" class="ml-1"><?php echo esc_html__( "Set this person as a global author", 'squirrly-seo' ); ?>
-                                                        <a href="https://howto12.squirrly.co/kb/json-ld-structured-data/#global_author" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                        <a href="https://howto.squirrly.co/kb/json-ld-structured-data/#global_author" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     </label>
                                                     <div class="small text-black-50 ml-5"><?php echo esc_html__( "Overwrite the posts/pages author(s) with this author in Json-LD.", 'squirrly-seo' ); ?></div>
                                                 </div>
@@ -249,7 +249,7 @@ if ( ! isset( $view ) ) {
 
                                     <div class="col-12 m-0 p-0 my-2">
                                         <h3 class="card-title"><?php echo esc_html__( "WooCommerce", 'squirrly-seo' ); ?>
-                                            <a href="https://howto12.squirrly.co/kb/json-ld-structured-data/#woocommerce" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                                            <a href="https://howto.squirrly.co/kb/json-ld-structured-data/#woocommerce" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                                         </h3>
                                     </div>
 
@@ -261,7 +261,7 @@ if ( ! isset( $view ) ) {
                                                     <input type="hidden" name="sq_jsonld_woocommerce" value="0"/>
                                                     <input type="checkbox" id="sq_jsonld_woocommerce" name="sq_jsonld_woocommerce" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_jsonld_woocommerce' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                     <label for="sq_jsonld_woocommerce" class="ml-1"><?php echo esc_html__( "Add Support For Woocommerce", 'squirrly-seo' ); ?>
-                                                        <a href="https://howto12.squirrly.co/kb/json-ld-structured-data/#woocommerce" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                        <a href="https://howto.squirrly.co/kb/json-ld-structured-data/#woocommerce" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     </label>
                                                     <div class="small text-black-50 ml-5"><?php echo esc_html__( "Improve the WooCommerce  Product and Orders Schema by enabling Squirrly to add the required data.", 'squirrly-seo' ); ?></div>
                                                 </div>
@@ -291,7 +291,7 @@ if ( ! isset( $view ) ) {
                                                         <input type="hidden" name="sq_jsonld_product_custom" value="0"/>
                                                         <input type="checkbox" id="sq_jsonld_product_custom" name="sq_jsonld_product_custom" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_jsonld_product_custom' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                         <label for="sq_jsonld_product_custom" class="ml-1"><?php echo esc_html__( "Add Custom Data for WooCommerce Products", 'squirrly-seo' ); ?>
-                                                            <a href="https://howto12.squirrly.co/kb/json-ld-structured-data/#woocommerce" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                            <a href="https://howto.squirrly.co/kb/json-ld-structured-data/#woocommerce" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                         </label>
                                                         <div class="small text-black-50 ml-5"><?php echo esc_html__( "Enable Squirrly to include additional metadata fields for WooCommerce Products: MPN, ISBN, EAN, UPC, GTIN, Brand, Review.", 'squirrly-seo' ); ?></div>
                                                     </div>
@@ -304,7 +304,7 @@ if ( ! isset( $view ) ) {
                                                         <input type="hidden" name="sq_jsonld_product_defaults" value="0"/>
                                                         <input type="checkbox" id="sq_jsonld_product_defaults" name="sq_jsonld_product_defaults" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_jsonld_product_defaults' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                         <label for="sq_jsonld_product_defaults" class="ml-1"><?php echo esc_html__( "Add Default Data for Woocommerce Products", 'squirrly-seo' ); ?>
-                                                            <a href="https://howto12.squirrly.co/kb/json-ld-structured-data/#woocommerce" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                            <a href="https://howto.squirrly.co/kb/json-ld-structured-data/#woocommerce" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                         </label>
                                                         <div class="small text-black-50 ml-5"><?php echo esc_html__( "Add default data for JSON-LD AggregateRating, Offers, Sku, MPN when they are missing from the product to avoid GSC errors.", 'squirrly-seo' ); ?></div>
                                                     </div>
@@ -437,7 +437,7 @@ if ( ! isset( $view ) ) {
                                         <div class="col-12 row m-0 p-0 my-5">
                                             <div class="col-4 m-0 p-0 font-weight-bold">
 												<?php echo esc_html__( "GEO Settings", 'squirrly-seo' ); ?>:
-                                                <a href="https://howto12.squirrly.co/kb/json-ld-structured-data/#local_seo" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                <a href="https://howto.squirrly.co/kb/json-ld-structured-data/#local_seo" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                 <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "Latitude & Longitude of your store/business.", 'squirrly-seo' ); ?></div>
                                                 <div class="small text-black-50 my-1">
                                                     <a href="https://www.latlong.net/convert-address-to-lat-long.html" target="_blank"><?php echo esc_html__( "Get GEO Coordonates based on address.", 'squirrly-seo' ); ?></a>
@@ -609,7 +609,7 @@ if ( ! isset( $view ) ) {
                                                     <input type="hidden" name="sq_jsonld_breadcrumbs" value="0"/>
                                                     <input type="checkbox" id="sq_jsonld_breadcrumbs" name="sq_jsonld_breadcrumbs" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_jsonld_breadcrumbs' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                     <label for="sq_jsonld_breadcrumbs" class="ml-1"><?php echo esc_html__( "Add Breadcrumbs in Json-LD", 'squirrly-seo' ); ?>
-                                                        <a href="https://howto12.squirrly.co/kb/json-ld-structured-data/#breadcrumbs_schema" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                        <a href="https://howto.squirrly.co/kb/json-ld-structured-data/#breadcrumbs_schema" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     </label>
                                                     <div class="small text-black-50 ml-5"><?php echo esc_html__( "Add the BreadcrumbsList Schema into Json-LD including all parent categories.", 'squirrly-seo' ); ?></div>
                                                 </div>
@@ -622,7 +622,7 @@ if ( ! isset( $view ) ) {
                                                     <input type="hidden" name="sq_jsonld_clearcode" value="0"/>
                                                     <input type="checkbox" id="sq_jsonld_clearcode" name="sq_jsonld_clearcode" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_jsonld_clearcode' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                     <label for="sq_jsonld_clearcode" class="ml-1"><?php echo esc_html__( "Remove other Json-LD from page", 'squirrly-seo' ); ?>
-                                                        <a href="https://howto12.squirrly.co/kb/json-ld-structured-data/#remove_duplicates" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                        <a href="https://howto.squirrly.co/kb/json-ld-structured-data/#remove_duplicates" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     </label>
                                                     <div class="small text-black-50 ml-5"><?php echo esc_html__( "Clear the Json-LD from other plugins and theme to avoid duplicate schemas.", 'squirrly-seo' ); ?></div>
                                                 </div>

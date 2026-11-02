@@ -15,7 +15,7 @@ $jsonldtype = SQ_Classes_Helpers_Tools::getOption( 'sq_jsonld_type' );
     <div id="sq_content" class="d-flex flex-row bg-white my-0 p-0 m-0">
 		<?php
 		if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
-			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role", 'squirrly-seo' ) . '</div>';
+			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role", 'squirrly-seo' ) . '<a href="https://howto.squirrly.co/ht_kb/squirrly-user-roles/#error" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></div>';
 
 			return;
 		}
@@ -144,7 +144,7 @@ $jsonldtype = SQ_Classes_Helpers_Tools::getOption( 'sq_jsonld_type' );
                                                 <div class="col-4 m-0 p-0 font-weight-bold">
                                                     <label for="sq_jsonld_Organization_name"><?php echo esc_html__( "Your Organization Name", 'squirrly-seo' ); ?>
                                                         :</label>
-                                                    <a href="https://howto12.squirrly.co/kb/json-ld-structured-data/" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                    <a href="https://howto.squirrly.co/kb/json-ld-structured-data/" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     <div class="small text-black-50 my-1">e.g. COMPANY LTD</div>
                                                 </div>
                                                 <div class="col-8 p-0 input-group input-group-lg">
@@ -258,7 +258,7 @@ $jsonldtype = SQ_Classes_Helpers_Tools::getOption( 'sq_jsonld_type' );
                                                 <div class="col-12 row m-0 p-0 my-5">
                                                     <div class="col-4 m-0 p-0 font-weight-bold">
 														<?php echo esc_html__( "Your Name", 'squirrly-seo' ); ?>:
-                                                        <a href="https://howto12.squirrly.co/kb/json-ld-structured-data/#Add-JSON-LD-Profile" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                        <a href="https://howto.squirrly.co/kb/json-ld-structured-data/#Add-JSON-LD-Profile" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                         <div class="small text-black-50 my-1 pr-3">e.g. John Smith</div>
                                                     </div>
                                                     <div class="col-8 p-0 input-group input-group-lg">
@@ -317,7 +317,7 @@ $jsonldtype = SQ_Classes_Helpers_Tools::getOption( 'sq_jsonld_type' );
                                             <div class="col-12 row m-0 p-0 my-5">
                                                 <div class="col-4 m-0 p-0 font-weight-bold">
 													<?php echo esc_html__( "GEO Settings", 'squirrly-seo' ); ?>:
-                                                    <a href="https://howto12.squirrly.co/kb/json-ld-structured-data/#local_seo" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                    <a href="https://howto.squirrly.co/kb/json-ld-structured-data/#local_seo" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     <div class="small text-black-50 my-1"><?php echo esc_html__( "Latitude & Longitude of your store/business.", 'squirrly-seo' ); ?></div>
                                                     <div class="small text-black-50 my-1">
                                                         <a href="https://www.latlong.net/convert-address-to-lat-long.html" target="_blank"><?php echo esc_html__( "Get GEO Coordonates based on address.", 'squirrly-seo' ); ?></a>

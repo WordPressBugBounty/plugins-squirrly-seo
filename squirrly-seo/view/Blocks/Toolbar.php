@@ -34,6 +34,7 @@ if ( ! isset( $view ) ) {
                         <div class="col p-0 m-0 sq_save_ajax">
                             <button id="sq_seoexpert" name="sq_seoexpert" class="btn btn-link text-white" data-action="sq_ajax_seosettings_save" data-name="sq_seoexpert" data-value="0" <?php echo( ! SQ_Classes_Helpers_Tools::getOption( 'sq_seoexpert' ) ? 'style="text-decoration: underline; font-weight: 700;"' : '' ) ?> ><?php echo esc_html__( "SEO Beginner", "squirrly-seo" ); ?></button>
                             <button id="sq_seoexpert" name="sq_seoexpert" class="btn btn-link text-white" data-action="sq_ajax_seosettings_save" data-name="sq_seoexpert" data-value="1" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_seoexpert' ) ? 'style="text-decoration: underline; font-weight: 700;"' : '' ) ?> ><?php echo esc_html__( "SEO Expert", "squirrly-seo" ); ?></button>
+                            <a href="https://howto.squirrly.co/faq/what-gets-configured-automatically-in-non-seo-expert-mode/" target="_blank" class="text-white"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                         </div>
                         <div class="p-2 m-0 mt-1 pb-0 sq_account_info" style="display: inline-block"></div>
 

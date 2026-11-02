@@ -17,7 +17,7 @@ if ( ! isset( $view ) ) {
     <div id="sq_content" class="d-flex flex-row bg-white my-0 p-0 m-0">
 		<?php
 		if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
-			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role.", 'squirrly-seo' ) . '</div>';
+			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role.", 'squirrly-seo' ) . '<a href="https://howto.squirrly.co/ht_kb/squirrly-user-roles/#error" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></div>';
 
 			return;
 		}
@@ -37,7 +37,7 @@ if ( ! isset( $view ) ) {
                         <h3 class="mt-4 card-title">
 							<?php echo esc_html__( "Social Media", 'squirrly-seo' ); ?>
                             <div class="sq_help_question d-inline">
-                                <a href="https://howto12.squirrly.co/kb/social-media-settings/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                                <a href="https://howto.squirrly.co/kb/social-media-settings/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                             </div>
                         </h3>
                         <div class="col-7 small m-0 p-0">
@@ -58,7 +58,7 @@ if ( ! isset( $view ) ) {
 
                                     <div class="col-12 m-0 p-0 my-2">
                                         <h3 class="card-title"><?php echo esc_html__( "Open Graph Settings", 'squirrly-seo' ); ?>
-                                            <a href="https://howto12.squirrly.co/kb/social-media-settings/#open_graph" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                                            <a href="https://howto.squirrly.co/kb/social-media-settings/#open_graph" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                                         </h3>
                                         <div class="small text-black-50"><?php echo esc_html__( "Add the Social Open Graph protocol so that your Facebook shares look good.", 'squirrly-seo' ); ?></div>
                                         <div class="small text-black-50"><?php echo sprintf( esc_html__( "You can always update an URL on Facebook if you change its Social Media Image. Visit %sOpen Graph Debugger%s", 'squirrly-seo' ), '<a href="https://developers.facebook.com/tools/debug/?q=' . esc_url( home_url() ) . '" target="_blank" ><strong>', '</strong></a>' ); ?></div>
@@ -84,7 +84,7 @@ if ( ! isset( $view ) ) {
                                                 <div class="col-4 m-0 p-0">
                                                     <div class="font-weight-bold"><?php echo esc_html__( "Facebook Share Language", 'squirrly-seo' ); ?>
                                                         :
-                                                        <a href="https://howto12.squirrly.co/kb/social-media-settings/#share_language" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                        <a href="https://howto.squirrly.co/kb/social-media-settings/#share_language" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     </div>
                                                     <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "Use this so that Facebook can automatically translate the text into the reader's language", 'squirrly-seo' ); ?></div>
                                                 </div>
@@ -236,7 +236,7 @@ if ( ! isset( $view ) ) {
                                             <div class="col-12 row m-0 p-0 my-3 sq_advanced">
                                                 <div class="col-4 m-0 p-0 font-weight-bold">
 													<?php echo esc_html__( "Facebook App ID", 'squirrly-seo' ); ?>:
-                                                    <a href="https://howto12.squirrly.co/kb/social-media-settings/#open_graph_app_id" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                    <a href="https://howto.squirrly.co/kb/social-media-settings/#open_graph_app_id" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     <div class="small text-black-50 my-1 pr-3"><?php echo sprintf( esc_html__( "Add the %sFacebook App ID%s to create a connection between your Facebook Page and your Website.", 'squirrly-seo' ), '<a href="https://developers.facebook.com/apps/" target="_blank"><strong>', '</strong></a>' ); ?></div>
                                                 </div>
                                                 <div class="col-8 m-0 p-0 input-group input-group-lg">
@@ -260,7 +260,7 @@ if ( ! isset( $view ) ) {
                                                         <div class="col-4 m-0 p-0 font-weight-bold">
 															<?php echo esc_html__( "Facebook Admin ID", 'squirrly-seo' ); ?>
                                                             :
-                                                            <a href="https://howto12.squirrly.co/kb/social-media-settings/#open_graph_admin_id" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                            <a href="https://howto.squirrly.co/kb/social-media-settings/#open_graph_admin_id" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                             <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "Similar to Facebook App ID, Facebook Admin ID connects your Facebook Page to your Website.", 'squirrly-seo' ); ?></div>
                                                         </div>
                                                         <div class="col-8 m-0 p-0 input-group input-group-lg">
@@ -309,7 +309,7 @@ if ( ! isset( $view ) ) {
 
                                     <div class="col-12 m-0 p-0 my-2">
                                         <h3 class="card-title"><?php echo esc_html__( "Twitter Card Settings", 'squirrly-seo' ); ?>
-                                            <a href="https://howto12.squirrly.co/kb/social-media-settings/#twitter_card" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                                            <a href="https://howto.squirrly.co/kb/social-media-settings/#twitter_card" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                                         </h3>
                                         <div class="small text-black-50"><?php echo esc_html__( "Add the Twitter Card in your tweets so that your Twitter shares look good.", 'squirrly-seo' ); ?></div>
                                         <div class="small text-black-50"><?php echo sprintf( esc_html__( "Make sure you validate the twitter card with your Twitter account. Visit %sTwitter Card Validator%s", 'squirrly-seo' ), '<a href="https://cards-dev.twitter.com/validator?url=' . esc_url( home_url() ) . '" target="_blank" ><strong>', '</strong></a>' ); ?></div>
@@ -337,7 +337,7 @@ if ( ! isset( $view ) ) {
                                                     <input type="hidden" name="socials[twitter_card_type]" value="summary"/>
                                                     <input type="checkbox" id="twitter_card_type" name="socials[twitter_card_type]" class="sq-switch" <?php echo( $socials->twitter_card_type == 'summary_large_image' ? 'checked="checked"' : '' ) ?> value="summary_large_image"/>
                                                     <label for="twitter_card_type" class="ml-1"><?php echo esc_html__( "Share Large Images", 'squirrly-seo' ); ?>
-                                                        <a href="https://howto12.squirrly.co/kb/social-media-settings/#twitter_card_large_images" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                        <a href="https://howto.squirrly.co/kb/social-media-settings/#twitter_card_large_images" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     </label>
                                                     <div class="small text-black-50 ml-5"><?php echo esc_html__( "Activate this option only if you upload images with sizes between 500px and 4096px width in Twitter Card.", 'squirrly-seo' ); ?></div>
                                                     <div class="small text-black-50 ml-5"><?php echo sprintf( esc_html__( "This option will show the twitter card image as a shared image and not as a summary. Visit %sSummary Card with Large Image%s", 'squirrly-seo' ), '<a href="https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summary-card-with-large-image.html" target="_blank" ><strong>', '</strong></a>' ); ?></div>

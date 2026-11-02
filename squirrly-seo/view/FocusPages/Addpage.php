@@ -18,7 +18,7 @@ if ( ! isset( $view ) ) {
     <div id="sq_content" class="d-flex flex-row bg-white my-0 p-0 m-0">
 		<?php
 		if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_focuspages' ) ) {
-			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role.", 'squirrly-seo' ) . '</div>';
+			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Editor role.", 'squirrly-seo' ) . '<a href="https://howto.squirrly.co/ht_kb/squirrly-user-roles/#error" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></div>';
 
 			return;
 		}
@@ -35,7 +35,7 @@ if ( ! isset( $view ) ) {
                     <h3 class="mt-4">
 						<?php echo esc_html__( "Add a page in Focus Pages", 'squirrly-seo' ); ?>
                         <div class="sq_help_question d-inline">
-                            <a href="https://howto12.squirrly.co/kb/focus-pages-page-audits/#add_new_focus_page" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                            <a href="https://howto.squirrly.co/kb/focus-pages-page-audits/#add_new_focus_page" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                         </div>
                     </h3>
                     <div class="col-7 small p-0 m-0">
@@ -238,7 +238,7 @@ if ( ! isset( $view ) ) {
                                                                 </button>
                                                             </form>
 														<?php } else { ?>
-                                                            <span class="text-danger font-weight-bold text-center" title="<?php echo esc_attr__( "Only pages with IDs can be added as Focus Page", 'squirrly-seo' ) ?>"><?php echo esc_html__( "Can't be added", 'squirrly-seo' ) ?> <a href="https://howto12.squirrly.co/kb/focus-pages-page-audits/#add_new_focus_page" target="_blank"><i class="fa-solid fa-question-circle"></i></a></span>
+                                                            <span class="text-danger font-weight-bold text-center" title="<?php echo esc_attr__( "Only pages with IDs can be added as Focus Page", 'squirrly-seo' ) ?>"><?php echo esc_html__( "Can't be added", 'squirrly-seo' ) ?> <a href="https://howto.squirrly.co/kb/focus-pages-page-audits/#add_new_focus_page" target="_blank"><i class="fa-solid fa-question-circle"></i></a></span>
 														<?php } ?>
 													<?php } else { ?>
                                                         <a href="<?php echo esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_focuspages', 'pagelist' ) ) ?>" class="btn btn-sm bg-link text-primary font-weight-bold text-center" style="width: 150px;"><?php echo esc_html__( "See Tasks", 'squirrly-seo' ) ?></a>

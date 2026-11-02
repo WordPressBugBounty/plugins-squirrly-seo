@@ -153,7 +153,7 @@ class SQ_Controllers_CheckSeo extends SQ_Classes_FrontController {
 										$tool = '<a href="https://plugin.squirrly.co/bulk-seo-settings/" target="_blank">' . $tool . '</a>';
 										break;
 									case 'SEO Automation':
-										$tool = '<a href="https://howto12.squirrly.co/kb/seo-automation/" target="_blank">' . $tool . '</a>';
+										$tool = '<a href="https://howto.squirrly.co/kb/seo-automation/" target="_blank">' . $tool . '</a>';
 										break;
 									case 'SEO Snippet':
 										$tool = '<a href="https://plugin.squirrly.co/seo-snippet-tool/" target="_blank">' . $tool . '</a>';

@@ -17,7 +17,7 @@ if ( ! isset( $view ) ) {
             <h3 class="mt-4 card-title">
 				<?php echo esc_html__( "14 Days Journey", "squirrly-seo" ); ?>
                 <div class="sq_help_question d-inline">
-                    <a href="https://howto12.squirrly.co/kb/install-squirrly-seo-plugin/#journey" target="_blank"><i class="fa-solid fa-question-circle"></i></a>
+                    <a href="https://howto.squirrly.co/kb/14-days-journey/" target="_blank"><i class="fa-solid fa-question-circle"></i></a>
                 </div>
             </h3>
             <div class="col-7 small m-0 p-0">
@@ -39,11 +39,11 @@ if ( ! isset( $view ) ) {
 						<?php for ( $i = 1; $i <= 14; $i ++ ) { ?>
                             <li class="step <?php echo( ( (int) $view->days >= $i ) ? 'completed' : '' ) ?>">
                                 <div class="step-title waves-effect waves-dark">
-                                    <a href="https://howto12.squirrly.co/wordpress-seo/journey-to-better-ranking-day-<?php echo esc_attr( $i ) ?>/" target="_blank">
+                                    <a href="https://howto.squirrly.co/ht_kb/journey-to-better-ranking-day-<?php echo esc_attr( $i ) ?>/" target="_blank">
 										<?php echo( ( (int) $view->days >= $i ) ? '<i class="fa-solid fa-check-circle" style="font-size: 1.5rem"></i>' : '<i class="fa-solid fa-circle-o"  style="color: darkgrey;"></i>' ) ?>
                                     </a>
                                     <div>
-                                        <a href="https://howto12.squirrly.co/wordpress-seo/journey-to-better-ranking-day-<?php echo esc_attr( $i ) ?>/" target="_blank">
+                                        <a href="https://howto.squirrly.co/ht_kb/journey-to-better-ranking-day-<?php echo esc_attr( $i ) ?>/" target="_blank">
 											<?php echo esc_html( __( "Day", "squirrly-seo" ) . ' ' . $i ) ?>
                                         </a>
                                     </div>
@@ -67,7 +67,7 @@ if ( ! isset( $view ) ) {
 						<?php } ?>
 
 					<?php } else { ?>
-                        <a href="https://howto12.squirrly.co/wordpress-seo/journey-to-better-ranking-day-<?php echo (int) $view->days ?>/" target="_blank" class="btn btn-primary m-2 py-2 px-4" style="font-size: 20px;"><?php echo esc_html__( "Day", "squirrly-seo" ) . ' ' . (int) $view->days . ': ' . esc_html__( "Open the GEO recipe for today", "squirrly-seo" ); ?></a>
+                        <a href="https://howto.squirrly.co/ht_kb/journey-to-better-ranking-day-<?php echo (int) $view->days ?>/" target="_blank" class="btn btn-primary m-2 py-2 px-4" style="font-size: 20px;"><?php echo esc_html__( "Day", "squirrly-seo" ) . ' ' . (int) $view->days . ': ' . esc_html__( "Open the GEO recipe for today", "squirrly-seo" ); ?></a>
 					<?php } ?>
 
                 </div>

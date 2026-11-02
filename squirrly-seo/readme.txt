@@ -4,7 +4,7 @@ Donate link: https://plugin.squirrly.co/squirrly-seo-pricing/
 Tags: SEO, AEO, GEO, schema, sitemap
 Requires at least: 5.3
 Tested up to: 7.0
-Stable tag: 14.2.8
+Stable tag: 14.2.9
 Requires PHP: 7.0
 License: GPLv2 or later
 
@@ -50,6 +50,21 @@ AEO and GEO reward content that is easy for a machine to extract: a clear answer
 2. Add your important pages to the GEO/AEO Audit. Squirrly scores each page for SEO and answer-readiness and gives you a prioritized "fix these first" list.
 3. Turn on the AEO/GEO essentials: generate your llms.txt, allow the AI crawlers you want, and switch on LLM Indexing so new and updated URLs are pushed to search and AI engines automatically.
 
+= Connect Claude, ChatGPT and other AI assistants (MCP) =
+
+Squirrly turns your site into an MCP server. Claude, ChatGPT, OpenAI Codex and other MCP clients can then read and update your SEO from a chat.
+
+* Read and update the SEO title, meta description, keywords, canonical, indexing, social previews and Schema types of any page.
+* Read the Squirrly settings and switch features on or off.
+* Read your Briefcase keywords, rankings, Focus Pages, keyword research history and Live Assistant tasks.
+* With a Squirrly Cloud connection, add Briefcase keywords, assign keywords to pages, add or recheck Focus Pages and request audits.
+
+Turn on the switch in Squirrly SEO > Technical SEO > Connect Tools > AI Tools. Then click Add Squirrly to Claude, or paste the address it shows into your assistant.
+
+You approve each connection on your WordPress login screen. The assistant works with your user role and you choose which tools it gets. It cannot delete data or read your Squirrly API keys.
+
+The MCP Adapter is included, so no other plugin is needed. This feature needs WordPress 6.9 or newer, PHP 7.4 or newer and HTTPS.
+
 = Works with your stack =
 
 Gutenberg, Elementor, Divi, WooCommerce, WordPress Multisite, WPML, and PHP 7.0 to 8.x.
@@ -84,7 +99,7 @@ If you like our WordPress SEO plugin, then consider checking out our other proje
 
 = MANUALLY =
 
-Check the visual presentation of the <a href="https://howto12.squirrly.co/wordpress-seo/installing-squirrly-seo-plugin-on-a-new-site/">Installation Process step by step</a>.
+Check the visual presentation of the <a href="https://howto.squirrly.co/ht_kb/installing-squirrly-seo-plugin-on-a-new-site/">Installation Process step by step</a>.
 
  1. Download the plugin from this Page (here on the Wordpress Directory) or <a href="https://www.squirrly.co/wordpress-seo-by-squirrly">from our site.</a>
  2. Login to your Admin account in your Wordpress Site.
@@ -120,7 +135,28 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 7. Squirrly SEO - SEO Briefcase
 
 == Changelog ==
+= 14.2.9 =
+* Update: Help links open the new knowledge base on howto.squirrly.co, with a tutorial for every feature.
+* Update: Live Assistant shows a clear message for each connection problem, with a reconnect link that works on every page.
+* Update: Permission messages name the role you need, and menu tabs match what each role can open.
+* Update: Focus Pages shows the whole list at once.
+* Fix: Live Assistant loads images as soon as you open the Enhance step.
+* Fix: Briefcase saves labels once per click.
+* Fix: llms.txt and robots.txt show & and non-English URLs exactly as written.
+* Fix: Feature links open All Features already filtered.
+* Fix: Automation keeps the separator you saved.
+* Fix: On Multisite, uploading a site icon keeps the network's favicon.ico.
+* Fix: Text corrections in settings, tasks and the IndexNow help.
+
 = 14.2.8 =
+* New: AI assistants can add keywords to the Briefcase, with labels and rank tracking.
+* New: AI assistants can assign a keyword to a page and make it the main keyword.
+* New: AI assistants can add Focus Pages and GEO Audit pages, and request a new audit.
+* New: Add Squirrly to Claude in one click from the AI Tools screen.
+* New: AI assistants list each Squirrly tool by name, like Read page SEO, so you can allow or block them one by one.
+* New: Connect Claude & AI Assistants in the Overview and in All Features.
+* New: AI assistants connect without installing the MCP Adapter plugin. Squirrly uses its own copy when no other plugin provides one.
+* Fix: AI assistants can connect to sites installed in a subfolder, like example.com/blog.
 * Fix: Live Assistant keyword highlight and counter in the classic and block editors.
 * Fix: Live Assistant title checks update when the title changes.
 * Fix: Live Assistant keyword count in Elementor.
@@ -344,218 +380,6 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 * Update - Added a Visibility column to the Posts and Categories tables, highlighting all noindex and nofollow URLs.
 * Fix - Addressed minor bugs for smoother performance.
 
-= 12.3.24 =
-* Update - Add Squirrly permalink hook sq_permalink for dev use
-* Update - Add the options to select the IndexNow Endpoints
-
-= 12.3.23 =
-* Update - Compatible with WP 6.6.2
-* Update - Add the option to remove Posts from Sitemap News in Google News
-* Update - Add the option to set SEO Automation for each language with WPML plugin
-* Fix - Clear the optimized keyword when deleted from SLA
-
-= 12.3.22 =
-* Update - Sitemap Compatibility with WPML
-* Update - Update plugin security on SEO Snippet
-* Update - Add the option to remove Posts from Sitemap News in Google News
-* Update - Add the option to set SEO Automation for each language with WPML plugin
-
-= 12.3.21 =
-* Update - Compatibility with EWWW Image Optimizer
-* Update - Compatible with WP 6.6.1
-* Fix - Prevent loading the same optimized keyword on cloned posts/pages
-
-= 12.3.20 =
-* Update - Compatible with WP 6.6
-* Fix - API security on innerlinks check and keywords check
-* Fix - Sitemap compatibility with WordPress sitemap wp-sitemap.xml path
-* Fix - Live Assistant to reload resources when network connection is low
-* Fix - Sitemap to add only videos with thumbnails for google validation
-
-= 12.3.19 =
-* Update - Compatible with WP 6.5.3
-* Update - SLA compatibility for Chinese chars
-* Update - SLA compatibility with last version of Elementor
-* Update - Compatibility with WPML when post type is not translatable.
-* Fix - Focus Page > Platform Health tasks to not create confusion about the current URL
-* Fix - Location coordinates kml in sitemap
-* Fix - Prevent loading the sitemap.xml on subcategories
-* Fix - Adjust settings layout on scale resolution
-* Fix - Sitemap to use the /wp-content/cache as the default directory
-* Fix - Favicon size in config to load on all mobile devices
-
-= 12.3.18 =
-* Update - Compatible with PHP 8.3 & WP 6.5
-* Update - Search by URL in Focus Pages and Audit
-* Update - Search term by URL in Focus Pages and Audit
-* Update - Added more compatibility with WooCommerce variation products
-* Update - Add specific notification in Ranking Sync page when GSC token expires
-* Update - Language in Dublin Core for more compatibility with WeGlot plugin
-* Update - Compatibility with SEO Generator plugin from AppSumo
-* Update - Keyword load in SLA when added in wp_postmeta with meta_key sq_keywords
-* Update - Advanced SEO Pack to work better with Polylang for WooCommerce when No Category path is activated
-
-= 12.3.17  =
-* Compatible with WP 6.4.3
-* Update - Sitemap compatibility for JetEngine
-* Update - SLA compatibility with Avada, add support for Fusion Builder
-* Update - Notification message in Focus Pages and Audits when a crawling error is received
-* Update - Added the option to select multiple pages as inner link source
-* Update - Inner linking order to show the recent added links
-* Update - Show all WP hidden patterns in the list when "sq_show_hidden_patterns" is active
-* Update - Innerlinks API query in posts to find relevant links
-* Fix - Sitemap Custom Posts loading issue
-* Fix - IndexNow submit from Bulk SEO
-* Fix - Inner link add button in popup when accessing multiple pages
-* Fix - Keywords import in Briefcase
-
-= 12.3.16  =
-* Compatible with WP 6.4.2
-* Update - Add the option to select the label for the Keyword Research
-* Update - Add the option to select the label for the Research > History
-* Update - Add the option to select the label for the Research > Suggestion
-* Update - GA properties to show only the domain mathing domains
-* Update - SLA for Divi not to take the header and footer in LP optimization
-* Fix - SLA loading issue for Oxygen Builder
-* Fix - Stop loading any resource from Squirrly when Page builder in preview
-* Fix - Keyword Sync on Rankings
-* Fix - Bulk keyword deletion in Briefcase
-* Fix - Bulk label deletion in Briefcase
-
-= 12.3.15  =
-* Compatible with WP 6.4.1
-* Update - Integrated the SEO Automation with Polylang and WPML for each Post Type
-* Fix - Canonical link on Polylang and WPML for the Home Page
-* Fix - Post Title in Focus Pages and Audits when the Feature Image is set
-
-= 12.3.14  =
-* Compatible with WP 6.4 & PHP 8.3
-* Update - Language support on WPML when website language different from user language
-* Fix - Local posts/custom posts search on Inner Links
-* Fix - Compatibility with Frontend Builders when used in Third Party plugins/themes
-* Fix - Bulk action on Briefcase when adding labels to keywords
-* Fix - Bulk action on Briefcase when sending keywords to rankings
-* Fix - Patterns warning when postmeta value is not string
-* Fix - Compatibility with WPML when adding Rich Snippets for {search_term_string} param on WebPage Schema
-
-= 12.3.13  =
-* Fix - Local posts/custom posts search and pagination in Squirrly Live Assistant
-* Fix - Silent installation of Advanced SEO Pack on websites with WPML
-* Fix - Show original posts title when searching in Focus Pages and Audits Pages
-* Fix - Language option in keyword research to find keywords in a specific language for a specific country
-
-= 12.3.12  =
-* Update - Added the language option in keyword research to find keywords in a specific language for a specific country
-* Update - Added the option to add custom post meta title, description and keywords _sq_title, _sq_description, _sq_keywords
-* Update - Search on SLA for extra posts
-* Update - Jsonld compatibility with woocommerce products with variables
-* Update - Added the custom fields pattern in Squirrly for sanitized fields in postmeta like {{customfield(field_name)}} & {{customfields(array_key|array_value)}}
-* Update - Added the caching option in Sitemap XML for faster loading and saving server resources
-* Update - Show keywords from other SEO plugins in SLA and Post List if there are none set in Squirrly SEO
-* Fix - Set NoWrap on table columns with numbers
-
-= 12.3.11  =
-* Fix - Show the custom JsonLd code if already set in Squirrly SEO Snippet
-* Update - Add Patterns support for customfield data like {{customfield(field_name)}}
-* Update - Automation to load the reusable schema from Advanced SEO Pack
-* Update - Show connect tool on Connect Tools as it needs Google Auth
-* Update - Add Company URL in Rich Snippets
-* Update - Better URL detection on Archives, Custom Post Type taxonomy
-* Fix - Hide the Squirrly SEO Snippet close button on categories and tags to avoid folding the snippet
-* Fix - Plugin typos
-* Fix - Customer support phone details in Rich Snippets
-* Fix - Loading dependency with jQuery on resources
-* Fix - Change the twitter icon with X twitter
-* Fix - Pagination links on table pages for the first page and previous page
-
-= 12.3.10  =
-* Fix - Security and Vulnerability issue on pagination in Focus Pages > Inner Links.
-* Fix - Squirrly SEO Snippet visibility error when post type was not added in Automation
-* Fix - Remove db table alter on plugin load
-* Fix - View layout and typos
-* Fix - Don't show image width and height on Advanced Rich Snippets when can't load them
-* Fix - Multiple URLs submit issue on IndexNow feature
-* Update - The option to load add image width and height in Advanced Rich Snippets
-
-= 12.3.05  =
-* Update - Metas, Open Graph, Twitter Card, Rich Snippets, layout in SEO Snippet section
-* Update - Inner Links suggestions to load when suggestions are found on server
-* Update - Added support for sq_question and sq_answer classes to automatically add them in FAQ Rich Snippet
-* Fix - Increased the loading speed on Briefcase, Suggestions, History, Labels, Rankings
-* Fix - Switch on/off SEO on Automation to work better
-* Fix - Compatibility with Schema & Structured Data for WP & AMP showing query error
-
-= 12.3.04  =
-* Update - Add related questions to Research > Suggestions with the option to write focus page related articles
-* Update - Add the option to add Inner Link directly from Research > Suggestions for the optimized articles
-* Update - Add the suggested keywords found by the Cloud in Inner Links section
-* Update - Security on Inner Links section
-* Fix - Bugs and Types
-
-= 12.3.03  =
-* Update - More bugs fixed and competibility with Squirrly SEO - Advanced Pack
-
-= 12.3.02  =
-* New - Inner Links feature available in Squirrly SEO > Focus Pages
-* New - Redirects feature available in Squirrly SEO - Advanced Pack
-* New - 404 Monitoring feature available in Squirrly SEO - Advanced Pack
-* New - Custom Schemas feature available in Squirrly SEO - Advanced Pack
-* New - Advanced Rich Snippets feature available in Squirrly SEO - Advanced Pack
-* Update - Added the option to insert custom inner links based on keywords
-* Update - Added the option Inner Links for custom nofollow & open in new tab
-* Update - Added the option to create DevKit packages in Squirrly Cloud for DevKit accounts
-* Update - Compatibility with Divi theme when header templates are created
-* Update - Added the option to install Squirrly SEO - Advanced Pack plugin for Redirects, 404 Monitoring, Custom JsonLD Schemas, Rich Snippets
-* Fix - Small Bugs
-
-= 12.3.01 - 08/14/2023 =
-* Update - Compatibility with WP 6.3
-* Update - Added API calls for Innerlinks and Contextual Keywords with links
-* Fix - Reset the SLA box position when is outside the window. Firefox compatibility.
-
-= 12.2.04 - 08/07/2023 =
-* Update - Remove twitter support from SLA for the moment
-* Update - Automation types based on Ecommerce website
-* Update - Frontend snippet for tags, categories and taxes
-* Update - The onboarding video
-* Update - Compatibility with Polylang and the tags
-* Fix - Set the home URL when the URL is missing from post
-* Fix - Loading of Squirrly SEO Live Assistant based of dependencies
-* Fix - Api call on inner links to avoid long DB queries
-* Fix - Handle the styles and scripts differently for more compatibility with other plugins
-* Fix - Sitemap URL validation to not allow cloud URLs
-* Fix - Woocommerce offer expire date in Schema
-
-= 12.2.03 - 05/22/2023 =
-* Update - Compatibility with WP 6.2.2
-* Fix - Frontend SLA for Divi & Zion Builder
-
-= 12.2.02 - 05/17/2023 =
-* Update - Compatibility with WP 6.2.1
-* Update - New Snippet layout using hooks for each section
-* Update - Loading CSS and JS function to load js dependencies in frontend
-* Update - Compatibility with Beaver Builder
-* Update - JsonLD schema autodetects video schema on post/page
-* Update - Added more countries and languages on Google Ranking section
-* Fix - z-index style of Media Library for Frontend editor
-* Fix - Show notifications in Squirrly SEO when limits are reached
-* Fix - Country ranking check issue for countries with Google prefix "com." & "co."
-
-= 12.2.01 - 04/24/2023 =
-* Update - Compatibility with Polylang & TranslatePress plugins
-* Update - Frontend SLA to work better with Media Library and detect the Title in Elementor when a text is changed in H1
-* Update - Search post query in Squirrly SEO Focus Pages, Bulk SEO and SEO Audits to work with the Theme Incubator
-* Fix - Sitemap to load the archive on post type when the category archive is not added in the sitemap
-* Fix - Sitemap to not include data:image from post contents
-* Fix - Feedback & Cloud Disconnect option on uninstall
-* Fix - Frontend SLA for Thrive plugin javascript warning
-* Fix - Add language slug on home url for TranslatePress plugin
-* Fix - Prevent showing the white space at the beginning of the sitemap
-* Fix - Show Rich Snippets Profile info on Dublin Core and OG when it's selected as global showing in settings
-* Fix - Crawler server to load the website faster
-* Fix - UI small bugs
-
-
 divi seo
 thrive seo
 oxygen seo
@@ -581,6 +405,12 @@ google seo metas
 * Changelog Archive: <a href="https://plugin.squirrly.co/squirrly-seo-changelog/">https://plugin.squirrly.co/squirrly-seo-changelog/</a>
 
 == Upgrade Notice ==
+
+= 14.2.9 =
+Help links move to the new knowledge base, and the Live Assistant explains connection problems clearly. No settings are changed by this update.
+
+= 14.2.8 =
+AI assistants can now add keywords, Focus Pages and audits, and connect without installing another plugin. Adds the Add Squirrly to Claude button. No settings are changed by this update.
 
 = 14.2.6 =
 Security release. Fixes the SEO import from Yoast, Yoast WooCommerce SEO and Rank Math, adds the missing security token check to plugin actions, and tightens the Google Analytics and Facebook Pixel fields.
@@ -628,6 +458,15 @@ For higher content marketing and SEO needs, you can check our Official Site and 
 = The plugin says it requires WordPress 5.3, but connecting an AI assistant needs 6.9. Which is it? =
 Both. The plugin itself still runs on WordPress 5.3 and up, and every SEO, AEO and GEO feature works there exactly as before - we did not raise the requirement. Connecting an AI assistant such as Claude or ChatGPT is the one feature that needs WordPress 6.9 or newer, because it is built on the WordPress Abilities API that ships with core from 6.9. On older versions that feature is simply not offered and nothing else changes. You also need HTTPS on your site, since WordPress only allows Application Passwords over a secure connection.
 
+= Do I need the MCP Adapter or another MCP plugin to connect an AI assistant? =
+No. Squirrly includes the MCP Adapter and uses another plugin's copy if one is already active.
+
+= Which AI assistants can connect to Squirrly? =
+Claude, ChatGPT, OpenAI Codex and any MCP client that signs in with OAuth or a WordPress Application Password.
+
+= Can the AI assistant delete my content or see my Squirrly account keys? =
+No. It cannot delete data, and API keys and tokens are removed from every response it receives.
+
 = What is GEO and AEO, and how does this plugin help? =
 GEO (Generative Engine Optimization) is about getting your content cited by AI engines like ChatGPT, Perplexity, Gemini, Claude and Google AI Overviews. AEO (Answer Engine Optimization) is about structuring your content so those engines can lift it as the direct answer. The GEO Plugin by Squirrly SEO audits every page for the signals AI engines rely on - a direct answer near the top, question-style headings, lists and tables, content depth, freshness and the right schema - and tells you exactly what to fix.
 
@@ -647,14 +486,14 @@ If Squirrly stops handling source code changes, then it works with Rank Math, SE
 
 There are around 650 features in Squirrly SEO, most of which can’t be found in Rank Math, given that Rank Math does not offer a duality between plugin and cloud services.
 
-https://howto12.squirrly.co/wordpress-seo/use-squirrly-in-compatibility-mode-with-other-seo-plugins/
+https://howto.squirrly.co/ht_kb/use-squirrly-in-compatibility-mode-with-other-seo-plugins/
 
 https://plugin.squirrly.co/compare/#vsrankmath
 
 = Can we import data from Rank Math into Squirrly SEO? =
 Yes, you can easily import all settings and all page optimizations made with Rank Math, using our import features. This provides step-by-step documentation on how to migrate your data from Rank Math so that you don’t lose your previous SEO optimization. 
 
-https://howto12.squirrly.co/wordpress-seo/how-to-switch-from-rank-math-to-squirrly-seo/
+https://howto.squirrly.co/ht_kb/how-to-switch-from-rank-math-to-squirrly-seo/
 
 = Are Focus Pages similar to Pillar Content in Rank Math? =
 You can search for “focus pages” on this page:
@@ -674,14 +513,14 @@ We have been around since 2012 and we’ve validated over 17 products already wi
 
 Get a more detailed response here. 
 
-https://howto12.squirrly.co/faq/how-does-squirrly-marketing-and-marketshare-wise-compete/
+https://howto.squirrly.co/faq/how-does-squirrly-marketing-and-marketshare-wise-compete/
 
 = Can the Squirrly SEO plugin be used together with Yoast,  SEOPress, Rank Math, Premium SEO Pack, All in One SEO, SEO Framework? =
 Yes, you can use Squirrly SEO alongside other SEO plugins like Yoast, Rank Math, SEO Press, Premium SEO Pack, All in One SEO, or SEO Framework in compatibility mode. 
 
 You can learn more about how to use Squirrly SEO in compatibility mode here. 
 
-https://howto12.squirrly.co/wordpress-seo/use-squirrly-in-compatibility-mode-with-other-seo-plugins/
+https://howto.squirrly.co/ht_kb/use-squirrly-in-compatibility-mode-with-other-seo-plugins/
 
 If Squirrly stops handling source code changes, then it works with Rank Math, SEOpress, SEO Pressor, All in One SEO, Yoast, SEO Framework, and others.
 
@@ -700,7 +539,7 @@ The duality between SEO plugin and Cloud Services gives us an advantage over oth
 
 More about this here. 
 
-https://howto12.squirrly.co/faq/how-does-squirrly-compare-site-speed/
+https://howto.squirrly.co/faq/how-does-squirrly-compare-site-speed/
 
 = Does Squirrly SEO Have a Redirection feature? =
 Yes, Squirrly does provide redirection functionality. Squirrly SEO has a 301 Redirect option. The 301 Redirection Option can now be found in All Snippets in the Visibility section of Squirrly SEO.
@@ -711,7 +550,7 @@ Snippet on the Front-End
 
 It’s a new way of doing re-directs and complements our automatic redirection feature.
 
-https://howto12.squirrly.co/kb/seo-links/
+https://howto.squirrly.co/kb/seo-links/
 
 = Is there a Way to Remove the no-index Pages from the XML Sitemap? =
 Yes, you can use Squirrly SEO to remove the no-index pages from the XML sitemap. 
@@ -720,25 +559,25 @@ You can do this by post type using the SEO Settings > Automation functionality. 
 
 More details about how to remove no-index pages from the XML sitemap can be seen here.
 
-https://howto12.squirrly.co/kb/seo-automation/#send_to_sitemap
+https://howto.squirrly.co/kb/seo-automation/#send_to_sitemap
 
 Or you can remove the no-index pages from the xml sitemap at an URL level by editing the SEO Snippet and then selecting “Visibility”.
 
 More details about this xml sitemap option can be seen here.
 
-https://howto12.squirrly.co/kb/bulk-seo/#bulk_seo_visibility
+https://howto.squirrly.co/kb/bulk-seo/#bulk_seo_visibility
 
 = Does WordPress SEO Plugin by Squirrly Have an Option for submitting new URLs to Google Search Console to be Indexed? =
 Yes, Squirrly has an option that helps with submitting new URLs to Google Search Console, namely the: Ping New Posts to Search Engine option.
 
 More details about this here.
 
-https://howto12.squirrly.co/kb/sitemap-xml-settings/
+https://howto.squirrly.co/kb/sitemap-xml-settings/
 
 = What Special Features Does SEO Plugin by Squirrly Offer for Local SEO? =
 Squirrly provides Schema for Local Business. Coordinates, hours, menus, etc. are available. You can learn more about this here.
 
-https://howto12.squirrly.co/kb/json-ld-structured-data/
+https://howto.squirrly.co/kb/json-ld-structured-data/
 
 Meta Data for GEO and Location – Especially helpful for Local SEO and Knowledge Graph
 
@@ -758,14 +597,14 @@ We’ve even added KML files recently so you can easily add your local business 
 - Open Graph Type for Google News – NewsArticle
 - Schema for Google News
 
-https://howto12.squirrly.co/kb/sitemap-xml-settings/#news_sitemap
+https://howto.squirrly.co/kb/sitemap-xml-settings/#news_sitemap
 
 = With Squirrly, can specific pictures for social media shares of pages and posts be used? =
 Yes, you can customize the Open Graph and Twitter Card image for every page and post using Bulk SEO or the Squirrly SEO Snippet.
 
 You can learn more about these features here.
 
-https://howto12.squirrly.co/kb/bulk-seo/
+https://howto.squirrly.co/kb/bulk-seo/
 
 = How is Squirrly Addressing the Core Web Vitals SEO Scoring Method? =
 Squirrly is addressing them with Focus Pages.
@@ -776,7 +615,7 @@ Time on page, bounce rates, number of pages visited are also very important and 
 
 We already address pagespeed and https and give resources to our users, so they are prepared for the update.
 
-https://howto12.squirrly.co/kb/focus-pages-page-audits/
+https://howto.squirrly.co/kb/focus-pages-page-audits/
 
 = What is the advantage of using Squirrly’s keyword research tool instead of using an external tool for this? =
 Squirrly’s built-in keyword research tool allows you to perform keyword research without leaving WordPress.
@@ -787,7 +626,7 @@ Maximum caching time is about 48 hours, not a whole year or two years like you f
 
 As we use Google API for search volume, Social Media for discussions, the data should be fresh every time and this is why it is different from others – and also why the data we show is different from what you may find in other keyword research tools who use caching for their data. (caching time can be extremely high for some of those tools).
 
-https://howto12.squirrly.co/kb/keyword-research-and-seo-strategy/
+https://howto.squirrly.co/kb/keyword-research-and-seo-strategy/
 
 = Can you guarantee SEO results? =
 If you follow what we outline here, then yes. We will guarantee (please read the following resource):
@@ -804,4 +643,4 @@ Please tell your webmaster to add the IPs 176.9.121.162 and 176.9.112.210 in the
 
 = 100% green in Squirrly Live Assistant but I'm not getting traffic yet =
 Sometimes we receive emails with this question and I want to help everybody have the correct image of Squirrly Live Assistance. The article bellow answers in detail this question.
-<a href="https://howto12.squirrly.co/wordpress-seo/100-green-in-squirrly-live-assistant-but-im-not-getting-traffic/">https://howto12.squirrly.co/wordpress-seo/100-green-in-squirrly-live-assistant-but-im-not-getting-traffic/</a>
+<a href="https://howto.squirrly.co/ht_kb/100-green-in-squirrly-live-assistant-but-im-not-getting-traffic/">https://howto.squirrly.co/ht_kb/100-green-in-squirrly-live-assistant-but-im-not-getting-traffic/</a>

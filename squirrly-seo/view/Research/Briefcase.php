@@ -16,7 +16,7 @@ if ( ! isset( $view ) ) {
     <div id="sq_content" class="d-flex flex-row bg-white my-0 p-0 m-0">
 		<?php
 		if ( ! apply_filters( 'sq_load_snippet', true ) || ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_snippet' ) ) {
-			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Editor role.", "squirrly-seo" ) . '</div>';
+			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need a WordPress role that can edit posts, like Author or Editor.", "squirrly-seo" ) . '<a href="https://howto.squirrly.co/ht_kb/squirrly-user-roles/#error" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></div>';
 
 			return;
 		}
@@ -30,7 +30,7 @@ if ( ! isset( $view ) ) {
                 <h3 class="mt-4 card-title">
 					<?php echo esc_html__( "Briefcase", "squirrly-seo" ); ?>
                     <div class="sq_help_question d-inline">
-                        <a href="https://howto12.squirrly.co/kb/keyword-research-and-seo-strategy/#briefcase" target="_blank"><i class="fa-solid fa-question-circle"></i></a>
+                        <a href="https://howto.squirrly.co/kb/keyword-research-and-seo-strategy/#briefcase" target="_blank"><i class="fa-solid fa-question-circle"></i></a>
                     </div>
                 </h3>
                 <div class="col-7 small m-0 p-0">
@@ -79,7 +79,9 @@ if ( ! isset( $view ) ) {
                             <div class="col-5 p-0 m-0">
                                 <select name="sq_bulk_action" class="sq_bulk_action">
                                     <option value=""><?php echo esc_html__( "Bulk Actions", "squirrly-seo" ) ?></option>
+									<?php if ( SQ_Classes_Helpers_Tools::userCan( 'sq_manage_focuspages' ) ) { //same access as Google Rankings ?>
                                     <option value="sq_ajax_briefcase_bulk_doserp"><?php echo esc_html__( "Send to Rankings", "squirrly-seo" ); ?></option>
+									<?php } ?>
                                     <option value="sq_ajax_briefcase_bulk_label"><?php echo esc_html__( "Assign Label", "squirrly-seo" ); ?></option>
                                     <option value="sq_ajax_briefcase_bulk_delete" data-confirm="<?php echo esc_attr__( "Are you sure you want to delete the keywords?", "squirrly-seo" ) ?>"><?php echo esc_html__( "Delete" ) ?></option>
                                 </select>
@@ -270,7 +272,7 @@ if ( ! isset( $view ) ) {
 															<?php echo esc_html__( "Optimize for this", 'squirrly-seo' ) ?>
                                                         </a>
                                                     </li>
-													<?php if ( SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) { ?>
+													<?php if ( SQ_Classes_Helpers_Tools::userCan( 'sq_manage_focuspages' ) ) { //same access as Google Rankings ?>
 														<?php if ( isset( $row->do_serp ) && ! $row->do_serp ) { ?>
                                                             <li class="sq_research_doserp m-0 p-1 py-2" data-success="<?php echo esc_attr__( "Check Rankings", 'squirrly-seo' ) ?>" data-link="<?php echo esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_rankings', 'rankings', array(
 																'strict=1',
@@ -516,9 +518,9 @@ if ( ! isset( $view ) ) {
                         <i class="fa-solid fa-exclamation-circle"></i> <?php echo esc_html__( "Tips and Tricks", 'squirrly-seo' ); ?>
                     </h5>
                     <ul class="mx-4">
-                        <li class="text-left"><?php echo sprintf( esc_html__( "Add unlimited keywords in your Squirrly Briefcase to optimize your posts and pages. %s Learn More About Briefcase %s", 'squirrly-seo' ), '<a href="https://howto12.squirrly.co/wordpress-seo/briefcase/" target="_blank" >', '</a>' ); ?></li>
+                        <li class="text-left"><?php echo sprintf( esc_html__( "Add unlimited keywords in your Squirrly Briefcase to optimize your posts and pages. %s Learn More About Briefcase %s", 'squirrly-seo' ), '<a href="https://howto.squirrly.co/ht_kb/briefcase/" target="_blank" >', '</a>' ); ?></li>
                         <li>
-                            <a href="https://howto12.squirrly.co/kb/keyword-research-and-seo-strategy/#labels" target="_blank"><?php echo esc_html__( "Read more details about Briefcase Labels", 'squirrly-seo' ); ?></a>
+                            <a href="https://howto.squirrly.co/kb/keyword-research-and-seo-strategy/#labels" target="_blank"><?php echo esc_html__( "Read more details about Briefcase Labels", 'squirrly-seo' ); ?></a>
                         </li>
                     </ul>
                 </div>

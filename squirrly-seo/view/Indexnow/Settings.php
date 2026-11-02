@@ -17,7 +17,7 @@ if ( ! isset( $view ) ) {
     <div id="sq_content" class="d-flex flex-row bg-white my-0 p-0 m-0">
 		<?php
 		if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
-			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role.", 'squirrly-seo' ) . '</div>';
+			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role.", 'squirrly-seo' ) . '<a href="https://howto.squirrly.co/ht_kb/squirrly-user-roles/#error" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></div>';
 
 			return;
 		}
@@ -32,12 +32,12 @@ if ( ! isset( $view ) ) {
                 <h3 class="mt-4 card-title">
 					<?php echo esc_html__( "LLM Indexing Settings", 'squirrly-seo' ); ?>
                     <div class="sq_help_question d-inline">
-                        <a href="https://howto12.squirrly.co/kb/indexnow/#settings" target="_blank"><i class="fa-solid fa-question-circle"></i></a>
+                        <a href="https://howto.squirrly.co/kb/indexnow/#settings" target="_blank"><i class="fa-solid fa-question-circle"></i></a>
                     </div>
                 </h3>
 
                 <div class="col-7 small m-0 p-0">
-					<?php echo esc_html__( "Automatically send URLs to the IndexNow API. The post types are automatically sent to the IndexNow API when a post is published, updated, or trashed.", 'squirrly-seo' ); ?>
+					<?php echo esc_html__( "Automatically send URLs to the IndexNow API. A post of the selected types is sent when it's published, and again when its content changes.", 'squirrly-seo' ); ?>
                 </div>
 
                 <div id="sq_seosettings" class="col-12 p-0 m-0">
@@ -129,7 +129,7 @@ if ( ! isset( $view ) ) {
                                             <div class="col-4 p-0 font-weight-bold">
                                                 <label for="indexnow_post_type"><?php echo esc_html__( "IndexNow Endpoints", 'squirrly-seo' ); ?>
                                                     :</label>
-                                                <div class="small text-black-50 my-1"><?php echo esc_html__( "Select the IndexNow endpoints you want to submit the URLs to. api.indexnow.org forwards your URLs to every participating engine (Bing, Yandex, Seznam, Naver, Yep and more), so this one is usually enough - selecting several endpoints multiplies the requests and can trigger rate limits (429).", 'squirrly-seo' ); ?></div>
+                                                <div class="small text-black-50 my-1"><?php echo esc_html__( "Select the IndexNow endpoints you want to submit the URLs to. api.indexnow.org forwards your URLs to every participating engine (Bing, Yandex, Seznam, Naver, Yep and more), so this one is usually enough. The others are tried in order only when the one before doesn't accept the URLs.", 'squirrly-seo' ); ?></div>
                                             </div>
 
                                             <div class="col-8 p-0 m-0 form-group">

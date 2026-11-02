@@ -190,7 +190,8 @@ class SQ_Models_Bulkseo_Visibility extends SQ_Models_Abstract_Assistant {
 		}
 
 		if ( ! SQ_Classes_Helpers_Tools::getOption( 'sq_auto_redirects' ) ) {
-			$errors[] = sprintf( esc_html__( "Redirect is deactivated from %s Technical SEO > Tweaks And Sitemap > SEO Links %s.", 'squirrly-seo' ), '<a href="' . SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'tweaks#tab=links' ) . '" >', '</a>' );
+			//The only switch for sq_auto_redirects is "Activate Redirects" in the Snippet's Visibility tab (SEO Expert mode)
+			$errors[] = esc_html__( "Redirects are deactivated. Click Activate Redirects in the Visibility tab of the Squirrly SEO Snippet.", 'squirrly-seo' );
 		}
 
 		if ( ! empty( $errors ) ) {

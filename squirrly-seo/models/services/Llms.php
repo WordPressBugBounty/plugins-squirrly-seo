@@ -20,7 +20,8 @@ class SQ_Models_Services_Llms extends SQ_Models_Abstract_Seo {
 		header( 'Status: 200 OK', true, 200 );
 		header( 'Content-type: text/plain; charset=' . get_bloginfo( 'charset' ) );
 
-		echo esc_textarea( sanitize_textarea_field( $content ) );
+		//Served as text/plain: strip tags only. esc_textarea/sanitize_textarea_field turned & into &amp; and cut %C3%A9 out of URLs
+		echo wp_strip_all_tags( wp_check_invalid_utf8( (string) $content ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		exit();
 	}
 
@@ -80,7 +81,8 @@ class SQ_Models_Services_Llms extends SQ_Models_Abstract_Seo {
 		header( 'Status: 200 OK', true, 200 );
 		header( 'Content-type: text/plain; charset=' . get_bloginfo( 'charset' ) );
 
-		echo esc_textarea( sanitize_textarea_field( $robots ) );
+		//Served as text/plain: strip tags only. esc_textarea/sanitize_textarea_field turned & into &amp; and cut %C3%A9 out of URLs
+		echo wp_strip_all_tags( wp_check_invalid_utf8( (string) $robots ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		exit();
 	}
 }

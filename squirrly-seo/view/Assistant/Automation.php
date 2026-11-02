@@ -16,7 +16,7 @@ if ( ! isset( $view ) ) {
     <div id="sq_content" class="d-flex flex-row bg-white my-0 p-0 m-0">
 		<?php
 		if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
-			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role.", "squirrly-seo" ) . '</div>';
+			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role.", "squirrly-seo" ) . '<a href="https://howto.squirrly.co/ht_kb/squirrly-user-roles/#error" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></div>';
 
 			return;
 		}
@@ -93,7 +93,7 @@ if ( ! isset( $view ) ) {
                             <h3 class="mt-4 card-title">
                                 <?php echo esc_html__( "Automation", "squirrly-seo" ); ?>
                                 <div class="sq_help_question d-inline">
-                                    <a href="https://howto12.squirrly.co/kb/seo-automation/" target="_blank"><i class="fa-solid fa-question-circle" style="margin: 0;"></i></a>
+                                    <a href="https://howto.squirrly.co/kb/seo-automation/" target="_blank"><i class="fa-solid fa-question-circle" style="margin: 0;"></i></a>
                                 </div>
                             </h3>
                             <div class="col-7 small m-0 p-0">
@@ -108,7 +108,7 @@ if ( ! isset( $view ) ) {
                                             <div class="col-4 p-1">
                                                 <div class="font-weight-bold">
                                                     <?php echo esc_html__( "Add Post Type", "squirrly-seo" ); ?>
-                                                    :<a href="https://howto12.squirrly.co/kb/seo-automation/#add_post_type" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                    :<a href="https://howto.squirrly.co/kb/seo-automation/#add_post_type" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                 </div>
                                                 <div class="small text-black-50"><?php echo esc_html__( "Add new post types in the list and customize the automation for it.", "squirrly-seo" ); ?></div>
                                             </div>
@@ -148,7 +148,7 @@ if ( ! isset( $view ) ) {
                         <h3 class="mt-4 card-title">
 		                    <?php echo esc_html__( "Automation - Configurations", "squirrly-seo" ); ?>
                             <div class="sq_help_question d-inline">
-                                <a href="https://howto12.squirrly.co/kb/seo-automation/" target="_blank"><i class="fa-solid fa-question-circle" style="margin: 0;"></i></a>
+                                <a href="https://howto.squirrly.co/kb/seo-automation/" target="_blank"><i class="fa-solid fa-question-circle" style="margin: 0;"></i></a>
                             </div>
                         </h3>
 
@@ -202,7 +202,7 @@ if ( ! isset( $view ) ) {
                                                                 <div class="col-4 p-0 pr-3 font-weight-bold">
                                                                     <label for="patterns_<?php echo esc_attr( $pattern ) ?>_title"><?php echo esc_html__( "Title", "squirrly-seo" ); ?>
                                                                         :</label>
-                                                                    <a href="https://howto12.squirrly.co/kb/seo-automation/#title_automation" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                                    <a href="https://howto.squirrly.co/kb/seo-automation/#title_automation" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                                     <div class="small text-black-50 mt-1 mb-0"><?php echo esc_html__( "Recommended Length: 10-75 chars", "squirrly-seo" ); ?></div>
                                                                 </div>
                                                                 <div class="col-8 p-0 sq_pattern_field">
@@ -213,7 +213,7 @@ if ( ! isset( $view ) ) {
                                                                 <div class="col-4 p-0 pr-3 font-weight-bold">
                                                                     <label for="patterns_<?php echo esc_attr( $pattern ) ?>_description"><?php echo esc_html__( "Description", "squirrly-seo" ); ?>
                                                                         :</label>
-                                                                    <a href="https://howto12.squirrly.co/kb/seo-automation/#description_automation" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                                    <a href="https://howto.squirrly.co/kb/seo-automation/#description_automation" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                                     <div class="small text-black-50 mt-1 mb-0"><?php echo esc_html__( "Recommended Length: 70-320 chars", "squirrly-seo" ); ?></div>
                                                                 </div>
                                                                 <div class="col-8 p-0 sq_pattern_field">
@@ -224,7 +224,7 @@ if ( ! isset( $view ) ) {
                                                                 <div class="col-4 p-1 font-weight-bold">
                                                                     <label for="patterns_<?php echo esc_attr( $pattern ) ?>_sep"><?php echo esc_html__( "Separator", "squirrly-seo" ); ?>
                                                                         :</label>
-                                                                    <a href="https://howto12.squirrly.co/kb/seo-automation/#separator" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                                    <a href="https://howto.squirrly.co/kb/seo-automation/#separator" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                                     <div class="small text-black-50 mt-1 mb-0"><?php echo esc_html__( "Use a separator to help users read the most relevant part of your title and increase Conversion Rate.", "squirrly-seo" ); ?></div>
                                                                 </div>
                                                                 <div class="col-4 p-0">
@@ -232,8 +232,19 @@ if ( ! isset( $view ) ) {
 																		<?php
 																		$seps = json_decode( SQ_ALL_SEP, true );
 
+																		//A separator stored as the character itself ("|") selects its key (sc-pipe), so saving the tab keeps it
+																		$current_sep = isset( $type['sep'] ) ? (string) $type['sep'] : '';
+																		if ( $current_sep <> '' && ! isset( $seps[ $current_sep ] ) ) {
+																			foreach ( $seps as $sep => $code ) {
+																				if ( $current_sep === $code || $current_sep === html_entity_decode( $code, ENT_QUOTES, 'UTF-8' ) ) {
+																					$current_sep = $sep;
+																					break;
+																				}
+																			}
+																		}
+
 																		foreach ( $seps as $sep => $code ) { ?>
-                                                                            <option value="<?php echo esc_attr( $sep ) ?>" <?php echo ( isset( $type['sep'] ) && $type['sep'] == $sep ) ? 'selected="selected"' : '' ?>><?php echo esc_html( $code ) ?></option>
+                                                                            <option value="<?php echo esc_attr( $sep ) ?>" <?php echo ( $current_sep == $sep ) ? 'selected="selected"' : '' ?>><?php echo esc_html( $code ) ?></option>
 																		<?php } ?>
                                                                     </select>
                                                                 </div>
@@ -247,7 +258,7 @@ if ( ! isset( $view ) ) {
                                                                         <input type="hidden" name="patterns[<?php echo esc_attr( $pattern ) ?>][noindex]" value="1"/>
                                                                         <input type="checkbox" id="sq_patterns_<?php echo esc_attr( $pattern ) ?>_noindex" name="patterns[<?php echo esc_attr( $pattern ) ?>][noindex]" class="sq-switch" <?php echo( ( isset( $type['noindex'] ) && $type['noindex'] == 0 ) ? 'checked="checked"' : '' ) ?> value="0"/>
                                                                         <label for="sq_patterns_<?php echo esc_attr( $pattern ) ?>_noindex" class="ml-1"><?php echo esc_html__( "Let Google Index it", "squirrly-seo" ); ?>
-                                                                            <a href="https://howto12.squirrly.co/kb/seo-automation/#let_google_index" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                                            <a href="https://howto.squirrly.co/kb/seo-automation/#let_google_index" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                                         </label>
                                                                         <div class="small text-black-50 ml-5"><?php echo esc_html__( "If you switch off this option, Squirrly will add noindex meta for this post type.", "squirrly-seo" ); ?></div>
                                                                     </div>
@@ -262,7 +273,7 @@ if ( ! isset( $view ) ) {
                                                                             <input type="hidden" name="patterns[<?php echo esc_attr( $pattern ) ?>][nofollow]" value="1"/>
                                                                             <input type="checkbox" id="sq_patterns_<?php echo esc_attr( $pattern ) ?>_nofollow" name="patterns[<?php echo esc_attr( $pattern ) ?>][nofollow]" class="sq-switch" <?php echo( ( isset( $type['nofollow'] ) && $type['nofollow'] == 0 ) ? 'checked="checked"' : '' ) ?> value="0"/>
                                                                             <label for="sq_patterns_<?php echo esc_attr( $pattern ) ?>_nofollow" class="ml-1"><?php echo esc_html__( "Send Authority to it", "squirrly-seo" ); ?>
-                                                                                <a href="https://howto12.squirrly.co/kb/seo-automation/#send_authority" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                                                <a href="https://howto.squirrly.co/kb/seo-automation/#send_authority" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                                             </label>
                                                                             <div class="small text-black-50 ml-5"><?php echo esc_html__( "If you switch off this option, Squirrly will add 'nofollow' meta for this post type.", "squirrly-seo" ); ?></div>
                                                                         </div>
@@ -278,7 +289,7 @@ if ( ! isset( $view ) ) {
                                                                         <input type="hidden" name="patterns[<?php echo esc_attr( $pattern ) ?>][do_sitemap]" value="0"/>
                                                                         <input type="checkbox" id="sq_patterns_<?php echo esc_attr( $pattern ) ?>_do_sitemap" name="patterns[<?php echo esc_attr( $pattern ) ?>][do_sitemap]" class="sq-switch" <?php echo( ( isset( $type['do_sitemap'] ) && $type['do_sitemap'] == 1 ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                                         <label for="sq_patterns_<?php echo esc_attr( $pattern ) ?>_do_sitemap" class="ml-1"><?php echo esc_html__( "Include In Sitemap", "squirrly-seo" ); ?>
-                                                                            <a href="https://howto12.squirrly.co/kb/seo-automation/#send_to_sitemap" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                                            <a href="https://howto.squirrly.co/kb/seo-automation/#send_to_sitemap" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                                         </label>
                                                                         <?php if ( $pattern == 'search' ) { ?>
                                                                             <?php $sq_search_model = SQ_Classes_ObjController::getClass( 'SQ_Models_Searches' ); $sq_search_limits = $sq_search_model ? $sq_search_model->getThresholds() : array( 'results' => 3, 'hits' => 3 ); ?>
@@ -323,7 +334,7 @@ if ( ! isset( $view ) ) {
                                                                         <input type="hidden" name="patterns[<?php echo esc_attr( $pattern ) ?>][do_redirects]" value="0"/>
                                                                         <input type="checkbox" id="sq_patterns_<?php echo esc_attr( $pattern ) ?>_do_redirects" name="patterns[<?php echo esc_attr( $pattern ) ?>][do_redirects]" class="sq-switch" <?php echo( ( isset( $type['do_redirects'] ) && $type['do_redirects'] == 1 ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                                         <label for="sq_patterns_<?php echo esc_attr( $pattern ) ?>_do_redirects" class="ml-1"><?php echo esc_html__( "Redirect Broken URLs", "squirrly-seo" ); ?>
-                                                                            <a href="https://howto12.squirrly.co/kb/seo-automation/#redirect_404_links" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                                            <a href="https://howto.squirrly.co/kb/seo-automation/#redirect_404_links" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                                         </label>
                                                                         <div class="small text-black-50 ml-5"><?php echo esc_html__( "Redirect the 404 URL in case it is changed with a new one in Post Editor.", "squirrly-seo" ); ?></div>
                                                                     </div>
@@ -336,7 +347,7 @@ if ( ! isset( $view ) ) {
                                                                 <div class="col-4 p-0 pr-3 font-weight-bold">
                                                                     <label for="404_url_redirect"><?php echo esc_html__( "Default Redirect URL", "squirrly-seo" ); ?>
                                                                         :</label>
-                                                                    <a href="https://howto12.squirrly.co/kb/seo-automation/#redirect_404_links" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                                    <a href="https://howto.squirrly.co/kb/seo-automation/#redirect_404_links" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                                     <div class="small text-black-50 my-1"><?php echo esc_html__( "Add the default URL for the Broken URLs when no permalink is found.", "squirrly-seo" ); ?></div>
                                                                 </div>
                                                                 <div class="col-8 p-0 m-0 my-3">
@@ -366,7 +377,7 @@ if ( ! isset( $view ) ) {
                                                                         <input type="hidden" name="patterns[<?php echo esc_attr( $pattern ) ?>][do_metas]" value="0"/>
                                                                         <input type="checkbox" id="sq_patterns_<?php echo esc_attr( $pattern ) ?>_do_metas" name="patterns[<?php echo esc_attr( $pattern ) ?>][do_metas]" class="sq-switch" <?php echo( ( isset( $type['do_metas'] ) && $type['do_metas'] == 1 ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                                         <label for="sq_patterns_<?php echo esc_attr( $pattern ) ?>_do_metas" class="ml-1"><?php echo esc_html__( "Load SEO Metas", "squirrly-seo" ); ?>
-                                                                            <a href="https://howto12.squirrly.co/kb/seo-automation/#load_squirrly_metas" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                                            <a href="https://howto.squirrly.co/kb/seo-automation/#load_squirrly_metas" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                                         </label>
                                                                         <div class="small text-black-50 ml-5"><?php echo esc_html__( "Let Squirrly SEO load the Title, Description, Keyword METAs for this post type.", "squirrly-seo" ); ?></div>
                                                                     </div>
@@ -381,7 +392,7 @@ if ( ! isset( $view ) ) {
                                                                         <input type="hidden" name="patterns[<?php echo esc_attr( $pattern ) ?>][do_pattern]" value="0"/>
                                                                         <input type="checkbox" id="sq_patterns_<?php echo esc_attr( $pattern ) ?>_do_pattern" name="patterns[<?php echo esc_attr( $pattern ) ?>][do_pattern]" class="sq-switch" <?php echo( ( isset( $type['do_pattern'] ) && $type['do_pattern'] == 1 ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                                         <label for="sq_patterns_<?php echo esc_attr( $pattern ) ?>_do_pattern" class="ml-1"><?php echo esc_html__( "Load Squirrly Patterns", "squirrly-seo" ); ?>
-                                                                            <a href="https://howto12.squirrly.co/kb/seo-automation/#load_squirrly_patterns" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                                            <a href="https://howto.squirrly.co/kb/seo-automation/#load_squirrly_patterns" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                                         </label>
                                                                         <div class="small text-black-50 ml-5"><?php echo esc_html__( "Let Squirrly SEO load the Patterns for this post type.", "squirrly-seo" ); ?></div>
                                                                     </div>
@@ -396,7 +407,7 @@ if ( ! isset( $view ) ) {
                                                                         <input type="hidden" name="patterns[<?php echo esc_attr( $pattern ) ?>][do_jsonld]" value="0"/>
                                                                         <input type="checkbox" id="sq_patterns_<?php echo esc_attr( $pattern ) ?>_do_jsonld" name="patterns[<?php echo esc_attr( $pattern ) ?>][do_jsonld]" class="sq-switch" <?php echo( ( isset( $type['do_jsonld'] ) && $type['do_jsonld'] == 1 ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                                         <label for="sq_patterns_<?php echo esc_attr( $pattern ) ?>_do_jsonld" class="ml-1"><?php echo esc_html__( "Load JSON-LD Structured Data", "squirrly-seo" ); ?>
-                                                                            <a href="https://howto12.squirrly.co/kb/seo-automation/#load_jsonld_schema" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                                            <a href="https://howto.squirrly.co/kb/seo-automation/#load_jsonld_schema" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                                         </label>
                                                                         <div class="small text-black-50 ml-5"><?php echo esc_html__( "Let Squirrly SEO load the JSON-LD Schema for this post type.", "squirrly-seo" ); ?></div>
                                                                     </div>
@@ -406,7 +417,7 @@ if ( ! isset( $view ) ) {
                                                                             <div class="font-weight-bold">
                                                                                 <label for="patterns_<?php echo esc_attr( $pattern ) ?>_jsonld_types"><?php echo esc_html__( "JSON-LD Type", "squirrly-seo" ); ?>
                                                                                     :</label>
-                                                                                <a href="https://howto12.squirrly.co/kb/seo-automation/#load_jsonld_schema" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                                                <a href="https://howto.squirrly.co/kb/seo-automation/#load_jsonld_schema" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                                             </div>
                                                                             <div class="small text-black-50"><?php echo esc_html__( "JSON-LD will load the Schema for the selected types.", "squirrly-seo" ); ?></div>
                                                                         </div>
@@ -450,7 +461,7 @@ if ( ! isset( $view ) ) {
                                                                         <input type="hidden" name="patterns[<?php echo esc_attr( $pattern ) ?>][do_og]" value="0"/>
                                                                         <input type="checkbox" id="sq_patterns_<?php echo esc_attr( $pattern ) ?>_do_og" name="patterns[<?php echo esc_attr( $pattern ) ?>][do_og]" class="sq-switch" <?php echo( ( isset( $type['do_og'] ) && $type['do_og'] == 1 ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                                         <label for="sq_patterns_<?php echo esc_attr( $pattern ) ?>_do_og" class="ml-1"><?php echo esc_html__( "Load Squirrly Open Graph", "squirrly-seo" ); ?>
-                                                                            <a href="https://howto12.squirrly.co/kb/seo-automation/#load_open_graph" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                                            <a href="https://howto.squirrly.co/kb/seo-automation/#load_open_graph" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                                         </label>
                                                                         <div class="small text-black-50 ml-5"><?php echo esc_html__( "Let Squirrly SEO load the Open Graph for this post type.", "squirrly-seo" ); ?></div>
                                                                     </div>
@@ -460,7 +471,7 @@ if ( ! isset( $view ) ) {
                                                                             <div class="font-weight-bold">
                                                                                 <label for="patterns_<?php echo esc_attr( $pattern ) ?>_og_type"><?php echo esc_html__( "Open Graph Type", "squirrly-seo" ); ?>
                                                                                     :</label>
-                                                                                <a href="https://howto12.squirrly.co/kb/seo-automation/#load_open_graph" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                                                <a href="https://howto.squirrly.co/kb/seo-automation/#load_open_graph" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                                             </div>
                                                                             <div class="small text-black-50"><?php echo esc_html__( "Select which Open Graph type to load for this post type.", "squirrly-seo" ); ?></div>
                                                                         </div>
@@ -512,7 +523,7 @@ if ( ! isset( $view ) ) {
                                                                         <input type="hidden" name="patterns[<?php echo esc_attr( $pattern ) ?>][do_twc]" value="0"/>
                                                                         <input type="checkbox" id="sq_patterns_<?php echo esc_attr( $pattern ) ?>_do_twc" name="patterns[<?php echo esc_attr( $pattern ) ?>][do_twc]" class="sq-switch" <?php echo( ( isset( $type['do_twc'] ) && $type['do_twc'] == 1 ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                                         <label for="sq_patterns_<?php echo esc_attr( $pattern ) ?>_do_twc" class="ml-1"><?php echo esc_html__( "Load Squirrly Twitter Card", "squirrly-seo" ); ?>
-                                                                            <a href="https://howto12.squirrly.co/kb/seo-automation/#load_twitter_card" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                                            <a href="https://howto.squirrly.co/kb/seo-automation/#load_twitter_card" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                                         </label>
                                                                         <div class="small text-black-50 ml-5"><?php echo esc_html__( "Let Squirrly SEO load the Twitter Card for this post type.", "squirrly-seo" ); ?></div>
                                                                     </div>
@@ -527,7 +538,7 @@ if ( ! isset( $view ) ) {
                                                                         <input type="hidden" name="patterns[<?php echo esc_attr( $pattern ) ?>][do_analytics]" value="0"/>
                                                                         <input type="checkbox" id="sq_patterns_<?php echo esc_attr( $pattern ) ?>_do_analytics" name="patterns[<?php echo esc_attr( $pattern ) ?>][do_analytics]" class="sq-switch" <?php echo( ( isset( $type['do_analytics'] ) && $type['do_analytics'] == 1 ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                                         <label for="sq_patterns_<?php echo esc_attr( $pattern ) ?>_do_analytics" class="ml-1"><?php echo esc_html__( "Load Google Analytics Tracking Script", "squirrly-seo" ); ?>
-                                                                            <a href="https://howto12.squirrly.co/kb/seo-automation/#load_analytics_tracking" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                                            <a href="https://howto.squirrly.co/kb/seo-automation/#load_analytics_tracking" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                                         </label>
                                                                         <div class="small text-black-50 ml-5"><?php echo esc_html__( "Let Google Analytics Tracking to load for this post type.", "squirrly-seo" ); ?></div>
                                                                     </div>
@@ -544,7 +555,7 @@ if ( ! isset( $view ) ) {
                                                                         <input type="hidden" name="patterns[<?php echo esc_attr( $pattern ) ?>][do_fpixel]" value="0"/>
                                                                         <input type="checkbox" id="sq_patterns_<?php echo esc_attr( $pattern ) ?>_do_fpixel" name="patterns[<?php echo esc_attr( $pattern ) ?>][do_fpixel]" class="sq-switch" <?php echo( ( isset( $type['do_fpixel'] ) && $type['do_fpixel'] == 1 ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                                         <label for="sq_patterns_<?php echo esc_attr( $pattern ) ?>_do_fpixel" class="ml-1"><?php echo esc_html__( "Load Facebook Pixel Tracking Script", "squirrly-seo" ); ?>
-                                                                            <a href="https://howto12.squirrly.co/kb/seo-automation/#load_facebook_pixel" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                                            <a href="https://howto.squirrly.co/kb/seo-automation/#load_facebook_pixel" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                                         </label>
                                                                         <div class="small text-black-50 ml-5"><?php echo esc_html__( "Let Facebook Pixel Tracking to load for this post type.", "squirrly-seo" ); ?></div>
                                                                     </div>
@@ -593,7 +604,7 @@ if ( ! isset( $view ) ) {
                             <div class="col-12 p-0 m-0 my-5">
                                 <h3 class="card-title">
 									<?php echo esc_html__( "Squirrly Patterns", "squirrly-seo" ); ?>
-                                    <a href="https://howto12.squirrly.co/kb/seo-automation/#add_patterns" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                    <a href="https://howto.squirrly.co/kb/seo-automation/#add_patterns" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                 </h3>
                                 <div class="col-12 text-left m-0 p-0">
                                     <div class="col-7 small m-0 p-0"><?php echo esc_html__( "Use the Pattern system to prevent Title and Description duplicates between posts", "squirrly-seo" ); ?></div>

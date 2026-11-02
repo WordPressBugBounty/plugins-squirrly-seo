@@ -17,7 +17,7 @@ if ( ! isset( $view ) ) {
     <div id="sq_content" class="d-flex flex-row bg-white my-0 p-0 m-0">
 		<?php
 		if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
-			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role.", 'squirrly-seo' ) . '</div>';
+			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role.", 'squirrly-seo' ) . '<a href="https://howto.squirrly.co/ht_kb/squirrly-user-roles/#error" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></div>';
 
 			return;
 		}
@@ -38,7 +38,7 @@ if ( ! isset( $view ) ) {
                         <h3 class="mt-4 card-title">
 							<?php echo esc_html__( "Tweaks And Sitemap", 'squirrly-seo' ); ?>
                             <div class="sq_help_question d-inline">
-                                <a href="https://howto12.squirrly.co/kb/sitemap-xml-settings/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                                <a href="https://howto.squirrly.co/kb/sitemap-xml-settings/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                             </div>
                         </h3>
                         <div class="col-7 small m-0 p-0">
@@ -62,7 +62,7 @@ if ( ! isset( $view ) ) {
 
                                     <div class="col-12 row m-0 p-0 my-2">
                                         <h3 class="card-title"><?php echo esc_html__( "Build Sitemaps for", 'squirrly-seo' ); ?>
-                                            <a href="https://howto12.squirrly.co/kb/sitemap-xml-settings/#post_types" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                            <a href="https://howto.squirrly.co/kb/sitemap-xml-settings/#post_types" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                         </h3>
                                         <div class="col-12 small m-0 p-0">
 											<?php echo sprintf( esc_html__( "Check the sitemap you want Squirrly to build for your website. Your sitemap will be %s", 'squirrly-seo' ), '<a href="' . esc_url( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Sitemaps' )->getXmlUrl( 'sitemap' ) ) . '" target="_blank"><strong>' . esc_html( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Sitemaps' )->getXmlUrl( 'sitemap' ) ) . '</strong></a>' ); ?>
@@ -79,7 +79,7 @@ if ( ! isset( $view ) ) {
                                                 <div class="col-4 m-0 p-0">
                                                     <div class="font-weight-bold"><?php echo esc_html__( "Blogging Frequency", 'squirrly-seo' ); ?>
                                                         :
-                                                        <a href="https://howto12.squirrly.co/kb/sitemap-xml-settings/#blogging_frequency" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                        <a href="https://howto.squirrly.co/kb/sitemap-xml-settings/#blogging_frequency" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     </div>
                                                     <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "How often do you write new posts?", 'squirrly-seo' ); ?></div>
                                                 </div>
@@ -101,7 +101,7 @@ if ( ! isset( $view ) ) {
                                                             <input type="hidden" name="sq_sitemap_combinelangs" value="0"/>
                                                             <input type="checkbox" id="sq_sitemap_combinelangs" name="sq_sitemap_combinelangs" class="sq-switch" <?php echo( ( SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap_combinelangs' ) ) ? 'checked="checked"' : '' ); ?> value="1"/>
                                                             <label for="sq_sitemap_combinelangs" class="ml-1"><?php echo esc_html__( "Combine Languages in Sitemap", 'squirrly-seo' ); ?>
-                                                                <a href="https://howto12.squirrly.co/kb/sitemap-xml-settings/#polylang" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                                <a href="https://howto.squirrly.co/kb/sitemap-xml-settings/#polylang" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                             </label>
                                                             <div class="small text-black-50 ml-5"><?php echo esc_html__( "Add all languages in the same sitemap.xml file", 'squirrly-seo' ); ?></div>
                                                             <div class="small text-black-50 ml-5"><?php echo esc_html__( "If not selected, you have to add the language slug for each snippet. e.g. /en/sitemap.xml", 'squirrly-seo' ); ?></div>
@@ -134,7 +134,7 @@ if ( ! isset( $view ) ) {
                                                     <div class="col-12 m-0 p-0 sq-switch sq-switch-sm">
                                                         <input type="checkbox" id="sq_sitemap_news" name="sitemap[sitemap-news]" class="sq-switch" value="1" <?php echo( ( $sitemap['sitemap-news'][1] == 1 ) ? 'checked="checked"' : '' ); ?> />
                                                         <label for="sq_sitemap_news" class="ml-1"><?php echo esc_html__( "Google News", 'squirrly-seo' ); ?>
-                                                            <a href="https://howto12.squirrly.co/kb/sitemap-xml-settings/#news_sitemap" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                            <a href="https://howto.squirrly.co/kb/sitemap-xml-settings/#news_sitemap" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                         </label>
                                                         <div class="small text-black-50 ml-5"><?php echo sprintf( esc_html__( "Only if you have a News website. Make sure you submit your website to %sGoogle News%s first.", 'squirrly-seo' ), '<a href="https://support.google.com/news/publisher-center/answer/9607025" target="_blank">', '</a>' ); ?></div>
                                                         <div class="small text-black-50 ml-5"><?php echo '<a href="' . esc_url( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Sitemaps' )->getXmlUrl( 'sitemap-news' ) ) . '" target="_blank" style="font-size: 13px; text-decoration: none; color: #999;"><strong>' . esc_url( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Sitemaps' )->getXmlUrl( 'sitemap-news' ) ) . '</strong></a>' ?></div>
@@ -282,7 +282,7 @@ if ( ! isset( $view ) ) {
                                                         <div class="col-12 m-0 p-0 sq-switch sq-switch-sm">
                                                             <input type="checkbox" id="sq_sitemap_product" name="sitemap[sitemap-product]" class="sq-switch" value="1" <?php echo( ( $sitemap['sitemap-product'][1] == 1 ) ? 'checked="checked"' : '' ); ?> />
                                                             <label for="sq_sitemap_product" class="ml-1"><?php echo esc_html__( "Products", 'squirrly-seo' ); ?>
-                                                                <a href="https://howto12.squirrly.co/kb/sitemap-xml-settings/#product_sitemap" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                                <a href="https://howto.squirrly.co/kb/sitemap-xml-settings/#product_sitemap" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                             </label>
                                                             <div class="small text-black-50 ml-5"><?php echo esc_html__( "Build the sitemap for your e-commerce products.", 'squirrly-seo' ); ?></div>
 															<?php
@@ -307,7 +307,7 @@ if ( ! isset( $view ) ) {
                                                         <input type="hidden" name="sq_sitemap_show[images]" value="0"/>
                                                         <input type="checkbox" id="sq_sitemap_show_images" name="sq_sitemap_show[images]" class="sq-switch" <?php echo( ( $sitemapshow['images'] ) ? 'checked="checked"' : '' ); ?> value="1"/>
                                                         <label for="sq_sitemap_show_images" class="ml-1"><?php echo esc_html__( "Include Images in Sitemap", 'squirrly-seo' ); ?>
-                                                            <a href="https://howto12.squirrly.co/kb/sitemap-xml-settings/#image_sitemap" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                            <a href="https://howto.squirrly.co/kb/sitemap-xml-settings/#image_sitemap" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                         </label>
                                                         <div class="small text-black-50 ml-5"><?php echo esc_html__( "Add the image tag for each post with feature image to index your images in Google Image Search.", 'squirrly-seo' ); ?></div>
                                                     </div>
@@ -319,7 +319,7 @@ if ( ! isset( $view ) ) {
                                                         <input type="hidden" name="sq_sitemap_show[videos]" value="0"/>
                                                         <input type="checkbox" id="sq_sitemap_show_video" name="sq_sitemap_show[videos]" class="sq-switch" <?php echo( ( $sitemapshow['videos'] ) ? 'checked="checked"' : '' ); ?> value="1"/>
                                                         <label for="sq_sitemap_show_video" class="ml-1"><?php echo esc_html__( "Include Videos in Sitemap", 'squirrly-seo' ); ?>
-                                                            <a href="https://howto12.squirrly.co/kb/sitemap-xml-settings/#video_sitemap" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                            <a href="https://howto.squirrly.co/kb/sitemap-xml-settings/#video_sitemap" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                         </label>
                                                         <div class="small text-black-50 ml-5"><?php echo esc_html__( "Add the video tag for each post with embed video in it.", 'squirrly-seo' ); ?></div>
                                                     </div>
@@ -331,7 +331,7 @@ if ( ! isset( $view ) ) {
                                                         <input type="hidden" name="sq_sitemap_ping" value="0"/>
                                                         <input type="checkbox" id="sq_sitemap_ping" name="sq_sitemap_ping" class="sq-switch" <?php echo( ( SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap_ping' ) ) ? 'checked="checked"' : '' ); ?> value="1"/>
                                                         <label for="sq_sitemap_ping" class="ml-1"><?php echo esc_html__( "Ping New Posts to Search Engines", 'squirrly-seo' ); ?>
-                                                            <a href="https://howto12.squirrly.co/kb/sitemap-xml-settings/#ping_sitemap" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                            <a href="https://howto.squirrly.co/kb/sitemap-xml-settings/#ping_sitemap" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                         </label>
                                                         <div class="small text-black-50 ml-5"><?php echo esc_html__( "Ping your sitemap to Search Engines when a new post is published.", 'squirrly-seo' ); ?></div>
                                                     </div>
@@ -374,7 +374,7 @@ if ( ! isset( $view ) ) {
                                                 <div class="col-4 m-0 p-0">
                                                     <div class="font-weight-bold"><?php echo esc_html__( "Sitemap Pagination", 'squirrly-seo' ); ?>
                                                         :
-                                                        <a href="https://howto12.squirrly.co/kb/sitemap-xml-settings/#sitemap_pagination" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                        <a href="https://howto.squirrly.co/kb/sitemap-xml-settings/#sitemap_pagination" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     </div>
                                                     <div class="small text-black-50"><?php echo esc_html__( "Split the sitemap records in pages to prevent slow sitemap loading.", 'squirrly-seo' ); ?></div>
                                                 </div>
@@ -417,7 +417,7 @@ if ( ! isset( $view ) ) {
                                 <div id="links" class="col-12 py-0 px-4 m-0 tab-panel">
                                     <div class="col-12 m-0 p-0 my-2">
                                         <h3 class="card-title"><?php echo esc_html__( "SEO Links & Redirects", 'squirrly-seo' ); ?>
-                                            <a href="https://howto12.squirrly.co/kb/sitemap-xml-settings/#post_types" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                            <a href="https://howto.squirrly.co/kb/sitemap-xml-settings/#post_types" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                         </h3>
                                         <div class="col-12 small m-0 p-0">
 											<?php echo esc_html__( "Increase the website authority by not sending authority to all external links.", 'squirrly-seo' ); ?>
@@ -431,7 +431,7 @@ if ( ! isset( $view ) ) {
                                                     <input type="hidden" name="sq_attachment_redirect" value="0"/>
                                                     <input type="checkbox" id="sq_attachment_redirect" name="sq_attachment_redirect" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_attachment_redirect' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                     <label for="sq_attachment_redirect" class="ml-1"><?php echo esc_html__( "Redirect Attachments Page", 'squirrly-seo' ); ?>
-                                                        <a href="https://howto12.squirrly.co/kb/seo-links/#redirect_attachments" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                        <a href="https://howto.squirrly.co/kb/seo-links/#redirect_attachments" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     </label>
                                                     <div class="small text-black-50 ml-5"><?php echo esc_html__( "Redirect the attachment page to its image URL.", 'squirrly-seo' ); ?></div>
                                                     <div class="small text-black-50 ml-5"><?php echo esc_html__( "Recommended if your website is not a photography website.", 'squirrly-seo' ); ?></div>
@@ -445,7 +445,7 @@ if ( ! isset( $view ) ) {
                                                     <input type="checkbox" id="sq_external_nofollow" name="sq_external_nofollow" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_external_nofollow' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                     <label for="sq_external_nofollow" class="ml-1"><?php echo esc_html__( "Add Nofollow to external links", 'squirrly-seo' ); ?>
                                                         (BETA)
-                                                        <a href="https://howto12.squirrly.co/kb/seo-links/#nofollow_external" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                        <a href="https://howto.squirrly.co/kb/seo-links/#nofollow_external" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     </label>
                                                     <div class="small text-black-50 ml-5"><?php echo esc_html__( "Add the 'nofollow' attribute to all external links and stop losing authority.", 'squirrly-seo' ); ?></div>
                                                 </div>
@@ -457,7 +457,7 @@ if ( ! isset( $view ) ) {
                                                     <input type="hidden" name="sq_external_blank" value="0"/>
                                                     <input type="checkbox" id="sq_external_blank" name="sq_external_blank" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_external_blank' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                     <label for="sq_external_blank" class="ml-1"><?php echo esc_html__( "Open external links in New Tab", 'squirrly-seo' ); ?>
-                                                        <a href="https://howto12.squirrly.co/kb/seo-links/#newtab_external" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                        <a href="https://howto.squirrly.co/kb/seo-links/#newtab_external" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     </label>
                                                     <div class="small text-black-50 ml-5"><?php echo esc_html__( "Add the '_blank' attribute to all external links to open them in a new tab.", 'squirrly-seo' ); ?></div>
                                                 </div>
@@ -466,7 +466,7 @@ if ( ! isset( $view ) ) {
                                         <div class="col-12 row m-0 p-0 h-100 my-4">
                                             <div class="col-4 p-0 pr-3 font-weight-bold">
 												<?php echo esc_html__( "Domain Exception", 'squirrly-seo' ); ?>:
-                                                <a href="https://howto12.squirrly.co/kb/seo-links/#external_domain_exception" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                <a href="https://howto.squirrly.co/kb/seo-links/#external_domain_exception" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                 <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "Add external links for who you don't want to apply the nofollow.", 'squirrly-seo' ); ?></div>
                                             </div>
                                             <div class="col-8 p-0 form-group">
@@ -506,7 +506,7 @@ if ( ! isset( $view ) ) {
                                 <div id="robots" class="col-12 py-0 px-4 m-0 tab-panel">
                                     <div class="col-12 m-0 p-0 my-2">
                                         <h3 class="card-title"><?php echo esc_html__( "Robots File", 'squirrly-seo' ); ?>
-                                            <a href="https://howto12.squirrly.co/kb/robots-txt-settings/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                                            <a href="https://howto.squirrly.co/kb/robots-txt-settings/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                                         </h3>
                                         <div class="col-12 small m-0 p-0">
 											<?php echo esc_html__( "A robots.txt file tells search engine crawlers which pages or files the crawler can or can't request from your site.", 'squirrly-seo' ); ?>
@@ -517,7 +517,7 @@ if ( ! isset( $view ) ) {
                                     <div class="col-12 row m-0 p-0 my-5">
                                         <div class="col-4 p-0 pr-3 font-weight-bold">
 											<?php echo esc_html__( "Edit the Robots.txt data", 'squirrly-seo' ); ?>:
-                                            <a href="https://howto12.squirrly.co/kb/robots-txt-settings/#default_robots" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                            <a href="https://howto.squirrly.co/kb/robots-txt-settings/#default_robots" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                             <div class="small text-black-50 my-1 pr-3"><?php echo sprintf( esc_html__( "Does not physically create the robots.txt file. The best option for WP Multisite.", 'squirrly-seo' ), '<a href="https://developers.facebook.com/apps/" target="_blank"><strong>', '</strong></a>' ); ?></div>
                                         </div>
 
@@ -550,7 +550,7 @@ if ( ! isset( $view ) ) {
                                 <div id="llms" class="col-12 py-0 px-4 m-0 tab-panel">
                                     <div class="col-12 m-0 p-0 my-2">
                                         <h3 class="card-title"><?php echo esc_html__( "LLMs File", 'squirrly-seo' ); ?>
-                                            <a href="https://howto12.squirrly.co/kb/llms-txt-settings/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                                            <a href="https://howto.squirrly.co/kb/llms-txt-settings/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                                         </h3>
                                         <div class="col-12 small m-0 p-0">
 											<?php echo esc_html__( "Enable and configure rules for AI crawlers and language models, controlling how your site’s content can be accessed and used by AI search engines.", 'squirrly-seo' ); ?>
@@ -566,7 +566,7 @@ if ( ! isset( $view ) ) {
                                     <div class="col-12 row m-0 p-0 my-5">
                                         <div class="col-4 p-0 pr-3 font-weight-bold">
 											<?php echo esc_html__( "Edit the Llms.txt data", 'squirrly-seo' ); ?>:
-                                            <a href="https://howto12.squirrly.co/kb/llms-txt-settings/#default" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                            <a href="https://howto.squirrly.co/kb/llms-txt-settings/#default" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                             <div class="small text-black-50 my-1 pr-3"><?php echo sprintf( esc_html__( "Does not physically create the llms.txt file. The best option for WP Multisite.", 'squirrly-seo' ), '<a href="https://developers.facebook.com/apps/" target="_blank"><strong>', '</strong></a>' ); ?></div>
                                         </div>
 
@@ -665,7 +665,7 @@ if ( ! isset( $view ) ) {
                                 <div id="favicon" class="col-12 py-0 px-4 m-0 tab-panel">
                                     <div class="col-12 m-0 p-0 my-2">
                                         <h3 class="card-title"><?php echo esc_html__( "Website Icon", 'squirrly-seo' ); ?>
-                                            <a href="https://howto12.squirrly.co/kb/website-favicon-settings/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                                            <a href="https://howto.squirrly.co/kb/website-favicon-settings/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                                         </h3>
                                         <div class="col-12 small m-0 p-0">
 											<?php echo esc_html__( "Add your website icon in the browser tabs and on other devices like iPhone, iPad and Android phones.", 'squirrly-seo' ); ?>
@@ -677,9 +677,9 @@ if ( ! isset( $view ) ) {
                                             <div class="col-4 p-0 pr-3">
                                                 <div class="font-weight-bold"><?php echo esc_html__( "Upload file", 'squirrly-seo' ); ?>
                                                     :
-                                                    <a href="https://howto12.squirrly.co/kb/website-favicon-settings/#upload_icon" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                    <a href="https://howto.squirrly.co/kb/website-favicon-settings/#upload_icon" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                 </div>
-                                                <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "Upload a jpg, jpeg, png or ico file.", 'squirrly-seo' ); ?></div>
+                                                <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "Upload an ICO, JPG, JPEG, GIF or PNG file.", 'squirrly-seo' ); ?></div>
                                             </div>
                                             <div class="col-1 m-0 p-2 text-center input-group">
 												<?php if ( SQ_Classes_Helpers_Tools::getOption( 'favicon' ) <> '' && file_exists( _SQ_CACHE_DIR_ . SQ_Classes_Helpers_Tools::getOption( 'favicon' ) ) ) { ?>
@@ -700,7 +700,7 @@ if ( ! isset( $view ) ) {
                                                     <input type="hidden" name="sq_favicon_apple" value="0"/>
                                                     <input type="checkbox" id="sq_favicon_apple" name="sq_favicon_apple" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_favicon_apple' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                     <label for="sq_favicon_apple" class="ml-1"><?php echo esc_html__( "Add Apple Touch Icons", 'squirrly-seo' ); ?>
-                                                        <a href="https://howto12.squirrly.co/kb/website-favicon-settings/#apple_icon" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                        <a href="https://howto.squirrly.co/kb/website-favicon-settings/#apple_icon" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     </label>
                                                     <div class="small text-black-50 ml-5"><?php echo esc_html__( "Also load the favicon for Apple devices.", 'squirrly-seo' ); ?></div>
                                                 </div>
@@ -709,8 +709,8 @@ if ( ! isset( $view ) ) {
 
                                         <div class="col-12 row py-2 mx-0 my-3">
                                             <span class="col-12 px-0 small text-black-50 font-italic">- <?php echo esc_html__( "If you don't see the new icon in your browser, empty the browser cache and refresh the page.", 'squirrly-seo' ); ?></span>
-                                            <span class="col-12 px-0 small text-black-50 font-italic">- <?php echo esc_html__( "Accepted file types: JPG, JPEG, GIF and PNG.", 'squirrly-seo' ); ?></span>
-                                            <span class="col-12 px-0 small text-black-50 font-italic">- <?php echo esc_html__( "Does not physically create the favicon.ico file. The best option for Multisites.", 'squirrly-seo' ); ?></span>
+                                            <span class="col-12 px-0 small text-black-50 font-italic">- <?php echo esc_html__( "Accepted file types: ICO, JPG, JPEG, GIF and PNG.", 'squirrly-seo' ); ?></span>
+                                            <span class="col-12 px-0 small text-black-50 font-italic">- <?php echo esc_html__( "On a single site it also replaces favicon.ico in the WordPress root folder. On a Multisite it doesn't touch that file.", 'squirrly-seo' ); ?></span>
                                         </div>
 
 										<?php do_action( 'sq_tweaks_favicon_after' ); ?>
@@ -724,7 +724,7 @@ if ( ! isset( $view ) ) {
                                 <div id="advanced" class="col-12 py-0 px-4 m-0 tab-panel">
                                     <div class="col-12 m-0 p-0 my-2">
                                         <h3 class="card-title"><?php echo esc_html__( "Advanced Settings", 'squirrly-seo' ); ?>
-                                            <a href="https://howto12.squirrly.co/kb/advanced-seo-settings/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                                            <a href="https://howto.squirrly.co/kb/advanced-seo-settings/" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                                         </h3>
                                     </div>
 
@@ -737,7 +737,7 @@ if ( ! isset( $view ) ) {
                                                     <input type="hidden" name="sq_use_frontend" value="0"/>
                                                     <input type="checkbox" id="sq_use_frontend" name="sq_use_frontend" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_use_frontend' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                     <label for="sq_use_frontend" class="ml-1"><?php echo esc_html__( "Load SEO Snippet in Frontend", 'squirrly-seo' ); ?>
-                                                        <a href="https://howto12.squirrly.co/kb/seo-metas/#Add-Snippet-in-Frontend" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></label>
+                                                        <a href="https://howto.squirrly.co/kb/seo-metas/#Add-Snippet-in-Frontend" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></label>
                                                     <div class="small text-black-50 ml-5"><?php echo esc_html__( "Load Squirrly SEO Snippet in Frontend to customize the SEO directly from page preview.", 'squirrly-seo' ); ?></div>
                                                 </div>
                                             </div>
@@ -772,7 +772,7 @@ if ( ! isset( $view ) ) {
                                                     <input type="hidden" name="sq_load_css" value="0"/>
                                                     <input type="checkbox" id="sq_load_css" name="sq_load_css" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_load_css' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                     <label for="sq_load_css" class="ml-1"><?php echo esc_html__( "Load Squirrly Frontend CSS", 'squirrly-seo' ); ?>
-                                                        <a href="https://howto12.squirrly.co/kb/advanced-seo-settings/#frontend_css" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                        <a href="https://howto.squirrly.co/kb/advanced-seo-settings/#frontend_css" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     </label>
                                                     <div class="small text-black-50 ml-5"><?php echo esc_html__( "Load Squirrly SEO CSS for article inserted from Squirrly Blogging Assistant.", 'squirrly-seo' ); ?></div>
                                                 </div>
@@ -785,7 +785,7 @@ if ( ! isset( $view ) ) {
                                                     <input type="hidden" name="sq_minify" value="0"/>
                                                     <input type="checkbox" id="sq_minify" name="sq_minify" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_minify' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                     <label for="sq_minify" class="ml-1"><?php echo esc_html__( "Minify Squirrly SEO Metas", 'squirrly-seo' ); ?>
-                                                        <a href="https://howto12.squirrly.co/kb/advanced-seo-settings/#minify_metas" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                        <a href="https://howto.squirrly.co/kb/advanced-seo-settings/#minify_metas" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     </label>
                                                     <div class="small text-black-50 ml-5"><?php echo esc_html__( "Minify the METAs in source code to optimize the page load time.", 'squirrly-seo' ); ?></div>
                                                     <div class="small text-black-50 ml-5"><?php echo esc_html__( "Remove comments and newlines from Squirrly SEO Metas.", 'squirrly-seo' ); ?></div>
@@ -799,7 +799,7 @@ if ( ! isset( $view ) ) {
                                                     <input type="hidden" name="sq_laterload" value="0"/>
                                                     <input type="checkbox" id="sq_laterload" name="sq_laterload" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_laterload' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                     <label for="sq_laterload" class="ml-1"><?php echo esc_html__( "Load Squirrly SEO Late Buffer", 'squirrly-seo' ); ?>
-                                                        <a href="https://howto12.squirrly.co/kb/advanced-seo-settings/#late_loading_buffer" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                        <a href="https://howto.squirrly.co/kb/advanced-seo-settings/#late_loading_buffer" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     </label>
                                                     <div class="small text-black-50 ml-5"><?php echo esc_html__( "Wait all plugins to load before loading Squirrly SEO frontend buffer.", 'squirrly-seo' ); ?></div>
                                                     <div class="small text-black-50 ml-5"><?php echo esc_html__( "For compatibility with some Cache and CDN plugins.", 'squirrly-seo' ); ?></div>
@@ -814,7 +814,7 @@ if ( ! isset( $view ) ) {
                                                         <input type="hidden" name="sq_non_utf8_support" value="0"/>
                                                         <input type="checkbox" id="sq_non_utf8_support" name="sq_non_utf8_support" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_non_utf8_support' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                         <label for="sq_non_utf8_support" class="ml-1"><?php echo esc_html__( "Multilingual Support", 'squirrly-seo' ); ?>
-                                                            <a href="https://howto12.squirrly.co/kb/advanced-seo-settings/#late_loading_buffer" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                            <a href="https://howto.squirrly.co/kb/advanced-seo-settings/#late_loading_buffer" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                         </label>
                                                         <div class="small text-black-50 ml-5"><?php echo esc_html__( "Convert the other encodings to UTF8 and avoid ajax errors.", 'squirrly-seo' ); ?></div>
                                                     </div>
@@ -828,7 +828,7 @@ if ( ! isset( $view ) ) {
                                                     <input type="hidden" name="sq_complete_uninstall" value="0"/>
                                                     <input type="checkbox" id="sq_complete_uninstall" name="sq_complete_uninstall" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_complete_uninstall' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                     <label for="sq_complete_uninstall" class="ml-1"><?php echo esc_html__( "Delete Squirrly SEO Table on Uninstall", 'squirrly-seo' ); ?>
-                                                        <a href="https://howto12.squirrly.co/kb/advanced-seo-settings/#delete_uninstall" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                        <a href="https://howto.squirrly.co/kb/advanced-seo-settings/#delete_uninstall" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     </label>
                                                     <div class="small text-black-50 ml-5"><?php echo esc_html__( "Delete Squirrly SEO table and options on uninstall.", 'squirrly-seo' ); ?></div>
                                                 </div>

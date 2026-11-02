@@ -8,6 +8,14 @@
  * Paths served:
  *   GET /.well-known/oauth-protected-resource  (RFC 9728)
  *   GET /.well-known/oauth-authorization-server (RFC 8414)
+ *   GET /.well-known/openid-configuration      (same document plus the OIDC required fields)
+ *   GET /.well-known/jwks.json                 (empty key set: tokens are HS256)
+ *
+ * The openid-configuration copy is for sites installed in a subdirectory
+ * (e.g. example.com/kb). Their issuer has a path, and MCP clients then look
+ * for the metadata at /.well-known/oauth-authorization-server/kb and
+ * /.well-known/openid-configuration/kb on the domain root, which belong to
+ * another site, and at /kb/.well-known/openid-configuration, which is ours.
  */
 
 declare(strict_types=1);
@@ -63,6 +71,16 @@ class Endpoints {
 		add_rewrite_rule(
 			'^\\.well-known/oauth-authorization-server$',
 			'index.php?' . self::QUERY_VAR . '=authorization-server',
+			'top'
+		);
+		add_rewrite_rule(
+			'^\\.well-known/openid-configuration$',
+			'index.php?' . self::QUERY_VAR . '=openid-configuration',
+			'top'
+		);
+		add_rewrite_rule(
+			'^\\.well-known/jwks\\.json$',
+			'index.php?' . self::QUERY_VAR . '=jwks',
 			'top'
 		);
 	}
@@ -123,7 +141,7 @@ class Endpoints {
 			];
 			McpLogger::log( 'DISCOVERY', 'serving protected-resource document', $body );
 			wp_send_json( $body );
-		} elseif ( 'authorization-server' === $discovery ) {
+		} elseif ( 'authorization-server' === $discovery || 'openid-configuration' === $discovery ) {
 			$body = [
 				'issuer'                                => $base_url,
 				'authorization_endpoint'                => $base_url . '/oauth/authorize',
@@ -137,8 +155,17 @@ class Endpoints {
 				'client_id_metadata_document_supported' => true,
 				'authorization_response_iss_parameter_supported' => true,
 			];
+			// Squirrly patch: clients validate openid-configuration as OIDC metadata, which needs these
+			// three; tokens are HS256 with a shared secret, so the published key set is empty.
+			if ( 'openid-configuration' === $discovery ) {
+				$body['jwks_uri']                              = $base_url . '/.well-known/jwks.json';
+				$body['subject_types_supported']               = [ 'public' ];
+				$body['id_token_signing_alg_values_supported'] = [ 'RS256' ];
+			}
 			McpLogger::log( 'DISCOVERY', 'serving authorization-server document', $body );
 			wp_send_json( $body );
+		} elseif ( 'jwks' === $discovery ) {
+			wp_send_json( [ 'keys' => [] ] );
 		}
 	}
 }

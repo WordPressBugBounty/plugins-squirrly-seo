@@ -85,7 +85,7 @@ if ( ! isset( $view ) ) {
             <div class="col-12">
                 <h4 class="text-white py-3"><?php echo esc_html__( "Connect this site to Google Analytics", "squirrly-seo" ); ?></h4>
                 <p><?php echo esc_html__( "Connect Google Analytics and get traffic insights for your website on each Audit.", "squirrly-seo" ) ?></p>
-                <p><?php echo sprintf( esc_html__( "Need Help Connecting Google Analytics? %sClick Here%s", "squirrly-seo" ), '<a href="https://howto12.squirrly.co/faq/how-do-i-connect-google-analytics-both-tracking-code-and-the-api-connection/" target="_blank" style="color: lightyellow; text-decoration: underline">', '</a>' ) ?></p>
+                <p><?php echo sprintf( esc_html__( "Need Help Connecting Google Analytics? %sClick Here%s", "squirrly-seo" ), '<a href="https://howto.squirrly.co/faq/how-do-i-connect-google-analytics-both-tracking-code-and-the-api-connection/" target="_blank" style="color: lightyellow; text-decoration: underline">', '</a>' ) ?></p>
             </div>
             <div class="sq_step1 mt-1">
                 <a href="<?php echo SQ_Classes_RemoteController::getApiLink( 'gaoauth' ); ?>" onclick="jQuery('.sq_step1').hide();jQuery('.sq_step2').show();jQuery(this).sq_clearCache();window.open(this.href,'sq_connect','width=600,height=720');return false;" target="_blank" type="button" class="btn btn-block btn-social btn-google text-primary connect-button connect btn-lg">

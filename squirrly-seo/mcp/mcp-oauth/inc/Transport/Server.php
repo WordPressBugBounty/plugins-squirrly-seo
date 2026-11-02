@@ -39,6 +39,18 @@ class Server {
 
 		$adapter = McpAdapter::instance();
 
+		// Squirrly patch: let the host plugin publish its abilities as named tools,
+		// so the client lists "Read page SEO" instead of one generic "Execute Ability".
+		$tools = wpm_apply_filters_typed(
+			'array',
+			'wpmedia_mcp_oauth_server_tools',
+			[
+				'mcp-adapter/discover-abilities',
+				'mcp-adapter/get-ability-info',
+				'mcp-adapter/execute-ability',
+			]
+		);
+
 		$adapter->create_server(
 			'mcp-oauth-server',
 			'mcp',
@@ -49,11 +61,7 @@ class Server {
 			[ OAuthHttpTransport::class ],
 			ErrorLogMcpErrorHandler::class,
 			$this->context->observability_handler(),
-			[
-				'mcp-adapter/discover-abilities',
-				'mcp-adapter/get-ability-info',
-				'mcp-adapter/execute-ability',
-			]
+			$tools
 		);
 	}
 }

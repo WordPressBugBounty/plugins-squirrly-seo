@@ -15,7 +15,7 @@ if ( ! isset( $view ) ) {
     <div id="sq_content" class="d-flex flex-row bg-white my-0 p-0 m-0">
 		<?php
 		if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
-			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role.", "squirrly-seo" ) . '</div>';
+			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role.", "squirrly-seo" ) . '<a href="https://howto.squirrly.co/ht_kb/squirrly-user-roles/#error" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></div>';
 
 			return;
 		}
@@ -34,7 +34,7 @@ if ( ! isset( $view ) ) {
                     <h3 class="mt-4 card-title">
 						<?php echo esc_html__( "Live Assistant Settings", "squirrly-seo" ); ?>
                         <div class="sq_help_question d-inline">
-                            <a href="https://howto12.squirrly.co/kb/squirrly-live-assistant/#settings" target="_blank"><i class="fa-solid fa-question-circle"></i></a>
+                            <a href="https://howto.squirrly.co/kb/squirrly-live-assistant/#settings" target="_blank"><i class="fa-solid fa-question-circle"></i></a>
                         </div>
                     </h3>
 
@@ -51,7 +51,7 @@ if ( ! isset( $view ) ) {
                                                     <input type="checkbox" id="sq_sla_frontend" name="sq_sla_frontend" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_sla_frontend' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                     <label for="sq_sla_frontend" class="ml-1"><?php echo esc_html__( "Activate Live Assistant in Frontend", "squirrly-seo" ); ?>
                                                         <span class="text-danger"></span>
-                                                        <a href="https://howto12.squirrly.co/kb/squirrly-live-assistant/#Add-Live-Assistant-in-Frontend" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                        <a href="https://howto.squirrly.co/kb/squirrly-live-assistant/#Add-Live-Assistant-in-Frontend" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                     </label>
                                                     <div class="small text-black-50 ml-5"><?php echo esc_html__( "Load Squirrly Live Assistant in Frontend to customize the posts and pages with Builders.", "squirrly-seo" ); ?></div>
                                                     <div class="small text-black-50 ml-5 mt-1"><?php echo sprintf( esc_html__( "Supports %s Elementor Builder %s plugin.", "squirrly-seo" ), '<a href="https://elementor.com/" target="_blank" class="font-weight-bold">', '</a>' ); ?></div>
@@ -76,7 +76,7 @@ if ( ! isset( $view ) ) {
                                                 <input type="hidden" name="sq_img_licence" value="0"/>
                                                 <input type="checkbox" id="sq_img_licence" name="sq_img_licence" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_img_licence' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                 <label for="sq_img_licence" class="ml-1"><?php echo esc_html__( "Show Copyright Free Images", "squirrly-seo" ); ?>
-                                                    <a href="https://howto12.squirrly.co/kb/squirrly-live-assistant/#copyright_free_images" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                    <a href="https://howto.squirrly.co/kb/squirrly-live-assistant/#copyright_free_images" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                 </label>
                                                 <div class="small text-black-50 ml-5"><?php echo sprintf( esc_html__( "Search %sCopyright Free Images%s in Squirrly Live Assistant.", "squirrly-seo" ), '<strong>', '</strong>' ); ?></div>
                                             </div>
@@ -89,7 +89,7 @@ if ( ! isset( $view ) ) {
                                                 <input type="hidden" name="sq_sla_social_fetch" value="0"/>
                                                 <input type="checkbox" id="sq_sla_social_fetch" name="sq_sla_social_fetch" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_sla_social_fetch' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                 <label for="sq_sla_social_fetch" class="ml-1"><?php echo esc_html__( "Fetch Snippet on Social Media", "squirrly-seo" ); ?>
-                                                    <a href="https://howto12.squirrly.co/kb/squirrly-live-assistant/#fetch_snippet" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                    <a href="https://howto.squirrly.co/kb/squirrly-live-assistant/#fetch_snippet" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                 </label>
                                                 <div class="small text-black-50 ml-5"><?php echo sprintf( esc_html__( "Automatically fetch the Squirrly Snippet on %sFacebook Sharing Debugger%s every time you update the content on a page.", "squirrly-seo" ), '<a href="https://developers.facebook.com/tools/debug/" target="_blank">', '</a>' ); ?></div>
                                             </div>
@@ -102,7 +102,7 @@ if ( ! isset( $view ) ) {
                                                 <input type="hidden" name="sq_local_images" value="0"/>
                                                 <input type="checkbox" id="sq_local_images" name="sq_local_images" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_local_images' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                 <label for="sq_local_images" class="ml-1"><?php echo esc_html__( "Download Remote Images", "squirrly-seo" ); ?>
-                                                    <a href="https://howto12.squirrly.co/kb/squirrly-live-assistant/#download_images" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                    <a href="https://howto.squirrly.co/kb/squirrly-live-assistant/#download_images" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                 </label>
                                                 <div class="small text-black-50 ml-5"><?php echo sprintf( esc_html__( "Download %sremote images%s in your %sMedia Library%s for the new posts.", "squirrly-seo" ), '<strong>', '</strong>', '<strong>', '</strong>' ); ?></div>
                                                 <div class="small text-black-50 ml-5"><?php echo esc_html__( "Prevent from losing the images you use in your articles in case the remote images are deleted.", "squirrly-seo" ); ?></div>
@@ -116,7 +116,7 @@ if ( ! isset( $view ) ) {
                                                 <input type="hidden" name="sq_keyword_help" value="0"/>
                                                 <input type="checkbox" id="sq_keyword_help" name="sq_keyword_help" class="sq-switch" <?php echo( SQ_Classes_Helpers_Tools::getOption( 'sq_keyword_help' ) ? 'checked="checked"' : '' ) ?> value="1"/>
                                                 <label for="sq_keyword_help" class="ml-1"><?php echo esc_html__( "Show Tooltips", "squirrly-seo" ); ?>
-                                                    <a href="https://howto12.squirrly.co/kb/squirrly-live-assistant/#tooltip" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                                    <a href="https://howto.squirrly.co/kb/squirrly-live-assistant/#tooltip" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                 </label>
                                                 <div class="small text-black-50 ml-5"><?php echo sprintf( esc_html__( "Show %s Tooltips %s in Squirrly Live Assistant for tasks and sections.", "squirrly-seo" ), '<strong>', '</strong>' ); ?></div>
                                             </div>
@@ -129,7 +129,7 @@ if ( ! isset( $view ) ) {
                                         <div class="col-4 p-0 font-weight-bold">
                                             <label for="sq_sla_type"><?php echo esc_html__( "Live Assistant Type", "squirrly-seo" ); ?>
                                                 :</label>
-                                            <a href="https://howto12.squirrly.co/kb/squirrly-live-assistant/#settings" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                            <a href="https://howto.squirrly.co/kb/squirrly-live-assistant/#settings" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                         </div>
                                         <div class="col-8 m-0 p-0 input-group">
                                             <select id="sq_sla_type" name="sq_sla_type" class="form-control bg-input mb-1">
@@ -147,7 +147,7 @@ if ( ! isset( $view ) ) {
                                         <div class="col-4 p-0 font-weight-bold">
                                             <label for="sq_sla_exclude_post_types"><?php echo esc_html__( "Exclusions", "squirrly-seo" ); ?>
                                                 :</label>
-                                            <a href="https://howto12.squirrly.co/kb/squirrly-live-assistant/#disable_live_assistant" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
+                                            <a href="https://howto.squirrly.co/kb/squirrly-live-assistant/#disable_live_assistant" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                             <div class="small text-black-50 pr-3 my-1"><?php echo esc_html__( "Select places where you do NOT want Squirrly Live Assistant to load.", "squirrly-seo" ); ?></div>
                                         </div>
                                         <div class="col-8 p-0 m-0 form-group">
@@ -180,7 +180,7 @@ if ( ! isset( $view ) ) {
                         <h3 class="mt-4 card-title">
 		                    <?php echo esc_html__( "META Lengths", "squirrly-seo" ); ?>
                             <div class="sq_help_question d-inline">
-                                <a href="https://howto12.squirrly.co/kb/seo-automation/" target="_blank"><i class="fa-solid fa-question-circle" style="margin: 0;"></i></a>
+                                <a href="https://howto.squirrly.co/kb/seo-automation/" target="_blank"><i class="fa-solid fa-question-circle" style="margin: 0;"></i></a>
                             </div>
                         </h3>
                         <div class="col-7 small m-0 p-0">
@@ -193,7 +193,7 @@ if ( ! isset( $view ) ) {
                             <div class="col-4 m-0 p-0 font-weight-bold">
                                 <label for="title_maxlength"><?php echo esc_html__( "Title Length", "squirrly-seo" ); ?>
                                     :
-                                    <a href="https://howto12.squirrly.co/kb/seo-automation/#automation_custom_lengths" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></label>
+                                    <a href="https://howto.squirrly.co/kb/seo-automation/#automation_custom_lengths" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></label>
                             </div>
                             <div class="col-6 p-0 input-group input-group-sm">
                                 <input id="title_maxlength" type="text" class="form-control bg-input" name="sq_metas[title_maxlength]" value="<?php echo (int) $metas->title_maxlength ?>"/>
@@ -204,7 +204,7 @@ if ( ! isset( $view ) ) {
                             <div class="col-4 m-0 p-0 font-weight-bold">
                                 <label for="description_maxlength"><?php echo esc_html__( "Description Length", "squirrly-seo" ); ?>
                                     :
-                                    <a href="https://howto12.squirrly.co/kb/seo-automation/#automation_custom_lengths" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></label>
+                                    <a href="https://howto.squirrly.co/kb/seo-automation/#automation_custom_lengths" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></label>
                             </div>
                             <div class="col-6 p-0 input-group input-group-sm">
                                 <input id="description_maxlength" type="text" class="form-control bg-input" name="sq_metas[description_maxlength]" value="<?php echo (int) $metas->description_maxlength ?>"/>

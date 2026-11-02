@@ -86,7 +86,7 @@ if ( ! isset( $view ) ) {
                 <div class="sq-row sq-p-2 sq-m-0  small" style="height: 100px;">
                     <i class="fa-solid fa-messages sq-p-1 sq-px-2 sq-m-0"></i>
                     <strong><?php echo esc_html__( "Squirrly Blogging Assistant", "squirrly-seo" ) ?>:</strong>
-                    <div class="sq_type_img_help sq_type_help sq-col-12 sq-px-4 sq-mx-2"><?php echo esc_html__( "The keyword will be automatically be added as the image alt text.", "squirrly-seo" ) ?></div>
+                    <div class="sq_type_img_help sq_type_help sq-col-12 sq-px-4 sq-mx-2"><?php echo esc_html__( "The keyword will be automatically added as the image alt text.", "squirrly-seo" ) ?></div>
                     <div class="sq_type_wiki_help sq_type_help sq-col-12 sq-px-4 sq-mx-2" style="display: none"><?php echo esc_html__( "Browse through Wikipedia articles to get more insight or quick fact-checking on your topic.", "squirrly-seo" ) ?></div>
                     <div class="sq_type_blog_help sq_type_help sq-col-12 sq-px-4 sq-mx-2" style="display: none"><?php echo esc_html__( "Find topic-related articles written by fellow bloggers or influencers.", "squirrly-seo" ) ?></div>
                     <div class="sq_type_local_help sq_type_help sq-col-12 sq-px-4 sq-mx-2" style="display: none"><?php echo esc_html__( "Squirrly automatically browses your WordPress for previously written articles you want to cite or insert", "squirrly-seo" ) ?></div>

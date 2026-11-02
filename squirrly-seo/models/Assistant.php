@@ -45,7 +45,7 @@ class SQ_Models_Assistant {
 
 			if ( $mastery ) {
 				$content .= '<li class="col-12 p-2 my-3 text-center">
-                                <a href="https://howto12.squirrly.co/faq/how-do-i-make-sure-all-my-settings-are-made-properly-and-that-i-can-get-results-in-the-first-14-days/" target="_blank">
+                                <a href="https://howto.squirrly.co/faq/how-do-i-make-sure-all-my-settings-are-made-properly-and-that-i-can-get-results-in-the-first-14-days/" target="_blank">
                                     <img src="' . esc_url( _SQ_ASSETS_URL_ . 'img/assistant/mastery-level.png' ) . '"  alt="" style="width: 50%; margin: 0 auto;"/>
                                     <div class="text-center p-3 m-auto font-weight-bold">' . esc_html__( 'Mastery Level Achieved', 'squirrly-seo' ) . '</div>
                                 </a>
@@ -278,7 +278,7 @@ class SQ_Models_Assistant {
 			$tasks['sq_rankings']    = array(
 				'add_keywords' => array(
 					'title'       => esc_html__( "Track your first 3 Keywords", 'squirrly-seo' ),
-					'description' => sprintf( esc_html__( "%sSERP Checker = Search Engine Result Pages Checker.%s %s It checks your position on the Google Search Engine for your keywords. Also (on the Business Plan) it shows you the evolution in time for your sites' URLs for these keywords. %s Tell Squirrly SEO the first three keywords you want it to check for you, to see if you're ranking for them. %s Because you should work according to a solid SEO Strategy, you'll only be able to add keywords or remove keywords in the Ranking section from your Briefcase. %s Briefcase is your keyword organizer / manager. Find it in the Research section. Go with the mouse cursor over a keyword from %sBriefcase -> see the 3 vertical dots -> select Send to Rank Checker%s", 'squirrly-seo' ), '<strong>', '</strong>', '<br /><br />', '<br /><br />', '<br /><br />', '<br /><br />', '<a href="https://howto12.squirrly.co/kb/keyword-research-and-seo-strategy/#briefcase_send_rank_checker" target="_blank">', '</a>' ),
+					'description' => sprintf( esc_html__( "%sSERP Checker = Search Engine Result Pages Checker.%s %s It checks your position on the Google Search Engine for your keywords. Also (on the Business Plan) it shows you the evolution in time for your sites' URLs for these keywords. %s Tell Squirrly SEO the first three keywords you want it to check for you, to see if you're ranking for them. %s Because you should work according to a solid SEO Strategy, you'll only be able to add keywords or remove keywords in the Ranking section from your Briefcase. %s Briefcase is your keyword organizer / manager. Find it in the Research section. Go with the mouse cursor over a keyword from %sBriefcase -> see the 3 vertical dots -> select Send to Rank Checker%s", 'squirrly-seo' ), '<strong>', '</strong>', '<br /><br />', '<br /><br />', '<br /><br />', '<br /><br />', '<a href="https://howto.squirrly.co/kb/keyword-research-and-seo-strategy/#briefcase_send_rank_checker" target="_blank">', '</a>' ),
 					'function'    => 'checkRankingKeywords',
 				),
 				'gsc_connect'  => array(

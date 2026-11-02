@@ -27,7 +27,7 @@ if ( ! isset( $view ) ) {
                     <h3 class="mt-4">
 						<?php echo esc_html__( "Google Search Console Keywords Sync", "squirrly-seo" ); ?>
                         <div class="sq_help_question d-inline">
-                            <a href="https://howto12.squirrly.co/kb/ranking-serp-checker/#sync_keyword_ranking" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
+                            <a href="https://howto.squirrly.co/kb/ranking-serp-checker/#sync_keyword_ranking" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                         </div>
                     </h3>
                     <div class="col-7 px-0 py-2">

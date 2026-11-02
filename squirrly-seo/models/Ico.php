@@ -74,7 +74,8 @@ class SQ_Models_Ico {
 
 				if ( $out['tmp'] ) {
 
-					if ( file_exists( $path . "/" . 'favicon.ico' ) ) {
+					//The root favicon.ico is shared by the whole network: only replace it on a single site
+					if ( ! is_multisite() && file_exists( $path . "/" . 'favicon.ico' ) ) {
 						$this->remove_ico( $path . "/" . 'favicon.ico' );
 					}
 

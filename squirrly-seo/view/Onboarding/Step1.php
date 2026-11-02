@@ -11,7 +11,7 @@ if ( ! isset( $view ) ) {
     <div id="sq_content" class="d-flex flex-row bg-white my-0 p-0 m-0">
 		<?php
 		if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
-			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role", 'squirrly-seo' ) . '</div>';
+			echo '<div class="col-12 alert alert-success text-center m-0 p-3">' . esc_html__( "You do not have permission to access this page. You need Squirrly SEO Admin role", 'squirrly-seo' ) . '<a href="https://howto.squirrly.co/ht_kb/squirrly-user-roles/#error" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a></div>';
 
 			return;
 		}
@@ -65,7 +65,7 @@ if ( ! isset( $view ) ) {
                             </div>
                             <div class="col-12 p-0 m-0 my-3 text-center">
                                 <div class="card-title text-center">
-                                    <a href="https://howto12.squirrly.co/kb/import-export-seo-settings/" target="_blank"><?php echo esc_html__( "Learn how you can import the same settings on this site as well", 'squirrly-seo' ); ?>
+                                    <a href="https://howto.squirrly.co/kb/import-export-seo-settings/" target="_blank"><?php echo esc_html__( "Learn how you can import the same settings on this site as well", 'squirrly-seo' ); ?>
                                         >></a></div>
                             </div>
                         </div>

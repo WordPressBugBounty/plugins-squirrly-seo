@@ -29,7 +29,7 @@ if ( $countdone == count( $view->report ) ) {
 <div class="col-7 m-0 p-0 py-4">
     <h3><?php echo esc_html__( "AI SEO Consultant", "squirrly-seo" ) ?>
         <div class="sq_help_question d-inline">
-            <a href="https://howto12.squirrly.co/kb/next-seo-goals/" target="_blank"><i class="fa-solid fa-question-circle"></i></a>
+            <a href="https://howto.squirrly.co/kb/next-seo-goals/" target="_blank"><i class="fa-solid fa-question-circle"></i></a>
         </div>
     </h3>
     <div class="small text-dark"><?php echo esc_html__( "Your AI Private SEO Consultant Is Here: Complete the following goals which are 100% custom-tailored for your site, the content on your site, and the Web Authority of your site. The goals offer the fastest way to move towards Page 1 Rankings.", "squirrly-seo" ); ?></div>

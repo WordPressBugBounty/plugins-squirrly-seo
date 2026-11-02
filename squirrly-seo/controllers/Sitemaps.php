@@ -242,7 +242,8 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 	 * @param $post
 	 */
 	public function refreshSitemap( $new_status, $old_status, $post ) {
-		if ( $old_status <> $new_status && $new_status = 'publish' ) {
+		//Compare, not assign: ping only when a post becomes published
+		if ( $old_status <> $new_status && $new_status == 'publish' ) {
 			if ( SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap_ping' ) ) {
 				wp_schedule_single_event( time() + 5, 'sq_processPing' );
 			}

@@ -403,7 +403,7 @@ class SQ_Models_Menu {
 		$tabs['sq_dashboard']   = array(
 
 			'sq_dashboard/sq_progress'     => array(
-				'title'      => esc_html__( "Progress & Achivements", 'squirrly-seo' ),
+				'title'      => esc_html__( "Progress & Achievements", 'squirrly-seo' ),
 				'capability' => 'sq_manage_snippet',
 				'show'       => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_seogoals' ) && !empty(SQ_Classes_ObjController::getClass( 'SQ_Controllers_Progress' )->getCongratulations()),
 				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Progress' ), 'init' ),
@@ -572,7 +572,7 @@ class SQ_Models_Menu {
 		$tabs['sq_focuspages']  = array(
 			'sq_focuspages/pagelist'   => array(
 				'title'      => esc_html__( "Focus Pages", 'squirrly-seo' ),
-				'capability' => 'sq_manage_snippet',
+				'capability' => 'sq_manage_focuspages',
 				'icon'       => 'fa-solid fa-bullseye-arrow'
 			),
 			'sq_focuspages/addpage'    => array(
@@ -588,14 +588,14 @@ class SQ_Models_Menu {
 			),
 			'sq_focuspages/settings'   => array(
 				'title'      => esc_html__( "Settings", 'squirrly-seo' ),
-				'capability' => 'sq_manage_settings',
+				'capability' => 'sq_manage_focuspages',
 				'icon'       => 'dashicons-before dashicons-admin-settings'
 			),
 		);
 		$tabs['sq_audits']      = array(
 			'sq_audits/audits'   => array(
 				'title'      => esc_html__( "Overview", 'squirrly-seo' ),
-				'capability' => 'sq_manage_snippet',
+				'capability' => 'sq_manage_focuspages',
 				'icon'       => 'dashicons-before dashicons-chart-bar',
 			),
 			'sq_audits/addpage'  => array(
@@ -665,7 +665,7 @@ class SQ_Models_Menu {
 			),
 			'sq_indexnow/settings' => array(
 				'title'      => esc_html__( "Settings", 'squirrly-seo' ),
-				'capability' => 'sq_manage_snippet',
+				'capability' => 'sq_manage_settings',
 				'icon'       => 'dashicons-before dashicons-admin-settings',
 			),
 		);

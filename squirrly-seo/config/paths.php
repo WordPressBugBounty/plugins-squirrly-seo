@@ -19,7 +19,7 @@ define( '_SQ_SUPPORT_EMAIL_', 'support@squirrly.co' );
 defined( '_SQ_STATIC_API_URL_' ) || define( '_SQ_STATIC_API_URL_', '//storage.googleapis.com/squirrly/' );
 defined( '_SQ_SUPPORT_EMAIL_URL_' ) || define( '_SQ_SUPPORT_EMAIL_URL_', 'http://plugin.squirrly.co/contact/' );
 defined( '_SQ_SUPPORT_FACEBOOK_URL_' ) || define( '_SQ_SUPPORT_FACEBOOK_URL_', 'https://www.facebook.com/groups/squirrlyjourneyteam' );
-defined( '_SQ_HOWTO_URL_' ) || define( '_SQ_HOWTO_URL_', 'https://howto12.squirrly.co/' );
+defined( '_SQ_HOWTO_URL_' ) || define( '_SQ_HOWTO_URL_', 'https://howto.squirrly.co/' );
 defined( '_SQ_SUPPORT_URL_' ) || define( '_SQ_SUPPORT_URL_', 'https://www.dmsuperstars.com/squirrly-support/' );
 
 /* Directories */

@@ -49,37 +49,17 @@ class SQ_Classes_AbilitiesController {
 		$this->registerPatternAbilities();
 		$this->registerSettingsAbilities();
 		$this->registerCloudAbilities();
+		$this->registerCloudWriteAbilities();
 	}
 
 	/**
 	 * Per-page SEO. These are local and immediate.
 	 */
 	protected function registerSeoAbilities() {
-		$target_schema = array(
-			'post_id'  => array(
-				'type'        => 'integer',
-				'description' => 'ID of the post, page or custom post type.',
-			),
-			'term_id'  => array(
-				'type'        => 'integer',
-				'description' => 'ID of the taxonomy term. Requires taxonomy.',
-			),
-			'taxonomy' => array(
-				'type'        => 'string',
-				'description' => 'Taxonomy name, for example category or post_tag. Used with term_id.',
-			),
-			'url'      => array(
-				'type'        => 'string',
-				'description' => 'Full permalink of the page. Resolved to a post ID.',
-			),
-			'homepage' => array(
-				'type'        => 'boolean',
-				'description' => 'Set to true to target the site home page.',
-			),
-		);
+		$target_schema = $this->targetSchema();
 
 		wp_register_ability( 'squirrly/get-seo', array(
-			'label'               => esc_html__( 'Get page SEO', 'squirrly-seo' ),
+			'label'               => esc_html__( 'Read page SEO', 'squirrly-seo' ),
 			'description'         => 'Read the SEO that Squirrly stores for one page: title, meta description, keywords, canonical, robots flags, Open Graph, Twitter Card and JSON-LD. Identify the page with post_id, or term_id plus taxonomy, or url, or homepage. Returns "seo" (the values actually saved for this page, which is what update-seo would overwrite) and "computed" (what the page currently outputs). When "seo" fields are null and "computed" has values, this page is following an Automation pattern - "computed.source" names that pattern and flags any token in it that currently resolves to nothing. Diagnosing from "computed" alone will mislead you: a wrong title usually means a wrong pattern, shared by every page of that type, so read squirrly/get-patterns before deciding what to change.',
 			'category'            => self::CATEGORY,
 			'input_schema'        => array(
@@ -100,7 +80,7 @@ class SQ_Classes_AbilitiesController {
 				//read flat, which is why the two sit at different depths.
 				'mcp'          => array( 'public' => true ),
 				'show_in_rest' => true,
-				'annotations'  => array( 'readonly' => true, 'idempotent' => true ),
+				'annotations'  => $this->annotations( true, false, true ),
 			),
 		) );
 
@@ -155,7 +135,7 @@ class SQ_Classes_AbilitiesController {
 				//read flat, which is why the two sit at different depths.
 				'mcp'          => array( 'public' => true ),
 				'show_in_rest' => true,
-				'annotations'  => array( 'readonly' => false, 'destructive' => false, 'idempotent' => true ),
+				'annotations'  => $this->annotations( false, false, true ),
 			),
 		) );
 	}
@@ -168,7 +148,7 @@ class SQ_Classes_AbilitiesController {
 	 */
 	protected function registerPatternAbilities() {
 		wp_register_ability( 'squirrly/get-patterns', array(
-			'label'               => esc_html__( 'Get Automation patterns', 'squirrly-seo' ),
+			'label'               => esc_html__( 'Read Automation patterns', 'squirrly-seo' ),
 			'description'         => 'Read Squirrly\'s Automation patterns - the templates that generate the title, meta description, Open Graph type and Schema types for every page of a given type, and keep them adapting as content changes. Pass "context" to read one (for example "home", "post", "page", "product", "category"), or omit it for all of them. Returns each pattern with the {{tokens}} it uses, the site-wide token values, "empty_tokens" naming any token that currently resolves to nothing and how to fix it, and "available_tokens" listing every token you may use. Read this before changing the SEO of an individual page: if a title or description is wrong on more than one page, the pattern is the cause and editing single pages will not fix it.',
 			'category'            => self::CATEGORY,
 			'input_schema'        => array(
@@ -193,14 +173,14 @@ class SQ_Classes_AbilitiesController {
 				//read flat, which is why the two sit at different depths.
 				'mcp'          => array( 'public' => true ),
 				'show_in_rest' => true,
-				'annotations'  => array( 'readonly' => true, 'idempotent' => true ),
+				'annotations'  => $this->annotations( true, false, true ),
 			),
 		) );
 	}
 
 	protected function registerSettingsAbilities() {
 		wp_register_ability( 'squirrly/get-settings', array(
-			'label'               => esc_html__( 'Get Squirrly settings', 'squirrly-seo' ),
+			'label'               => esc_html__( 'Read Squirrly settings', 'squirrly-seo' ),
 			'description'         => 'Read the global Squirrly SEO settings for this site: which SEO, AEO and GEO features are switched on, sitemap and robots options, llms.txt generation, JSON-LD options and Automation patterns. Cloud credentials are never included.',
 			'category'            => self::CATEGORY,
 			'input_schema'        => array( 'type' => 'object', 'properties' => array(), 'default' => array() ),
@@ -215,7 +195,7 @@ class SQ_Classes_AbilitiesController {
 				//read flat, which is why the two sit at different depths.
 				'mcp'          => array( 'public' => true ),
 				'show_in_rest' => true,
-				'annotations'  => array( 'readonly' => true, 'idempotent' => true ),
+				'annotations'  => $this->annotations( true, false, true ),
 			),
 		) );
 
@@ -246,14 +226,14 @@ class SQ_Classes_AbilitiesController {
 				//read flat, which is why the two sit at different depths.
 				'mcp'          => array( 'public' => true ),
 				'show_in_rest' => true,
-				'annotations'  => array( 'readonly' => false, 'destructive' => false, 'idempotent' => true ),
+				'annotations'  => $this->annotations( false, false, true ),
 			),
 		) );
 	}
 
 	/**
 	 * Briefcase, rankings, Focus Pages and Live Assistant tasks - each a Cloud round-trip.
-	 * Read-only on purpose: the Cloud delete calls remove data a client cannot restore.
+	 * Reads only; the writes are in registerCloudWriteAbilities() and none of them deletes.
 	 */
 	protected function registerCloudAbilities() {
 		$paging = array(
@@ -268,7 +248,7 @@ class SQ_Classes_AbilitiesController {
 		$cloud = array(
 			array(
 				'name'        => 'squirrly/get-briefcase',
-				'label'       => esc_html__( 'Get Briefcase keywords', 'squirrly-seo' ),
+				'label'       => esc_html__( 'Read Briefcase keywords', 'squirrly-seo' ),
 				'method'      => 'getBriefcase',
 				'cap'         => 'sq_manage_snippet',
 				'schema'      => $paging,
@@ -276,7 +256,7 @@ class SQ_Classes_AbilitiesController {
 			),
 			array(
 				'name'        => 'squirrly/get-ranks',
-				'label'       => esc_html__( 'Get keyword rankings', 'squirrly-seo' ),
+				'label'       => esc_html__( 'Read Google rankings', 'squirrly-seo' ),
 				'method'      => 'getRanks',
 				'cap'         => 'sq_manage_focuspages',
 				'schema'      => $paging,
@@ -284,7 +264,7 @@ class SQ_Classes_AbilitiesController {
 			),
 			array(
 				'name'        => 'squirrly/get-focus-pages',
-				'label'       => esc_html__( 'Get Focus Pages', 'squirrly-seo' ),
+				'label'       => esc_html__( 'Read Focus Pages', 'squirrly-seo' ),
 				'method'      => 'getFocusPages',
 				'cap'         => 'sq_manage_focuspages',
 				'schema'      => $paging,
@@ -292,7 +272,7 @@ class SQ_Classes_AbilitiesController {
 			),
 			array(
 				'name'        => 'squirrly/get-keyword-research-history',
-				'label'       => esc_html__( 'Get keyword research history', 'squirrly-seo' ),
+				'label'       => esc_html__( 'Read keyword research history', 'squirrly-seo' ),
 				'method'      => 'getKRHistory',
 				'cap'         => 'sq_manage_snippet',
 				'schema'      => $paging,
@@ -300,7 +280,7 @@ class SQ_Classes_AbilitiesController {
 			),
 			array(
 				'name'        => 'squirrly/get-live-assistant-tasks',
-				'label'       => esc_html__( 'Get Live Assistant tasks', 'squirrly-seo' ),
+				'label'       => esc_html__( 'Read Live Assistant tasks', 'squirrly-seo' ),
 				'method'      => 'getSLATasks',
 				'cap'         => 'sq_manage_snippet',
 				'schema'      => array_merge( $paging, array(
@@ -343,9 +323,182 @@ class SQ_Classes_AbilitiesController {
 				//read flat, which is why the two sit at different depths.
 				'mcp'          => array( 'public' => true ),
 				'show_in_rest' => true,
-				'annotations'  => array( 'readonly' => true, 'idempotent' => true ),
+				'annotations'  => $this->annotations( true, false, true ),
 			),
 		) );
+	}
+
+	/**
+	 * How every page-level ability identifies its page.
+	 *
+	 * @return array
+	 */
+	protected function targetSchema() {
+		return array(
+			'post_id'  => array(
+				'type'        => 'integer',
+				'description' => 'ID of the post, page or custom post type.',
+			),
+			'term_id'  => array(
+				'type'        => 'integer',
+				'description' => 'ID of the taxonomy term. Requires taxonomy.',
+			),
+			'taxonomy' => array(
+				'type'        => 'string',
+				'description' => 'Taxonomy name, for example category or post_tag. Used with term_id.',
+			),
+			'url'      => array(
+				'type'        => 'string',
+				'description' => 'Full permalink of the page. Resolved to a post ID.',
+			),
+			'homepage' => array(
+				'type'        => 'boolean',
+				'description' => 'Set to true to target the site home page.',
+			),
+		);
+	}
+
+	/**
+	 * Cloud writes that add or recheck. Nothing here removes data; removals stay in the admin.
+	 */
+	protected function registerCloudWriteAbilities() {
+		$target = $this->targetSchema();
+
+		$abilities = array(
+			array(
+				'name'        => 'squirrly/add-briefcase-keyword',
+				'label'       => esc_html__( 'Add Briefcase keyword', 'squirrly-seo' ),
+				'method'      => 'addBriefcaseKeyword',
+				'cap'         => 'sq_manage_snippet',
+				'idempotent'  => true,
+				'required'    => array( 'keyword' ),
+				'schema'      => array(
+					'keyword'    => array( 'type' => 'string', 'description' => 'The keyword to save.' ),
+					'labels'     => array(
+						'type'        => 'array',
+						'items'       => array( 'type' => 'string' ),
+						'description' => 'Names of existing Briefcase labels to add to the keyword. Unknown names are reported in "skipped_labels" with the "available_labels".',
+					),
+					'track_rank' => array( 'type' => 'boolean', 'description' => 'Also track the Google rank of this keyword in Rankings. Uses one of the plan\'s tracked keywords.' ),
+				),
+				'description' => 'Save a keyword in the Squirrly Briefcase, the list of keywords the site targets. Read squirrly/get-briefcase first to avoid duplicates. If the keyword is already there, nothing is removed: its labels and rank tracking are kept, the labels you send are added, and track_rank only switches tracking on.',
+			),
+			array(
+				'name'        => 'squirrly/assign-keyword',
+				'label'       => esc_html__( 'Assign keyword to a page', 'squirrly-seo' ),
+				'method'      => 'assignKeyword',
+				'cap'         => 'sq_manage_snippet',
+				'idempotent'  => true,
+				'required'    => array( 'keyword' ),
+				'schema'      => array_merge( $target, array(
+					'keyword' => array( 'type' => 'string', 'description' => 'The keyword this page should rank for.' ),
+					'main'    => array( 'type' => 'boolean', 'description' => 'Make it the main keyword of the page, used by Focus Pages and Rankings. Defaults to true.' ),
+				) ),
+				'description' => 'Assign a keyword to one post, page or product, the same way the Live Assistant does, and by default make it the page\'s main keyword. Identify the page with post_id or url. The keyword is added to the Briefcase if it is not there yet. Use one main keyword per page and do not give the same main keyword to two pages, or they compete with each other. This does not change the page content or its meta keywords; use squirrly/update-seo for those.',
+			),
+			array(
+				'name'        => 'squirrly/add-focus-page',
+				'label'       => esc_html__( 'Add Focus Page', 'squirrly-seo' ),
+				'method'      => 'addFocusPage',
+				'cap'         => 'sq_manage_focuspages',
+				'idempotent'  => true,
+				'required'    => array(),
+				'schema'      => $target,
+				'description' => 'Start monitoring a published page as a Focus Page: Squirrly audits it in depth and tracks its progress. Each plan allows a limited number of Focus Pages, so pick the pages that matter most for the business and confirm with the user first. Read squirrly/get-focus-pages before adding. The first audit takes a while.',
+			),
+			array(
+				'name'        => 'squirrly/recheck-focus-page',
+				'label'       => esc_html__( 'Recheck Focus Page', 'squirrly-seo' ),
+				'method'      => 'recheckFocusPage',
+				'cap'         => 'sq_manage_focuspages',
+				'idempotent'  => false,
+				'required'    => array( 'focus_page_id' ),
+				'schema'      => array_merge( $target, array(
+					'focus_page_id' => array( 'type' => 'integer', 'description' => 'The user_post_id of the Focus Page, from squirrly/get-focus-pages.' ),
+				) ),
+				'description' => 'Ask Squirrly to audit a Focus Page again after you changed it. Identify the page the same way as get-seo and pass its focus_page_id. Rechecks are rate limited, so call it once after a batch of changes, not after each one.',
+			),
+			array(
+				'name'        => 'squirrly/add-audit-page',
+				'label'       => esc_html__( 'Add page to GEO Audit', 'squirrly-seo' ),
+				'method'      => 'addAuditPage',
+				'cap'         => 'sq_manage_focuspages',
+				'idempotent'  => true,
+				'required'    => array(),
+				'schema'      => $target,
+				'description' => 'Add a published page to the site\'s GEO Audit. Each plan allows a limited number of audited pages.',
+			),
+			array(
+				'name'        => 'squirrly/request-audit',
+				'label'       => esc_html__( 'Request GEO Audit', 'squirrly-seo' ),
+				'method'      => 'requestAudit',
+				'cap'         => 'sq_manage_focuspages',
+				'idempotent'  => false,
+				'required'    => array(),
+				'schema'      => $target,
+				'description' => 'Request a new GEO Audit for the whole site, or pass a page to recheck only that page. While a site audit request is still waiting, a new one reuses it, so there is no need to call this again. A page can be rechecked about once an hour. The new audit appears after all audited pages are crawled, which can take a while.',
+			),
+		);
+
+		foreach ( $abilities as $ability ) {
+			$this->registerCloudWriteAbility( $ability );
+		}
+	}
+
+	/**
+	 * @param array $ability
+	 */
+	protected function registerCloudWriteAbility( $ability ) {
+		$method = $ability['method'];
+		$cap    = $ability['cap'];
+		$self   = $this;
+
+		$input_schema = array( 'type' => 'object', 'properties' => $ability['schema'], 'default' => array() );
+		if ( ! empty( $ability['required'] ) ) {
+			$input_schema['required'] = $ability['required'];
+		}
+
+		wp_register_ability( $ability['name'], array(
+			'label'               => $ability['label'],
+			'description'         => $ability['description'] . ' Requires the site to be connected to Squirrly Cloud.',
+			'category'            => self::CATEGORY,
+			'input_schema'        => $input_schema,
+			'output_schema'       => array( 'type' => 'object' ),
+			'execute_callback'    => function ( $input = array() ) use ( $self, $method ) {
+				return $self->cloudWrite( $method, $input );
+			},
+			'permission_callback' => function () use ( $cap ) {
+				return (bool) SQ_Classes_Helpers_Tools::userCan( $cap );
+			},
+			'meta'                => array(
+				'public'       => true,
+				//nested 'mcp' is what MCP servers read; 'annotations' is read flat
+				'mcp'          => array( 'public' => true ),
+				'show_in_rest' => true,
+				'annotations'  => $this->annotations( false, false, $ability['idempotent'] ),
+			),
+		) );
+	}
+
+	/**
+	 * Ability annotations in both spellings: the newer MCP Adapter maps readonly to readOnlyHint,
+	 * the older copy bundled in WooCommerce passes keys as they are, so it needs the MCP names.
+	 *
+	 * @param bool $readonly
+	 * @param bool $destructive
+	 * @param bool $idempotent
+	 *
+	 * @return array
+	 */
+	protected function annotations( $readonly, $destructive, $idempotent ) {
+		return array(
+			'readonly'        => (bool) $readonly,
+			'destructive'     => (bool) $destructive,
+			'idempotent'      => (bool) $idempotent,
+			'readOnlyHint'    => (bool) $readonly,
+			'destructiveHint' => (bool) $destructive,
+			'idempotentHint'  => (bool) $idempotent,
+		);
 	}
 
 	// ------------------------------------------------------------------ callbacks
@@ -418,6 +571,46 @@ class SQ_Classes_AbilitiesController {
 	}
 
 	/**
+	 * Run a Cloud write ability through SQ_Models_Api_Cloud.
+	 *
+	 * @param string $method a method on SQ_Models_Api_Cloud
+	 * @param array $input
+	 *
+	 * @return array|WP_Error
+	 */
+	public function cloudWrite( $method, $input = array() ) {
+		if ( ! SQ_Classes_Helpers_Tools::getOption( 'sq_api' ) ) {
+			return $this->notConnected();
+		}
+
+		/** @var SQ_Models_Api_Cloud $service */
+		$service = SQ_Classes_ObjController::getClass( 'SQ_Models_Api_Cloud' );
+
+		if ( ! $service || ! is_callable( array( $service, $method ) ) ) {
+			return new WP_Error( 'sq_unavailable', esc_html__( "This feature is not available.", 'squirrly-seo' ) );
+		}
+
+		$result = $service->$method( (array) $input );
+
+		//the read abilities cache Cloud answers, so a write starts a fresh cache
+		if ( ! is_wp_error( $result ) ) {
+			set_transient( 'sq_ability_ver', (string) microtime( true ) );
+		}
+
+		return $result;
+	}
+
+	/**
+	 * @return WP_Error
+	 */
+	protected function notConnected() {
+		return new WP_Error(
+			'sq_not_connected',
+			esc_html__( "This site is not connected to Squirrly Cloud, so this data is not available. Connect the site from the Squirrly SEO dashboard first.", 'squirrly-seo' )
+		);
+	}
+
+	/**
 	 * Call the Squirrly Cloud for a read-only ability. Cached briefly so an agent working
 	 * through pages doesn't hammer it; RemoteController is loaded explicitly (admin-only wiring).
 	 *
@@ -428,10 +621,7 @@ class SQ_Classes_AbilitiesController {
 	 */
 	public function cloudCall( $method, $input = array() ) {
 		if ( ! SQ_Classes_Helpers_Tools::getOption( 'sq_api' ) ) {
-			return new WP_Error(
-				'sq_not_connected',
-				esc_html__( "This site is not connected to Squirrly Cloud, so this data is not available. Connect the site from the Squirrly SEO dashboard first.", 'squirrly-seo' )
-			);
+			return $this->notConnected();
 		}
 
 		$args = $this->sanitizeCloudArgs( $input );
@@ -442,7 +632,7 @@ class SQ_Classes_AbilitiesController {
 			return new WP_Error( 'sq_unavailable', esc_html__( "This feature is not available.", 'squirrly-seo' ) );
 		}
 
-		$key    = 'sq_ability_' . md5( $method . wp_json_encode( $args ) );
+		$key    = 'sq_ability_' . md5( $method . wp_json_encode( $args ) . get_transient( 'sq_ability_ver' ) );
 		$cached = get_transient( $key );
 
 		if ( $cached !== false ) {
