@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Contract;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Contract;
 
 interface PrimitiveSchemaDefinition extends \JsonSerializable
 {

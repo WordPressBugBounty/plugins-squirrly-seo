@@ -6,18 +6,18 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class ListToolsResult extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ServerResult
+final class ListToolsResult extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ServerResult
 {
     public const DEFINITION = 'ListToolsResult';
 
     /**
-     * @return \WP\McpSchema\Record\ResultMetaObject|\stdClass|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\ResultMetaObject|\stdClass|null
      */
     public function getMeta()
     {
-        /** @var \WP\McpSchema\Record\ResultMetaObject|\stdClass|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\ResultMetaObject|\stdClass|null $value */
         $value = $this->declaredValue('_meta');
 
         return $value;
@@ -61,11 +61,11 @@ final class ListToolsResult extends \WP\McpSchema\Record implements \WP\McpSchem
     }
 
     /**
-     * @return array<int, \WP\McpSchema\Record\Tool>
+     * @return array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\Tool>
      */
     public function getTools(): array
     {
-        /** @var array<int, \WP\McpSchema\Record\Tool> $value */
+        /** @var array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\Tool> $value */
         $value = $this->declaredValue('tools');
 
         return $value;

@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class LoggingMessageNotification extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ServerNotification
+final class LoggingMessageNotification extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ServerNotification
 {
     public const DEFINITION = 'LoggingMessageNotification';
 
@@ -35,11 +35,11 @@ final class LoggingMessageNotification extends \WP\McpSchema\Record implements \
     }
 
     /**
-     * @return \WP\McpSchema\Record\LoggingMessageNotificationParams
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\LoggingMessageNotificationParams
      */
-    public function getParams(): \WP\McpSchema\Record\LoggingMessageNotificationParams
+    public function getParams(): \SquirrlySEO\Vendor\WP\McpSchema\Record\LoggingMessageNotificationParams
     {
-        /** @var \WP\McpSchema\Record\LoggingMessageNotificationParams $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\LoggingMessageNotificationParams $value */
         $value = $this->declaredValue('params');
 
         return $value;

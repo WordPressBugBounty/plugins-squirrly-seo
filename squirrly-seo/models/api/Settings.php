@@ -65,7 +65,6 @@ class SQ_Models_Api_Settings {
 
 			//crawling and indexing
 			'sq_auto_sitemap'            => 'bool',
-			'sq_sitemap_ping'            => 'bool',
 			'sq_sitemap_exclude_noindex' => 'bool',
 			'sq_sitemap_perpage'         => 'int',
 			'sq_auto_robots'             => 'bool',

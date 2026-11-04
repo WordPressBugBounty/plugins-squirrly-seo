@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema;
+namespace SquirrlySEO\Vendor\WP\McpSchema;
 
-use WP\McpSchema\Exception\UnsupportedRevisionException;
-use WP\McpSchema\Internal\Catalog\V2025_11_25;
-use WP\McpSchema\Internal\Catalog\V2026_07_28;
+use SquirrlySEO\Vendor\WP\McpSchema\Exception\UnsupportedRevisionException;
+use SquirrlySEO\Vendor\WP\McpSchema\Internal\Catalog\V2025_11_25;
+use SquirrlySEO\Vendor\WP\McpSchema\Internal\Catalog\V2026_07_28;
 
 /**
  * Lazy provider for supported exact MCP revisions.

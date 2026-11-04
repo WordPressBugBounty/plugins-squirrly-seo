@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class ResourceUpdatedNotification extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ServerNotification
+final class ResourceUpdatedNotification extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ServerNotification
 {
     public const DEFINITION = 'ResourceUpdatedNotification';
 
@@ -35,11 +35,11 @@ final class ResourceUpdatedNotification extends \WP\McpSchema\Record implements 
     }
 
     /**
-     * @return \WP\McpSchema\Record\ResourceUpdatedNotificationParams
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\ResourceUpdatedNotificationParams
      */
-    public function getParams(): \WP\McpSchema\Record\ResourceUpdatedNotificationParams
+    public function getParams(): \SquirrlySEO\Vendor\WP\McpSchema\Record\ResourceUpdatedNotificationParams
     {
-        /** @var \WP\McpSchema\Record\ResourceUpdatedNotificationParams $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\ResourceUpdatedNotificationParams $value */
         $value = $this->declaredValue('params');
 
         return $value;

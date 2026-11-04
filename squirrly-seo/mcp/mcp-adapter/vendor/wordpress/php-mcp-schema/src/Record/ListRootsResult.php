@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class ListRootsResult extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ClientResult, \WP\McpSchema\Contract\InputResponse
+final class ListRootsResult extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ClientResult, \SquirrlySEO\Vendor\WP\McpSchema\Contract\InputResponse
 {
     public const DEFINITION = 'ListRootsResult';
 
@@ -26,11 +26,11 @@ final class ListRootsResult extends \WP\McpSchema\Record implements \WP\McpSchem
     }
 
     /**
-     * @return array<int, \WP\McpSchema\Record\Root>
+     * @return array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\Root>
      */
     public function getRoots(): array
     {
-        /** @var array<int, \WP\McpSchema\Record\Root> $value */
+        /** @var array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\Root> $value */
         $value = $this->declaredValue('roots');
 
         return $value;

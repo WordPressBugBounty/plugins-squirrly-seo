@@ -48,11 +48,11 @@ class SQ_Controllers_Audits extends SQ_Classes_FrontController {
 				$this->show_view( 'Errors/Error' );
 
 				return;
-			} elseif ( $this->checkin->get_error_message() == 'maintenance' ) {
+			} elseif ( $this->checkin->get_error_code() == 'maintenance' ) { //'maintenance' and 'reconnect' are error codes (the message is the reason)
 				$this->show_view( 'Errors/Maintenance' );
 
 				return;
-			} elseif ( $this->checkin->get_error_message() == 'reconnect' ) {
+			} elseif ( $this->checkin->get_error_code() == 'reconnect' ) {
 				$this->show_view( 'Errors/Reconnect' );
 
 				return;

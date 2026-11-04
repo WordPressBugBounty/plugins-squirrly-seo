@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class SubscriptionsAcknowledgedNotification extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ServerNotification
+final class SubscriptionsAcknowledgedNotification extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ServerNotification
 {
     public const DEFINITION = 'SubscriptionsAcknowledgedNotification';
 
@@ -35,11 +35,11 @@ final class SubscriptionsAcknowledgedNotification extends \WP\McpSchema\Record i
     }
 
     /**
-     * @return \WP\McpSchema\Record\SubscriptionsAcknowledgedNotificationParams
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\SubscriptionsAcknowledgedNotificationParams
      */
-    public function getParams(): \WP\McpSchema\Record\SubscriptionsAcknowledgedNotificationParams
+    public function getParams(): \SquirrlySEO\Vendor\WP\McpSchema\Record\SubscriptionsAcknowledgedNotificationParams
     {
-        /** @var \WP\McpSchema\Record\SubscriptionsAcknowledgedNotificationParams $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\SubscriptionsAcknowledgedNotificationParams $value */
         $value = $this->declaredValue('params');
 
         return $value;

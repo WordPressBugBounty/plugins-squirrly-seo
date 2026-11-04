@@ -4,6 +4,24 @@ defined( 'ABSPATH' ) || die( 'Cheatin\' uh?' );
 class SQ_Models_Settings {
 
 	/**
+	 * Read the body of a text file (robots.txt, llms.txt, llms-full.txt) from the settings form.
+	 * sanitize_textarea_field() dropped tags, turned < into &lt; and cut %C3%A9 out of URLs.
+	 * The files are served as text/plain and shown in the admin with esc_textarea(), so the text is kept as typed.
+	 *
+	 * @param string $key
+	 *
+	 * @return string
+	 */
+	private function getPlainText( $key ) {
+		$value = isset( $_POST[ $key ] ) ? wp_unslash( $_POST[ $key ] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		if ( ! is_string( $value ) ) {
+			return '';
+		}
+
+		return wp_check_invalid_utf8( $value );
+	}
+
+	/**
 	 * Save the settings in sq_options
 	 *
 	 * @return void
@@ -50,7 +68,7 @@ class SQ_Models_Settings {
 
 		//Save custom robots
 		if ( SQ_Classes_Helpers_Tools::getIsset( 'robots_permission' ) ) {
-			$robots = SQ_Classes_Helpers_Tools::getValue( 'robots_permission', '', true );
+			$robots = $this->getPlainText( 'robots_permission' );
 			$robots = explode( PHP_EOL, $robots );
 			$robots = str_replace( "\r", "", $robots );
 
@@ -66,7 +84,7 @@ class SQ_Models_Settings {
 
 		//Save custom llms
 		if ( SQ_Classes_Helpers_Tools::getIsset( 'llms_permission' ) ) {
-			$llms = SQ_Classes_Helpers_Tools::getValue( 'llms_permission', '', true );
+			$llms = $this->getPlainText( 'llms_permission' );
 			$llms = explode( PHP_EOL, $llms );
 			$llms = str_replace( "\r", "", $llms );
 
@@ -86,7 +104,7 @@ class SQ_Models_Settings {
 		//because this file can be several MB and would otherwise bloat the main options
 		//row that is read on (almost) every request.
 		if ( SQ_Classes_Helpers_Tools::getIsset( 'llms_full' ) ) {
-			$llms_full = SQ_Classes_Helpers_Tools::getValue( 'llms_full', '', true );
+			$llms_full = $this->getPlainText( 'llms_full' );
 			$llms_full = str_replace( "\r", "", $llms_full );
 
 			update_option( 'sq_llms_full', $llms_full, false );

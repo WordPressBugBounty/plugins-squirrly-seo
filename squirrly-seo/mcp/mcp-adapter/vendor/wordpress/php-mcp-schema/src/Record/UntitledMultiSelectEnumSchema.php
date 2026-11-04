@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class UntitledMultiSelectEnumSchema extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\EnumSchema, \WP\McpSchema\Contract\MultiSelectEnumSchema, \WP\McpSchema\Contract\PrimitiveSchemaDefinition
+final class UntitledMultiSelectEnumSchema extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\EnumSchema, \SquirrlySEO\Vendor\WP\McpSchema\Contract\MultiSelectEnumSchema, \SquirrlySEO\Vendor\WP\McpSchema\Contract\PrimitiveSchemaDefinition
 {
     public const DEFINITION = 'UntitledMultiSelectEnumSchema';
 

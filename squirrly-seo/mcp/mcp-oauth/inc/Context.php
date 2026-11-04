@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace WPMedia\MCP\OAuth;
 
-use WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface;
-use WP\MCP\Infrastructure\Observability\NullMcpObservabilityHandler;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\NullMcpObservabilityHandler;
 
 class Context {
 	/**

@@ -61,11 +61,11 @@ class SQ_Controllers_Research extends SQ_Classes_FrontController {
 				$this->show_view( 'Errors/Error' );
 
 				return;
-			} elseif ( $this->checkin->get_error_message() == 'maintenance' ) {
+			} elseif ( $this->checkin->get_error_code() == 'maintenance' ) { //'maintenance' and 'reconnect' are error codes (the message is the reason)
 				$this->show_view( 'Errors/Maintenance' );
 
 				return;
-			} elseif ( $this->checkin->get_error_message() == 'reconnect' ) {
+			} elseif ( $this->checkin->get_error_code() == 'reconnect' ) {
 				$this->show_view( 'Errors/Reconnect' );
 
 				return;
@@ -815,7 +815,8 @@ class SQ_Controllers_Research extends SQ_Classes_FrontController {
 							//research ready, return the results
 							echo wp_json_encode( array(
 								'done' => true,
-								'html' => $this->get_view( 'Research/ResearchDetails' )
+								'html' => $this->get_view( 'Research/ResearchDetails' ),
+								'bulk' => $this->get_view( 'Research/BulkBriefcase' )
 							) );
 						} else {
 							//still loading
@@ -833,7 +834,8 @@ class SQ_Controllers_Research extends SQ_Classes_FrontController {
 						}
 						echo wp_json_encode( array(
 							'done' => true,
-							'html' => $this->get_view( 'Research/ResearchDetails' )
+							'html' => $this->get_view( 'Research/ResearchDetails' ),
+								'bulk' => $this->get_view( 'Research/BulkBriefcase' )
 						) );
 
 					}
@@ -934,6 +936,49 @@ class SQ_Controllers_Research extends SQ_Classes_FrontController {
 					echo wp_json_encode( array( 'error' => esc_html__( "Invalid params!", 'squirrly-seo' ) ) );
 				}
 				exit();
+			case 'sq_ajax_briefcase_bulk_add':
+				//Add the selected Keyword Research results to the Briefcase, then label them all at once
+				SQ_Classes_Helpers_Tools::setHeader( 'json' );
+
+				if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_snippet' ) ) {
+					$response['error'] = SQ_Classes_Error::showNotices( esc_html__( "You do not have permission to perform this action", 'squirrly-seo' ), 'error' );
+					echo wp_json_encode( $response );
+					exit();
+				}
+
+				$keywords = (array) SQ_Classes_Helpers_Tools::getValue( 'keywords', array() );
+				$keywords = array_slice( array_values( array_unique( array_filter( array_map( function ( $keyword ) {
+					return trim( sanitize_text_field( (string) $keyword ) );
+				}, $keywords ) ) ) ), 0, 50 );
+				$label    = (int) SQ_Classes_Helpers_Tools::getValue( 'label', 0 );
+
+				if ( empty( $keywords ) ) {
+					echo wp_json_encode( array( 'error' => esc_html__( "Select at least one keyword.", 'squirrly-seo' ) ) );
+					exit();
+				}
+
+				$added  = array();
+				$failed = array();
+				foreach ( $keywords as $keyword ) {
+					$result = SQ_Classes_RemoteController::addBriefcaseKeyword( array( 'keyword' => $keyword, 'do_serp' => 0, 'is_hidden' => 0 ) );
+					if ( is_wp_error( $result ) ) {
+						$failed[] = $keyword;
+					} else {
+						$added[] = $keyword;
+					}
+				}
+
+				if ( $label > 0 && ! empty( $added ) ) {
+					SQ_Classes_RemoteController::saveBriefcaseKeywordsLabel( array( 'keywords' => $added, 'labels' => (string) $label ) );
+				}
+
+				echo wp_json_encode( array(
+					'added'   => $added,
+					'failed'  => $failed,
+					'message' => sprintf( esc_html__( "%d keyword(s) added to Briefcase.", 'squirrly-seo' ), count( $added ) ) . ( ! empty( $failed ) ? ' ' . sprintf( esc_html__( "%d could not be added.", 'squirrly-seo' ), count( $failed ) ) : '' ),
+				) );
+				exit();
+
 			case 'sq_ajax_briefcase_bulk_label':
 
 				SQ_Classes_Helpers_Tools::setHeader( 'json' );

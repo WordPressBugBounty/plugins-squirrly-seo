@@ -6,18 +6,18 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class EmptyResult extends \WP\McpSchema\Record
+final class EmptyResult extends \SquirrlySEO\Vendor\WP\McpSchema\Record
 {
     public const DEFINITION = 'EmptyResult';
 
     /**
-     * @return \WP\McpSchema\Record\ResultMetaObject|\stdClass|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\ResultMetaObject|\stdClass|null
      */
     public function getMeta()
     {
-        /** @var \WP\McpSchema\Record\ResultMetaObject|\stdClass|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\ResultMetaObject|\stdClass|null $value */
         $value = $this->declaredValue('_meta');
 
         return $value;

@@ -6,40 +6,40 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class EmbeddedResource extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ContentBlock
+final class EmbeddedResource extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ContentBlock
 {
     public const DEFINITION = 'EmbeddedResource';
 
     /**
-     * @return \WP\McpSchema\Record\MetaObject|\stdClass|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\MetaObject|\stdClass|null
      */
     public function getMeta()
     {
-        /** @var \WP\McpSchema\Record\MetaObject|\stdClass|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\MetaObject|\stdClass|null $value */
         $value = $this->declaredValue('_meta');
 
         return $value;
     }
 
     /**
-     * @return \WP\McpSchema\Record\Annotations|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\Annotations|null
      */
-    public function getAnnotations(): ?\WP\McpSchema\Record\Annotations
+    public function getAnnotations(): ?\SquirrlySEO\Vendor\WP\McpSchema\Record\Annotations
     {
-        /** @var \WP\McpSchema\Record\Annotations|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\Annotations|null $value */
         $value = $this->declaredValue('annotations');
 
         return $value;
     }
 
     /**
-     * @return \WP\McpSchema\Record\BlobResourceContents|\WP\McpSchema\Record\TextResourceContents
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\BlobResourceContents|\SquirrlySEO\Vendor\WP\McpSchema\Record\TextResourceContents
      */
     public function getResource()
     {
-        /** @var \WP\McpSchema\Record\BlobResourceContents|\WP\McpSchema\Record\TextResourceContents $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\BlobResourceContents|\SquirrlySEO\Vendor\WP\McpSchema\Record\TextResourceContents $value */
         $value = $this->declaredValue('resource');
 
         return $value;

@@ -2,22 +2,22 @@
 /**
  * WordPress MCP Registry - Main class for managing multiple MCP servers.
  *
- * @package WP\MCP\Core
+ * @package SquirrlySEO\Vendor\WP\MCP\Core
  */
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Core;
+namespace SquirrlySEO\Vendor\WP\MCP\Core;
 
-use WP\MCP\Abilities\DiscoverAbilitiesAbility;
-use WP\MCP\Abilities\ExecuteAbilityAbility;
-use WP\MCP\Abilities\GetAbilityInfoAbility;
-use WP\MCP\Cli\McpCommand;
-use WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface;
-use WP\MCP\Infrastructure\ErrorHandling\NullMcpErrorHandler;
-use WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface;
-use WP\MCP\Infrastructure\Observability\NullMcpObservabilityHandler;
-use WP\MCP\Servers\DefaultServerFactory;
+use SquirrlySEO\Vendor\WP\MCP\Abilities\DiscoverAbilitiesAbility;
+use SquirrlySEO\Vendor\WP\MCP\Abilities\ExecuteAbilityAbility;
+use SquirrlySEO\Vendor\WP\MCP\Abilities\GetAbilityInfoAbility;
+use SquirrlySEO\Vendor\WP\MCP\Cli\McpCommand;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\NullMcpErrorHandler;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\NullMcpObservabilityHandler;
+use SquirrlySEO\Vendor\WP\MCP\Servers\DefaultServerFactory;
 use WP_Error;
 
 // Exit if accessed directly.
@@ -44,7 +44,7 @@ final class McpAdapter {
 	/**
 	 * Registry instance
 	 *
-	 * @var \WP\MCP\Core\McpAdapter
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Core\McpAdapter
 	 */
 	private static self $instance;
 	/**
@@ -56,14 +56,14 @@ final class McpAdapter {
 	/**
 	 * Registered servers
 	 *
-	 * @var \WP\MCP\Core\McpServer[]
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Core\McpServer[]
 	 */
 	private array $servers = array();
 
 	/**
 	 * Get the registry instance
 	 *
-	 * @return \WP\MCP\Core\McpAdapter
+	 * @return \SquirrlySEO\Vendor\WP\MCP\Core\McpAdapter
 	 */
 	public static function instance(): self {
 		if ( ! isset( self::$instance ) ) {
@@ -108,9 +108,9 @@ final class McpAdapter {
 		 *
 		 * @since 0.1.0
 		 *
-		 * @param \WP\MCP\Core\McpAdapter $adapter The MCP Adapter singleton instance.
+		 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpAdapter $adapter The MCP Adapter singleton instance.
 		 */
-		do_action( 'mcp_adapter_init', $this );
+		do_action( 'sq_mcp_adapter_init', $this );
 		$this->register_wp_cli_commands();
 		self::$initialized = true;
 	}
@@ -122,7 +122,7 @@ final class McpAdapter {
 	 */
 	private function check_plugin_loaded(): void {
 		// The constant is defined in Plugin::constants() and will not exist if McpAdapter is only loaded as a library.
-		if ( defined( 'WP_MCP_VERSION' ) ) {
+		if ( defined( 'SQ_WP_MCP_VERSION' ) ) {
 			return;
 		}
 
@@ -139,7 +139,7 @@ final class McpAdapter {
 		// @todo Add an admin notice with an installation link once the plugin is on w.org.
 
 		// Redefine the version constant so bad plugins don't break those that follow best practices.
-		define( 'WP_MCP_VERSION', self::VERSION );
+		define( 'SQ_WP_MCP_VERSION', self::VERSION );
 	}
 
 	/**
@@ -152,7 +152,7 @@ final class McpAdapter {
 			return;
 		}
 
-		add_action( 'mcp_adapter_init', array( DefaultServerFactory::class, 'create' ) );
+		add_action( 'sq_mcp_adapter_init', array( DefaultServerFactory::class, 'create' ) );
 	}
 
 	/**
@@ -171,7 +171,7 @@ final class McpAdapter {
 		 *
 		 * @param bool $create_default Whether to create the default server. Default true.
 		 */
-		return (bool) apply_filters( 'mcp_adapter_create_default_server', true );
+		return (bool) apply_filters( 'sq_mcp_adapter_create_default_server', true );
 	}
 
 	/**
@@ -190,7 +190,7 @@ final class McpAdapter {
 		}
 
 		\WP_CLI::add_command(
-			'mcp-adapter',
+			'sq-mcp-adapter',
 			McpCommand::class,
 			array(
 				'shortdesc' => 'Manage MCP servers via WP-CLI.',
@@ -208,15 +208,15 @@ final class McpAdapter {
 	 * @param string $server_name Server name.
 	 * @param string $server_description Server description.
 	 * @param string $server_version Server version.
-	 * @param array<class-string<\WP\MCP\Transport\Contracts\McpTransportInterface>> $mcp_transports Array of MCP transport class names to initialize.
-	 * @param class-string<\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface>|null $error_handler The error handler class name. If null, NullMcpErrorHandler will be used.
-	 * @param class-string<\WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface>|null $observability_handler The observability handler class name. If null, NullMcpObservabilityHandler will be used.
-	 * @param list<string|\WP\MCP\Domain\Tools\McpTool> $tools Ability names or MCP tools to register.
-	 * @param list<string|\WP\MCP\Domain\Resources\McpResource> $resources Ability names or MCP resources to register.
-	 * @param list<string|\WP\MCP\Domain\Prompts\McpPrompt|\WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface> $prompts Ability names, MCP prompts, or prompt builders to register.
+	 * @param array<class-string<\SquirrlySEO\Vendor\WP\MCP\Transport\Contracts\McpTransportInterface>> $mcp_transports Array of MCP transport class names to initialize.
+	 * @param class-string<\SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface>|null $error_handler The error handler class name. If null, NullMcpErrorHandler will be used.
+	 * @param class-string<\SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface>|null $observability_handler The observability handler class name. If null, NullMcpObservabilityHandler will be used.
+	 * @param list<string|\SquirrlySEO\Vendor\WP\MCP\Domain\Tools\McpTool> $tools Ability names or MCP tools to register.
+	 * @param list<string|\SquirrlySEO\Vendor\WP\MCP\Domain\Resources\McpResource> $resources Ability names or MCP resources to register.
+	 * @param list<string|\SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\McpPrompt|\SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface> $prompts Ability names, MCP prompts, or prompt builders to register.
 	 * @param callable|null $transport_permission_callback Optional custom permission callback for transport-level authentication. If null, defaults to is_user_logged_in().
 	 *
-	 * @return \WP\MCP\Core\McpAdapter|\WP_Error McpAdapter instance on success, WP_Error on failure.
+	 * @return \SquirrlySEO\Vendor\WP\MCP\Core\McpAdapter|\WP_Error McpAdapter instance on success, WP_Error on failure.
 	 */
 	public function create_server( string $server_id, string $server_route_namespace, string $server_route, string $server_name, string $server_description, string $server_version, array $mcp_transports, ?string $error_handler, ?string $observability_handler = null, array $tools = array(), array $resources = array(), array $prompts = array(), ?callable $transport_permission_callback = null ) {
 		// Use NullMcpErrorHandler if no error handler is provided.
@@ -275,10 +275,10 @@ final class McpAdapter {
 			);
 		}
 
-		if ( ! doing_action( 'mcp_adapter_init' ) ) {
+		if ( ! doing_action( 'sq_mcp_adapter_init' ) ) {
 			_doing_it_wrong(
 				__FUNCTION__,
-				esc_html__( 'MCP Servers must be created during the "mcp_adapter_init" action. Hook into "mcp_adapter_init" to register your server.', 'mcp-adapter' ),
+				esc_html__( 'MCP Servers must be created during the "sq_mcp_adapter_init" action. Hook into "sq_mcp_adapter_init" to register your server.', 'mcp-adapter' ),
 				'0.1.0'
 			);
 
@@ -359,7 +359,7 @@ final class McpAdapter {
 	 *
 	 * @param string $server_id Server ID.
 	 *
-	 * @return \WP\MCP\Core\McpServer|null
+	 * @return \SquirrlySEO\Vendor\WP\MCP\Core\McpServer|null
 	 */
 	public function get_server( string $server_id ): ?McpServer {
 		return $this->servers[ $server_id ] ?? null;
@@ -368,7 +368,7 @@ final class McpAdapter {
 	/**
 	 * Get all registered servers
 	 *
-	 * @return \WP\MCP\Core\McpServer[]
+	 * @return \SquirrlySEO\Vendor\WP\MCP\Core\McpServer[]
 	 */
 	public function get_servers(): array {
 		return $this->servers;

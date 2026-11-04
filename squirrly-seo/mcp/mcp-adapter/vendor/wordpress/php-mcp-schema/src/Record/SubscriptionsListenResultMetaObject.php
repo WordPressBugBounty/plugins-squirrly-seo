@@ -6,18 +6,18 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class SubscriptionsListenResultMetaObject extends \WP\McpSchema\Record
+final class SubscriptionsListenResultMetaObject extends \SquirrlySEO\Vendor\WP\McpSchema\Record
 {
     public const DEFINITION = 'SubscriptionsListenResultMetaObject';
 
     /**
-     * @return \WP\McpSchema\Record\Implementation|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\Implementation|null
      */
-    public function getIoModelcontextprotocolServerInfo(): ?\WP\McpSchema\Record\Implementation
+    public function getIoModelcontextprotocolServerInfo(): ?\SquirrlySEO\Vendor\WP\McpSchema\Record\Implementation
     {
-        /** @var \WP\McpSchema\Record\Implementation|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\Implementation|null $value */
         $value = $this->declaredValue('io.modelcontextprotocol/serverInfo');
 
         return $value;

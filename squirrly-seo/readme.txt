@@ -136,10 +136,24 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 
 == Changelog ==
 = 14.2.9 =
+* New: Keyword Research adds the keywords you select to the Briefcase in one click, with a label, up to 50 at a time.
+* New: Pages, custom post types and their archives get breadcrumbs in the JSON-LD (Home > archive or parent page > page).
+* Update: On Focus Pages and Bulk SEO, the tasks open in a side panel when you click a dot.
+* Update: The collapsed sidebar opens as a full-height panel on hover and loads without jumping.
 * Update: Help links open the new knowledge base on howto.squirrly.co, with a tutorial for every feature.
 * Update: Live Assistant shows a clear message for each connection problem, with a reconnect link that works on every page.
 * Update: Permission messages name the role you need, and menu tabs match what each role can open.
 * Update: Focus Pages shows the whole list at once.
+* Update: Sitemap settings no longer ping Google, which retired its ping service. IndexNow sends your new posts instead.
+* Fix: AI assistants connect on sites that run WooCommerce 11.
+* Fix: Keyword Research tables load without errors, and the step 2 checkboxes line up with the keywords.
+* Fix: Tag and taxonomy archives no longer show an unrelated category in the breadcrumbs.
+* Fix: The pages sitemap lists a static home page only once.
+* Fix: The GEO Audit score chart shows the oldest audit first.
+* Fix: llms.txt keeps code examples, like <meta> tags, exactly as you saved them.
+* Fix: The X (Twitter) profile starts empty instead of X's own account.
+* Fix: Users who can't manage rankings no longer see Send to Rankings in the Briefcase.
+* Fix: No PHP 8.2 deprecation notices on Check SEO and IndexNow.
 * Fix: Live Assistant loads images as soon as you open the Enhance step.
 * Fix: Briefcase saves labels once per click.
 * Fix: llms.txt and robots.txt show & and non-English URLs exactly as written.
@@ -147,6 +161,8 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 * Fix: Automation keeps the separator you saved.
 * Fix: On Multisite, uploading a site icon keeps the network's favicon.ico.
 * Fix: Text corrections in settings, tasks and the IndexNow help.
+* Fix: GEO Audit, Focus Pages, Rankings and Research show the Maintenance and Reconnect screens when needed.
+* Fix: New WordPress roles get Squirrly access as soon as a user has them.
 
 = 14.2.8 =
 * New: AI assistants can add keywords to the Briefcase, with labels and rank tracking.

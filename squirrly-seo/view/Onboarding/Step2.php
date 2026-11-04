@@ -189,18 +189,6 @@ if ( ! isset( $view ) ) {
                                 <div class="col-12 row m-0 p-0 my-5 sq_advanced">
                                     <div class="checker col-12 row m-0 p-0 ml-4">
                                         <div class="col-12 m-0 p-0 sq-switch sq-switch-sm">
-                                            <input type="hidden" name="sq_sitemap_ping" value="0"/>
-                                            <input type="checkbox" id="sq_sitemap_ping" name="sq_sitemap_ping" class="sq-switch" <?php echo( ( SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap_ping' ) ) ? 'checked="checked"' : '' ); ?> value="1"/>
-                                            <label for="sq_sitemap_ping" class="ml-1"><?php echo esc_html__( "Ping New Posts to Search Engines", 'squirrly-seo' ); ?>
-                                                <a href="https://howto.squirrly.co/kb/sitemap-xml-settings/#ping_sitemap" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
-                                            </label>
-                                            <div class="small text-black-50 ml-5"><?php echo esc_html__( "Ping your sitemap to Search Engines when a new post is published.", 'squirrly-seo' ); ?></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 row m-0 p-0 my-5 sq_advanced">
-                                    <div class="checker col-12 row m-0 p-0 ml-4">
-                                        <div class="col-12 m-0 p-0 sq-switch sq-switch-sm">
                                             <input type="hidden" name="sq_sitemap_exclude_noindex" value="0"/>
                                             <input type="checkbox" id="sq_sitemap_exclude_noindex" name="sq_sitemap_exclude_noindex" class="sq-switch" <?php echo( ( SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap_exclude_noindex' ) ) ? 'checked="checked"' : '' ); ?> value="1"/>
                                             <label for="sq_sitemap_exclude_noindex" class="ml-1"><?php echo esc_html__( "Automatically exclude from sitemap the URLs with 'Noindex'", 'squirrly-seo' ); ?></label>

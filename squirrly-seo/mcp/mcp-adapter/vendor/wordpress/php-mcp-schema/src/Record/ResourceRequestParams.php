@@ -6,18 +6,18 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class ResourceRequestParams extends \WP\McpSchema\Record
+final class ResourceRequestParams extends \SquirrlySEO\Vendor\WP\McpSchema\Record
 {
     public const DEFINITION = 'ResourceRequestParams';
 
     /**
-     * @return \WP\McpSchema\Record\RequestMetaObject|\stdClass|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\RequestMetaObject|\stdClass|null
      */
     public function getMeta()
     {
-        /** @var \WP\McpSchema\Record\RequestMetaObject|\stdClass|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\RequestMetaObject|\stdClass|null $value */
         $value = $this->declaredValue('_meta');
 
         return $value;

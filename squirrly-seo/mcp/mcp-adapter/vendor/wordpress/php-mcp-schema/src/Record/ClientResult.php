@@ -6,24 +6,24 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
 /**
  * Canonical record available in: 2026-07-28.
  *
- * The same short name is also used by \WP\McpSchema\Contract\ClientResult,
+ * The same short name is also used by \SquirrlySEO\Vendor\WP\McpSchema\Contract\ClientResult,
  * a canonical union construction root available in: 2025-11-25.
  */
-final class ClientResult extends \WP\McpSchema\Record
+final class ClientResult extends \SquirrlySEO\Vendor\WP\McpSchema\Record
 {
     public const DEFINITION = 'ClientResult';
 
     /**
-     * @return \WP\McpSchema\Record\ResultMetaObject|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\ResultMetaObject|null
      */
-    public function getMeta(): ?\WP\McpSchema\Record\ResultMetaObject
+    public function getMeta(): ?\SquirrlySEO\Vendor\WP\McpSchema\Record\ResultMetaObject
     {
-        /** @var \WP\McpSchema\Record\ResultMetaObject|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\ResultMetaObject|null $value */
         $value = $this->declaredValue('_meta');
 
         return $value;

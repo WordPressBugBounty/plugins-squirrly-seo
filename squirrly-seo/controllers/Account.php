@@ -98,7 +98,8 @@ class SQ_Controllers_Account extends SQ_Classes_FrontController {
 
 				ob_end_clean();
 
-				if ( is_wp_error( $verify ) && $verify->get_error_message() == 'reconnect' ) {
+				//'reconnect' is the error code of a clone the Cloud can't re-verify (the message is the reason)
+				if ( is_wp_error( $verify ) && $verify->get_error_code() == 'reconnect' ) {
 					SQ_Classes_Helpers_Tools::saveOptions( 'sq_api', false );
 					SQ_Classes_Helpers_Tools::saveOptions( 'sq_cloud_connect', false );
 					SQ_Classes_Helpers_Tools::saveOptions( 'sq_cloud_token', false );

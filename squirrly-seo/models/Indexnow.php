@@ -15,6 +15,8 @@ class SQ_Models_Indexnow {
 	protected $_apiKey = '';
 
 	protected $_success;
+	/** @var array IndexNow endpoints (declared: dynamic properties are deprecated in PHP 8.2) */
+	protected $_apiUrls = array();
 
 	//transient failures are retried from cron with this backoff, in minutes
 	const RETRY_MINUTES = array( 5, 15, 45 );

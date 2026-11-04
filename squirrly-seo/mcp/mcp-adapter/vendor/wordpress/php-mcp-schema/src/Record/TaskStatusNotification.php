@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class TaskStatusNotification extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ClientNotification, \WP\McpSchema\Contract\ServerNotification
+final class TaskStatusNotification extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ClientNotification, \SquirrlySEO\Vendor\WP\McpSchema\Contract\ServerNotification
 {
     public const DEFINITION = 'TaskStatusNotification';
 
@@ -35,11 +35,11 @@ final class TaskStatusNotification extends \WP\McpSchema\Record implements \WP\M
     }
 
     /**
-     * @return \WP\McpSchema\Record\TaskStatusNotificationParams
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\TaskStatusNotificationParams
      */
-    public function getParams(): \WP\McpSchema\Record\TaskStatusNotificationParams
+    public function getParams(): \SquirrlySEO\Vendor\WP\McpSchema\Record\TaskStatusNotificationParams
     {
-        /** @var \WP\McpSchema\Record\TaskStatusNotificationParams $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\TaskStatusNotificationParams $value */
         $value = $this->declaredValue('params');
 
         return $value;

@@ -6,18 +6,18 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class Icons extends \WP\McpSchema\Record
+final class Icons extends \SquirrlySEO\Vendor\WP\McpSchema\Record
 {
     public const DEFINITION = 'Icons';
 
     /**
-     * @return array<int, \WP\McpSchema\Record\Icon>|null
+     * @return array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\Icon>|null
      */
     public function getIcons(): ?array
     {
-        /** @var array<int, \WP\McpSchema\Record\Icon>|null $value */
+        /** @var array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\Icon>|null $value */
         $value = $this->declaredValue('icons');
 
         return $value;

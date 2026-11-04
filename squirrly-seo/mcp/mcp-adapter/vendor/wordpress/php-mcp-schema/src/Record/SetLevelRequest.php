@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class SetLevelRequest extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ClientRequest
+final class SetLevelRequest extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ClientRequest
 {
     public const DEFINITION = 'SetLevelRequest';
 
@@ -46,11 +46,11 @@ final class SetLevelRequest extends \WP\McpSchema\Record implements \WP\McpSchem
     }
 
     /**
-     * @return \WP\McpSchema\Record\SetLevelRequestParams
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\SetLevelRequestParams
      */
-    public function getParams(): \WP\McpSchema\Record\SetLevelRequestParams
+    public function getParams(): \SquirrlySEO\Vendor\WP\McpSchema\Record\SetLevelRequestParams
     {
-        /** @var \WP\McpSchema\Record\SetLevelRequestParams $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\SetLevelRequestParams $value */
         $value = $this->declaredValue('params');
 
         return $value;

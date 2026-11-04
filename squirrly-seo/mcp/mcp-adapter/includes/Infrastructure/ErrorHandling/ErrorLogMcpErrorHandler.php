@@ -7,14 +7,14 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Infrastructure\ErrorHandling;
+namespace SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling;
 
 /**
  * Class ErrorLogMcpErrorHandler
  *
  * This class handles error logging by writing logs to the PHP error log.
  *
- * @package WP\MCP\ErrorHandlers
+ * @package SquirrlySEO\Vendor\WP\MCP\ErrorHandlers
  */
 class ErrorLogMcpErrorHandler implements Contracts\McpErrorHandlerInterface {
 

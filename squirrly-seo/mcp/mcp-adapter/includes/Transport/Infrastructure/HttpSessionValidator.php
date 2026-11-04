@@ -7,11 +7,11 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Transport\Infrastructure;
+namespace SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure;
 
-use WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface;
-use WP\MCP\Infrastructure\ErrorHandling\ErrorLogMcpErrorHandler;
-use WP\MCP\Infrastructure\ErrorHandling\McpErrorFactory;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\ErrorLogMcpErrorHandler;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\McpErrorFactory;
 
 /**
  * Handles HTTP-specific session validation logic for MCP transports.
@@ -27,7 +27,7 @@ class HttpSessionValidator {
 	 * Performs complete session validation including HTTP headers, user authentication,
 	 * and session validity in a single method to reduce method call overhead.
 	 *
-	 * @param \WP\MCP\Transport\Infrastructure\HttpRequestContext $context The HTTP request context.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\HttpRequestContext $context The HTTP request context.
 	 * @param string|int|null $request_id Readable JSON-RPC request ID.
 	 *
 	 * @return array|true Returns true if valid, error array if invalid.
@@ -42,8 +42,8 @@ class HttpSessionValidator {
 	 * @since 0.6.0
 	 * @internal
 	 *
-	 * @param \WP\MCP\Transport\Infrastructure\HttpRequestContext                  $context       The HTTP request context.
-	 * @param \WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface|null $error_handler Error handler for reporting storage failures.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\HttpRequestContext                  $context       The HTTP request context.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface|null $error_handler Error handler for reporting storage failures.
 	 * @param string|int|null $request_id Readable JSON-RPC request ID.
 	 *
 	 * @return array|true Returns true if valid, error array if invalid.
@@ -72,7 +72,7 @@ class HttpSessionValidator {
 	/**
 	 * Validate session header presence in HTTP request.
 	 *
-	 * @param \WP\MCP\Transport\Infrastructure\HttpRequestContext $context The HTTP request context.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\HttpRequestContext $context The HTTP request context.
 	 * @param string|int|null $request_id Readable JSON-RPC request ID.
 	 *
 	 * @return string|array Session ID on success, error array on failure.
@@ -109,7 +109,7 @@ class HttpSessionValidator {
 	 * @internal
 	 *
 	 * @param array                                                 $params        The client parameters from initialize request.
-	 * @param \WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface|null $error_handler Error handler for reporting storage failures.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface|null $error_handler Error handler for reporting storage failures.
 	 * @param string|int|null $request_id Readable JSON-RPC request ID.
 	 *
 	 * @return string|array Session ID on success, error array on failure.
@@ -154,7 +154,7 @@ class HttpSessionValidator {
 	 * Performs complete validation workflow for session termination including
 	 * header validation, user authentication, and session cleanup.
 	 *
-	 * @param \WP\MCP\Transport\Infrastructure\HttpRequestContext $context The HTTP request context.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\HttpRequestContext $context The HTTP request context.
 	 *
 	 * @return array|true Returns true on success, error array on failure.
 	 */
@@ -168,8 +168,8 @@ class HttpSessionValidator {
 	 * @since 0.6.0
 	 * @internal
 	 *
-	 * @param \WP\MCP\Transport\Infrastructure\HttpRequestContext                  $context       The HTTP request context.
-	 * @param \WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface|null $error_handler Error handler for reporting storage failures.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\HttpRequestContext                  $context       The HTTP request context.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface|null $error_handler Error handler for reporting storage failures.
 	 *
 	 * @return array|true Returns true on success, error array on failure.
 	 */

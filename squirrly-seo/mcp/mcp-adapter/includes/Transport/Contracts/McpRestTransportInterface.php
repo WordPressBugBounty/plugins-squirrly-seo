@@ -7,7 +7,7 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Transport\Contracts;
+namespace SquirrlySEO\Vendor\WP\MCP\Transport\Contracts;
 
 /**
  * Interface for MCP REST transport protocols.

@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class Implementation extends \WP\McpSchema\Record
+final class Implementation extends \SquirrlySEO\Vendor\WP\McpSchema\Record
 {
     public const DEFINITION = 'Implementation';
 
@@ -24,11 +24,11 @@ final class Implementation extends \WP\McpSchema\Record
     }
 
     /**
-     * @return array<int, \WP\McpSchema\Record\Icon>|null
+     * @return array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\Icon>|null
      */
     public function getIcons(): ?array
     {
-        /** @var array<int, \WP\McpSchema\Record\Icon>|null $value */
+        /** @var array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\Icon>|null $value */
         $value = $this->declaredValue('icons');
 
         return $value;

@@ -12,13 +12,13 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Transport;
+namespace SquirrlySEO\Vendor\WP\MCP\Transport;
 
-use WP\MCP\Transport\Contracts\McpRestTransportInterface;
-use WP\MCP\Transport\Infrastructure\HttpRequestContext;
-use WP\MCP\Transport\Infrastructure\HttpRequestHandler;
-use WP\MCP\Transport\Infrastructure\McpTransportContext;
-use WP\MCP\Transport\Infrastructure\McpTransportHelperTrait;
+use SquirrlySEO\Vendor\WP\MCP\Transport\Contracts\McpRestTransportInterface;
+use SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\HttpRequestContext;
+use SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\HttpRequestHandler;
+use SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\McpTransportContext;
+use SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\McpTransportHelperTrait;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -36,14 +36,14 @@ class HttpTransport implements McpRestTransportInterface {
 	/**
 	 * The HTTP request handler.
 	 *
-	 * @var \WP\MCP\Transport\Infrastructure\HttpRequestHandler
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\HttpRequestHandler
 	 */
 	protected HttpRequestHandler $request_handler;
 
 	/**
 	 * Initialize the class and register routes
 	 *
-	 * @param \WP\MCP\Transport\Infrastructure\McpTransportContext $transport_context The transport context.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\McpTransportContext $transport_context The transport context.
 	 */
 	public function __construct( McpTransportContext $transport_context ) {
 		$this->request_handler = new HttpRequestHandler( $transport_context );
@@ -117,9 +117,9 @@ class HttpTransport implements McpRestTransportInterface {
 		 * @since 0.3.0
 		 *
 		 * @param string                                        $capability The required capability. Default 'read'.
-		 * @param \WP\MCP\Transport\Infrastructure\HttpRequestContext $context    The HTTP request context.
+		 * @param \SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\HttpRequestContext $context    The HTTP request context.
 		 */
-		$user_capability = apply_filters( 'mcp_adapter_default_transport_permission_user_capability', 'read', $context );
+		$user_capability = apply_filters( 'sq_mcp_adapter_default_transport_permission_user_capability', 'read', $context );
 
 		// Validate that the filtered capability is a non-empty string
 		if ( ! is_string( $user_capability ) || empty( $user_capability ) ) {

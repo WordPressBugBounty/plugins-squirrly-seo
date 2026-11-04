@@ -203,6 +203,13 @@ if ( ! isset( $view ) ) {
 					$scores[] = array( gmdate( 'm/d/Y' ), 0, 0 );
 				}
 
+				// The API sends the newest audit first: draw the bars oldest to newest (keep the header row first)
+				$scores_header = array_shift( $scores );
+				usort( $scores, function ( $a, $b ) {
+					return strtotime( $a[0] ) - strtotime( $b[0] );
+				} );
+				array_unshift( $scores, $scores_header );
+
 				?>
                 <div class="sq_stats row m-0 p-0 my-4">
                     <div class="card col-7 p-0 m-0 bg-white shadow-sm">

@@ -6,15 +6,15 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
 /**
  * Canonical record available in: 2026-07-28.
  *
- * The same short name is also used by \WP\McpSchema\Contract\ClientNotification,
+ * The same short name is also used by \SquirrlySEO\Vendor\WP\McpSchema\Contract\ClientNotification,
  * a canonical union construction root available in: 2025-11-25.
  */
-final class ClientNotification extends \WP\McpSchema\Record
+final class ClientNotification extends \SquirrlySEO\Vendor\WP\McpSchema\Record
 {
     public const DEFINITION = 'ClientNotification';
 
@@ -41,11 +41,11 @@ final class ClientNotification extends \WP\McpSchema\Record
     }
 
     /**
-     * @return \WP\McpSchema\Record\CancelledNotificationParams
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\CancelledNotificationParams
      */
-    public function getParams(): \WP\McpSchema\Record\CancelledNotificationParams
+    public function getParams(): \SquirrlySEO\Vendor\WP\McpSchema\Record\CancelledNotificationParams
     {
-        /** @var \WP\McpSchema\Record\CancelledNotificationParams $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\CancelledNotificationParams $value */
         $value = $this->declaredValue('params');
 
         return $value;

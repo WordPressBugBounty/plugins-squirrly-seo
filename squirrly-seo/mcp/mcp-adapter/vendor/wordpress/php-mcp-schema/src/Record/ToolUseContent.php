@@ -6,18 +6,18 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class ToolUseContent extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\SamplingMessageContentBlock
+final class ToolUseContent extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\SamplingMessageContentBlock
 {
     public const DEFINITION = 'ToolUseContent';
 
     /**
-     * @return \WP\McpSchema\Record\MetaObject|\stdClass|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\MetaObject|\stdClass|null
      */
     public function getMeta()
     {
-        /** @var \WP\McpSchema\Record\MetaObject|\stdClass|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\MetaObject|\stdClass|null $value */
         $value = $this->declaredValue('_meta');
 
         return $value;

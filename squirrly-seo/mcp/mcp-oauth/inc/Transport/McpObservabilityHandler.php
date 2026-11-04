@@ -11,8 +11,8 @@ declare( strict_types=1 );
 
 namespace WPMedia\MCP\OAuth\Transport;
 
-use WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface;
-use WP\MCP\Infrastructure\Observability\McpObservabilityHelperTrait;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\McpObservabilityHelperTrait;
 use WPMedia\MCP\OAuth\Logging\McpLogger;
 
 /**

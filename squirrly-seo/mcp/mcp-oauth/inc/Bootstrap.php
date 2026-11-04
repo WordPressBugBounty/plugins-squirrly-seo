@@ -13,7 +13,7 @@ declare( strict_types=1 );
 
 namespace WPMedia\MCP\OAuth;
 
-use WP\MCP\Core\McpAdapter;
+use SquirrlySEO\Vendor\WP\MCP\Core\McpAdapter;
 use WPMedia\MCP\OAuth\Auth\AuthorizeCallback;
 use WPMedia\MCP\OAuth\Auth\AuthorizeEndpoint;
 use WPMedia\MCP\OAuth\Auth\CimdResolver;
@@ -192,7 +192,7 @@ final class Bootstrap {
 
 		add_action( 'wp_abilities_api_categories_init', [ $registrar, 'ensure_default_category' ] );
 		add_action( 'wp_abilities_api_init', [ $registrar, 'ensure_shared_abilities_registered' ] );
-		add_action( 'mcp_adapter_init', [ $registrar, 'register_server' ] );
+		add_action( 'sq_mcp_adapter_init', [ $registrar, 'register_server' ] );
 	}
 
 	/**

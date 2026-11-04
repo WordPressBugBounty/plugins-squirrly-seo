@@ -2037,6 +2037,8 @@ class SQ_Models_CheckSeo {
 					$focuspage->audit->sq_analytics_gsc_connected    = ( isset( $this->checkin->connection_gsc ) ? $this->checkin->connection_gsc : 0 );
 					$focuspage->audit->sq_analytics_google_connected = ( isset( $this->checkin->connection_ga ) ? $this->checkin->connection_ga : 0 );
 					$focuspage->audit->sq_subscription_serpcheck     = ( isset( $this->checkin->subscription_serpcheck ) ? $this->checkin->subscription_serpcheck : 0 );
+					//the connected Search Console property, used to open URL Inspection on this page
+					$focuspage->audit->sq_analytics_gsc_property     = ( isset( $this->checkin->gsc_property ) ? (string) $this->checkin->gsc_property : '' );
 
 					//If there is a local page, then show focus
 					if ( $focuspage->getWppost() ) {

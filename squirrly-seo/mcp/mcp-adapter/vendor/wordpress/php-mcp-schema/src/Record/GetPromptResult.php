@@ -6,18 +6,18 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class GetPromptResult extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ServerResult
+final class GetPromptResult extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ServerResult
 {
     public const DEFINITION = 'GetPromptResult';
 
     /**
-     * @return \WP\McpSchema\Record\ResultMetaObject|\stdClass|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\ResultMetaObject|\stdClass|null
      */
     public function getMeta()
     {
-        /** @var \WP\McpSchema\Record\ResultMetaObject|\stdClass|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\ResultMetaObject|\stdClass|null $value */
         $value = $this->declaredValue('_meta');
 
         return $value;
@@ -35,11 +35,11 @@ final class GetPromptResult extends \WP\McpSchema\Record implements \WP\McpSchem
     }
 
     /**
-     * @return array<int, \WP\McpSchema\Record\PromptMessage>
+     * @return array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\PromptMessage>
      */
     public function getMessages(): array
     {
-        /** @var array<int, \WP\McpSchema\Record\PromptMessage> $value */
+        /** @var array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\PromptMessage> $value */
         $value = $this->declaredValue('messages');
 
         return $value;

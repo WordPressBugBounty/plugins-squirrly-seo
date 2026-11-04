@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class JSONRPCResultResponse extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\JSONRPCMessage, \WP\McpSchema\Contract\JSONRPCResponse
+final class JSONRPCResultResponse extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\JSONRPCMessage, \SquirrlySEO\Vendor\WP\McpSchema\Contract\JSONRPCResponse
 {
     public const DEFINITION = 'JSONRPCResultResponse';
 
@@ -35,11 +35,11 @@ final class JSONRPCResultResponse extends \WP\McpSchema\Record implements \WP\Mc
     }
 
     /**
-     * @return \WP\McpSchema\Record\Result
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\Result
      */
-    public function getResult(): \WP\McpSchema\Record\Result
+    public function getResult(): \SquirrlySEO\Vendor\WP\McpSchema\Record\Result
     {
-        /** @var \WP\McpSchema\Record\Result $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\Result $value */
         $value = $this->declaredValue('result');
 
         return $value;

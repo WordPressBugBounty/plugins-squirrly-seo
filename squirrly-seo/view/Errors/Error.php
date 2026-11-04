@@ -27,7 +27,7 @@ SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia(
                     <div class="col-12 m-0 px-2 py-3 text-center">
                         <img src="<?php echo esc_url( _SQ_ASSETS_URL_ . 'img/noconnection.png' ) ?>" alt="" style="width: 300px">
                     </div>
-                    <div id="sq_error" class="card col-12 p-0 tab-panel border-0">
+                    <div id="sq_error" class="card col-12 p-0 tab-panel tab-panel-first border-0">
                         <div class="col-12 alert alert-success text-center m-0 p-3">
                             <i class="fa-solid fa-exclamation-triangle" style="font-size: 18px !important;"></i> <?php echo sprintf( esc_html__( "There is a connection error with Squirrly Cloud. Please check the connection and %srefresh the page%s.", "squirrly-seo" ), '<a href="javascript:void(0);" onclick="location.reload();" >', '</a>' ) ?>
                         </div>

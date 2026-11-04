@@ -7,7 +7,7 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Infrastructure\ErrorHandling\Contracts;
+namespace SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts;
 
 /**
  * Interface for handling MCP error logging.

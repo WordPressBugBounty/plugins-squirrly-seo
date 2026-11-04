@@ -7,9 +7,9 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Infrastructure\ErrorHandling;
+namespace SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling;
 
-use WP\McpSchema\Schemas;
+use SquirrlySEO\Vendor\WP\McpSchema\Schemas;
 
 /**
  * Builds logical JSON-RPC error arrays and maps error codes to HTTP status.

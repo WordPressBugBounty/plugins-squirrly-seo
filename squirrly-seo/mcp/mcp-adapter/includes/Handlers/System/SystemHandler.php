@@ -7,10 +7,10 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Handlers\System;
+namespace SquirrlySEO\Vendor\WP\MCP\Handlers\System;
 
-use WP\MCP\Core\McpRequestContext;
-use WP\McpSchema\Record\PingRequest;
+use SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\PingRequest;
 
 /**
  * Handles system-related MCP methods.
@@ -19,8 +19,8 @@ class SystemHandler {
 	/**
 	 * Handles the ping request.
 	 *
-	 * @param \WP\McpSchema\Record\PingRequest $request Validated request.
-	 * @param \WP\MCP\Core\McpRequestContext $request_context Exact request context.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record\PingRequest $request Validated request.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext $request_context Exact request context.
 	 * @return array<string, mixed> Logical empty result.
 	 * @since 0.7.0
 	 */

@@ -8,16 +8,16 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Domain\Resources;
+namespace SquirrlySEO\Vendor\WP\MCP\Domain\Resources;
 
-use WP\MCP\Domain\Contracts\McpComponentInterface;
-use WP\MCP\Domain\Utils\McpValidator;
-use WP\MCP\Domain\Utils\RevisionProjectionTrait;
-use WP\MCP\Domain\Utils\ThrowableGuardTrait;
-use WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface;
-use WP\MCP\Infrastructure\Observability\FailureReason;
-use WP\McpSchema\Record\Resource;
-use WP\McpSchema\Schema;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Contracts\McpComponentInterface;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Utils\McpValidator;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Utils\RevisionProjectionTrait;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Utils\ThrowableGuardTrait;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\FailureReason;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\Resource;
+use SquirrlySEO\Vendor\WP\McpSchema\Schema;
 use WP_Error;
 
 /**
@@ -196,7 +196,7 @@ final class McpResource implements McpComponentInterface {
 	 * Create an ability-backed MCP resource.
 	 *
 	 * @param \WP_Ability $ability WordPress ability.
-	 * @param \WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface|null $error_handler Optional error handler.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface|null $error_handler Optional error handler.
 	 *
 	 * @return self|\WP_Error
 	 */
@@ -227,7 +227,7 @@ final class McpResource implements McpComponentInterface {
 	/**
 	 * Get the clean protocol record for one revision.
 	 *
-	 * @param \WP\McpSchema\Schema $schema Selected schema.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Selected schema.
 	 * @since 0.7.0
 	 */
 	public function get_protocol_record( Schema $schema ): Resource {

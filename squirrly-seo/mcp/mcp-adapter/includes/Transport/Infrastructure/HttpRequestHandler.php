@@ -7,11 +7,11 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Transport\Infrastructure;
+namespace SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure;
 
-use WP\MCP\Core\McpVersionNegotiator;
-use WP\MCP\Infrastructure\ErrorHandling\McpErrorFactory;
-use WP\McpSchema\Record;
+use SquirrlySEO\Vendor\WP\MCP\Core\McpVersionNegotiator;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\McpErrorFactory;
+use SquirrlySEO\Vendor\WP\McpSchema\Record;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -26,21 +26,21 @@ class HttpRequestHandler {
 	/**
 	 * Server and handler dependencies shared by HTTP processing.
 	 *
-	 * @var \WP\MCP\Transport\Infrastructure\McpTransportContext
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\McpTransportContext
 	 */
 	public McpTransportContext $transport_context;
 
 	/**
 	 * Revision selection, validation, and response projection boundary.
 	 *
-	 * @var \WP\MCP\Transport\Infrastructure\McpWireOrchestrator
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\McpWireOrchestrator
 	 */
 	private McpWireOrchestrator $orchestrator;
 
 	/**
 	 * Initialize HTTP processing with the server's transport dependencies.
 	 *
-	 * @param \WP\MCP\Transport\Infrastructure\McpTransportContext $transport_context Server and handler dependencies.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\McpTransportContext $transport_context Server and handler dependencies.
 	 */
 	public function __construct( McpTransportContext $transport_context ) {
 		$this->transport_context = $transport_context;
@@ -52,7 +52,7 @@ class HttpRequestHandler {
 	 *
 	 * @since 0.5.0
 	 *
-	 * @return \WP\MCP\Transport\Infrastructure\McpTransportContext Transport dependencies.
+	 * @return \SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\McpTransportContext Transport dependencies.
 	 */
 	public function get_transport_context(): McpTransportContext {
 		return $this->transport_context;
@@ -61,7 +61,7 @@ class HttpRequestHandler {
 	/**
 	 * Dispatch an HTTP request to protocol processing or session termination.
 	 *
-	 * @param \WP\MCP\Transport\Infrastructure\HttpRequestContext $context Request body, method, and header values.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\HttpRequestContext $context Request body, method, and header values.
 	 *
 	 * @return \WP_REST_Response Protocol response, session-termination response, or method rejection.
 	 */
@@ -90,7 +90,7 @@ class HttpRequestHandler {
 	 * a session after successful legacy initialization. Modern requests use
 	 * per-request context without creating or restoring an MCP session.
 	 *
-	 * @param \WP\MCP\Transport\Infrastructure\HttpRequestContext $context Raw request and HTTP metadata.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\HttpRequestContext $context Raw request and HTTP metadata.
 	 *
 	 * @return \WP_REST_Response Encoded protocol data, an early error, or an empty notification response.
 	 */

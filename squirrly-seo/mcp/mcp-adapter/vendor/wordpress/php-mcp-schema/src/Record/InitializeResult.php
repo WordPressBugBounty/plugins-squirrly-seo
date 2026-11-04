@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class InitializeResult extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ServerResult
+final class InitializeResult extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ServerResult
 {
     public const DEFINITION = 'InitializeResult';
 
@@ -24,11 +24,11 @@ final class InitializeResult extends \WP\McpSchema\Record implements \WP\McpSche
     }
 
     /**
-     * @return \WP\McpSchema\Record\ServerCapabilities
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\ServerCapabilities
      */
-    public function getCapabilities(): \WP\McpSchema\Record\ServerCapabilities
+    public function getCapabilities(): \SquirrlySEO\Vendor\WP\McpSchema\Record\ServerCapabilities
     {
-        /** @var \WP\McpSchema\Record\ServerCapabilities $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\ServerCapabilities $value */
         $value = $this->declaredValue('capabilities');
 
         return $value;
@@ -57,11 +57,11 @@ final class InitializeResult extends \WP\McpSchema\Record implements \WP\McpSche
     }
 
     /**
-     * @return \WP\McpSchema\Record\Implementation
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\Implementation
      */
-    public function getServerInfo(): \WP\McpSchema\Record\Implementation
+    public function getServerInfo(): \SquirrlySEO\Vendor\WP\McpSchema\Record\Implementation
     {
-        /** @var \WP\McpSchema\Record\Implementation $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\Implementation $value */
         $value = $this->declaredValue('serverInfo');
 
         return $value;

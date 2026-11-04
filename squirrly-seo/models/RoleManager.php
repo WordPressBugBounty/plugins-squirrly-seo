@@ -190,7 +190,8 @@ class SQ_Models_RoleManager {
 		}
 
 		foreach ( $capabilities as $capability => $grant ) {
-			if ( ! $role->has_cap( $capability ) ) {
+			//Only add a capability the role doesn't define yet; keep one a site admin set to granted or denied
+			if ( ! isset( $role->capabilities[ $capability ] ) ) {
 				$role->add_cap( $capability, $grant );
 			}
 		}

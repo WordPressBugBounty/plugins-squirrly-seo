@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class InitializeRequest extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ClientRequest
+final class InitializeRequest extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ClientRequest
 {
     public const DEFINITION = 'InitializeRequest';
 
@@ -46,11 +46,11 @@ final class InitializeRequest extends \WP\McpSchema\Record implements \WP\McpSch
     }
 
     /**
-     * @return \WP\McpSchema\Record\InitializeRequestParams
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\InitializeRequestParams
      */
-    public function getParams(): \WP\McpSchema\Record\InitializeRequestParams
+    public function getParams(): \SquirrlySEO\Vendor\WP\McpSchema\Record\InitializeRequestParams
     {
-        /** @var \WP\McpSchema\Record\InitializeRequestParams $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\InitializeRequestParams $value */
         $value = $this->declaredValue('params');
 
         return $value;

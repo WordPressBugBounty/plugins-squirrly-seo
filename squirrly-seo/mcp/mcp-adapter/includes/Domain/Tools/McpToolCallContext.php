@@ -7,10 +7,10 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Domain\Tools;
+namespace SquirrlySEO\Vendor\WP\MCP\Domain\Tools;
 
-use WP\MCP\Core\McpRequestContext;
-use WP\McpSchema\Schemas;
+use SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext;
+use SquirrlySEO\Vendor\WP\McpSchema\Schemas;
 
 /**
  * Keeps untrusted client input separate from ordinary tool arguments.
@@ -19,7 +19,7 @@ use WP\McpSchema\Schemas;
  */
 final class McpToolCallContext {
 
-	/** @var \WP\MCP\Core\McpRequestContext */
+	/** @var \SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext */
 	private McpRequestContext $request;
 
 	/** @var string JSON preserves empty maps and prevents callback mutation. */
@@ -32,7 +32,7 @@ final class McpToolCallContext {
 	private bool $continuation;
 
 	/**
-	 * @param \WP\MCP\Core\McpRequestContext $request       Per-request protocol context.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext $request       Per-request protocol context.
 	 * @param \stdClass                      $responses     Schema-valid client answers keyed by input request identifier.
 	 * @param string|null                    $request_state Untrusted client-supplied state, not verified by the Adapter.
 	 * @param bool                           $continuation  Whether the client supplied any continuation field.

@@ -57,14 +57,6 @@ class SQ_Controllers_Post extends SQ_Classes_FrontController {
 			'hookUpdateStatus'
 		), 10, 1 );
 
-		//Check Sitemap Ping status
-		if ( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_sitemap' ) ) {
-			add_action( 'transition_post_status', array(
-				SQ_Classes_ObjController::getClass( 'SQ_Controllers_Sitemaps' ),
-				'refreshSitemap'
-			), PHP_INT_MAX, 3 );
-		}
-
 		//Check the compatibility with Woocommerce
 		if ( SQ_Classes_Helpers_Tools::getOption( 'sq_jsonld_product_custom' ) && SQ_Classes_Helpers_Tools::getOption( 'sq_jsonld_woocommerce' ) ) {
 			SQ_Classes_ObjController::getClass( 'SQ_Models_Compatibility' )->checkWooCommerce();

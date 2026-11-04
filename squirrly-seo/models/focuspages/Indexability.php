@@ -102,9 +102,14 @@ class SQ_Models_Focuspages_Indexability extends SQ_Models_Abstract_Assistant {
                     <a href="' . SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'webmaster' ) . '" class="btn btn-primary text-white col-12 mt-3">' . esc_html__( "Connect Google Search", 'squirrly-seo' ) . '</a>
                 </li>';
 		} else {
+			//Open URL Inspection straight on this page when the Cloud tells us the connected property (else GSC asks for it)
+			$inspect = 'https://search.google.com/search-console/inspect';
+			if ( ! empty( $this->_audit->sq_analytics_gsc_property ) ) {
+				$inspect .= '?resource_id=' . rawurlencode( $this->_audit->sq_analytics_gsc_property ) . '&id=' . rawurlencode( $this->_post->url );
+			}
 			$header .= '<li class="completed text-center sq_save_ajax">
                         <input type="hidden" id="sq_indexability_completed" value="1"/>
-                        <button type="button" class="btn btn-primary text-white mx-auto px-4" data-redirect="https://search.google.com/search-console/inspect" data-input="sq_indexability_completed" data-action="sq_ajax_assistant" data-name="indexability|gscindex|' . $this->_post->ID . '" >' . esc_html__( "Ask Google to Re-Index", 'squirrly-seo' ) . ' >></button>
+                        <button type="button" class="btn btn-primary text-white mx-auto px-4" data-redirect="' . esc_url( $inspect ) . '" data-input="sq_indexability_completed" data-action="sq_ajax_assistant" data-name="indexability|gscindex|' . $this->_post->ID . '" >' . esc_html__( "Ask Google to Re-Index", 'squirrly-seo' ) . ' >></button>
                     </li>';
 		}
 

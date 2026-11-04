@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class SubscriptionsListenRequest extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ClientRequest
+final class SubscriptionsListenRequest extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ClientRequest
 {
     public const DEFINITION = 'SubscriptionsListenRequest';
 
@@ -46,11 +46,11 @@ final class SubscriptionsListenRequest extends \WP\McpSchema\Record implements \
     }
 
     /**
-     * @return \WP\McpSchema\Record\SubscriptionsListenRequestParams
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\SubscriptionsListenRequestParams
      */
-    public function getParams(): \WP\McpSchema\Record\SubscriptionsListenRequestParams
+    public function getParams(): \SquirrlySEO\Vendor\WP\McpSchema\Record\SubscriptionsListenRequestParams
     {
-        /** @var \WP\McpSchema\Record\SubscriptionsListenRequestParams $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\SubscriptionsListenRequestParams $value */
         $value = $this->declaredValue('params');
 
         return $value;

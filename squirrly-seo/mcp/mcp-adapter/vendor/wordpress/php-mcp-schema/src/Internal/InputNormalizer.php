@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Internal;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Internal;
 
-use WP\McpSchema\Exception\ValidationException;
-use WP\McpSchema\Record;
+use SquirrlySEO\Vendor\WP\McpSchema\Exception\ValidationException;
+use SquirrlySEO\Vendor\WP\McpSchema\Record;
 
 /**
  * Copies supported PHP/decoded-JSON values and rejects unsafe native values.

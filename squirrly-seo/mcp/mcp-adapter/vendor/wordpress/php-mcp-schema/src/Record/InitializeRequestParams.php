@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class InitializeRequestParams extends \WP\McpSchema\Record
+final class InitializeRequestParams extends \SquirrlySEO\Vendor\WP\McpSchema\Record
 {
     public const DEFINITION = 'InitializeRequestParams';
 
@@ -24,22 +24,22 @@ final class InitializeRequestParams extends \WP\McpSchema\Record
     }
 
     /**
-     * @return \WP\McpSchema\Record\ClientCapabilities
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\ClientCapabilities
      */
-    public function getCapabilities(): \WP\McpSchema\Record\ClientCapabilities
+    public function getCapabilities(): \SquirrlySEO\Vendor\WP\McpSchema\Record\ClientCapabilities
     {
-        /** @var \WP\McpSchema\Record\ClientCapabilities $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\ClientCapabilities $value */
         $value = $this->declaredValue('capabilities');
 
         return $value;
     }
 
     /**
-     * @return \WP\McpSchema\Record\Implementation
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\Implementation
      */
-    public function getClientInfo(): \WP\McpSchema\Record\Implementation
+    public function getClientInfo(): \SquirrlySEO\Vendor\WP\McpSchema\Record\Implementation
     {
-        /** @var \WP\McpSchema\Record\Implementation $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\Implementation $value */
         $value = $this->declaredValue('clientInfo');
 
         return $value;

@@ -1557,8 +1557,10 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 						}
 					}
 				}
-			} else {
+			} elseif ( post_type_exists( $this->_post->post_type ) ) {
 				/////////////////////// Parent Categories
+				//only for posts: on a tag or taxonomy archive the ID is a term ID, and reading the categories of the post
+				//with that ID put a random category in the trail
 				if ( (int) $this->_post->sq->primary_category > 0 ) {
 					$categories = array( get_category( (int) $this->_post->sq->primary_category ) );
 				} else {
@@ -1606,7 +1608,14 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 			}
 
 
-			if ( ! empty( $crumbs ) ) {
+			//No category trail (pages, custom post types, tags, archives): Home > archive / parent pages > current.
+			//Google documents BreadcrumbList for any page in the site's hierarchy, and the other SEO plugins
+			//print it on every public page; 404 and search results are not part of the hierarchy.
+			if ( empty( $lists ) && ! in_array( $this->_post->post_type, array( '404', 'search' ), true ) ) {
+				$lists[] = $this->getHierarchyCrumbs();
+			}
+
+			if ( ! empty( $lists ) ) {
 				$markup['@type']           = 'BreadcrumbList';
 				$markup['@id']             = $this->_post->url . '#' . 'breadcrumblist';
 				$markup['itemListElement'] = array();
@@ -1641,6 +1650,34 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 
 		return apply_filters( 'sq_jsonld_breadcrumbs_markup', $markup, $this->_post, 'breadcrumbs' );
 
+	}
+
+	/**
+	 * The crumbs between Home and the current page when there is no category trail:
+	 * the post type archive (Recipes) and the parent pages, for pages and custom post types.
+	 *
+	 * @return array of array( name, url )
+	 */
+	protected function getHierarchyCrumbs() {
+		$crumbs = array();
+		$type   = $this->_post->post_type;
+
+		if ( ! isset( $this->_post->ID ) || ! $this->_post->ID || ! post_type_exists( $type ) || in_array( $type, array( 'post', 'product', 'attachment' ), true ) ) {
+			return $crumbs;
+		}
+
+		$object = get_post_type_object( $type );
+		if ( $type <> 'page' && $object && ! empty( $object->has_archive ) && ( $link = get_post_type_archive_link( $type ) ) ) {
+			$crumbs[] = array( $object->labels->name, $link );
+		}
+
+		if ( is_post_type_hierarchical( $type ) ) {
+			foreach ( array_reverse( get_post_ancestors( $this->_post->ID ) ) as $parent ) {
+				$crumbs[] = array( get_the_title( $parent ), get_permalink( $parent ) );
+			}
+		}
+
+		return $crumbs;
 	}
 
 	/**

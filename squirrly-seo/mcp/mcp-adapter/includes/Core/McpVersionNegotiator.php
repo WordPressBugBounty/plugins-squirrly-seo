@@ -7,9 +7,9 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Core;
+namespace SquirrlySEO\Vendor\WP\MCP\Core;
 
-use WP\McpSchema\Schemas;
+use SquirrlySEO\Vendor\WP\McpSchema\Schemas;
 
 /**
  * Negotiates the MCP protocol version between client and server.

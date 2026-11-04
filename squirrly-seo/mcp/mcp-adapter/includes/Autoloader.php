@@ -4,14 +4,14 @@
  *
  * Ensures that autoloaders are present, and logs an Admin notice if not.
  *
- * Can be bypassed by defining the WP_MCP_AUTOLOAD constant to false.
+ * Can be bypassed by defining the SQ_WP_MCP_AUTOLOAD constant to false.
  *
- * @package WP\MCP
+ * @package SquirrlySEO\Vendor\WP\MCP
  */
 
 declare( strict_types=1 );
 
-namespace WP\MCP;
+namespace SquirrlySEO\Vendor\WP\MCP;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -32,7 +32,7 @@ final class Autoloader {
 	 */
 	public static function autoload(): bool {
 		// If we're not *supposed* to autoload anything, then return true.
-		if ( defined( 'WP_MCP_AUTOLOAD' ) && false === WP_MCP_AUTOLOAD ) {
+		if ( defined( 'SQ_WP_MCP_AUTOLOAD' ) && false === SQ_WP_MCP_AUTOLOAD ) {
 			return true;
 		}
 
@@ -61,7 +61,7 @@ final class Autoloader {
 		}
 
 		// This is conditionally redefined in Plugin::constants().
-		define( 'WP_MCP_DIR', plugin_dir_path( __DIR__ ) );
+		define( 'SQ_WP_MCP_DIR', plugin_dir_path( __DIR__ ) );
 
 		return self::$is_loaded;
 	}

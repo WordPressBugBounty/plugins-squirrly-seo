@@ -4,14 +4,14 @@
  *
  * If we evolve from a canonical plugin into WordPress core, this file would be left behind.
  *
- * @package WP\MCP
+ * @package SquirrlySEO\Vendor\WP\MCP
  */
 
 declare( strict_types=1 );
 
-namespace WP\MCP;
+namespace SquirrlySEO\Vendor\WP\MCP;
 
-use WP\MCP\Core\McpAdapter;
+use SquirrlySEO\Vendor\WP\MCP\Core\McpAdapter;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -44,7 +44,7 @@ final class Plugin {
 			 *
 			 * @param self $instance The main plugin class instance.
 			 */
-			do_action( 'wp_mcp_init', self::$instance );
+			do_action( 'sq_wp_mcp_init', self::$instance );
 		}
 
 		return self::$instance;
@@ -55,17 +55,17 @@ final class Plugin {
 	 */
 	private function constants(): void {
 		// This is locally defined in Autoloader::autoload() but is redefined here in case.
-		if ( ! defined( 'WP_MCP_DIR' ) ) {
+		if ( ! defined( 'SQ_WP_MCP_DIR' ) ) {
 			/**
 			 * Plugin directory path.
 			 */
-			define( 'WP_MCP_DIR', plugin_dir_path( __DIR__ ) );
+			define( 'SQ_WP_MCP_DIR', plugin_dir_path( __DIR__ ) );
 		}
 
 		/**
 		 * Plugin version.
 		 */
-		define( 'WP_MCP_VERSION', McpAdapter::VERSION );
+		define( 'SQ_WP_MCP_VERSION', McpAdapter::VERSION );
 	}
 
 	/**

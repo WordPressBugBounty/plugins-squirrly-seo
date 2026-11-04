@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Exception;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Exception;
 
 final class UnavailableTypeException extends SchemaException
 {

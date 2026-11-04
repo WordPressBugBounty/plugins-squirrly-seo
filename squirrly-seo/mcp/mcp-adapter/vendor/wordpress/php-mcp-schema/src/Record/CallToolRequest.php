@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class CallToolRequest extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ClientRequest
+final class CallToolRequest extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ClientRequest
 {
     public const DEFINITION = 'CallToolRequest';
 
@@ -46,11 +46,11 @@ final class CallToolRequest extends \WP\McpSchema\Record implements \WP\McpSchem
     }
 
     /**
-     * @return \WP\McpSchema\Record\CallToolRequestParams
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\CallToolRequestParams
      */
-    public function getParams(): \WP\McpSchema\Record\CallToolRequestParams
+    public function getParams(): \SquirrlySEO\Vendor\WP\McpSchema\Record\CallToolRequestParams
     {
-        /** @var \WP\McpSchema\Record\CallToolRequestParams $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\CallToolRequestParams $value */
         $value = $this->declaredValue('params');
 
         return $value;

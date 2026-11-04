@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Value;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Value;
 
 final class TaskStatus
 {

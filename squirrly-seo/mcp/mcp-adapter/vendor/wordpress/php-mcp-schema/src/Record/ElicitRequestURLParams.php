@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class ElicitRequestURLParams extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ElicitRequestParams
+final class ElicitRequestURLParams extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ElicitRequestParams
 {
     public const DEFINITION = 'ElicitRequestURLParams';
 
@@ -63,11 +63,11 @@ final class ElicitRequestURLParams extends \WP\McpSchema\Record implements \WP\M
     /**
      * Declared in: 2025-11-25.
      *
-     * @return \WP\McpSchema\Record\TaskMetadata|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\TaskMetadata|null
      */
-    public function getTask(): ?\WP\McpSchema\Record\TaskMetadata
+    public function getTask(): ?\SquirrlySEO\Vendor\WP\McpSchema\Record\TaskMetadata
     {
-        /** @var \WP\McpSchema\Record\TaskMetadata|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\TaskMetadata|null $value */
         $value = $this->declaredValue('task');
 
         return $value;

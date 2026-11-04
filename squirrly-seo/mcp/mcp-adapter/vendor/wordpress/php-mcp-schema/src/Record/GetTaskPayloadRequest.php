@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class GetTaskPayloadRequest extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ClientRequest, \WP\McpSchema\Contract\ServerRequest
+final class GetTaskPayloadRequest extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ClientRequest, \SquirrlySEO\Vendor\WP\McpSchema\Contract\ServerRequest
 {
     public const DEFINITION = 'GetTaskPayloadRequest';
 

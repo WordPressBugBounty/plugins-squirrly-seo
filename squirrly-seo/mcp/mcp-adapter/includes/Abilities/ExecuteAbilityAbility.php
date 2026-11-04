@@ -7,9 +7,9 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Abilities;
+namespace SquirrlySEO\Vendor\WP\MCP\Abilities;
 
-use WP\MCP\Domain\Utils\AbilityArgumentNormalizer;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Utils\AbilityArgumentNormalizer;
 use WP_Error;
 
 /**
@@ -223,7 +223,7 @@ final class ExecuteAbilityAbility {
 		 *
 		 * @param string $capability The required capability. Default 'read'.
 		 */
-		$required_capability = apply_filters( 'mcp_adapter_execute_ability_capability', 'read' );
+		$required_capability = apply_filters( 'sq_mcp_adapter_execute_ability_capability', 'read' );
 		// phpcs:ignore WordPress.WP.Capabilities.Undetermined -- Capability is determined dynamically via filter
 		if ( ! current_user_can( $required_capability ) ) {
 			return new WP_Error(

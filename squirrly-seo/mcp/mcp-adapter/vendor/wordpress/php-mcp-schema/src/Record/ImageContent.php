@@ -6,29 +6,29 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class ImageContent extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ContentBlock, \WP\McpSchema\Contract\SamplingMessageContentBlock
+final class ImageContent extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ContentBlock, \SquirrlySEO\Vendor\WP\McpSchema\Contract\SamplingMessageContentBlock
 {
     public const DEFINITION = 'ImageContent';
 
     /**
-     * @return \WP\McpSchema\Record\MetaObject|\stdClass|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\MetaObject|\stdClass|null
      */
     public function getMeta()
     {
-        /** @var \WP\McpSchema\Record\MetaObject|\stdClass|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\MetaObject|\stdClass|null $value */
         $value = $this->declaredValue('_meta');
 
         return $value;
     }
 
     /**
-     * @return \WP\McpSchema\Record\Annotations|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\Annotations|null
      */
-    public function getAnnotations(): ?\WP\McpSchema\Record\Annotations
+    public function getAnnotations(): ?\SquirrlySEO\Vendor\WP\McpSchema\Record\Annotations
     {
-        /** @var \WP\McpSchema\Record\Annotations|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\Annotations|null $value */
         $value = $this->declaredValue('annotations');
 
         return $value;

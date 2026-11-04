@@ -6,18 +6,18 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class JSONRPCErrorResponse extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\JSONRPCMessage, \WP\McpSchema\Contract\JSONRPCResponse
+final class JSONRPCErrorResponse extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\JSONRPCMessage, \SquirrlySEO\Vendor\WP\McpSchema\Contract\JSONRPCResponse
 {
     public const DEFINITION = 'JSONRPCErrorResponse';
 
     /**
-     * @return \WP\McpSchema\Record\Error
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\Error
      */
-    public function getError(): \WP\McpSchema\Record\Error
+    public function getError(): \SquirrlySEO\Vendor\WP\McpSchema\Record\Error
     {
-        /** @var \WP\McpSchema\Record\Error $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\Error $value */
         $value = $this->declaredValue('error');
 
         return $value;

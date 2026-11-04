@@ -3,8 +3,8 @@ declare( strict_types=1 );
 
 namespace WPMedia\MCP\OAuth\Transport;
 
-use WP\MCP\Core\McpAdapter;
-use WP\MCP\Infrastructure\ErrorHandling\ErrorLogMcpErrorHandler;
+use SquirrlySEO\Vendor\WP\MCP\Core\McpAdapter;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\ErrorLogMcpErrorHandler;
 use WPMedia\MCP\OAuth\Context;
 
 class Server {

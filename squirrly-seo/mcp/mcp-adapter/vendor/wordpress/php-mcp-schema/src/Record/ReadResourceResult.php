@@ -6,18 +6,18 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class ReadResourceResult extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ServerResult
+final class ReadResourceResult extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ServerResult
 {
     public const DEFINITION = 'ReadResourceResult';
 
     /**
-     * @return \WP\McpSchema\Record\ResultMetaObject|\stdClass|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\ResultMetaObject|\stdClass|null
      */
     public function getMeta()
     {
-        /** @var \WP\McpSchema\Record\ResultMetaObject|\stdClass|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\ResultMetaObject|\stdClass|null $value */
         $value = $this->declaredValue('_meta');
 
         return $value;
@@ -37,11 +37,11 @@ final class ReadResourceResult extends \WP\McpSchema\Record implements \WP\McpSc
     }
 
     /**
-     * @return array<int, \WP\McpSchema\Record\BlobResourceContents|\WP\McpSchema\Record\TextResourceContents>
+     * @return array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\BlobResourceContents|\SquirrlySEO\Vendor\WP\McpSchema\Record\TextResourceContents>
      */
     public function getContents(): array
     {
-        /** @var array<int, \WP\McpSchema\Record\BlobResourceContents|\WP\McpSchema\Record\TextResourceContents> $value */
+        /** @var array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\BlobResourceContents|\SquirrlySEO\Vendor\WP\McpSchema\Record\TextResourceContents> $value */
         $value = $this->declaredValue('contents');
 
         return $value;

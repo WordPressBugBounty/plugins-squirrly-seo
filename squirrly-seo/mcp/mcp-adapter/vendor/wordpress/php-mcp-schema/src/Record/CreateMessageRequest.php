@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class CreateMessageRequest extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\InputRequest, \WP\McpSchema\Contract\ServerRequest
+final class CreateMessageRequest extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\InputRequest, \SquirrlySEO\Vendor\WP\McpSchema\Contract\ServerRequest
 {
     public const DEFINITION = 'CreateMessageRequest';
 
@@ -50,11 +50,11 @@ final class CreateMessageRequest extends \WP\McpSchema\Record implements \WP\Mcp
     }
 
     /**
-     * @return \WP\McpSchema\Record\CreateMessageRequestParams
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\CreateMessageRequestParams
      */
-    public function getParams(): \WP\McpSchema\Record\CreateMessageRequestParams
+    public function getParams(): \SquirrlySEO\Vendor\WP\McpSchema\Record\CreateMessageRequestParams
     {
-        /** @var \WP\McpSchema\Record\CreateMessageRequestParams $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\CreateMessageRequestParams $value */
         $value = $this->declaredValue('params');
 
         return $value;

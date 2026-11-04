@@ -7,7 +7,7 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Infrastructure\Observability\Contracts;
+namespace SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\Contracts;
 
 /**
  * Interface for handling MCP observability metrics and tracking.

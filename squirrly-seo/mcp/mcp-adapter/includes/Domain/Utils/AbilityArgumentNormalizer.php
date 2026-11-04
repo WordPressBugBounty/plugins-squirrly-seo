@@ -7,7 +7,7 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Domain\Utils;
+namespace SquirrlySEO\Vendor\WP\MCP\Domain\Utils;
 
 /**
  * Normalizes ability arguments between MCP and WordPress Abilities API.

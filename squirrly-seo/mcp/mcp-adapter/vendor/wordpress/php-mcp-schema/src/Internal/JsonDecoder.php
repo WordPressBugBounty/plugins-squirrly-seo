@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Internal;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Internal;
 
-use WP\McpSchema\Exception\InvalidJsonException;
+use SquirrlySEO\Vendor\WP\McpSchema\Exception\InvalidJsonException;
 
 /**
  * Identity-preserving JSON decoder with lexical native-integer protection.

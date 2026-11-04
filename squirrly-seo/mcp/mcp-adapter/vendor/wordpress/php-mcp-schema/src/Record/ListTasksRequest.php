@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class ListTasksRequest extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ClientRequest, \WP\McpSchema\Contract\ServerRequest
+final class ListTasksRequest extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ClientRequest, \SquirrlySEO\Vendor\WP\McpSchema\Contract\ServerRequest
 {
     public const DEFINITION = 'ListTasksRequest';
 
@@ -46,11 +46,11 @@ final class ListTasksRequest extends \WP\McpSchema\Record implements \WP\McpSche
     }
 
     /**
-     * @return \WP\McpSchema\Record\PaginatedRequestParams|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\PaginatedRequestParams|null
      */
-    public function getParams(): ?\WP\McpSchema\Record\PaginatedRequestParams
+    public function getParams(): ?\SquirrlySEO\Vendor\WP\McpSchema\Record\PaginatedRequestParams
     {
-        /** @var \WP\McpSchema\Record\PaginatedRequestParams|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\PaginatedRequestParams|null $value */
         $value = $this->declaredValue('params');
 
         return $value;

@@ -7,6 +7,8 @@ class SQ_Controllers_CheckSeo extends SQ_Classes_FrontController {
 	public $score = 100;
 	public $congratulations;
 	public $report_time;
+	/** @var mixed The Cloud checkin (declared: dynamic properties are deprecated in PHP 8.2) */
+	public $checkin;
 
 	/**
 	 * Set a custom category name

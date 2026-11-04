@@ -7,10 +7,10 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Domain\Utils;
+namespace SquirrlySEO\Vendor\WP\MCP\Domain\Utils;
 
-use WP\McpSchema\Record;
-use WP\McpSchema\Schema;
+use SquirrlySEO\Vendor\WP\McpSchema\Record;
+use SquirrlySEO\Vendor\WP\McpSchema\Schema;
 
 /**
  * Caches successful and failed immutable schema projections by exact revision.
@@ -29,7 +29,7 @@ trait RevisionProjectionTrait {
 	/**
 	 * Successful protocol projections cached by schema revision.
 	 *
-	 * @var array<string, \WP\McpSchema\Record>
+	 * @var array<string, \SquirrlySEO\Vendor\WP\McpSchema\Record>
 	 */
 	private array $protocol_records = array();
 
@@ -61,8 +61,8 @@ trait RevisionProjectionTrait {
 	/**
 	 * Project one record class through one exact schema.
 	 *
-	 * @template T of \WP\McpSchema\Record
-	 * @param \WP\McpSchema\Schema $schema Selected schema.
+	 * @template T of \SquirrlySEO\Vendor\WP\McpSchema\Record
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Selected schema.
 	 * @param class-string<T> $record_class Generated record class.
 	 * @param array<string, mixed> $data Revision-specific projection data.
 	 * @return T
@@ -101,7 +101,7 @@ trait RevisionProjectionTrait {
 	/**
 	 * Get the clean protocol record for one revision.
 	 *
-	 * @param \WP\McpSchema\Schema $schema Selected schema.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Selected schema.
 	 */
 	abstract public function get_protocol_record( Schema $schema ): Record;
 
@@ -110,7 +110,7 @@ trait RevisionProjectionTrait {
 	 *
 	 * @since 0.7.0
 	 *
-	 * @param \WP\McpSchema\Schema $schema Selected revision catalog.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Selected revision catalog.
 	 *
 	 * @return bool Whether a protocol record can be produced.
 	 */

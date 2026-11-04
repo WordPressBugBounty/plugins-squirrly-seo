@@ -7,12 +7,12 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Cli;
+namespace SquirrlySEO\Vendor\WP\MCP\Cli;
 
-use WP\MCP\Core\McpServer;
-use WP\MCP\Infrastructure\ErrorHandling\McpErrorFactory;
-use WP\MCP\Transport\Infrastructure\McpWireOrchestrator;
-use WP\McpSchema\Record;
+use SquirrlySEO\Vendor\WP\MCP\Core\McpServer;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\McpErrorFactory;
+use SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\McpWireOrchestrator;
+use SquirrlySEO\Vendor\WP\McpSchema\Record;
 
 /**
  * Exposes an MCP server through newline-delimited JSON on STDIN and STDOUT.
@@ -26,14 +26,14 @@ final class StdioServerBridge {
 	/**
 	 * Server whose components and configuration are exposed.
 	 *
-	 * @var \WP\MCP\Core\McpServer
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Core\McpServer
 	 */
 	private McpServer $server;
 
 	/**
 	 * Shared protocol validation, dispatch, and response projection boundary.
 	 *
-	 * @var \WP\MCP\Transport\Infrastructure\McpWireOrchestrator
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\McpWireOrchestrator
 	 */
 	private McpWireOrchestrator $orchestrator;
 
@@ -54,7 +54,7 @@ final class StdioServerBridge {
 	/**
 	 * Initialize the bridge and its protocol orchestrator.
 	 *
-	 * @param \WP\MCP\Core\McpServer $server Server to expose.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpServer $server Server to expose.
 	 */
 	public function __construct( McpServer $server ) {
 		$this->server       = $server;
@@ -81,8 +81,8 @@ final class StdioServerBridge {
 		 *
 		 * @param bool $enabled Whether serving is enabled. Default true.
 		 */
-		if ( ! apply_filters( 'mcp_adapter_enable_stdio_transport', true ) ) {
-			throw new \RuntimeException( 'The STDIO transport is disabled. Enable it by setting the "mcp_adapter_enable_stdio_transport" filter to true.' );
+		if ( ! apply_filters( 'sq_mcp_adapter_enable_stdio_transport', true ) ) {
+			throw new \RuntimeException( 'The STDIO transport is disabled. Enable it by setting the "sq_mcp_adapter_enable_stdio_transport" filter to true.' );
 		}
 
 		$this->is_running = true;
@@ -162,7 +162,7 @@ final class StdioServerBridge {
 	/**
 	 * Encode a response record or an early protocol error array.
 	 *
-	 * @param \WP\McpSchema\Record|array<string, mixed> $response Response to serialize.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record|array<string, mixed> $response Response to serialize.
 	 *
 	 * @return string JSON without a trailing newline; a fixed internal-error envelope if encoding fails.
 	 */
@@ -189,7 +189,7 @@ final class StdioServerBridge {
 	/**
 	 * Get the server exposed by this bridge.
 	 *
-	 * @return \WP\MCP\Core\McpServer Exposed server.
+	 * @return \SquirrlySEO\Vendor\WP\MCP\Core\McpServer Exposed server.
 	 */
 	public function get_server(): McpServer {
 		return $this->server;

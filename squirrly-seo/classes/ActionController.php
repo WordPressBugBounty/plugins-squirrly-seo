@@ -254,6 +254,7 @@ class SQ_Classes_ActionController extends SQ_Classes_FrontController {
 						'sq_briefcase_article',
 						'sq_briefcase_doresearch',
 						'sq_briefcase_addkeyword',
+						'sq_ajax_briefcase_bulk_add',
 						'sq_briefcase_deletekeyword',
 						'sq_briefcase_deletelabel',
 						'sq_briefcase_deletefound',

@@ -7,10 +7,10 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Cli;
+namespace SquirrlySEO\Vendor\WP\MCP\Cli;
 
-use WP\MCP\Core\McpAdapter;
-use WP\MCP\Core\McpVersionNegotiator;
+use SquirrlySEO\Vendor\WP\MCP\Core\McpAdapter;
+use SquirrlySEO\Vendor\WP\MCP\Core\McpVersionNegotiator;
 use function WP_CLI\Utils\format_items;
 
 /**

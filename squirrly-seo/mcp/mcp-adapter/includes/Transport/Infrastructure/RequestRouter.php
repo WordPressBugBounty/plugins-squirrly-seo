@@ -7,24 +7,24 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Transport\Infrastructure;
+namespace SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure;
 
-use WP\MCP\Core\McpRequestContext;
-use WP\MCP\Core\McpVersionNegotiator;
-use WP\MCP\Infrastructure\ErrorHandling\McpErrorFactory;
-use WP\MCP\Infrastructure\Observability\ErrorLogMcpObservabilityHandler;
-use WP\MCP\Infrastructure\Observability\FailureReason;
-use WP\McpSchema\Record;
-use WP\McpSchema\Record\CallToolRequest;
-use WP\McpSchema\Record\DiscoverRequest;
-use WP\McpSchema\Record\GetPromptRequest;
-use WP\McpSchema\Record\InitializeRequest;
-use WP\McpSchema\Record\ListPromptsRequest;
-use WP\McpSchema\Record\ListResourceTemplatesRequest;
-use WP\McpSchema\Record\ListResourcesRequest;
-use WP\McpSchema\Record\ListToolsRequest;
-use WP\McpSchema\Record\PingRequest;
-use WP\McpSchema\Record\ReadResourceRequest;
+use SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext;
+use SquirrlySEO\Vendor\WP\MCP\Core\McpVersionNegotiator;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\McpErrorFactory;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\ErrorLogMcpObservabilityHandler;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\FailureReason;
+use SquirrlySEO\Vendor\WP\McpSchema\Record;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\CallToolRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\DiscoverRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\GetPromptRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\InitializeRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ListPromptsRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ListResourceTemplatesRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ListResourcesRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ListToolsRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\PingRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ReadResourceRequest;
 
 /**
  * Service for routing MCP requests to appropriate handlers.
@@ -37,7 +37,7 @@ class RequestRouter {
 	/**
 	 * The transport context.
 	 *
-	 * @var \WP\MCP\Transport\Infrastructure\McpTransportContext
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\McpTransportContext
 	 */
 	private McpTransportContext $context;
 
@@ -53,7 +53,7 @@ class RequestRouter {
 	 * Request whose base-router event belongs to the active completion scope.
 	 *
 	 * @since 0.7.0
-	 * @var \WP\McpSchema\Record|null
+	 * @var \SquirrlySEO\Vendor\WP\McpSchema\Record|null
 	 */
 	private ?Record $capture_request = null;
 
@@ -62,11 +62,11 @@ class RequestRouter {
 	 *
 	 * @internal
 	 * @since 0.7.0
-	 * @param \WP\McpSchema\Record $request Validated request.
-	 * @param \WP\MCP\Core\McpRequestContext $request_context Exact request context.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record $request Validated request.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext $request_context Exact request context.
 	 * @param string $transport_name Transport name.
-	 * @param callable(\WP\McpSchema\Record|array<string, mixed>): \WP\McpSchema\Record $complete Response projector.
-	 * @return \WP\McpSchema\Record|array<string, mixed> Final response or contained routing error.
+	 * @param callable(\SquirrlySEO\Vendor\WP\McpSchema\Record|array<string, mixed>): \SquirrlySEO\Vendor\WP\McpSchema\Record $complete Response projector.
+	 * @return \SquirrlySEO\Vendor\WP\McpSchema\Record|array<string, mixed> Final response or contained routing error.
 	 */
 	public function route_request_with_completion( Record $request, McpRequestContext $request_context, string $transport_name, callable $complete ) {
 		$start_time                = microtime( true );
@@ -106,7 +106,7 @@ class RequestRouter {
 	/**
 	 * Initialize the request router.
 	 *
-	 * @param \WP\MCP\Transport\Infrastructure\McpTransportContext $context The transport context.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\McpTransportContext $context The transport context.
 	 */
 	public function __construct(
 		McpTransportContext $context
@@ -117,10 +117,10 @@ class RequestRouter {
 	/**
 	 * Route a request to the appropriate handler.
 	 *
-	 * @param \WP\McpSchema\Record $request Validated exact request.
-	 * @param \WP\MCP\Core\McpRequestContext $request_context Exact request context.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record $request Validated exact request.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext $request_context Exact request context.
 	 * @param string $transport_name Transport name for observability.
-	 * @return \WP\McpSchema\Record|array<string, mixed>
+	 * @return \SquirrlySEO\Vendor\WP\McpSchema\Record|array<string, mixed>
 	 */
 	public function route_request( Record $request, McpRequestContext $request_context, string $transport_name = 'unknown' ) {
 		$capture = $this->capture_request === $request ? $this->capture_observation : null;
@@ -155,8 +155,8 @@ class RequestRouter {
 	 * Collect request and component identity without argument values.
 	 *
 	 * @since 0.7.0
-	 * @param \WP\McpSchema\Record $request Validated request.
-	 * @param \WP\MCP\Core\McpRequestContext $request_context Exact request context.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record $request Validated request.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext $request_context Exact request context.
 	 * @param string $transport_name Transport name.
 	 * @return array<string, mixed> Correlation tags.
 	 */
@@ -183,7 +183,7 @@ class RequestRouter {
 	 *
 	 * @since 0.7.0
 	 * @param array<string, mixed> $tags Correlated request tags.
-	 * @param \WP\McpSchema\Record|array<string, mixed> $result Result or response.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record|array<string, mixed> $result Result or response.
 	 * @param float $start_time Request start time in seconds.
 	 * @param \Throwable|null $projection_failure Final projection failure.
 	 */
@@ -208,7 +208,7 @@ class RequestRouter {
 	 * Derive status from either a direct handler result or a projected response.
 	 *
 	 * @since 0.7.0
-	 * @param \WP\McpSchema\Record|array<string, mixed> $result Result or response.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record|array<string, mixed> $result Result or response.
 	 * @return array<string, mixed> Outcome tags.
 	 */
 	private function result_observability_tags( $result ): array {
@@ -249,7 +249,7 @@ class RequestRouter {
 	 */
 	private function log_projection_failure( \Throwable $exception, array $tags ): void {
 		$tags['exception_message'] = $exception->getMessage();
-		if ( $exception instanceof \WP\McpSchema\Exception\ValidationException ) {
+		if ( $exception instanceof \SquirrlySEO\Vendor\WP\McpSchema\Exception\ValidationException ) {
 			$tags['schema_pointer'] = $exception->getPointer();
 		}
 		try {
@@ -264,11 +264,11 @@ class RequestRouter {
 	 * Dispatch one validated concrete request to its handler.
 	 *
 	 * @param string $method Validated method name.
-	 * @param \WP\McpSchema\Record $request Concrete validated request record.
-	 * @param \WP\MCP\Core\McpRequestContext $context Selected request context.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record $request Concrete validated request record.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext $context Selected request context.
 	 * @param string|int $request_id Validated JSON-RPC request ID.
 	 *
-	 * @return \WP\McpSchema\Record|array<string, mixed>
+	 * @return \SquirrlySEO\Vendor\WP\McpSchema\Record|array<string, mixed>
 	 */
 	private function dispatch( string $method, Record $request, McpRequestContext $context, $request_id ) {
 		switch ( $method ) {
@@ -333,7 +333,7 @@ class RequestRouter {
 	/**
 	 * Collect limited request fields and argument names for observability.
 	 *
-	 * @param \WP\McpSchema\Record $request Validated request record.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record $request Validated request record.
 	 *
 	 * @return array<string, mixed> Selected fields with argument values replaced by null.
 	 */
@@ -375,7 +375,7 @@ class RequestRouter {
 	/**
 	 * Read one field from a generated record or JSON object.
 	 *
-	 * @param \WP\McpSchema\Record|\stdClass|array<string, mixed> $record Record-like value.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record|\stdClass|array<string, mixed> $record Record-like value.
 	 * @param string $field Field name to read.
 	 *
 	 * @return mixed

@@ -7,7 +7,7 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Transport\Infrastructure;
+namespace SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure;
 
 /**
  * Trait McpTransportHelperTrait

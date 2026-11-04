@@ -30,7 +30,7 @@ SQ_Classes_ObjController::getClass( 'SQ_Classes_DisplayController' )->loadMedia(
                     <div class="col-12 px-2 py-3 text-center">
                         <div class="sq_logo sq_logo_50 m-0 p-0 mx-auto"></div>
                     </div>
-                    <div id="sq_error" class="card col-12 p-0 tab-panel border-0">
+                    <div id="sq_error" class="card col-12 p-0 tab-panel tab-panel-first border-0">
                         <div class="col-8 mx-auto alert alert-warning text-center m-0 p-4">
                             <h4 class="mb-3"><?php echo esc_html__( "This site needs to reconnect to Squirrly Cloud", "squirrly-seo" ); ?></h4>
                             <p class="m-0">

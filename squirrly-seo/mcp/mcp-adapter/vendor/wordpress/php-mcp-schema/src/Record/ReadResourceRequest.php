@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class ReadResourceRequest extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ClientRequest
+final class ReadResourceRequest extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ClientRequest
 {
     public const DEFINITION = 'ReadResourceRequest';
 
@@ -46,11 +46,11 @@ final class ReadResourceRequest extends \WP\McpSchema\Record implements \WP\McpS
     }
 
     /**
-     * @return \WP\McpSchema\Record\ReadResourceRequestParams
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\ReadResourceRequestParams
      */
-    public function getParams(): \WP\McpSchema\Record\ReadResourceRequestParams
+    public function getParams(): \SquirrlySEO\Vendor\WP\McpSchema\Record\ReadResourceRequestParams
     {
-        /** @var \WP\McpSchema\Record\ReadResourceRequestParams $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\ReadResourceRequestParams $value */
         $value = $this->declaredValue('params');
 
         return $value;

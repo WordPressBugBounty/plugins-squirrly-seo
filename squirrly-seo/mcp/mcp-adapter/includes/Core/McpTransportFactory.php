@@ -7,15 +7,15 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Core;
+namespace SquirrlySEO\Vendor\WP\MCP\Core;
 
-use WP\MCP\Handlers\Initialize\InitializeHandler;
-use WP\MCP\Handlers\Prompts\PromptsHandler;
-use WP\MCP\Handlers\Resources\ResourcesHandler;
-use WP\MCP\Handlers\System\SystemHandler;
-use WP\MCP\Handlers\Tools\ToolsHandler;
-use WP\MCP\Transport\Contracts\McpTransportInterface;
-use WP\MCP\Transport\Infrastructure\McpTransportContext;
+use SquirrlySEO\Vendor\WP\MCP\Handlers\Initialize\InitializeHandler;
+use SquirrlySEO\Vendor\WP\MCP\Handlers\Prompts\PromptsHandler;
+use SquirrlySEO\Vendor\WP\MCP\Handlers\Resources\ResourcesHandler;
+use SquirrlySEO\Vendor\WP\MCP\Handlers\System\SystemHandler;
+use SquirrlySEO\Vendor\WP\MCP\Handlers\Tools\ToolsHandler;
+use SquirrlySEO\Vendor\WP\MCP\Transport\Contracts\McpTransportInterface;
+use SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\McpTransportContext;
 
 /**
  * Factory for creating and initializing MCP transports.
@@ -24,14 +24,14 @@ class McpTransportFactory {
 	/**
 	 * MCP Server instance.
 	 *
-	 * @var \WP\MCP\Core\McpServer
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Core\McpServer
 	 */
 	private McpServer $mcp_server;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param \WP\MCP\Core\McpServer $mcp_server MCP server instance.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpServer $mcp_server MCP server instance.
 	 */
 	public function __construct( McpServer $mcp_server ) {
 		$this->mcp_server = $mcp_server;
@@ -40,7 +40,7 @@ class McpTransportFactory {
 	/**
 	 * Initialize MCP transports for the server.
 	 *
-	 * @param array<class-string<\WP\MCP\Transport\Contracts\McpTransportInterface>> $mcp_transports Array of MCP transport class names to initialize.
+	 * @param array<class-string<\SquirrlySEO\Vendor\WP\MCP\Transport\Contracts\McpTransportInterface>> $mcp_transports Array of MCP transport class names to initialize.
 	 */
 	public function initialize_transports( array $mcp_transports ): void {
 		foreach ( $mcp_transports as $mcp_transport ) {
@@ -91,7 +91,7 @@ class McpTransportFactory {
 	/**
 	 * Create the transport context with all required dependencies.
 	 *
-	 * @return \WP\MCP\Transport\Infrastructure\McpTransportContext
+	 * @return \SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\McpTransportContext
 	 */
 	public function create_transport_context(): McpTransportContext {
 		// Create handlers

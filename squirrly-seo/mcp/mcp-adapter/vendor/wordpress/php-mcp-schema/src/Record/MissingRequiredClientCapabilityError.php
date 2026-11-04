@@ -6,18 +6,18 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class MissingRequiredClientCapabilityError extends \WP\McpSchema\Record
+final class MissingRequiredClientCapabilityError extends \SquirrlySEO\Vendor\WP\McpSchema\Record
 {
     public const DEFINITION = 'MissingRequiredClientCapabilityError';
 
     /**
-     * @return \WP\McpSchema\Record\Error
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\Error
      */
-    public function getError(): \WP\McpSchema\Record\Error
+    public function getError(): \SquirrlySEO\Vendor\WP\McpSchema\Record\Error
     {
-        /** @var \WP\McpSchema\Record\Error $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\Error $value */
         $value = $this->declaredValue('error');
 
         return $value;

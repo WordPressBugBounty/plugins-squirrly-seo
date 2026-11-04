@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema;
+namespace SquirrlySEO\Vendor\WP\McpSchema;
 
-use WP\McpSchema\Exception\UnavailableTypeException;
-use WP\McpSchema\Internal\JsonDecoder;
-use WP\McpSchema\Internal\SchemaInterpreter;
-use WP\McpSchema\Internal\TypeRegistry;
+use SquirrlySEO\Vendor\WP\McpSchema\Exception\UnavailableTypeException;
+use SquirrlySEO\Vendor\WP\McpSchema\Internal\JsonDecoder;
+use SquirrlySEO\Vendor\WP\McpSchema\Internal\SchemaInterpreter;
+use SquirrlySEO\Vendor\WP\McpSchema\Internal\TypeRegistry;
 
 /**
  * One immutable, exact MCP revision schema.

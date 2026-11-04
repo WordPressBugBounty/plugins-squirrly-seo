@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class ListResourceTemplatesRequest extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ClientRequest
+final class ListResourceTemplatesRequest extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ClientRequest
 {
     public const DEFINITION = 'ListResourceTemplatesRequest';
 
@@ -46,11 +46,11 @@ final class ListResourceTemplatesRequest extends \WP\McpSchema\Record implements
     }
 
     /**
-     * @return \WP\McpSchema\Record\PaginatedRequestParams|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\PaginatedRequestParams|null
      */
-    public function getParams(): ?\WP\McpSchema\Record\PaginatedRequestParams
+    public function getParams(): ?\SquirrlySEO\Vendor\WP\McpSchema\Record\PaginatedRequestParams
     {
-        /** @var \WP\McpSchema\Record\PaginatedRequestParams|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\PaginatedRequestParams|null $value */
         $value = $this->declaredValue('params');
 
         return $value;

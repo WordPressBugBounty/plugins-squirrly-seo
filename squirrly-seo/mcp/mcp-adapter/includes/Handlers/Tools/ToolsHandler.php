@@ -7,20 +7,20 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Handlers\Tools;
+namespace SquirrlySEO\Vendor\WP\MCP\Handlers\Tools;
 
-use WP\MCP\Core\McpRequestContext;
-use WP\MCP\Core\McpServer;
-use WP\MCP\Domain\Tools\McpInputRequired;
-use WP\MCP\Domain\Tools\McpToolCallContext;
-use WP\MCP\Domain\Utils\ContentBlockHelper;
-use WP\MCP\Handlers\HandlerHelperTrait;
-use WP\MCP\Infrastructure\ErrorHandling\McpErrorFactory;
-use WP\MCP\Infrastructure\Observability\FailureReason;
-use WP\McpSchema\Record\CallToolRequest;
-use WP\McpSchema\Record\InputRequests;
-use WP\McpSchema\Record\ListToolsRequest;
-use WP\McpSchema\Schemas;
+use SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext;
+use SquirrlySEO\Vendor\WP\MCP\Core\McpServer;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Tools\McpInputRequired;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Tools\McpToolCallContext;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Utils\ContentBlockHelper;
+use SquirrlySEO\Vendor\WP\MCP\Handlers\HandlerHelperTrait;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\McpErrorFactory;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\FailureReason;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\CallToolRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\InputRequests;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ListToolsRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Schemas;
 
 /**
  * Handles tools-related MCP methods.
@@ -38,14 +38,14 @@ class ToolsHandler {
 	/**
 	 * The WordPress MCP instance.
 	 *
-	 * @var \WP\MCP\Core\McpServer
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Core\McpServer
 	 */
 	private McpServer $mcp;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param \WP\MCP\Core\McpServer $mcp The WordPress MCP instance.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpServer $mcp The WordPress MCP instance.
 	 */
 	public function __construct( McpServer $mcp ) {
 		$this->mcp = $mcp;
@@ -58,8 +58,8 @@ class ToolsHandler {
 	 * Tool records are protocol-only; internal adapter metadata is stored in McpTool instances and is never exposed
 	 * to MCP clients.
 	 *
-	 * @param \WP\McpSchema\Record\ListToolsRequest $request Validated request.
-	 * @param \WP\MCP\Core\McpRequestContext $request_context Exact request context.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record\ListToolsRequest $request Validated request.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext $request_context Exact request context.
 	 * @return array<string, mixed> Logical tools-list result.
 	 * @since 0.7.0
 	 */
@@ -76,14 +76,14 @@ class ToolsHandler {
 		 *
 		 * @since 0.5.0
 		 *
-		 * @param array<\WP\McpSchema\Record\Tool> $tools  Array of Tool records.
-		 * @param \WP\MCP\Core\McpServer                     $server The MCP server instance.
-		 * @param \WP\McpSchema\Schema                        $schema Selected schema.
+		 * @param array<\SquirrlySEO\Vendor\WP\McpSchema\Record\Tool> $tools  Array of Tool records.
+		 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpServer                     $server The MCP server instance.
+		 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema                        $schema Selected schema.
 		 */
 		$tools = $this->validate_filtered_list(
-			apply_filters( 'mcp_adapter_tools_list', $tools, $this->mcp, $schema ),
+			apply_filters( 'sq_mcp_adapter_tools_list', $tools, $this->mcp, $schema ),
 			$tools,
-			'mcp_adapter_tools_list',
+			'sq_mcp_adapter_tools_list',
 			$this->mcp->get_error_handler()
 		);
 
@@ -102,8 +102,8 @@ class ToolsHandler {
 	 * This distinction is critical for LLM self-correction - execution errors are
 	 * visible to the LLM, while protocol errors indicate infrastructure issues.
 	 *
-	 * @param \WP\McpSchema\Record\CallToolRequest $request Validated request.
-	 * @param \WP\MCP\Core\McpRequestContext $request_context Exact request context.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record\CallToolRequest $request Validated request.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext $request_context Exact request context.
 	 *
 	 * @return array<string, mixed>
 	 * @since 0.7.0
@@ -176,10 +176,10 @@ class ToolsHandler {
 			 *
 			 * @param array                        $args      The tool arguments.
 			 * @param string                       $tool_name The tool name being called.
-			 * @param \WP\MCP\Domain\Tools\McpTool $mcp_tool  The MCP tool instance.
-			 * @param \WP\MCP\Core\McpServer       $server    The MCP server instance.
+			 * @param \SquirrlySEO\Vendor\WP\MCP\Domain\Tools\McpTool $mcp_tool  The MCP tool instance.
+			 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpServer       $server    The MCP server instance.
 			 */
-			$args = apply_filters( 'mcp_adapter_pre_tool_call', $args, $tool_name, $mcp_tool, $this->mcp );
+			$args = apply_filters( 'sq_mcp_adapter_pre_tool_call', $args, $tool_name, $mcp_tool, $this->mcp );
 
 			// Allow pre-filter to short-circuit execution by returning WP_Error.
 			if ( is_wp_error( $args ) ) {
@@ -197,13 +197,13 @@ class ToolsHandler {
 			 * @since 0.5.0
 			 * @since 0.7.0 `$result` may be a `McpInputRequired` when a direct tool requests more client input.
 			 *
-			 * @param mixed|\WP_Error|\WP\MCP\Domain\Tools\McpInputRequired $result The raw execution result (may be WP_Error or McpInputRequired).
+			 * @param mixed|\WP_Error|\SquirrlySEO\Vendor\WP\MCP\Domain\Tools\McpInputRequired $result The raw execution result (may be WP_Error or McpInputRequired).
 			 * @param array                        $args      The tool arguments used.
 			 * @param string                       $tool_name The tool name that was called.
-			 * @param \WP\MCP\Domain\Tools\McpTool $mcp_tool  The MCP tool instance.
-			 * @param \WP\MCP\Core\McpServer       $server    The MCP server instance.
+			 * @param \SquirrlySEO\Vendor\WP\MCP\Domain\Tools\McpTool $mcp_tool  The MCP tool instance.
+			 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpServer       $server    The MCP server instance.
 			 */
-			$result = apply_filters( 'mcp_adapter_tool_call_result', $result, $args, $tool_name, $mcp_tool, $this->mcp );
+			$result = apply_filters( 'sq_mcp_adapter_tool_call_result', $result, $args, $tool_name, $mcp_tool, $this->mcp );
 
 			if ( $result instanceof McpInputRequired ) {
 				if ( null === $call_context || Schemas::V2026_07_28 !== $request_context->revision() ) {

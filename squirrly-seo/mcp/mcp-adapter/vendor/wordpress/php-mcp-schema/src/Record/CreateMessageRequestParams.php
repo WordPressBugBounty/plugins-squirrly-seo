@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class CreateMessageRequestParams extends \WP\McpSchema\Record
+final class CreateMessageRequestParams extends \SquirrlySEO\Vendor\WP\McpSchema\Record
 {
     public const DEFINITION = 'CreateMessageRequestParams';
 
@@ -48,33 +48,33 @@ final class CreateMessageRequestParams extends \WP\McpSchema\Record
     }
 
     /**
-     * @return array<int, \WP\McpSchema\Record\SamplingMessage>
+     * @return array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\SamplingMessage>
      */
     public function getMessages(): array
     {
-        /** @var array<int, \WP\McpSchema\Record\SamplingMessage> $value */
+        /** @var array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\SamplingMessage> $value */
         $value = $this->declaredValue('messages');
 
         return $value;
     }
 
     /**
-     * @return \WP\McpSchema\Record\JSONObject|\stdClass|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\JSONObject|\stdClass|null
      */
     public function getMetadata()
     {
-        /** @var \WP\McpSchema\Record\JSONObject|\stdClass|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\JSONObject|\stdClass|null $value */
         $value = $this->declaredValue('metadata');
 
         return $value;
     }
 
     /**
-     * @return \WP\McpSchema\Record\ModelPreferences|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\ModelPreferences|null
      */
-    public function getModelPreferences(): ?\WP\McpSchema\Record\ModelPreferences
+    public function getModelPreferences(): ?\SquirrlySEO\Vendor\WP\McpSchema\Record\ModelPreferences
     {
-        /** @var \WP\McpSchema\Record\ModelPreferences|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\ModelPreferences|null $value */
         $value = $this->declaredValue('modelPreferences');
 
         return $value;
@@ -105,11 +105,11 @@ final class CreateMessageRequestParams extends \WP\McpSchema\Record
     /**
      * Declared in: 2025-11-25.
      *
-     * @return \WP\McpSchema\Record\TaskMetadata|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\TaskMetadata|null
      */
-    public function getTask(): ?\WP\McpSchema\Record\TaskMetadata
+    public function getTask(): ?\SquirrlySEO\Vendor\WP\McpSchema\Record\TaskMetadata
     {
-        /** @var \WP\McpSchema\Record\TaskMetadata|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\TaskMetadata|null $value */
         $value = $this->declaredValue('task');
 
         return $value;
@@ -127,22 +127,22 @@ final class CreateMessageRequestParams extends \WP\McpSchema\Record
     }
 
     /**
-     * @return \WP\McpSchema\Record\ToolChoice|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\ToolChoice|null
      */
-    public function getToolChoice(): ?\WP\McpSchema\Record\ToolChoice
+    public function getToolChoice(): ?\SquirrlySEO\Vendor\WP\McpSchema\Record\ToolChoice
     {
-        /** @var \WP\McpSchema\Record\ToolChoice|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\ToolChoice|null $value */
         $value = $this->declaredValue('toolChoice');
 
         return $value;
     }
 
     /**
-     * @return array<int, \WP\McpSchema\Record\Tool>|null
+     * @return array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\Tool>|null
      */
     public function getTools(): ?array
     {
-        /** @var array<int, \WP\McpSchema\Record\Tool>|null $value */
+        /** @var array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\Tool>|null $value */
         $value = $this->declaredValue('tools');
 
         return $value;

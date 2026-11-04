@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class ListTasksResult extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ClientResult, \WP\McpSchema\Contract\ServerResult
+final class ListTasksResult extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ClientResult, \SquirrlySEO\Vendor\WP\McpSchema\Contract\ServerResult
 {
     public const DEFINITION = 'ListTasksResult';
 
@@ -35,11 +35,11 @@ final class ListTasksResult extends \WP\McpSchema\Record implements \WP\McpSchem
     }
 
     /**
-     * @return array<int, \WP\McpSchema\Record\Task>
+     * @return array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\Task>
      */
     public function getTasks(): array
     {
-        /** @var array<int, \WP\McpSchema\Record\Task> $value */
+        /** @var array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\Task> $value */
         $value = $this->declaredValue('tasks');
 
         return $value;

@@ -6,29 +6,29 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class Resource extends \WP\McpSchema\Record
+final class Resource extends \SquirrlySEO\Vendor\WP\McpSchema\Record
 {
     public const DEFINITION = 'Resource';
 
     /**
-     * @return \WP\McpSchema\Record\MetaObject|\stdClass|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\MetaObject|\stdClass|null
      */
     public function getMeta()
     {
-        /** @var \WP\McpSchema\Record\MetaObject|\stdClass|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\MetaObject|\stdClass|null $value */
         $value = $this->declaredValue('_meta');
 
         return $value;
     }
 
     /**
-     * @return \WP\McpSchema\Record\Annotations|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\Annotations|null
      */
-    public function getAnnotations(): ?\WP\McpSchema\Record\Annotations
+    public function getAnnotations(): ?\SquirrlySEO\Vendor\WP\McpSchema\Record\Annotations
     {
-        /** @var \WP\McpSchema\Record\Annotations|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\Annotations|null $value */
         $value = $this->declaredValue('annotations');
 
         return $value;
@@ -46,11 +46,11 @@ final class Resource extends \WP\McpSchema\Record
     }
 
     /**
-     * @return array<int, \WP\McpSchema\Record\Icon>|null
+     * @return array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\Icon>|null
      */
     public function getIcons(): ?array
     {
-        /** @var array<int, \WP\McpSchema\Record\Icon>|null $value */
+        /** @var array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\Icon>|null $value */
         $value = $this->declaredValue('icons');
 
         return $value;

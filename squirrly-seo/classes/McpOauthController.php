@@ -60,16 +60,25 @@ class SQ_Classes_McpOauthController {
 	 */
 	public function load() {
 
-		//The MCP Adapter provides the MCP protocol itself. Without it there is no server to
-		//authenticate against, so the OAuth endpoints would lead nowhere.
-		if ( ! self::loadAdapter() ) {
-			return;
-		}
-
 		//WP Rocket and any other consumer embed the same library. Bootstrap::instance() is a
 		//singleton shared across consuming plugins, so when a copy is already present we use
 		//it rather than registering a second autoloader for our own.
-		if ( ! class_exists( '\WPMedia\MCP\OAuth\Bootstrap' ) ) {
+		if ( class_exists( '\WPMedia\MCP\OAuth\Bootstrap' ) ) {
+
+			//that copy runs on the shared MCP Adapter (WP\MCP), not on Squirrly's own copy
+			if ( ! class_exists( '\WP\MCP\Core\McpAdapter' ) ) {
+				return;
+			}
+
+			\WP\MCP\Core\McpAdapter::instance();
+
+		} else {
+
+			//The MCP Adapter provides the MCP protocol itself. Without it there is no server to
+			//authenticate against, so the OAuth endpoints would lead nowhere.
+			if ( ! self::loadAdapter() ) {
+				return;
+			}
 
 			if ( ! is_readable( _SQ_MCP_DIR_ . 'autoload.php' ) ) {
 				return;
@@ -102,31 +111,47 @@ class SQ_Classes_McpOauthController {
 	}
 
 	/**
-	 * Use the MCP Adapter another plugin provides (the MCP Adapter plugin, WooCommerce, Elementor),
-	 * or the copy bundled with Squirrly when none does. Starts it when nobody else has.
+	 * Start the MCP Adapter bundled with Squirrly. It lives in its own namespace (SquirrlySEO\Vendor\WP\MCP,
+	 * see plugin/mcp-isolate.py), so it runs next to the copy another plugin loads: WooCommerce 11.x
+	 * bundles MCP Adapter 0.1.0, and running Squirrly's server on it failed with "Missing Mcp-Session-Id".
 	 *
-	 * @return bool whether an adapter is available
+	 * @return bool whether the adapter is available
 	 */
 	public static function loadAdapter() {
-		if ( ! class_exists( '\WP\MCP\Core\McpAdapter' ) ) {
-			if ( ! self::hasBundledAdapter() ) {
-				return false;
-			}
-
-			//register only now, so another plugin's copy always wins
-			spl_autoload_register( array( __CLASS__, 'autoloadAdapter' ) );
-
-			if ( ! class_exists( '\WP\MCP\Plugin' ) ) {
-				return false;
-			}
-
-			\WP\MCP\Plugin::instance();
+		if ( ! self::hasBundledAdapter() ) {
+			return false;
 		}
 
-		//a bundled copy may be present but never started, as WooCommerce does with its MCP feature off
-		\WP\MCP\Core\McpAdapter::instance();
+		if ( ! class_exists( '\SquirrlySEO\Vendor\WP\MCP\Core\McpAdapter', false ) ) {
+			spl_autoload_register( array( __CLASS__, 'autoloadAdapter' ) );
+
+			if ( ! class_exists( '\SquirrlySEO\Vendor\WP\MCP\Plugin' ) ) {
+				return false;
+			}
+
+			//the default server and the mcp-adapter/* abilities belong to another plugin's adapter when one is present
+			add_filter( 'sq_mcp_adapter_create_default_server', array( __CLASS__, 'ownDefaultServer' ), 99 );
+			add_filter( 'sq_mcp_register_shared_abilities', array( __CLASS__, 'ownDefaultServer' ), 99 );
+
+			\SquirrlySEO\Vendor\WP\MCP\Plugin::instance();
+		}
+
+		\SquirrlySEO\Vendor\WP\MCP\Core\McpAdapter::instance();
 
 		return true;
+	}
+
+	/**
+	 * Squirrly's adapter creates the default server and registers the generic mcp-adapter/* abilities only
+	 * when no other plugin's MCP Adapter is loaded; otherwise the same route and ability names would collide.
+	 * Checked when the adapter asks (init / rest_api_init), after every plugin has registered its autoloader.
+	 *
+	 * @param bool $enabled
+	 *
+	 * @return bool
+	 */
+	public static function ownDefaultServer( $enabled ) {
+		return $enabled && ! class_exists( '\WP\MCP\Core\McpAdapter' );
 	}
 
 	/**
@@ -143,8 +168,8 @@ class SQ_Classes_McpOauthController {
 	 */
 	public static function autoloadAdapter( $class ) {
 		$map = array(
-			'WP\\McpSchema\\' => _SQ_MCP_DIR_ . 'mcp-adapter/vendor/wordpress/php-mcp-schema/src/',
-			'WP\\MCP\\'       => _SQ_MCP_DIR_ . 'mcp-adapter/includes/',
+			'SquirrlySEO\\Vendor\\WP\\McpSchema\\' => _SQ_MCP_DIR_ . 'mcp-adapter/vendor/wordpress/php-mcp-schema/src/',
+			'SquirrlySEO\\Vendor\\WP\\MCP\\'       => _SQ_MCP_DIR_ . 'mcp-adapter/includes/',
 		);
 
 		foreach ( $map as $prefix => $dir ) {

@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class ModelPreferences extends \WP\McpSchema\Record
+final class ModelPreferences extends \SquirrlySEO\Vendor\WP\McpSchema\Record
 {
     public const DEFINITION = 'ModelPreferences';
 
@@ -24,11 +24,11 @@ final class ModelPreferences extends \WP\McpSchema\Record
     }
 
     /**
-     * @return array<int, \WP\McpSchema\Record\ModelHint>|null
+     * @return array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\ModelHint>|null
      */
     public function getHints(): ?array
     {
-        /** @var array<int, \WP\McpSchema\Record\ModelHint>|null $value */
+        /** @var array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\ModelHint>|null $value */
         $value = $this->declaredValue('hints');
 
         return $value;

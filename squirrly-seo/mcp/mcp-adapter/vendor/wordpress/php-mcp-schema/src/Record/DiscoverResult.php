@@ -6,18 +6,18 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class DiscoverResult extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ServerResult
+final class DiscoverResult extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ServerResult
 {
     public const DEFINITION = 'DiscoverResult';
 
     /**
-     * @return \WP\McpSchema\Record\ResultMetaObject|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\ResultMetaObject|null
      */
-    public function getMeta(): ?\WP\McpSchema\Record\ResultMetaObject
+    public function getMeta(): ?\SquirrlySEO\Vendor\WP\McpSchema\Record\ResultMetaObject
     {
-        /** @var \WP\McpSchema\Record\ResultMetaObject|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\ResultMetaObject|null $value */
         $value = $this->declaredValue('_meta');
 
         return $value;
@@ -35,11 +35,11 @@ final class DiscoverResult extends \WP\McpSchema\Record implements \WP\McpSchema
     }
 
     /**
-     * @return \WP\McpSchema\Record\ServerCapabilities
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\ServerCapabilities
      */
-    public function getCapabilities(): \WP\McpSchema\Record\ServerCapabilities
+    public function getCapabilities(): \SquirrlySEO\Vendor\WP\McpSchema\Record\ServerCapabilities
     {
-        /** @var \WP\McpSchema\Record\ServerCapabilities $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\ServerCapabilities $value */
         $value = $this->declaredValue('capabilities');
 
         return $value;

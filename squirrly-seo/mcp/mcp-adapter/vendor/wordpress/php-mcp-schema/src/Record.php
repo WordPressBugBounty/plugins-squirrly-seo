@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema;
+namespace SquirrlySEO\Vendor\WP\McpSchema;
 
-use WP\McpSchema\Exception\UnknownFieldException;
+use SquirrlySEO\Vendor\WP\McpSchema\Exception\UnknownFieldException;
 
 /**
  * Immutable base for generated named MCP records.

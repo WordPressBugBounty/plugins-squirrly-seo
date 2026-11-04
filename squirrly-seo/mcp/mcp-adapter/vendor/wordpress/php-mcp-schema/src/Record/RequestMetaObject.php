@@ -6,29 +6,29 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class RequestMetaObject extends \WP\McpSchema\Record
+final class RequestMetaObject extends \SquirrlySEO\Vendor\WP\McpSchema\Record
 {
     public const DEFINITION = 'RequestMetaObject';
 
     /**
-     * @return \WP\McpSchema\Record\ClientCapabilities
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\ClientCapabilities
      */
-    public function getIoModelcontextprotocolClientCapabilities(): \WP\McpSchema\Record\ClientCapabilities
+    public function getIoModelcontextprotocolClientCapabilities(): \SquirrlySEO\Vendor\WP\McpSchema\Record\ClientCapabilities
     {
-        /** @var \WP\McpSchema\Record\ClientCapabilities $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\ClientCapabilities $value */
         $value = $this->declaredValue('io.modelcontextprotocol/clientCapabilities');
 
         return $value;
     }
 
     /**
-     * @return \WP\McpSchema\Record\Implementation|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\Implementation|null
      */
-    public function getIoModelcontextprotocolClientInfo(): ?\WP\McpSchema\Record\Implementation
+    public function getIoModelcontextprotocolClientInfo(): ?\SquirrlySEO\Vendor\WP\McpSchema\Record\Implementation
     {
-        /** @var \WP\McpSchema\Record\Implementation|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\Implementation|null $value */
         $value = $this->declaredValue('io.modelcontextprotocol/clientInfo');
 
         return $value;

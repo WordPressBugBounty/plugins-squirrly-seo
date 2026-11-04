@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Internal;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Internal;
 
 final class TypeRegistry
 {
@@ -16,1073 +16,1073 @@ final class TypeRegistry
     public static function records(): array
     {
         return [
-            'WP\\McpSchema\\Record\\Annotations' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\Annotations' => [
                 'definition' => 'Annotations',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\AudioContent' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\AudioContent' => [
                 'definition' => 'AudioContent',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\BaseMetadata' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\BaseMetadata' => [
                 'definition' => 'BaseMetadata',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\BlobResourceContents' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\BlobResourceContents' => [
                 'definition' => 'BlobResourceContents',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\BooleanSchema' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\BooleanSchema' => [
                 'definition' => 'BooleanSchema',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\CacheableResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\CacheableResult' => [
                 'definition' => 'CacheableResult',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\CallToolRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\CallToolRequest' => [
                 'definition' => 'CallToolRequest',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\CallToolRequestParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\CallToolRequestParams' => [
                 'definition' => 'CallToolRequestParams',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\CallToolResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\CallToolResult' => [
                 'definition' => 'CallToolResult',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\CallToolResultResponse' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\CallToolResultResponse' => [
                 'definition' => 'CallToolResultResponse',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\CancelledNotification' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\CancelledNotification' => [
                 'definition' => 'CancelledNotification',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\CancelledNotificationParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\CancelledNotificationParams' => [
                 'definition' => 'CancelledNotificationParams',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\CancelTaskRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\CancelTaskRequest' => [
                 'definition' => 'CancelTaskRequest',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\CancelTaskResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\CancelTaskResult' => [
                 'definition' => 'CancelTaskResult',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ClientCapabilities' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ClientCapabilities' => [
                 'definition' => 'ClientCapabilities',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ClientNotification' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ClientNotification' => [
                 'definition' => 'ClientNotification',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ClientResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ClientResult' => [
                 'definition' => 'ClientResult',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\CompleteRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\CompleteRequest' => [
                 'definition' => 'CompleteRequest',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\CompleteRequestParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\CompleteRequestParams' => [
                 'definition' => 'CompleteRequestParams',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\CompleteResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\CompleteResult' => [
                 'definition' => 'CompleteResult',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\CompleteResultResponse' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\CompleteResultResponse' => [
                 'definition' => 'CompleteResultResponse',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\CreateMessageRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\CreateMessageRequest' => [
                 'definition' => 'CreateMessageRequest',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\CreateMessageRequestParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\CreateMessageRequestParams' => [
                 'definition' => 'CreateMessageRequestParams',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\CreateMessageResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\CreateMessageResult' => [
                 'definition' => 'CreateMessageResult',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\CreateTaskResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\CreateTaskResult' => [
                 'definition' => 'CreateTaskResult',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\DiscoverRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\DiscoverRequest' => [
                 'definition' => 'DiscoverRequest',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\DiscoverResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\DiscoverResult' => [
                 'definition' => 'DiscoverResult',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\DiscoverResultResponse' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\DiscoverResultResponse' => [
                 'definition' => 'DiscoverResultResponse',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ElicitationCompleteNotification' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ElicitationCompleteNotification' => [
                 'definition' => 'ElicitationCompleteNotification',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ElicitRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ElicitRequest' => [
                 'definition' => 'ElicitRequest',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ElicitRequestFormParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ElicitRequestFormParams' => [
                 'definition' => 'ElicitRequestFormParams',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ElicitRequestURLParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ElicitRequestURLParams' => [
                 'definition' => 'ElicitRequestURLParams',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ElicitResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ElicitResult' => [
                 'definition' => 'ElicitResult',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\EmbeddedResource' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\EmbeddedResource' => [
                 'definition' => 'EmbeddedResource',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\EmptyResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\EmptyResult' => [
                 'definition' => 'EmptyResult',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\Error' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\Error' => [
                 'definition' => 'Error',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\GetPromptRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\GetPromptRequest' => [
                 'definition' => 'GetPromptRequest',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\GetPromptRequestParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\GetPromptRequestParams' => [
                 'definition' => 'GetPromptRequestParams',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\GetPromptResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\GetPromptResult' => [
                 'definition' => 'GetPromptResult',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\GetPromptResultResponse' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\GetPromptResultResponse' => [
                 'definition' => 'GetPromptResultResponse',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\GetTaskPayloadRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\GetTaskPayloadRequest' => [
                 'definition' => 'GetTaskPayloadRequest',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\GetTaskPayloadResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\GetTaskPayloadResult' => [
                 'definition' => 'GetTaskPayloadResult',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\GetTaskRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\GetTaskRequest' => [
                 'definition' => 'GetTaskRequest',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\GetTaskResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\GetTaskResult' => [
                 'definition' => 'GetTaskResult',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\HeaderMismatchError' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\HeaderMismatchError' => [
                 'definition' => 'HeaderMismatchError',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\Icon' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\Icon' => [
                 'definition' => 'Icon',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\Icons' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\Icons' => [
                 'definition' => 'Icons',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ImageContent' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ImageContent' => [
                 'definition' => 'ImageContent',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\Implementation' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\Implementation' => [
                 'definition' => 'Implementation',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\InitializedNotification' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\InitializedNotification' => [
                 'definition' => 'InitializedNotification',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\InitializeRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\InitializeRequest' => [
                 'definition' => 'InitializeRequest',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\InitializeRequestParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\InitializeRequestParams' => [
                 'definition' => 'InitializeRequestParams',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\InitializeResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\InitializeResult' => [
                 'definition' => 'InitializeResult',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\InputRequests' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\InputRequests' => [
                 'definition' => 'InputRequests',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\InputRequiredResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\InputRequiredResult' => [
                 'definition' => 'InputRequiredResult',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\InputResponseRequestParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\InputResponseRequestParams' => [
                 'definition' => 'InputResponseRequestParams',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\InputResponses' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\InputResponses' => [
                 'definition' => 'InputResponses',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\InternalError' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\InternalError' => [
                 'definition' => 'InternalError',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\InvalidParamsError' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\InvalidParamsError' => [
                 'definition' => 'InvalidParamsError',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\InvalidRequestError' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\InvalidRequestError' => [
                 'definition' => 'InvalidRequestError',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\JSONObject' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\JSONObject' => [
                 'definition' => 'JSONObject',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\JSONRPCErrorResponse' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\JSONRPCErrorResponse' => [
                 'definition' => 'JSONRPCErrorResponse',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\JSONRPCNotification' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\JSONRPCNotification' => [
                 'definition' => 'JSONRPCNotification',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\JSONRPCRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\JSONRPCRequest' => [
                 'definition' => 'JSONRPCRequest',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\JSONRPCResultResponse' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\JSONRPCResultResponse' => [
                 'definition' => 'JSONRPCResultResponse',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\LegacyTitledEnumSchema' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\LegacyTitledEnumSchema' => [
                 'definition' => 'LegacyTitledEnumSchema',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ListPromptsRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ListPromptsRequest' => [
                 'definition' => 'ListPromptsRequest',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ListPromptsResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ListPromptsResult' => [
                 'definition' => 'ListPromptsResult',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ListPromptsResultResponse' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ListPromptsResultResponse' => [
                 'definition' => 'ListPromptsResultResponse',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ListResourcesRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ListResourcesRequest' => [
                 'definition' => 'ListResourcesRequest',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ListResourcesResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ListResourcesResult' => [
                 'definition' => 'ListResourcesResult',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ListResourcesResultResponse' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ListResourcesResultResponse' => [
                 'definition' => 'ListResourcesResultResponse',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ListResourceTemplatesRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ListResourceTemplatesRequest' => [
                 'definition' => 'ListResourceTemplatesRequest',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ListResourceTemplatesResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ListResourceTemplatesResult' => [
                 'definition' => 'ListResourceTemplatesResult',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ListResourceTemplatesResultResponse' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ListResourceTemplatesResultResponse' => [
                 'definition' => 'ListResourceTemplatesResultResponse',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ListRootsRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ListRootsRequest' => [
                 'definition' => 'ListRootsRequest',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ListRootsResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ListRootsResult' => [
                 'definition' => 'ListRootsResult',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ListTasksRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ListTasksRequest' => [
                 'definition' => 'ListTasksRequest',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ListTasksResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ListTasksResult' => [
                 'definition' => 'ListTasksResult',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ListToolsRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ListToolsRequest' => [
                 'definition' => 'ListToolsRequest',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ListToolsResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ListToolsResult' => [
                 'definition' => 'ListToolsResult',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ListToolsResultResponse' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ListToolsResultResponse' => [
                 'definition' => 'ListToolsResultResponse',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\LoggingMessageNotification' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\LoggingMessageNotification' => [
                 'definition' => 'LoggingMessageNotification',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\LoggingMessageNotificationParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\LoggingMessageNotificationParams' => [
                 'definition' => 'LoggingMessageNotificationParams',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\MetaObject' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\MetaObject' => [
                 'definition' => 'MetaObject',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\MethodNotFoundError' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\MethodNotFoundError' => [
                 'definition' => 'MethodNotFoundError',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\MissingRequiredClientCapabilityError' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\MissingRequiredClientCapabilityError' => [
                 'definition' => 'MissingRequiredClientCapabilityError',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ModelHint' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ModelHint' => [
                 'definition' => 'ModelHint',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ModelPreferences' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ModelPreferences' => [
                 'definition' => 'ModelPreferences',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\Notification' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\Notification' => [
                 'definition' => 'Notification',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\NotificationMetaObject' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\NotificationMetaObject' => [
                 'definition' => 'NotificationMetaObject',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\NotificationParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\NotificationParams' => [
                 'definition' => 'NotificationParams',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\NumberSchema' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\NumberSchema' => [
                 'definition' => 'NumberSchema',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\PaginatedRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\PaginatedRequest' => [
                 'definition' => 'PaginatedRequest',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\PaginatedRequestParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\PaginatedRequestParams' => [
                 'definition' => 'PaginatedRequestParams',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\PaginatedResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\PaginatedResult' => [
                 'definition' => 'PaginatedResult',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ParseError' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ParseError' => [
                 'definition' => 'ParseError',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\PingRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\PingRequest' => [
                 'definition' => 'PingRequest',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ProgressNotification' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ProgressNotification' => [
                 'definition' => 'ProgressNotification',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ProgressNotificationParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ProgressNotificationParams' => [
                 'definition' => 'ProgressNotificationParams',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\Prompt' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\Prompt' => [
                 'definition' => 'Prompt',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\PromptArgument' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\PromptArgument' => [
                 'definition' => 'PromptArgument',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\PromptListChangedNotification' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\PromptListChangedNotification' => [
                 'definition' => 'PromptListChangedNotification',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\PromptMessage' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\PromptMessage' => [
                 'definition' => 'PromptMessage',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\PromptReference' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\PromptReference' => [
                 'definition' => 'PromptReference',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ReadResourceRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ReadResourceRequest' => [
                 'definition' => 'ReadResourceRequest',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ReadResourceRequestParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ReadResourceRequestParams' => [
                 'definition' => 'ReadResourceRequestParams',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ReadResourceResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ReadResourceResult' => [
                 'definition' => 'ReadResourceResult',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ReadResourceResultResponse' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ReadResourceResultResponse' => [
                 'definition' => 'ReadResourceResultResponse',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\RelatedTaskMetadata' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\RelatedTaskMetadata' => [
                 'definition' => 'RelatedTaskMetadata',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\Request' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\Request' => [
                 'definition' => 'Request',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\RequestMetaObject' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\RequestMetaObject' => [
                 'definition' => 'RequestMetaObject',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\RequestParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\RequestParams' => [
                 'definition' => 'RequestParams',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\Resource' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\Resource' => [
                 'definition' => 'Resource',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ResourceContents' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ResourceContents' => [
                 'definition' => 'ResourceContents',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ResourceLink' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ResourceLink' => [
                 'definition' => 'ResourceLink',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ResourceListChangedNotification' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ResourceListChangedNotification' => [
                 'definition' => 'ResourceListChangedNotification',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ResourceRequestParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ResourceRequestParams' => [
                 'definition' => 'ResourceRequestParams',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ResourceTemplate' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ResourceTemplate' => [
                 'definition' => 'ResourceTemplate',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ResourceTemplateReference' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ResourceTemplateReference' => [
                 'definition' => 'ResourceTemplateReference',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ResourceUpdatedNotification' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ResourceUpdatedNotification' => [
                 'definition' => 'ResourceUpdatedNotification',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ResourceUpdatedNotificationParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ResourceUpdatedNotificationParams' => [
                 'definition' => 'ResourceUpdatedNotificationParams',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\Result' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\Result' => [
                 'definition' => 'Result',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ResultMetaObject' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ResultMetaObject' => [
                 'definition' => 'ResultMetaObject',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\Root' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\Root' => [
                 'definition' => 'Root',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\RootsListChangedNotification' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\RootsListChangedNotification' => [
                 'definition' => 'RootsListChangedNotification',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\SamplingMessage' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\SamplingMessage' => [
                 'definition' => 'SamplingMessage',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ServerCapabilities' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ServerCapabilities' => [
                 'definition' => 'ServerCapabilities',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\SetLevelRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\SetLevelRequest' => [
                 'definition' => 'SetLevelRequest',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\SetLevelRequestParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\SetLevelRequestParams' => [
                 'definition' => 'SetLevelRequestParams',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\StringSchema' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\StringSchema' => [
                 'definition' => 'StringSchema',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\SubscribeRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\SubscribeRequest' => [
                 'definition' => 'SubscribeRequest',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\SubscribeRequestParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\SubscribeRequestParams' => [
                 'definition' => 'SubscribeRequestParams',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\SubscriptionFilter' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\SubscriptionFilter' => [
                 'definition' => 'SubscriptionFilter',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\SubscriptionsAcknowledgedNotification' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\SubscriptionsAcknowledgedNotification' => [
                 'definition' => 'SubscriptionsAcknowledgedNotification',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\SubscriptionsAcknowledgedNotificationParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\SubscriptionsAcknowledgedNotificationParams' => [
                 'definition' => 'SubscriptionsAcknowledgedNotificationParams',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\SubscriptionsListenRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\SubscriptionsListenRequest' => [
                 'definition' => 'SubscriptionsListenRequest',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\SubscriptionsListenRequestParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\SubscriptionsListenRequestParams' => [
                 'definition' => 'SubscriptionsListenRequestParams',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\SubscriptionsListenResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\SubscriptionsListenResult' => [
                 'definition' => 'SubscriptionsListenResult',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\SubscriptionsListenResultMetaObject' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\SubscriptionsListenResultMetaObject' => [
                 'definition' => 'SubscriptionsListenResultMetaObject',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\SubscriptionsListenResultResponse' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\SubscriptionsListenResultResponse' => [
                 'definition' => 'SubscriptionsListenResultResponse',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\Task' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\Task' => [
                 'definition' => 'Task',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\TaskAugmentedRequestParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\TaskAugmentedRequestParams' => [
                 'definition' => 'TaskAugmentedRequestParams',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\TaskMetadata' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\TaskMetadata' => [
                 'definition' => 'TaskMetadata',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\TaskStatusNotification' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\TaskStatusNotification' => [
                 'definition' => 'TaskStatusNotification',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\TaskStatusNotificationParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\TaskStatusNotificationParams' => [
                 'definition' => 'TaskStatusNotificationParams',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\TextContent' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\TextContent' => [
                 'definition' => 'TextContent',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\TextResourceContents' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\TextResourceContents' => [
                 'definition' => 'TextResourceContents',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\TitledMultiSelectEnumSchema' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\TitledMultiSelectEnumSchema' => [
                 'definition' => 'TitledMultiSelectEnumSchema',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\TitledSingleSelectEnumSchema' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\TitledSingleSelectEnumSchema' => [
                 'definition' => 'TitledSingleSelectEnumSchema',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\Tool' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\Tool' => [
                 'definition' => 'Tool',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ToolAnnotations' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ToolAnnotations' => [
                 'definition' => 'ToolAnnotations',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ToolChoice' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ToolChoice' => [
                 'definition' => 'ToolChoice',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ToolExecution' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ToolExecution' => [
                 'definition' => 'ToolExecution',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ToolListChangedNotification' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ToolListChangedNotification' => [
                 'definition' => 'ToolListChangedNotification',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ToolResultContent' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ToolResultContent' => [
                 'definition' => 'ToolResultContent',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\ToolUseContent' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\ToolUseContent' => [
                 'definition' => 'ToolUseContent',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\UnsubscribeRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\UnsubscribeRequest' => [
                 'definition' => 'UnsubscribeRequest',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\UnsubscribeRequestParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\UnsubscribeRequestParams' => [
                 'definition' => 'UnsubscribeRequestParams',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Record\\UnsupportedProtocolVersionError' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\UnsupportedProtocolVersionError' => [
                 'definition' => 'UnsupportedProtocolVersionError',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\UntitledMultiSelectEnumSchema' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\UntitledMultiSelectEnumSchema' => [
                 'definition' => 'UntitledMultiSelectEnumSchema',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\UntitledSingleSelectEnumSchema' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\UntitledSingleSelectEnumSchema' => [
                 'definition' => 'UntitledSingleSelectEnumSchema',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Record\\URLElicitationRequiredError' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Record\\URLElicitationRequiredError' => [
                 'definition' => 'URLElicitationRequiredError',
                 'versions' => [
                     '2025-11-25',
@@ -1097,114 +1097,114 @@ final class TypeRegistry
     public static function contracts(): array
     {
         return [
-            'WP\\McpSchema\\Contract\\ClientNotification' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Contract\\ClientNotification' => [
                 'definition' => 'ClientNotification',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Contract\\ClientRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Contract\\ClientRequest' => [
                 'definition' => 'ClientRequest',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Contract\\ClientResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Contract\\ClientResult' => [
                 'definition' => 'ClientResult',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Contract\\ContentBlock' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Contract\\ContentBlock' => [
                 'definition' => 'ContentBlock',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Contract\\ElicitRequestParams' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Contract\\ElicitRequestParams' => [
                 'definition' => 'ElicitRequestParams',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Contract\\EnumSchema' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Contract\\EnumSchema' => [
                 'definition' => 'EnumSchema',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Contract\\InputRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Contract\\InputRequest' => [
                 'definition' => 'InputRequest',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Contract\\InputResponse' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Contract\\InputResponse' => [
                 'definition' => 'InputResponse',
                 'versions' => [
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Contract\\JSONRPCMessage' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Contract\\JSONRPCMessage' => [
                 'definition' => 'JSONRPCMessage',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Contract\\JSONRPCResponse' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Contract\\JSONRPCResponse' => [
                 'definition' => 'JSONRPCResponse',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Contract\\MultiSelectEnumSchema' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Contract\\MultiSelectEnumSchema' => [
                 'definition' => 'MultiSelectEnumSchema',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Contract\\PrimitiveSchemaDefinition' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Contract\\PrimitiveSchemaDefinition' => [
                 'definition' => 'PrimitiveSchemaDefinition',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Contract\\SamplingMessageContentBlock' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Contract\\SamplingMessageContentBlock' => [
                 'definition' => 'SamplingMessageContentBlock',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Contract\\ServerNotification' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Contract\\ServerNotification' => [
                 'definition' => 'ServerNotification',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Contract\\ServerRequest' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Contract\\ServerRequest' => [
                 'definition' => 'ServerRequest',
                 'versions' => [
                     '2025-11-25',
                 ],
             ],
-            'WP\\McpSchema\\Contract\\ServerResult' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Contract\\ServerResult' => [
                 'definition' => 'ServerResult',
                 'versions' => [
                     '2025-11-25',
                     '2026-07-28',
                 ],
             ],
-            'WP\\McpSchema\\Contract\\SingleSelectEnumSchema' => [
+            'SquirrlySEO\\Vendor\\WP\\McpSchema\\Contract\\SingleSelectEnumSchema' => [
                 'definition' => 'SingleSelectEnumSchema',
                 'versions' => [
                     '2025-11-25',

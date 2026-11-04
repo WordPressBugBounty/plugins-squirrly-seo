@@ -8,16 +8,16 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Domain\Prompts;
+namespace SquirrlySEO\Vendor\WP\MCP\Domain\Prompts;
 
-use WP\MCP\Domain\Contracts\McpComponentInterface;
-use WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface;
-use WP\MCP\Domain\Utils\AbilityArgumentNormalizer;
-use WP\MCP\Domain\Utils\RevisionProjectionTrait;
-use WP\MCP\Domain\Utils\ThrowableGuardTrait;
-use WP\MCP\Infrastructure\Observability\FailureReason;
-use WP\McpSchema\Record\Prompt;
-use WP\McpSchema\Schema;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Contracts\McpComponentInterface;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Utils\AbilityArgumentNormalizer;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Utils\RevisionProjectionTrait;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Utils\ThrowableGuardTrait;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\FailureReason;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\Prompt;
+use SquirrlySEO\Vendor\WP\McpSchema\Schema;
 use WP_Error;
 
 /**
@@ -73,7 +73,7 @@ final class McpPrompt implements McpComponentInterface {
 	/**
 	 * Builder instance (builder-backed prompts).
 	 *
-	 * @var \WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface|null
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface|null
 	 */
 	private ?McpPromptBuilderInterface $builder = null;
 
@@ -210,7 +210,7 @@ final class McpPrompt implements McpComponentInterface {
 	/**
 	 * Create a builder-backed MCP prompt.
 	 *
-	 * @param \WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface $builder Builder instance.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface $builder Builder instance.
 	 *
 	 * @return self|\WP_Error
 	 */
@@ -244,7 +244,7 @@ final class McpPrompt implements McpComponentInterface {
 	/**
 	 * Get the clean protocol record for one revision.
 	 *
-	 * @param \WP\McpSchema\Schema $schema Selected schema.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Selected schema.
 	 * @since 0.7.0
 	 */
 	public function get_protocol_record( Schema $schema ): Prompt {
@@ -379,7 +379,7 @@ final class McpPrompt implements McpComponentInterface {
 	/**
 	 * Get the underlying builder instance, when builder-backed.
 	 *
-	 * @return \WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface|null
+	 * @return \SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface|null
 	 */
 	public function get_builder(): ?McpPromptBuilderInterface {
 		return $this->builder;

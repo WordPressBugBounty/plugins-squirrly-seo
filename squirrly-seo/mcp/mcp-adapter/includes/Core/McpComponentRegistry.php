@@ -8,19 +8,19 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Core;
+namespace SquirrlySEO\Vendor\WP\MCP\Core;
 
-use WP\MCP\Domain\Contracts\McpComponentInterface;
-use WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface;
-use WP\MCP\Domain\Prompts\McpPrompt;
-use WP\MCP\Domain\Resources\McpResource;
-use WP\MCP\Domain\Tools\McpTool;
-use WP\MCP\Domain\Utils\McpValidator;
-use WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface;
-use WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface;
-use WP\MCP\Infrastructure\Observability\FailureReason;
-use WP\McpSchema\Schema;
-use WP\McpSchema\Schemas;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Contracts\McpComponentInterface;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\McpPrompt;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Resources\McpResource;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Tools\McpTool;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Utils\McpValidator;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\FailureReason;
+use SquirrlySEO\Vendor\WP\McpSchema\Schema;
+use SquirrlySEO\Vendor\WP\McpSchema\Schemas;
 use WP_Error;
 
 /**
@@ -31,49 +31,49 @@ class McpComponentRegistry {
 	/**
 	 * MCP tools keyed by tool name.
 	 *
-	 * @var array<string, \WP\MCP\Domain\Tools\McpTool>
+	 * @var array<string, \SquirrlySEO\Vendor\WP\MCP\Domain\Tools\McpTool>
 	 */
 	private array $mcp_tools = array();
 
 	/**
 	 * MCP resources keyed by resource URI.
 	 *
-	 * @var array<string, \WP\MCP\Domain\Resources\McpResource>
+	 * @var array<string, \SquirrlySEO\Vendor\WP\MCP\Domain\Resources\McpResource>
 	 */
 	private array $mcp_resources = array();
 
 	/**
 	 * MCP prompts keyed by prompt name.
 	 *
-	 * @var array<string, \WP\MCP\Domain\Prompts\McpPrompt>
+	 * @var array<string, \SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\McpPrompt>
 	 */
 	private array $mcp_prompts = array();
 
 	/**
 	 * MCP Server instance.
 	 *
-	 * @var \WP\MCP\Core\McpServer
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Core\McpServer
 	 */
 	private McpServer $mcp_server;
 
 	/**
 	 * Error handler instance.
 	 *
-	 * @var \WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface
 	 */
 	private McpErrorHandlerInterface $error_handler;
 
 	/**
 	 * Observability handler instance.
 	 *
-	 * @var \WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface
 	 */
 	private McpObservabilityHandlerInterface $observability_handler;
 
 	/**
 	 * Schema catalogs used to validate component availability per revision.
 	 *
-	 * @var \WP\McpSchema\Schemas
+	 * @var \SquirrlySEO\Vendor\WP\McpSchema\Schemas
 	 */
 	private Schemas $schemas;
 
@@ -87,10 +87,10 @@ class McpComponentRegistry {
 	/**
 	 * Constructor.
 	 *
-	 * @param \WP\MCP\Core\McpServer $mcp_server MCP server instance.
-	 * @param \WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface $error_handler Error handler instance.
-	 * @param \WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface $observability_handler Observability handler instance.
-	 * @param \WP\McpSchema\Schemas $schemas Server-owned exact schemas.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpServer $mcp_server MCP server instance.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface $error_handler Error handler instance.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface $observability_handler Observability handler instance.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schemas $schemas Server-owned exact schemas.
 	 */
 	public function __construct(
 		McpServer $mcp_server,
@@ -114,10 +114,10 @@ class McpComponentRegistry {
 		 *
 		 * @param bool      $should_record Whether to record component registration events. Default false.
 		 * @param string    $server_id     The server ID for which components are being registered.
-		 * @param \WP\MCP\Core\McpServer $server        The McpServer instance owning the registry.
+		 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpServer $server        The McpServer instance owning the registry.
 		 */
 		$this->should_record_component_registration = apply_filters(
-			'mcp_adapter_observability_record_component_registration',
+			'sq_mcp_adapter_observability_record_component_registration',
 			false,
 			$this->mcp_server->get_server_id(),
 			$this->mcp_server
@@ -127,7 +127,7 @@ class McpComponentRegistry {
 	/**
 	 * Register tools to the server.
 	 *
-	 * @param list<string|\WP\MCP\Domain\Tools\McpTool> $tools Array of ability names (strings) or McpTool instances.
+	 * @param list<string|\SquirrlySEO\Vendor\WP\MCP\Domain\Tools\McpTool> $tools Array of ability names (strings) or McpTool instances.
 	 *
 	 * @return void
 	 */
@@ -140,7 +140,7 @@ class McpComponentRegistry {
 	/**
 	 * Register a single tool to the server.
 	 *
-	 * @param string|\WP\MCP\Domain\Tools\McpTool $tool_item The tool to register.
+	 * @param string|\SquirrlySEO\Vendor\WP\MCP\Domain\Tools\McpTool $tool_item The tool to register.
 	 *
 	 * @return void
 	 */
@@ -173,7 +173,7 @@ class McpComponentRegistry {
 	/**
 	 * Register an McpTool directly.
 	 *
-	 * @param \WP\MCP\Domain\Tools\McpTool $mcp_tool McpTool instance.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Domain\Tools\McpTool $mcp_tool McpTool instance.
 	 *
 	 * @return bool True when the tool was registered.
 	 * @since 0.3.0
@@ -266,7 +266,7 @@ class McpComponentRegistry {
 	/**
 	 * Register resources to the server.
 	 *
-	 * @param list<string|\WP\MCP\Domain\Resources\McpResource> $resources Array of ability names or McpResource instances.
+	 * @param list<string|\SquirrlySEO\Vendor\WP\MCP\Domain\Resources\McpResource> $resources Array of ability names or McpResource instances.
 	 *
 	 * @return void
 	 */
@@ -279,7 +279,7 @@ class McpComponentRegistry {
 	/**
 	 * Register a single resource to the server.
 	 *
-	 * @param string|\WP\MCP\Domain\Resources\McpResource $resource_item The resource to register.
+	 * @param string|\SquirrlySEO\Vendor\WP\MCP\Domain\Resources\McpResource $resource_item The resource to register.
 	 *
 	 * @return void
 	 */
@@ -313,7 +313,7 @@ class McpComponentRegistry {
 	/**
 	 * Register an McpResource directly.
 	 *
-	 * @param \WP\MCP\Domain\Resources\McpResource $mcp_resource McpResource instance.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Domain\Resources\McpResource $mcp_resource McpResource instance.
 	 *
 	 * @return bool True if the resource was added, false if it was a duplicate.
 	 * @since 0.3.0
@@ -401,7 +401,7 @@ class McpComponentRegistry {
 	 * - McpPromptBuilderInterface instance (fluent API or custom builders)
 	 * - Array configuration (converted via McpPrompt::fromArray())
 	 *
-	 * @param list<string|\WP\MCP\Domain\Prompts\McpPrompt|\WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface> $prompts Array of prompts to register.
+	 * @param list<string|\SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\McpPrompt|\SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface> $prompts Array of prompts to register.
 	 *
 	 * @return void
 	 */
@@ -414,7 +414,7 @@ class McpComponentRegistry {
 	/**
 	 * Register a single prompt to the server.
 	 *
-	 * @param string|\WP\MCP\Domain\Prompts\McpPrompt|\WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface $prompt_item The prompt to register.
+	 * @param string|\SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\McpPrompt|\SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface $prompt_item The prompt to register.
 	 *
 	 * @return void
 	 */
@@ -463,7 +463,7 @@ class McpComponentRegistry {
 	/**
 	 * Add an McpPrompt to the registry.
 	 *
-	 * @param \WP\MCP\Domain\Prompts\McpPrompt $mcp_prompt McpPrompt instance.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\McpPrompt $mcp_prompt McpPrompt instance.
 	 *
 	 * @return bool True when the prompt was registered.
 	 * @since 0.3.0
@@ -493,7 +493,7 @@ class McpComponentRegistry {
 	/**
 	 * Register a McpPromptBuilderInterface instance.
 	 *
-	 * @param \WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface $builder The builder instance.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface $builder The builder instance.
 	 *
 	 * @return void
 	 */
@@ -528,7 +528,7 @@ class McpComponentRegistry {
 	 */
 	private function register_builder_class( string $class_name ): void {
 		try {
-			/** @var \WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface $builder */
+			/** @var \SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface $builder */
 			$builder = new $class_name();
 			$this->register_builder_instance( $builder );
 		} catch ( \Throwable $e ) {
@@ -579,8 +579,8 @@ class McpComponentRegistry {
 	/**
 	 * Get all tools registered to the server.
 	 *
-	 * @param \WP\McpSchema\Schema $schema Selected exact schema.
-	 * @return array<string, \WP\McpSchema\Record\Tool>
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Selected exact schema.
+	 * @return array<string, \SquirrlySEO\Vendor\WP\McpSchema\Record\Tool>
 	 */
 	public function get_tools( Schema $schema ): array {
 		$tools = array();
@@ -599,8 +599,8 @@ class McpComponentRegistry {
 	/**
 	 * Get all resources registered to the server.
 	 *
-	 * @param \WP\McpSchema\Schema $schema Selected exact schema.
-	 * @return array<string, \WP\McpSchema\Record\Resource>
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Selected exact schema.
+	 * @return array<string, \SquirrlySEO\Vendor\WP\McpSchema\Record\Resource>
 	 */
 	public function get_resources( Schema $schema ): array {
 		$resources = array();
@@ -619,8 +619,8 @@ class McpComponentRegistry {
 	/**
 	 * Get all prompts registered to the server.
 	 *
-	 * @param \WP\McpSchema\Schema $schema Selected exact schema.
-	 * @return array<string, \WP\McpSchema\Record\Prompt>
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Selected exact schema.
+	 * @return array<string, \SquirrlySEO\Vendor\WP\McpSchema\Record\Prompt>
 	 */
 	public function get_prompts( Schema $schema ): array {
 		$prompts = array();
@@ -666,7 +666,7 @@ class McpComponentRegistry {
 	/**
 	 * Project one component through all supported revisions.
 	 *
-	 * @param \WP\MCP\Domain\Contracts\McpComponentInterface $component Component.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Domain\Contracts\McpComponentInterface $component Component.
 	 * @param string $type Component type.
 	 * @param string $name Component identifier.
 	 */
@@ -712,7 +712,7 @@ class McpComponentRegistry {
 	 *
 	 * @param string $tool_name Tool name.
 	 *
-	 * @return \WP\MCP\Domain\Tools\McpTool|null
+	 * @return \SquirrlySEO\Vendor\WP\MCP\Domain\Tools\McpTool|null
 	 * @since 0.3.0
 	 *
 	 */
@@ -725,7 +725,7 @@ class McpComponentRegistry {
 	 *
 	 * @param string $resource_uri Resource URI.
 	 *
-	 * @return \WP\MCP\Domain\Resources\McpResource|null
+	 * @return \SquirrlySEO\Vendor\WP\MCP\Domain\Resources\McpResource|null
 	 * @internal
 	 * @since 0.3.0
 	 *
@@ -752,7 +752,7 @@ class McpComponentRegistry {
 	 *
 	 * @param string $prompt_name Prompt name.
 	 *
-	 * @return \WP\MCP\Domain\Prompts\McpPrompt|null
+	 * @return \SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\McpPrompt|null
 	 * @internal
 	 * @since 0.3.0
 	 *
@@ -766,7 +766,7 @@ class McpComponentRegistry {
 	 *
 	 * @param string $prompt_name Prompt name.
 	 *
-	 * @return \WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface|null
+	 * @return \SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface|null
 	 */
 	public function get_prompt_builder( string $prompt_name ): ?McpPromptBuilderInterface {
 		$mcp_prompt = $this->mcp_prompts[ $prompt_name ] ?? null;

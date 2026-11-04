@@ -8,12 +8,12 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Domain\Prompts;
+namespace SquirrlySEO\Vendor\WP\MCP\Domain\Prompts;
 
-use WP\MCP\Domain\Utils\McpAbilityMeta;
-use WP\MCP\Domain\Utils\McpNameSanitizer;
-use WP\MCP\Domain\Utils\McpValidator;
-use WP\MCP\Domain\Utils\SchemaTransformer;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Utils\McpAbilityMeta;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Utils\McpNameSanitizer;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Utils\McpValidator;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Utils\SchemaTransformer;
 use WP_Error;
 
 /**
@@ -315,7 +315,7 @@ class RegisterAbilityAsMcpPrompt {
 		 * @param string      $name    The sanitized prompt name.
 		 * @param \WP_Ability $ability The source ability instance.
 		 */
-		$filtered_name = apply_filters( 'mcp_adapter_prompt_name', $sanitized_name, $this->ability );
+		$filtered_name = apply_filters( 'sq_mcp_adapter_prompt_name', $sanitized_name, $this->ability );
 
 		// Validate post-filter (in case filter broke it).
 		if ( ! is_string( $filtered_name ) || ! McpValidator::validate_name( $filtered_name ) ) {

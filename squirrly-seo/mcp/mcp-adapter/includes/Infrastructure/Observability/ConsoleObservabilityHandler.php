@@ -9,9 +9,9 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Infrastructure\Observability;
+namespace SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability;
 
-use WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface;
 
 /**
  * Console-based observability handler for testing.

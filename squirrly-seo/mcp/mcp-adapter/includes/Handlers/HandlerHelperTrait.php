@@ -7,9 +7,9 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Handlers;
+namespace SquirrlySEO\Vendor\WP\MCP\Handlers;
 
-use WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface;
 
 /**
  * Provides common helper methods for MCP handlers.
@@ -64,7 +64,7 @@ trait HandlerHelperTrait {
 	 * @param mixed                    $filtered    The value returned by apply_filters.
 	 * @param array                    $original    The original unfiltered array.
 	 * @param string                   $filter_name The filter hook name (for logging).
-	 * @param \WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface $error_handler The error handler for logging.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface $error_handler The error handler for logging.
 	 *
 	 * @return array The validated array (filtered if valid, original if not).
 	 */

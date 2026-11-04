@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class CallToolResultResponse extends \WP\McpSchema\Record
+final class CallToolResultResponse extends \SquirrlySEO\Vendor\WP\McpSchema\Record
 {
     public const DEFINITION = 'CallToolResultResponse';
 
@@ -35,11 +35,11 @@ final class CallToolResultResponse extends \WP\McpSchema\Record
     }
 
     /**
-     * @return \WP\McpSchema\Record\CallToolResult|\WP\McpSchema\Record\InputRequiredResult
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\CallToolResult|\SquirrlySEO\Vendor\WP\McpSchema\Record\InputRequiredResult
      */
     public function getResult()
     {
-        /** @var \WP\McpSchema\Record\CallToolResult|\WP\McpSchema\Record\InputRequiredResult $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\CallToolResult|\SquirrlySEO\Vendor\WP\McpSchema\Record\InputRequiredResult $value */
         $value = $this->declaredValue('result');
 
         return $value;

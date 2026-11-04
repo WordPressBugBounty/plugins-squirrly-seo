@@ -8,10 +8,10 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Transport\Infrastructure;
+namespace SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure;
 
-use WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface;
-use WP\MCP\Infrastructure\ErrorHandling\ErrorLogMcpErrorHandler;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\ErrorLogMcpErrorHandler;
 use WP_Error;
 
 /**
@@ -36,7 +36,7 @@ final class SessionManager {
 	 *
 	 * @var string
 	 */
-	private const SESSION_META_KEY = 'mcp_adapter_sessions';
+	private const SESSION_META_KEY = 'sq_mcp_adapter_sessions';
 
 	/**
 	 * User meta key for the current site's session map.
@@ -168,7 +168,7 @@ final class SessionManager {
 	 *
 	 * @param int                                                   $user_id      The user ID.
 	 * @param array                                                 $params       Client parameters from initialize request.
-	 * @param \WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface|null $error_handler Error handler for reporting storage failures. Defaults to the standard error-log handler.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface|null $error_handler Error handler for reporting storage failures. Defaults to the standard error-log handler.
 	 *
 	 * @return string|false The session ID on success, false on failure.
 	 */
@@ -250,7 +250,7 @@ final class SessionManager {
 	 *
 	 * @param int                                                   $user_id       The user ID.
 	 * @param callable                                              $mutation      Receives the latest sessions and returns the updated sessions.
-	 * @param \WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface|null $error_handler Error handler for reporting storage failures. Defaults to the standard error-log handler.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface|null $error_handler Error handler for reporting storage failures. Defaults to the standard error-log handler.
 	 * @return bool True when the mutation was stored, false after repeated conflicts.
 	 */
 	private static function mutate_sessions( int $user_id, callable $mutation, ?McpErrorHandlerInterface $error_handler = null ): bool {
@@ -334,7 +334,7 @@ final class SessionManager {
 	 * @since 0.7.1 Added the optional error handler and discards oversized maps.
 	 *
 	 * @param int                                                   $user_id       The user ID.
-	 * @param \WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface|null $error_handler Error handler for reporting a discarded map. Defaults to the standard error-log handler.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface|null $error_handler Error handler for reporting a discarded map. Defaults to the standard error-log handler.
 	 *
 	 * @return array Array of sessions.
 	 */
@@ -454,7 +454,7 @@ final class SessionManager {
 		 *
 		 * @param int $max_sessions Maximum sessions per user on the current site. Default 32.
 		 */
-		$max_sessions = (int) apply_filters( 'mcp_adapter_session_max_per_user', self::DEFAULT_MAX_SESSIONS );
+		$max_sessions = (int) apply_filters( 'sq_mcp_adapter_session_max_per_user', self::DEFAULT_MAX_SESSIONS );
 
 		/**
 		 * Filters the session inactivity timeout in seconds.
@@ -466,7 +466,7 @@ final class SessionManager {
 		 *
 		 * @param int $timeout Inactivity timeout in seconds. Default DAY_IN_SECONDS (86400 / 24 hours).
 		 */
-		$inactivity_timeout = (int) apply_filters( 'mcp_adapter_session_inactivity_timeout', self::DEFAULT_INACTIVITY_TIMEOUT );
+		$inactivity_timeout = (int) apply_filters( 'sq_mcp_adapter_session_inactivity_timeout', self::DEFAULT_INACTIVITY_TIMEOUT );
 
 		/**
 		 * Filters the minimum interval between session last_activity writes.
@@ -479,7 +479,7 @@ final class SessionManager {
 		 *
 		 * @param int $interval Minimum seconds between writes. Default 60.
 		 */
-		$activity_update_interval = (int) apply_filters( 'mcp_adapter_session_activity_update_interval', self::DEFAULT_ACTIVITY_UPDATE_INTERVAL );
+		$activity_update_interval = (int) apply_filters( 'sq_mcp_adapter_session_activity_update_interval', self::DEFAULT_ACTIVITY_UPDATE_INTERVAL );
 
 		// Clamp: interval must be less than inactivity timeout to prevent
 		// sessions from expiring despite active use.
@@ -553,7 +553,7 @@ final class SessionManager {
 	 *
 	 * @param int                                                   $user_id      The user ID.
 	 * @param string                                                $session_id   The session ID.
-	 * @param \WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface|null $error_handler Error handler for reporting storage failures. Defaults to the standard error-log handler.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface|null $error_handler Error handler for reporting storage failures. Defaults to the standard error-log handler.
 	 *
 	 * @return bool True if valid, false otherwise.
 	 */
@@ -601,7 +601,7 @@ final class SessionManager {
 	 *
 	 * @param int                                                   $user_id      The user ID.
 	 * @param string                                                $session_id   The session ID.
-	 * @param \WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface|null $error_handler Error handler for reporting storage failures. Defaults to the standard error-log handler.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface|null $error_handler Error handler for reporting storage failures. Defaults to the standard error-log handler.
 	 *
 	 * @return bool True on success, false on failure.
 	 */

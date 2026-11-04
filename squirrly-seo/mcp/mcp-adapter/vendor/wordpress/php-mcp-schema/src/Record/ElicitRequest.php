@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class ElicitRequest extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\InputRequest, \WP\McpSchema\Contract\ServerRequest
+final class ElicitRequest extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\InputRequest, \SquirrlySEO\Vendor\WP\McpSchema\Contract\ServerRequest
 {
     public const DEFINITION = 'ElicitRequest';
 
@@ -50,11 +50,11 @@ final class ElicitRequest extends \WP\McpSchema\Record implements \WP\McpSchema\
     }
 
     /**
-     * @return \WP\McpSchema\Contract\ElicitRequestParams
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Contract\ElicitRequestParams
      */
-    public function getParams(): \WP\McpSchema\Contract\ElicitRequestParams
+    public function getParams(): \SquirrlySEO\Vendor\WP\McpSchema\Contract\ElicitRequestParams
     {
-        /** @var \WP\McpSchema\Contract\ElicitRequestParams $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Contract\ElicitRequestParams $value */
         $value = $this->declaredValue('params');
 
         return $value;

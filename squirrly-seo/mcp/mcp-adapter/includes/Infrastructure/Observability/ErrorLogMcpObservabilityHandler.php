@@ -7,7 +7,7 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Infrastructure\Observability;
+namespace SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability;
 
 /**
  * Class ErrorLogMcpObservabilityHandler
@@ -15,7 +15,7 @@ namespace WP\MCP\Infrastructure\Observability;
  * This class handles observability tracking by writing metrics to the PHP error log.
  * This provides a simple way to track MCP metrics without external dependencies.
  *
- * @package WP\MCP\ObservabilityHandlers
+ * @package SquirrlySEO\Vendor\WP\MCP\ObservabilityHandlers
  */
 class ErrorLogMcpObservabilityHandler implements Contracts\McpObservabilityHandlerInterface {
 

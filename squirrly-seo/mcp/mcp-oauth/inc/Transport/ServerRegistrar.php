@@ -3,9 +3,9 @@ declare( strict_types=1 );
 
 namespace WPMedia\MCP\OAuth\Transport;
 
-use WP\MCP\Abilities\DiscoverAbilitiesAbility;
-use WP\MCP\Abilities\ExecuteAbilityAbility;
-use WP\MCP\Abilities\GetAbilityInfoAbility;
+use SquirrlySEO\Vendor\WP\MCP\Abilities\DiscoverAbilitiesAbility;
+use SquirrlySEO\Vendor\WP\MCP\Abilities\ExecuteAbilityAbility;
+use SquirrlySEO\Vendor\WP\MCP\Abilities\GetAbilityInfoAbility;
 use WPMedia\MCP\OAuth\Context;
 
 class ServerRegistrar {
@@ -61,8 +61,13 @@ class ServerRegistrar {
 	 * @return bool
 	 */
 	private function must_register_shared_abilities_ourselves(): bool {
+		// Squirrly patch: when another plugin's MCP Adapter (WooCommerce) is present, it owns the mcp-adapter/* abilities.
+		if ( ! wpm_apply_filters_typed( 'boolean', 'sq_mcp_register_shared_abilities', true ) ) {
+			return false;
+		}
+
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- reading the mcp-adapter package's own filter, not defining a new hook.
-		return ! wpm_apply_filters_typed( 'boolean', 'mcp_adapter_create_default_server', true );
+		return ! wpm_apply_filters_typed( 'boolean', 'sq_mcp_adapter_create_default_server', true );
 	}
 
 	/**

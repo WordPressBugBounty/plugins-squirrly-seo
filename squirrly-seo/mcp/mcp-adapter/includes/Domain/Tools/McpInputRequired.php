@@ -7,7 +7,7 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Domain\Tools;
+namespace SquirrlySEO\Vendor\WP\MCP\Domain\Tools;
 
 /**
  * Carries input requests and optional opaque state owned by the tool author.

@@ -6,18 +6,18 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class GetPromptRequestParams extends \WP\McpSchema\Record
+final class GetPromptRequestParams extends \SquirrlySEO\Vendor\WP\McpSchema\Record
 {
     public const DEFINITION = 'GetPromptRequestParams';
 
     /**
-     * @return \WP\McpSchema\Record\RequestMetaObject|\stdClass|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\RequestMetaObject|\stdClass|null
      */
     public function getMeta()
     {
-        /** @var \WP\McpSchema\Record\RequestMetaObject|\stdClass|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\RequestMetaObject|\stdClass|null $value */
         $value = $this->declaredValue('_meta');
 
         return $value;
@@ -37,11 +37,11 @@ final class GetPromptRequestParams extends \WP\McpSchema\Record
     /**
      * Declared in: 2026-07-28.
      *
-     * @return \WP\McpSchema\Record\InputResponses|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\InputResponses|null
      */
-    public function getInputResponses(): ?\WP\McpSchema\Record\InputResponses
+    public function getInputResponses(): ?\SquirrlySEO\Vendor\WP\McpSchema\Record\InputResponses
     {
-        /** @var \WP\McpSchema\Record\InputResponses|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\InputResponses|null $value */
         $value = $this->declaredValue('inputResponses');
 
         return $value;

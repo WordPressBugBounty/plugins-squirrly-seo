@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class UnsubscribeRequest extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ClientRequest
+final class UnsubscribeRequest extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ClientRequest
 {
     public const DEFINITION = 'UnsubscribeRequest';
 
@@ -46,11 +46,11 @@ final class UnsubscribeRequest extends \WP\McpSchema\Record implements \WP\McpSc
     }
 
     /**
-     * @return \WP\McpSchema\Record\UnsubscribeRequestParams
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\UnsubscribeRequestParams
      */
-    public function getParams(): \WP\McpSchema\Record\UnsubscribeRequestParams
+    public function getParams(): \SquirrlySEO\Vendor\WP\McpSchema\Record\UnsubscribeRequestParams
     {
-        /** @var \WP\McpSchema\Record\UnsubscribeRequestParams $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\UnsubscribeRequestParams $value */
         $value = $this->declaredValue('params');
 
         return $value;

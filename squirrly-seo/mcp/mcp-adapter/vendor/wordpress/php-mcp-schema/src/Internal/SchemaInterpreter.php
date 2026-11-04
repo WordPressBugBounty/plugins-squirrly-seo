@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Internal;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Internal;
 
-use WP\McpSchema\Exception\ValidationException;
-use WP\McpSchema\Record;
+use SquirrlySEO\Vendor\WP\McpSchema\Exception\ValidationException;
+use SquirrlySEO\Vendor\WP\McpSchema\Record;
 
 /**
  * Bounded interpreter for the JSON Schema vocabulary used by supported MCP revisions.

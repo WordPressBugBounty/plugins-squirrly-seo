@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class ProgressNotification extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ClientNotification, \WP\McpSchema\Contract\ServerNotification
+final class ProgressNotification extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ClientNotification, \SquirrlySEO\Vendor\WP\McpSchema\Contract\ServerNotification
 {
     public const DEFINITION = 'ProgressNotification';
 
@@ -35,11 +35,11 @@ final class ProgressNotification extends \WP\McpSchema\Record implements \WP\Mcp
     }
 
     /**
-     * @return \WP\McpSchema\Record\ProgressNotificationParams
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\ProgressNotificationParams
      */
-    public function getParams(): \WP\McpSchema\Record\ProgressNotificationParams
+    public function getParams(): \SquirrlySEO\Vendor\WP\McpSchema\Record\ProgressNotificationParams
     {
-        /** @var \WP\McpSchema\Record\ProgressNotificationParams $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\ProgressNotificationParams $value */
         $value = $this->declaredValue('params');
 
         return $value;

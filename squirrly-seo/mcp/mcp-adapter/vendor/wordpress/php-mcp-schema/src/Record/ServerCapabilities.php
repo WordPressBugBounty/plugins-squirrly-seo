@@ -6,18 +6,18 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class ServerCapabilities extends \WP\McpSchema\Record
+final class ServerCapabilities extends \SquirrlySEO\Vendor\WP\McpSchema\Record
 {
     public const DEFINITION = 'ServerCapabilities';
 
     /**
-     * @return \WP\McpSchema\Record\JSONObject|\stdClass|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\JSONObject|\stdClass|null
      */
     public function getCompletions()
     {
-        /** @var \WP\McpSchema\Record\JSONObject|\stdClass|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\JSONObject|\stdClass|null $value */
         $value = $this->declaredValue('completions');
 
         return $value;
@@ -48,11 +48,11 @@ final class ServerCapabilities extends \WP\McpSchema\Record
     }
 
     /**
-     * @return \WP\McpSchema\Record\JSONObject|\stdClass|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\JSONObject|\stdClass|null
      */
     public function getLogging()
     {
-        /** @var \WP\McpSchema\Record\JSONObject|\stdClass|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\JSONObject|\stdClass|null $value */
         $value = $this->declaredValue('logging');
 
         return $value;

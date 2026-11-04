@@ -7,7 +7,7 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Domain\Prompts\Contracts;
+namespace SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\Contracts;
 
 /**
  * Interface for building MCP prompts.

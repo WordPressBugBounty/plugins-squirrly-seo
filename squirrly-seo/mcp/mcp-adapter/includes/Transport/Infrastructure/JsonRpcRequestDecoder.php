@@ -7,7 +7,7 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Transport\Infrastructure;
+namespace SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure;
 
 /**
  * Decodes raw JSON once and protects PHP's native integer boundary.
@@ -79,7 +79,7 @@ final class JsonRpcRequestDecoder {
 	 * @since 0.7.0
 	 */
 	public function to_associative( $value ) {
-		if ( $value instanceof \WP\McpSchema\Record ) {
+		if ( $value instanceof \SquirrlySEO\Vendor\WP\McpSchema\Record ) {
 			return $this->to_associative( $value->jsonSerialize() );
 		}
 

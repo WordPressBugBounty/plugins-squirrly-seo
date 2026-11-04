@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class TaskAugmentedRequestParams extends \WP\McpSchema\Record
+final class TaskAugmentedRequestParams extends \SquirrlySEO\Vendor\WP\McpSchema\Record
 {
     public const DEFINITION = 'TaskAugmentedRequestParams';
 
@@ -24,11 +24,11 @@ final class TaskAugmentedRequestParams extends \WP\McpSchema\Record
     }
 
     /**
-     * @return \WP\McpSchema\Record\TaskMetadata|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\TaskMetadata|null
      */
-    public function getTask(): ?\WP\McpSchema\Record\TaskMetadata
+    public function getTask(): ?\SquirrlySEO\Vendor\WP\McpSchema\Record\TaskMetadata
     {
-        /** @var \WP\McpSchema\Record\TaskMetadata|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\TaskMetadata|null $value */
         $value = $this->declaredValue('task');
 
         return $value;

@@ -7,7 +7,7 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Infrastructure\Observability;
+namespace SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability;
 
 /**
  * Class NullMcpObservabilityHandler
@@ -15,7 +15,7 @@ namespace WP\MCP\Infrastructure\Observability;
  * This class handles MCP observability by doing nothing. It is used when no
  * observability tracking is desired, providing zero overhead.
  *
- * @package WP\MCP\ObservabilityHandlers
+ * @package SquirrlySEO\Vendor\WP\MCP\ObservabilityHandlers
  */
 class NullMcpObservabilityHandler implements Contracts\McpObservabilityHandlerInterface {
 

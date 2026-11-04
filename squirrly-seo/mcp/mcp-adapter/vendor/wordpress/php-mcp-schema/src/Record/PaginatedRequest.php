@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class PaginatedRequest extends \WP\McpSchema\Record
+final class PaginatedRequest extends \SquirrlySEO\Vendor\WP\McpSchema\Record
 {
     public const DEFINITION = 'PaginatedRequest';
 
@@ -46,11 +46,11 @@ final class PaginatedRequest extends \WP\McpSchema\Record
     }
 
     /**
-     * @return \WP\McpSchema\Record\PaginatedRequestParams|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\PaginatedRequestParams|null
      */
-    public function getParams(): ?\WP\McpSchema\Record\PaginatedRequestParams
+    public function getParams(): ?\SquirrlySEO\Vendor\WP\McpSchema\Record\PaginatedRequestParams
     {
-        /** @var \WP\McpSchema\Record\PaginatedRequestParams|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\PaginatedRequestParams|null $value */
         $value = $this->declaredValue('params');
 
         return $value;

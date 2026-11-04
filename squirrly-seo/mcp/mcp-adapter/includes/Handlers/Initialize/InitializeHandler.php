@@ -7,12 +7,12 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Handlers\Initialize;
+namespace SquirrlySEO\Vendor\WP\MCP\Handlers\Initialize;
 
-use WP\MCP\Core\McpRequestContext;
-use WP\MCP\Core\McpServer;
-use WP\McpSchema\Record\InitializeRequest;
-use WP\McpSchema\Record\InitializeResult;
+use SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext;
+use SquirrlySEO\Vendor\WP\MCP\Core\McpServer;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\InitializeRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\InitializeResult;
 
 /**
  * Handles the initialize MCP method.
@@ -21,14 +21,14 @@ class InitializeHandler {
 	/**
 	 * The WordPress MCP instance.
 	 *
-	 * @var \WP\MCP\Core\McpServer
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Core\McpServer
 	 */
 	private McpServer $mcp;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param \WP\MCP\Core\McpServer $mcp The WordPress MCP instance.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpServer $mcp The WordPress MCP instance.
 	 */
 	public function __construct( McpServer $mcp ) {
 		$this->mcp = $mcp;
@@ -40,10 +40,10 @@ class InitializeHandler {
 	 * @since 0.5.0
 	 * @since 0.7.0 Accepts an exact validated request record and Core context.
 	 *
-	 * @param \WP\McpSchema\Record\InitializeRequest $request Validated request.
-	 * @param \WP\MCP\Core\McpRequestContext $request_context Exact request context.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record\InitializeRequest $request Validated request.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext $request_context Exact request context.
 	 *
-	 * @return \WP\McpSchema\Record\InitializeResult Response with server capabilities and information.
+	 * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\InitializeResult Response with server capabilities and information.
 	 */
 	public function handle( InitializeRequest $request, McpRequestContext $request_context ): InitializeResult {
 		unset( $request );
@@ -78,10 +78,10 @@ class InitializeHandler {
 		 *
 		 * @since 0.5.0
 		 *
-		 * @param \WP\McpSchema\Record\InitializeResult $result The initialize result record.
-		 * @param \WP\MCP\Core\McpServer                             $server The MCP server instance.
-		 * @param \WP\McpSchema\Schema                                $schema Selected schema.
+		 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record\InitializeResult $result The initialize result record.
+		 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpServer                             $server The MCP server instance.
+		 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema                                $schema Selected schema.
 		 */
-		return apply_filters( 'mcp_adapter_initialize_response', $result, $this->mcp, $schema );
+		return apply_filters( 'sq_mcp_adapter_initialize_response', $result, $this->mcp, $schema );
 	}
 }

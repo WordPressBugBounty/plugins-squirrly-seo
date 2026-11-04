@@ -7,13 +7,13 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Servers;
+namespace SquirrlySEO\Vendor\WP\MCP\Servers;
 
-use WP\MCP\Abilities\McpAbilityExposure;
-use WP\MCP\Core\McpAdapter;
-use WP\MCP\Infrastructure\ErrorHandling\ErrorLogMcpErrorHandler;
-use WP\MCP\Infrastructure\Observability\NullMcpObservabilityHandler;
-use WP\MCP\Transport\HttpTransport;
+use SquirrlySEO\Vendor\WP\MCP\Abilities\McpAbilityExposure;
+use SquirrlySEO\Vendor\WP\MCP\Core\McpAdapter;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\ErrorLogMcpErrorHandler;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\NullMcpObservabilityHandler;
+use SquirrlySEO\Vendor\WP\MCP\Transport\HttpTransport;
 
 /**
  * Factory for creating the default WordPress MCP server.
@@ -86,7 +86,7 @@ class DefaultServerFactory {
 		 *     @type string[] $prompts                Prompt ability names to expose.
 		 * }
 		 */
-		$config = apply_filters( 'mcp_adapter_default_server_config', $wordpress_defaults );
+		$config = apply_filters( 'sq_mcp_adapter_default_server_config', $wordpress_defaults );
 
 		// Ensure config is an array and merge with defaults
 		if ( ! is_array( $config ) ) {

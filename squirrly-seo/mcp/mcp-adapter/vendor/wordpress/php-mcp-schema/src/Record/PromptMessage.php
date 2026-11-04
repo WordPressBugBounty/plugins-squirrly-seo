@@ -6,18 +6,18 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class PromptMessage extends \WP\McpSchema\Record
+final class PromptMessage extends \SquirrlySEO\Vendor\WP\McpSchema\Record
 {
     public const DEFINITION = 'PromptMessage';
 
     /**
-     * @return \WP\McpSchema\Contract\ContentBlock
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Contract\ContentBlock
      */
-    public function getContent(): \WP\McpSchema\Contract\ContentBlock
+    public function getContent(): \SquirrlySEO\Vendor\WP\McpSchema\Contract\ContentBlock
     {
-        /** @var \WP\McpSchema\Contract\ContentBlock $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Contract\ContentBlock $value */
         $value = $this->declaredValue('content');
 
         return $value;

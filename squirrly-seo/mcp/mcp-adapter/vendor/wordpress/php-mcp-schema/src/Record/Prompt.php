@@ -6,29 +6,29 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class Prompt extends \WP\McpSchema\Record
+final class Prompt extends \SquirrlySEO\Vendor\WP\McpSchema\Record
 {
     public const DEFINITION = 'Prompt';
 
     /**
-     * @return \WP\McpSchema\Record\MetaObject|\stdClass|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\MetaObject|\stdClass|null
      */
     public function getMeta()
     {
-        /** @var \WP\McpSchema\Record\MetaObject|\stdClass|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\MetaObject|\stdClass|null $value */
         $value = $this->declaredValue('_meta');
 
         return $value;
     }
 
     /**
-     * @return array<int, \WP\McpSchema\Record\PromptArgument>|null
+     * @return array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\PromptArgument>|null
      */
     public function getArguments(): ?array
     {
-        /** @var array<int, \WP\McpSchema\Record\PromptArgument>|null $value */
+        /** @var array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\PromptArgument>|null $value */
         $value = $this->declaredValue('arguments');
 
         return $value;
@@ -46,11 +46,11 @@ final class Prompt extends \WP\McpSchema\Record
     }
 
     /**
-     * @return array<int, \WP\McpSchema\Record\Icon>|null
+     * @return array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\Icon>|null
      */
     public function getIcons(): ?array
     {
-        /** @var array<int, \WP\McpSchema\Record\Icon>|null $value */
+        /** @var array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\Icon>|null $value */
         $value = $this->declaredValue('icons');
 
         return $value;

@@ -7,7 +7,7 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Abilities;
+namespace SquirrlySEO\Vendor\WP\MCP\Abilities;
 
 use WP_Error;
 

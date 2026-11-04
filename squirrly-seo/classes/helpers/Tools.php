@@ -40,6 +40,11 @@ class SQ_Classes_Helpers_Tools
             self::install();
         }
 
+        //A role created after the Cloud connection (membership plugins, role editors) gets the Squirrly capabilities
+        //as soon as a user is given that role
+        add_action( 'set_user_role', array( SQ_Classes_ObjController::getClass( 'SQ_Models_RoleManager' ), 'addSQRoles' ), 10, 0 );
+        add_action( 'add_user_role', array( SQ_Classes_ObjController::getClass( 'SQ_Models_RoleManager' ), 'addSQRoles' ), 10, 0 );
+
 	    //Create Qss table if not exists
 	    if($qssModel = SQ_Classes_ObjController::getClass('SQ_Models_Qss')){
 			$qssModel->checkTableExists();
@@ -436,7 +441,7 @@ class SQ_Classes_Helpers_Tools
                 'fbadminapp' => "",
 
                 'facebook_site' => "",
-                'twitter_site' => "https://twitter.com/twitter",
+                'twitter_site' => "",
                 'twitter' => "",
                 'instagram_url' => "",
                 'linkedin_url' => "",
@@ -925,6 +930,9 @@ class SQ_Classes_Helpers_Tools
 		//do the upgrade
 	    if ( version_compare( $current_version, SQ_VERSION, '<' ) ) {
 
+		    //Give the Squirrly capabilities to roles created since the last update
+		    SQ_Classes_ObjController::getClass( 'SQ_Models_RoleManager' )->addSQRoles();
+
 		    //Update the Json-LD for Organization Logo
 		    if ( isset( self::$options['sq_jsonld']['Organization']['logo'] ) && ! is_array( self::$options['sq_jsonld']['Organization']['logo'] ) ) {
 			    self::$options['sq_jsonld']['Organization']['logo'] = array(
@@ -981,6 +989,11 @@ class SQ_Classes_Helpers_Tools
 				    update_option( 'sq_llms_full', self::$options['sq_llms_full'], false );
 			    }
 			    unset( self::$options['sq_llms_full'] );
+		    }
+
+		    //The old default X profile was X's own account: clear it on sites that never changed it
+		    if ( isset( self::$options['socials']['twitter_site'] ) && self::$options['socials']['twitter_site'] == 'https://twitter.com/twitter' ) {
+			    self::$options['socials']['twitter_site'] = '';
 		    }
 
 		    //update the version

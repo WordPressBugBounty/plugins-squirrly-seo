@@ -6,18 +6,18 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class ListResourcesResult extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ServerResult
+final class ListResourcesResult extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ServerResult
 {
     public const DEFINITION = 'ListResourcesResult';
 
     /**
-     * @return \WP\McpSchema\Record\ResultMetaObject|\stdClass|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\ResultMetaObject|\stdClass|null
      */
     public function getMeta()
     {
-        /** @var \WP\McpSchema\Record\ResultMetaObject|\stdClass|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\ResultMetaObject|\stdClass|null $value */
         $value = $this->declaredValue('_meta');
 
         return $value;
@@ -48,11 +48,11 @@ final class ListResourcesResult extends \WP\McpSchema\Record implements \WP\McpS
     }
 
     /**
-     * @return array<int, \WP\McpSchema\Record\Resource>
+     * @return array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\Resource>
      */
     public function getResources(): array
     {
-        /** @var array<int, \WP\McpSchema\Record\Resource> $value */
+        /** @var array<int, \SquirrlySEO\Vendor\WP\McpSchema\Record\Resource> $value */
         $value = $this->declaredValue('resources');
 
         return $value;

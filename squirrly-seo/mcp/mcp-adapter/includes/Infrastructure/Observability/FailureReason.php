@@ -12,7 +12,7 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Infrastructure\Observability;
+namespace SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability;
 
 /**
  * Failure reason taxonomy for observability events.

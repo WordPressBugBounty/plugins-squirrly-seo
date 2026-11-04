@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class JSONRPCNotification extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\JSONRPCMessage
+final class JSONRPCNotification extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\JSONRPCMessage
 {
     public const DEFINITION = 'JSONRPCNotification';
 

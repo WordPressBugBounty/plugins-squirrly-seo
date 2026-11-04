@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class Task extends \WP\McpSchema\Record
+final class Task extends \SquirrlySEO\Vendor\WP\McpSchema\Record
 {
     public const DEFINITION = 'Task';
 

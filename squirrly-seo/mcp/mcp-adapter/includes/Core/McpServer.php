@@ -7,20 +7,20 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Core;
+namespace SquirrlySEO\Vendor\WP\MCP\Core;
 
-use WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface;
-use WP\MCP\Domain\Prompts\McpPrompt;
-use WP\MCP\Domain\Resources\McpResource;
-use WP\MCP\Domain\Tools\McpTool;
-use WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface;
-use WP\MCP\Infrastructure\ErrorHandling\NullMcpErrorHandler;
-use WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface;
-use WP\MCP\Infrastructure\Observability\NullMcpObservabilityHandler;
-use WP\MCP\Transport\Infrastructure\McpTransportContext;
-use WP\McpSchema\Record\Prompt;
-use WP\McpSchema\Schema;
-use WP\McpSchema\Schemas;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\McpPrompt;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Resources\McpResource;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Tools\McpTool;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\NullMcpErrorHandler;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\NullMcpObservabilityHandler;
+use SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\McpTransportContext;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\Prompt;
+use SquirrlySEO\Vendor\WP\McpSchema\Schema;
+use SquirrlySEO\Vendor\WP\McpSchema\Schemas;
 
 /**
  * WordPress MCP Server - Represents a single MCP server with its tools, resources, and prompts.
@@ -29,14 +29,14 @@ class McpServer {
 	/**
 	 * Error handler instance.
 	 *
-	 * @var \WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface
 	 */
 	public McpErrorHandlerInterface $error_handler;
 
 	/**
 	 * Observability handler instance.
 	 *
-	 * @var \WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface
 	 */
 	public McpObservabilityHandlerInterface $observability_handler;
 
@@ -85,14 +85,14 @@ class McpServer {
 	/**
 	 * Component registry for managing tools, resources, and prompts.
 	 *
-	 * @var \WP\MCP\Core\McpComponentRegistry
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Core\McpComponentRegistry
 	 */
 	private McpComponentRegistry $component_registry;
 
 	/**
 	 * Transport factory for initializing transports.
 	 *
-	 * @var \WP\MCP\Core\McpTransportFactory
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Core\McpTransportFactory
 	 */
 	private McpTransportFactory $transport_factory;
 
@@ -106,8 +106,8 @@ class McpServer {
 	 *
 	 *     $schema = $this->schemas->forVersion( $revision );
 	 *
-	 * @var \WP\McpSchema\Schemas
-	 * @see \WP\McpSchema\Schemas::forVersion()
+	 * @var \SquirrlySEO\Vendor\WP\McpSchema\Schemas
+	 * @see \SquirrlySEO\Vendor\WP\McpSchema\Schemas::forVersion()
 	 */
 	private Schemas $schemas;
 
@@ -128,12 +128,12 @@ class McpServer {
 	 * @param string           $server_name Human-readable server name.
 	 * @param string           $server_description Server description.
 	 * @param string           $server_version Server version.
-	 * @param array<class-string<\WP\MCP\Transport\Contracts\McpTransportInterface>> $mcp_transports Array of MCP transport class names to initialize (e.g., [McpRestTransport::class]).
-	 * @param class-string<\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface>|null $error_handler Error handler class to use (e.g., NullMcpErrorHandler::class). Must implement McpErrorHandlerInterface. If null, NullMcpErrorHandler will be used.
-	 * @param class-string<\WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface>|null $observability_handler Observability handler class to use (e.g., NullMcpObservabilityHandler::class). Must implement McpObservabilityHandlerInterface. If null, NullMcpObservabilityHandler will be used.
-	 * @param list<string|\WP\MCP\Domain\Tools\McpTool> $tools Optional ability names or MCP tools to register during construction.
-	 * @param list<string|\WP\MCP\Domain\Resources\McpResource> $resources Optional ability names or MCP resources to register during construction.
-	 * @param list<string|\WP\MCP\Domain\Prompts\McpPrompt|\WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface> $prompts Optional ability names, MCP prompts, or prompt builders to register during construction.
+	 * @param array<class-string<\SquirrlySEO\Vendor\WP\MCP\Transport\Contracts\McpTransportInterface>> $mcp_transports Array of MCP transport class names to initialize (e.g., [McpRestTransport::class]).
+	 * @param class-string<\SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface>|null $error_handler Error handler class to use (e.g., NullMcpErrorHandler::class). Must implement McpErrorHandlerInterface. If null, NullMcpErrorHandler will be used.
+	 * @param class-string<\SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface>|null $observability_handler Observability handler class to use (e.g., NullMcpObservabilityHandler::class). Must implement McpObservabilityHandlerInterface. If null, NullMcpObservabilityHandler will be used.
+	 * @param list<string|\SquirrlySEO\Vendor\WP\MCP\Domain\Tools\McpTool> $tools Optional ability names or MCP tools to register during construction.
+	 * @param list<string|\SquirrlySEO\Vendor\WP\MCP\Domain\Resources\McpResource> $resources Optional ability names or MCP resources to register during construction.
+	 * @param list<string|\SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\McpPrompt|\SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface> $prompts Optional ability names, MCP prompts, or prompt builders to register during construction.
 	 * @param callable|null $transport_permission_callback Optional custom permission callback for transport-level authentication. If null, defaults to is_user_logged_in().
 	 *
 	 * @throws \Exception Thrown if the MCP transport class does not extend AbstractMcpTransport.
@@ -178,7 +178,7 @@ class McpServer {
 	private function setup_handlers( ?string $error_handler, ?string $observability_handler ): void {
 		// Instantiate error handler
 		if ( $error_handler && class_exists( $error_handler ) ) {
-			/** @var \WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface $handler */
+			/** @var \SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface $handler */
 			$handler             = new $error_handler();
 			$this->error_handler = $handler;
 		} else {
@@ -187,7 +187,7 @@ class McpServer {
 
 		// Instantiate observability handler
 		if ( $observability_handler && class_exists( $observability_handler ) ) {
-			/** @var \WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface $handler */
+			/** @var \SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface $handler */
 			$handler                     = new $observability_handler();
 			$this->observability_handler = $handler;
 		} else {
@@ -198,10 +198,10 @@ class McpServer {
 	/**
 	 * Setup component registry and transport factory.
 	 *
-	 * @param list<string|\WP\MCP\Domain\Tools\McpTool> $tools Tools to register.
-	 * @param list<string|\WP\MCP\Domain\Resources\McpResource> $resources Resources to register.
-	 * @param list<string|\WP\MCP\Domain\Prompts\McpPrompt|\WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface> $prompts Prompts to register.
-	 * @param array<class-string<\WP\MCP\Transport\Contracts\McpTransportInterface>> $mcp_transports Transport classes to initialize.
+	 * @param list<string|\SquirrlySEO\Vendor\WP\MCP\Domain\Tools\McpTool> $tools Tools to register.
+	 * @param list<string|\SquirrlySEO\Vendor\WP\MCP\Domain\Resources\McpResource> $resources Resources to register.
+	 * @param list<string|\SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\McpPrompt|\SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface> $prompts Prompts to register.
+	 * @param array<class-string<\SquirrlySEO\Vendor\WP\MCP\Transport\Contracts\McpTransportInterface>> $mcp_transports Transport classes to initialize.
 	 *
 	 * @throws \Exception
 	 */
@@ -227,9 +227,9 @@ class McpServer {
 	/**
 	 * Register initial tools, resources, and prompts.
 	 *
-	 * @param list<string|\WP\MCP\Domain\Tools\McpTool> $tools Tools to register.
-	 * @param list<string|\WP\MCP\Domain\Resources\McpResource> $resources Resources to register.
-	 * @param list<string|\WP\MCP\Domain\Prompts\McpPrompt|\WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface> $prompts Prompts to register.
+	 * @param list<string|\SquirrlySEO\Vendor\WP\MCP\Domain\Tools\McpTool> $tools Tools to register.
+	 * @param list<string|\SquirrlySEO\Vendor\WP\MCP\Domain\Resources\McpResource> $resources Resources to register.
+	 * @param list<string|\SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\McpPrompt|\SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface> $prompts Prompts to register.
 	 */
 	private function register_mcp_components( array $tools, array $resources, array $prompts ): void {
 		// Register tools if provided
@@ -316,7 +316,7 @@ class McpServer {
 	/**
 	 * Get the observability handler instance.
 	 *
-	 * @return \WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface
+	 * @return \SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface
 	 */
 	public function get_observability_handler(): McpObservabilityHandlerInterface {
 		return $this->observability_handler;
@@ -327,7 +327,7 @@ class McpServer {
 	 *
 	 * @since 0.5.0
 	 *
-	 * @return \WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface
+	 * @return \SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface
 	 */
 	public function get_error_handler(): McpErrorHandlerInterface {
 		return $this->error_handler;
@@ -336,8 +336,8 @@ class McpServer {
 	/**
 	 * Get all tools registered to this server.
 	 *
-	 * @param \WP\McpSchema\Schema $schema Selected exact schema.
-	 * @return array<string, \WP\McpSchema\Record\Tool>
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Selected exact schema.
+	 * @return array<string, \SquirrlySEO\Vendor\WP\McpSchema\Record\Tool>
 	 */
 	public function get_tools( Schema $schema ): array {
 		return $this->component_registry->get_tools( $schema );
@@ -346,8 +346,8 @@ class McpServer {
 	/**
 	 * Get all resources registered to this server.
 	 *
-	 * @param \WP\McpSchema\Schema $schema Selected exact schema.
-	 * @return array<string, \WP\McpSchema\Record\Resource>
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Selected exact schema.
+	 * @return array<string, \SquirrlySEO\Vendor\WP\McpSchema\Record\Resource>
 	 */
 	public function get_resources( Schema $schema ): array {
 		return $this->component_registry->get_resources( $schema );
@@ -356,8 +356,8 @@ class McpServer {
 	/**
 	 * Get all prompts registered to this server.
 	 *
-	 * @param \WP\McpSchema\Schema $schema Selected exact schema.
-	 * @return array<string, \WP\McpSchema\Record\Prompt>
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Selected exact schema.
+	 * @return array<string, \SquirrlySEO\Vendor\WP\McpSchema\Record\Prompt>
 	 */
 	public function get_prompts( Schema $schema ): array {
 		return $this->component_registry->get_prompts( $schema );
@@ -395,7 +395,7 @@ class McpServer {
 	 *
 	 * @param string $tool_name Tool name.
 	 *
-	 * @return \WP\MCP\Domain\Tools\McpTool|null
+	 * @return \SquirrlySEO\Vendor\WP\MCP\Domain\Tools\McpTool|null
 	 * @internal
 	 * @since 0.3.0
 	 *
@@ -409,7 +409,7 @@ class McpServer {
 	 *
 	 * @param string $resource_uri Resource URI.
 	 *
-	 * @return \WP\MCP\Domain\Resources\McpResource|null
+	 * @return \SquirrlySEO\Vendor\WP\MCP\Domain\Resources\McpResource|null
 	 * @internal
 	 * @since 0.3.0
 	 *
@@ -423,8 +423,8 @@ class McpServer {
 	 *
 	 * @param string $prompt_name Prompt name.
 	 *
-	 * @param \WP\McpSchema\Schema $schema Selected exact schema.
-	 * @return \WP\McpSchema\Record\Prompt|null
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Selected exact schema.
+	 * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\Prompt|null
 	 */
 	public function get_prompt( string $prompt_name, Schema $schema ): ?Prompt {
 		$mcp_prompt = $this->component_registry->get_mcp_prompt( $prompt_name );
@@ -441,7 +441,7 @@ class McpServer {
 	 *
 	 * @param string $prompt_name Prompt name.
 	 *
-	 * @return \WP\MCP\Domain\Prompts\McpPrompt|null
+	 * @return \SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\McpPrompt|null
 	 * @internal
 	 * @since 0.3.0
 	 *
@@ -455,7 +455,7 @@ class McpServer {
 	 *
 	 * @param string $prompt_name Prompt name.
 	 *
-	 * @return \WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface|null
+	 * @return \SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\Contracts\McpPromptBuilderInterface|null
 	 */
 	public function get_prompt_builder( string $prompt_name ): ?McpPromptBuilderInterface {
 		return $this->component_registry->get_prompt_builder( $prompt_name );
@@ -464,7 +464,7 @@ class McpServer {
 	/**
 	 * Create transport context with all required dependencies.
 	 *
-	 * @return \WP\MCP\Transport\Infrastructure\McpTransportContext
+	 * @return \SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\McpTransportContext
 	 */
 	public function create_transport_context(): McpTransportContext {
 		return $this->transport_factory->create_transport_context();

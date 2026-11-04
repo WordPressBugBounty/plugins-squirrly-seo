@@ -7,16 +7,16 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Transport\Infrastructure;
+namespace SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure;
 
-use WP\MCP\Core\McpServer;
-use WP\MCP\Handlers\Initialize\InitializeHandler;
-use WP\MCP\Handlers\Prompts\PromptsHandler;
-use WP\MCP\Handlers\Resources\ResourcesHandler;
-use WP\MCP\Handlers\System\SystemHandler;
-use WP\MCP\Handlers\Tools\ToolsHandler;
-use WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface;
-use WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface;
+use SquirrlySEO\Vendor\WP\MCP\Core\McpServer;
+use SquirrlySEO\Vendor\WP\MCP\Handlers\Initialize\InitializeHandler;
+use SquirrlySEO\Vendor\WP\MCP\Handlers\Prompts\PromptsHandler;
+use SquirrlySEO\Vendor\WP\MCP\Handlers\Resources\ResourcesHandler;
+use SquirrlySEO\Vendor\WP\MCP\Handlers\System\SystemHandler;
+use SquirrlySEO\Vendor\WP\MCP\Handlers\Tools\ToolsHandler;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface;
 
 /**
  * Transport context object for dependency injection.
@@ -61,56 +61,56 @@ class McpTransportContext {
 	/**
 	 * The MCP server instance.
 	 *
-	 * @var \WP\MCP\Core\McpServer
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Core\McpServer
 	 */
 	public McpServer $mcp_server;
 
 	/**
 	 * The initialize handler.
 	 *
-	 * @var \WP\MCP\Handlers\Initialize\InitializeHandler
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Handlers\Initialize\InitializeHandler
 	 */
 	public InitializeHandler $initialize_handler;
 
 	/**
 	 * The tools handler.
 	 *
-	 * @var \WP\MCP\Handlers\Tools\ToolsHandler
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Handlers\Tools\ToolsHandler
 	 */
 	public ToolsHandler $tools_handler;
 
 	/**
 	 * The resources handler.
 	 *
-	 * @var \WP\MCP\Handlers\Resources\ResourcesHandler
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Handlers\Resources\ResourcesHandler
 	 */
 	public ResourcesHandler $resources_handler;
 
 	/**
 	 * The prompts handler.
 	 *
-	 * @var \WP\MCP\Handlers\Prompts\PromptsHandler
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Handlers\Prompts\PromptsHandler
 	 */
 	public PromptsHandler $prompts_handler;
 
 	/**
 	 * The system handler.
 	 *
-	 * @var \WP\MCP\Handlers\System\SystemHandler
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Handlers\System\SystemHandler
 	 */
 	public SystemHandler $system_handler;
 
 	/**
 	 * The observability handler instance.
 	 *
-	 * @var \WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface
 	 */
 	public McpObservabilityHandlerInterface $observability_handler;
 
 	/**
 	 * The error handler instance.
 	 *
-	 * @var \WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface
 	 */
 	public McpErrorHandlerInterface $error_handler;
 
@@ -130,16 +130,16 @@ class McpTransportContext {
 	 * Initialize the transport context.
 	 *
 	 * @param array{
-	 *   mcp_server: \WP\MCP\Core\McpServer,
-	 *   initialize_handler: \WP\MCP\Handlers\Initialize\InitializeHandler,
-	 *   tools_handler: \WP\MCP\Handlers\Tools\ToolsHandler,
-	 *   resources_handler: \WP\MCP\Handlers\Resources\ResourcesHandler,
-	 *   prompts_handler: \WP\MCP\Handlers\Prompts\PromptsHandler,
-	 *   system_handler: \WP\MCP\Handlers\System\SystemHandler,
-	 *   observability_handler: \WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface,
-	 *   request_router?: \WP\MCP\Transport\Infrastructure\RequestRouter,
+	 *   mcp_server: \SquirrlySEO\Vendor\WP\MCP\Core\McpServer,
+	 *   initialize_handler: \SquirrlySEO\Vendor\WP\MCP\Handlers\Initialize\InitializeHandler,
+	 *   tools_handler: \SquirrlySEO\Vendor\WP\MCP\Handlers\Tools\ToolsHandler,
+	 *   resources_handler: \SquirrlySEO\Vendor\WP\MCP\Handlers\Resources\ResourcesHandler,
+	 *   prompts_handler: \SquirrlySEO\Vendor\WP\MCP\Handlers\Prompts\PromptsHandler,
+	 *   system_handler: \SquirrlySEO\Vendor\WP\MCP\Handlers\System\SystemHandler,
+	 *   observability_handler: \SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface,
+	 *   request_router?: \SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\RequestRouter,
 	 *   transport_permission_callback?: callable|null,
-	 *   error_handler?: \WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface
+	 *   error_handler?: \SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface
 	 * } $properties Properties to set on the context.
 	 * Note: request_router is optional and will be auto-created if not provided.
 	 *

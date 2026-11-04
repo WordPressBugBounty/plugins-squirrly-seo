@@ -6,29 +6,29 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class InputResponseRequestParams extends \WP\McpSchema\Record
+final class InputResponseRequestParams extends \SquirrlySEO\Vendor\WP\McpSchema\Record
 {
     public const DEFINITION = 'InputResponseRequestParams';
 
     /**
-     * @return \WP\McpSchema\Record\RequestMetaObject
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\RequestMetaObject
      */
-    public function getMeta(): \WP\McpSchema\Record\RequestMetaObject
+    public function getMeta(): \SquirrlySEO\Vendor\WP\McpSchema\Record\RequestMetaObject
     {
-        /** @var \WP\McpSchema\Record\RequestMetaObject $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\RequestMetaObject $value */
         $value = $this->declaredValue('_meta');
 
         return $value;
     }
 
     /**
-     * @return \WP\McpSchema\Record\InputResponses|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\InputResponses|null
      */
-    public function getInputResponses(): ?\WP\McpSchema\Record\InputResponses
+    public function getInputResponses(): ?\SquirrlySEO\Vendor\WP\McpSchema\Record\InputResponses
     {
-        /** @var \WP\McpSchema\Record\InputResponses|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\InputResponses|null $value */
         $value = $this->declaredValue('inputResponses');
 
         return $value;

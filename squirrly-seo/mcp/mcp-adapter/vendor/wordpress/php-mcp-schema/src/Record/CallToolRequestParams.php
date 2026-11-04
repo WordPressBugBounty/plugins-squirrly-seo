@@ -6,18 +6,18 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class CallToolRequestParams extends \WP\McpSchema\Record
+final class CallToolRequestParams extends \SquirrlySEO\Vendor\WP\McpSchema\Record
 {
     public const DEFINITION = 'CallToolRequestParams';
 
     /**
-     * @return \WP\McpSchema\Record\RequestMetaObject|\stdClass|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\RequestMetaObject|\stdClass|null
      */
     public function getMeta()
     {
-        /** @var \WP\McpSchema\Record\RequestMetaObject|\stdClass|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\RequestMetaObject|\stdClass|null $value */
         $value = $this->declaredValue('_meta');
 
         return $value;
@@ -37,11 +37,11 @@ final class CallToolRequestParams extends \WP\McpSchema\Record
     /**
      * Declared in: 2026-07-28.
      *
-     * @return \WP\McpSchema\Record\InputResponses|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\InputResponses|null
      */
-    public function getInputResponses(): ?\WP\McpSchema\Record\InputResponses
+    public function getInputResponses(): ?\SquirrlySEO\Vendor\WP\McpSchema\Record\InputResponses
     {
-        /** @var \WP\McpSchema\Record\InputResponses|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\InputResponses|null $value */
         $value = $this->declaredValue('inputResponses');
 
         return $value;
@@ -74,11 +74,11 @@ final class CallToolRequestParams extends \WP\McpSchema\Record
     /**
      * Declared in: 2025-11-25.
      *
-     * @return \WP\McpSchema\Record\TaskMetadata|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\TaskMetadata|null
      */
-    public function getTask(): ?\WP\McpSchema\Record\TaskMetadata
+    public function getTask(): ?\SquirrlySEO\Vendor\WP\McpSchema\Record\TaskMetadata
     {
-        /** @var \WP\McpSchema\Record\TaskMetadata|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\TaskMetadata|null $value */
         $value = $this->declaredValue('task');
 
         return $value;

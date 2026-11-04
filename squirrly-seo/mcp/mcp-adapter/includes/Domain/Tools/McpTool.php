@@ -8,15 +8,15 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Domain\Tools;
+namespace SquirrlySEO\Vendor\WP\MCP\Domain\Tools;
 
-use WP\MCP\Domain\Contracts\McpComponentInterface;
-use WP\MCP\Domain\Utils\AbilityArgumentNormalizer;
-use WP\MCP\Domain\Utils\RevisionProjectionTrait;
-use WP\MCP\Domain\Utils\ThrowableGuardTrait;
-use WP\MCP\Infrastructure\Observability\FailureReason;
-use WP\McpSchema\Record\Tool;
-use WP\McpSchema\Schema;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Contracts\McpComponentInterface;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Utils\AbilityArgumentNormalizer;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Utils\RevisionProjectionTrait;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Utils\ThrowableGuardTrait;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\FailureReason;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\Tool;
+use SquirrlySEO\Vendor\WP\McpSchema\Schema;
 use WP_Error;
 
 /**
@@ -220,7 +220,7 @@ final class McpTool implements McpComponentInterface {
 	/**
 	 * Get the clean protocol record for one revision.
 	 *
-	 * @param \WP\McpSchema\Schema $schema Selected schema.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Selected schema.
 	 * @since 0.7.0
 	 */
 	public function get_protocol_record( Schema $schema ): Tool {
@@ -258,7 +258,7 @@ final class McpTool implements McpComponentInterface {
 	 *
 	 * @since 0.7.0
 	 *
-	 * @param \WP\McpSchema\Schema $schema Selected schema used to validate the tool projection.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Selected schema used to validate the tool projection.
 	 *
 	 * @return array<int, array{name: string, path: list<string>, type: string}>
 	 */
@@ -276,7 +276,7 @@ final class McpTool implements McpComponentInterface {
 	 * Execute the tool.
 	 *
 	 * @param mixed $arguments Tool arguments.
-	 * @param \WP\MCP\Domain\Tools\McpToolCallContext|null $call_context Request context for direct callable handlers; not passed to Abilities.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Domain\Tools\McpToolCallContext|null $call_context Request context for direct callable handlers; not passed to Abilities.
 	 *
 	 * @return mixed
 	 *

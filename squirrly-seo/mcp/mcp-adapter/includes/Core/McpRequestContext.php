@@ -7,9 +7,9 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Core;
+namespace SquirrlySEO\Vendor\WP\MCP\Core;
 
-use WP\McpSchema\Schema;
+use SquirrlySEO\Vendor\WP\McpSchema\Schema;
 
 /**
  * Carries revision, peer, and transport state for one request.
@@ -21,7 +21,7 @@ final class McpRequestContext {
 	/**
 	 * Selected schema used for request and response records.
 	 *
-	 * @var \WP\McpSchema\Schema
+	 * @var \SquirrlySEO\Vendor\WP\McpSchema\Schema
 	 */
 	private Schema $schema;
 
@@ -63,7 +63,7 @@ final class McpRequestContext {
 	/**
 	 * Constructor.
 	 *
-	 * @param \WP\McpSchema\Schema $schema             Selected schema.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema             Selected schema.
 	 * @param \stdClass            $client_capabilities Client capabilities.
 	 * @param \stdClass|null       $client_info         Client identity when supplied.
 	 * @param string               $transport           Transport name.

@@ -7,15 +7,15 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Handlers\Resources;
+namespace SquirrlySEO\Vendor\WP\MCP\Handlers\Resources;
 
-use WP\MCP\Core\McpRequestContext;
-use WP\MCP\Core\McpServer;
-use WP\MCP\Handlers\HandlerHelperTrait;
-use WP\MCP\Infrastructure\ErrorHandling\McpErrorFactory;
-use WP\McpSchema\Record\ListResourceTemplatesRequest;
-use WP\McpSchema\Record\ListResourcesRequest;
-use WP\McpSchema\Record\ReadResourceRequest;
+use SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext;
+use SquirrlySEO\Vendor\WP\MCP\Core\McpServer;
+use SquirrlySEO\Vendor\WP\MCP\Handlers\HandlerHelperTrait;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\McpErrorFactory;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ListResourceTemplatesRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ListResourcesRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ReadResourceRequest;
 
 /**
  * Handles resources-related MCP methods.
@@ -26,14 +26,14 @@ class ResourcesHandler {
 	/**
 	 * The WordPress MCP instance.
 	 *
-	 * @var \WP\MCP\Core\McpServer
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Core\McpServer
 	 */
 	private McpServer $mcp;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param \WP\MCP\Core\McpServer $mcp The WordPress MCP instance.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpServer $mcp The WordPress MCP instance.
 	 */
 	public function __construct( McpServer $mcp ) {
 		$this->mcp = $mcp;
@@ -45,8 +45,8 @@ class ResourcesHandler {
 	 *
 	 * Returns a selected ListResourcesResult containing registered resources.
 	 *
-	 * @param \WP\McpSchema\Record\ListResourcesRequest $request Validated request.
-	 * @param \WP\MCP\Core\McpRequestContext $request_context Exact request context.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record\ListResourcesRequest $request Validated request.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext $request_context Exact request context.
 	 * @return array<string, mixed> Logical resources-list result.
 	 * @since 0.7.0
 	 */
@@ -63,14 +63,14 @@ class ResourcesHandler {
 		 *
 		 * @since 0.5.0
 		 *
-		 * @param array<\WP\McpSchema\Record\Resource> $resources Array of Resource records.
-		 * @param \WP\MCP\Core\McpServer                             $server    The MCP server instance.
-		 * @param \WP\McpSchema\Schema                                $schema    Selected schema.
+		 * @param array<\SquirrlySEO\Vendor\WP\McpSchema\Record\Resource> $resources Array of Resource records.
+		 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpServer                             $server    The MCP server instance.
+		 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema                                $schema    Selected schema.
 		 */
 		$resources = $this->validate_filtered_list(
-			apply_filters( 'mcp_adapter_resources_list', $resources, $this->mcp, $schema ),
+			apply_filters( 'sq_mcp_adapter_resources_list', $resources, $this->mcp, $schema ),
 			$resources,
-			'mcp_adapter_resources_list',
+			'sq_mcp_adapter_resources_list',
 			$this->mcp->get_error_handler()
 		);
 
@@ -85,8 +85,8 @@ class ResourcesHandler {
 	 * the base `resources` capability (no sub-flag gates it), which the server always
 	 * advertises, so spec-compliant clients call it during resource discovery.
 	 *
-	 * @param \WP\McpSchema\Record\ListResourceTemplatesRequest $request Validated request.
-	 * @param \WP\MCP\Core\McpRequestContext $request_context Exact request context.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record\ListResourceTemplatesRequest $request Validated request.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext $request_context Exact request context.
 	 * @return array<string, mixed> Logical empty resource-templates result.
 	 * @since 0.7.0
 	 */
@@ -104,8 +104,8 @@ class ResourcesHandler {
 	 * Unlike tools, resources don't have a concept of "execution errors" that should be
 	 * reported with isError=true. Resource reads either succeed or fail at the protocol level.
 	 *
-	 * @param \WP\McpSchema\Record\ReadResourceRequest $request Validated request.
-	 * @param \WP\MCP\Core\McpRequestContext $request_context Exact request context.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record\ReadResourceRequest $request Validated request.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext $request_context Exact request context.
 	 *
 	 * @return array<string, mixed>
 	 * @since 0.7.0
@@ -158,10 +158,10 @@ class ResourcesHandler {
 			 *
 			 * @param array                                $params       The request parameters.
 			 * @param string                               $uri          The resource URI.
-			 * @param \WP\MCP\Domain\Resources\McpResource $mcp_resource The MCP resource instance.
-			 * @param \WP\MCP\Core\McpServer               $server       The MCP server instance.
+			 * @param \SquirrlySEO\Vendor\WP\MCP\Domain\Resources\McpResource $mcp_resource The MCP resource instance.
+			 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpServer               $server       The MCP server instance.
 			 */
-			$request_params = apply_filters( 'mcp_adapter_pre_resource_read', $request_params, $uri, $mcp_resource, $this->mcp );
+			$request_params = apply_filters( 'sq_mcp_adapter_pre_resource_read', $request_params, $uri, $mcp_resource, $this->mcp );
 
 			// Allow pre-filter to short-circuit execution by returning WP_Error.
 			if ( is_wp_error( $request_params ) ) {
@@ -181,10 +181,10 @@ class ResourcesHandler {
 			 * @param mixed|\WP_Error                      $contents     The raw resource contents (may be WP_Error).
 			 * @param array                                $params       The request parameters used.
 			 * @param string                               $uri          The resource URI.
-			 * @param \WP\MCP\Domain\Resources\McpResource $mcp_resource The MCP resource instance.
-			 * @param \WP\MCP\Core\McpServer               $server       The MCP server instance.
+			 * @param \SquirrlySEO\Vendor\WP\MCP\Domain\Resources\McpResource $mcp_resource The MCP resource instance.
+			 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpServer               $server       The MCP server instance.
 			 */
-			$contents = apply_filters( 'mcp_adapter_resource_read_result', $contents, $request_params, $uri, $mcp_resource, $this->mcp );
+			$contents = apply_filters( 'sq_mcp_adapter_resource_read_result', $contents, $request_params, $uri, $mcp_resource, $this->mcp );
 
 			// Handle WP_Error objects returned by McpResource execution.
 			if ( is_wp_error( $contents ) ) {

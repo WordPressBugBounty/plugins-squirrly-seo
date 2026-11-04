@@ -7,7 +7,7 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Abilities;
+namespace SquirrlySEO\Vendor\WP\MCP\Abilities;
 
 use WP_Error;
 
@@ -137,7 +137,7 @@ final class DiscoverAbilitiesAbility {
 		 *
 		 * @param string $capability The required capability. Default 'read'.
 		 */
-		$required_capability = apply_filters( 'mcp_adapter_discover_abilities_capability', 'read' );
+		$required_capability = apply_filters( 'sq_mcp_adapter_discover_abilities_capability', 'read' );
 		// phpcs:ignore WordPress.WP.Capabilities.Undetermined -- Capability is determined dynamically via filter
 		if ( ! current_user_can( $required_capability ) ) {
 			return new WP_Error(

@@ -7,9 +7,9 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Transport\Contracts;
+namespace SquirrlySEO\Vendor\WP\MCP\Transport\Contracts;
 
-use WP\MCP\Transport\Infrastructure\McpTransportContext;
+use SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\McpTransportContext;
 
 /**
  * Base interface for MCP transport protocols.
@@ -24,7 +24,7 @@ interface McpTransportInterface {
 	/**
 	 * Initialize the transport with provided context.
 	 *
-	 * @param \WP\MCP\Transport\Infrastructure\McpTransportContext $context Dependency injection container.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\McpTransportContext $context Dependency injection container.
 	 */
 	public function __construct( McpTransportContext $context );
 

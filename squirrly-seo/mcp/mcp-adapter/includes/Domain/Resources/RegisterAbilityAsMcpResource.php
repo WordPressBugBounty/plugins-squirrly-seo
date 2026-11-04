@@ -8,12 +8,12 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Domain\Resources;
+namespace SquirrlySEO\Vendor\WP\MCP\Domain\Resources;
 
-use WP\MCP\Domain\Utils\McpAbilityMeta;
-use WP\MCP\Domain\Utils\McpAnnotationMapper;
-use WP\MCP\Domain\Utils\McpValidator;
-use WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Utils\McpAbilityMeta;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Utils\McpAnnotationMapper;
+use SquirrlySEO\Vendor\WP\MCP\Domain\Utils\McpValidator;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface;
 use WP_Error;
 
 /**
@@ -60,7 +60,7 @@ class RegisterAbilityAsMcpResource {
 	/**
 	 * Optional error handler for logging deprecation notices.
 	 *
-	 * @var \WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface|null
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface|null
 	 */
 	private ?McpErrorHandlerInterface $error_handler;
 
@@ -68,7 +68,7 @@ class RegisterAbilityAsMcpResource {
 	 * Constructor.
 	 *
 	 * @param \WP_Ability $ability The ability.
-	 * @param \WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface|null $error_handler Optional error handler.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface|null $error_handler Optional error handler.
 	 */
 	private function __construct( \WP_Ability $ability, ?McpErrorHandlerInterface $error_handler = null ) {
 		$this->ability       = $ability;
@@ -82,7 +82,7 @@ class RegisterAbilityAsMcpResource {
 	 * separately. Exact validation happens independently for each schema projection.
 	 *
 	 * @param \WP_Ability $ability The ability.
-	 * @param \WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface|null $error_handler Optional error handler.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\Contracts\McpErrorHandlerInterface|null $error_handler Optional error handler.
 	 *
 	 * @return array{resource_data: array<string, mixed>, adapter_meta: array<string, mixed>}|\WP_Error
 	 * @since 0.5.0
@@ -230,7 +230,7 @@ class RegisterAbilityAsMcpResource {
 		 * @param string $uri The validated resource URI.
 		 * @param \WP_Ability $ability The source ability instance.
 		 */
-		$filtered_uri = apply_filters( 'mcp_adapter_resource_uri', $uri, $this->ability );
+		$filtered_uri = apply_filters( 'sq_mcp_adapter_resource_uri', $uri, $this->ability );
 
 		// Validate post-filter.
 		if ( ! is_string( $filtered_uri ) || ! McpValidator::validate_resource_uri( $filtered_uri ) ) {
@@ -339,7 +339,7 @@ class RegisterAbilityAsMcpResource {
 		 * @param string $name The resource name.
 		 * @param \WP_Ability $ability The source ability instance.
 		 */
-		$filtered_name = apply_filters( 'mcp_adapter_resource_name', $name, $this->ability );
+		$filtered_name = apply_filters( 'sq_mcp_adapter_resource_name', $name, $this->ability );
 
 		if ( ! is_string( $filtered_name ) ) {
 			return new WP_Error(

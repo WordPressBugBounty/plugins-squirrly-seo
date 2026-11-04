@@ -13,6 +13,7 @@ if ( ! isset( $view ) ) {
 <td colspan="8">
     <div class="col-12 m-0 p-0">
         <div class="card col-12 my-4 p-0 px-0 border-0 ">
+			<?php $view->show_view( 'Research/BulkBriefcase' ); ?>
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -44,7 +45,7 @@ if ( ! isset( $view ) ) {
 							$in_briefcase = ( isset( $row->in_briefcase ) ? $row->in_briefcase : false );
 							?>
                             <tr class="<?php echo( $in_briefcase ? 'bg-briefcase' : '' ) ?> ">
-                                <td nowrap="nowrap" style="width: 40%;white-space: nowrap;"><?php echo esc_html( $row->keyword ) ?></td>
+                                <td nowrap="nowrap" style="width: 40%;white-space: nowrap;"><?php if ( ! $in_briefcase ) { ?><input type="checkbox" class="sq_research_bulk_input m-0 mr-2" style="vertical-align: middle" value="<?php echo esc_attr( $row->keyword ) ?>"/><?php } ?><?php echo esc_html( $row->keyword ) ?></td>
 								<?php if ( ! empty( $row->stats ) ) { ?>
                                     <td nowrap="nowrap" style="width: 25%;white-space: nowrap;">
                                         <span class="sq_top_keywords_rank" style="color:<?php echo( isset( $row->stats->sc->color ) ? esc_attr( $row->stats->sc->color ) : '#fff' ) ?>"><?php echo( isset( $row->stats->sc->text ) ? esc_html( $view->getReasearchStatsText( 'sc', $row->stats->sc->value ) ) : '-' ) ?></span>

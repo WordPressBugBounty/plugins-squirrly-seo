@@ -7,15 +7,15 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Handlers\Prompts;
+namespace SquirrlySEO\Vendor\WP\MCP\Handlers\Prompts;
 
-use WP\MCP\Core\McpRequestContext;
-use WP\MCP\Core\McpServer;
-use WP\MCP\Handlers\HandlerHelperTrait;
-use WP\MCP\Infrastructure\ErrorHandling\McpErrorFactory;
-use WP\McpSchema\Record\GetPromptRequest;
-use WP\McpSchema\Record\ListPromptsRequest;
-use WP\McpSchema\Record\Prompt;
+use SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext;
+use SquirrlySEO\Vendor\WP\MCP\Core\McpServer;
+use SquirrlySEO\Vendor\WP\MCP\Handlers\HandlerHelperTrait;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\McpErrorFactory;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\GetPromptRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ListPromptsRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\Prompt;
 
 /**
  * Lists projected prompts and executes prompts through their domain models.
@@ -31,14 +31,14 @@ class PromptsHandler {
 	/**
 	 * Server used for prompt lookup, execution diagnostics, and observability.
 	 *
-	 * @var \WP\MCP\Core\McpServer
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Core\McpServer
 	 */
 	private McpServer $mcp;
 
 	/**
 	 * Initialize the handler for one server.
 	 *
-	 * @param \WP\MCP\Core\McpServer $mcp Server providing prompt lookup and diagnostics.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpServer $mcp Server providing prompt lookup and diagnostics.
 	 */
 	public function __construct( McpServer $mcp ) {
 		$this->mcp = $mcp;
@@ -47,8 +47,8 @@ class PromptsHandler {
 	/**
 	 * Handle prompts/list.
 	 *
-	 * @param \WP\McpSchema\Record\ListPromptsRequest $request Validated request.
-	 * @param \WP\MCP\Core\McpRequestContext $request_context Exact request context.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record\ListPromptsRequest $request Validated request.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext $request_context Exact request context.
 	 * @return array<string, mixed> Logical prompts-list result.
 	 * @since 0.7.0
 	 */
@@ -62,14 +62,14 @@ class PromptsHandler {
 		 *
 		 * @since 0.5.0
 		 *
-		 * @param array<\WP\McpSchema\Record\Prompt> $prompts Prompt records.
-		 * @param \WP\MCP\Core\McpServer             $server  MCP server.
-		 * @param \WP\McpSchema\Schema                $schema  Selected schema.
+		 * @param array<\SquirrlySEO\Vendor\WP\McpSchema\Record\Prompt> $prompts Prompt records.
+		 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpServer             $server  MCP server.
+		 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema                $schema  Selected schema.
 		 */
 		$prompts = $this->validate_filtered_list(
-			apply_filters( 'mcp_adapter_prompts_list', $prompts, $this->mcp, $schema ),
+			apply_filters( 'sq_mcp_adapter_prompts_list', $prompts, $this->mcp, $schema ),
 			$prompts,
-			'mcp_adapter_prompts_list',
+			'sq_mcp_adapter_prompts_list',
 			$this->mcp->get_error_handler()
 		);
 
@@ -79,8 +79,8 @@ class PromptsHandler {
 	/**
 	 * Handle prompts/get.
 	 *
-	 * @param \WP\McpSchema\Record\GetPromptRequest $request Validated request.
-	 * @param \WP\MCP\Core\McpRequestContext $request_context Exact context.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record\GetPromptRequest $request Validated request.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext $request_context Exact context.
 	 * @return array<string, mixed>
 	 * @since 0.7.0
 	 */
@@ -111,10 +111,10 @@ class PromptsHandler {
 			 *
 			 * @param array $arguments Prompt arguments; return WP_Error to stop execution.
 			 * @param string $prompt_name Requested prompt name.
-			 * @param \WP\MCP\Domain\Prompts\McpPrompt $mcp_prompt Prompt execution component.
-			 * @param \WP\MCP\Core\McpServer $server Server owning the prompt.
+			 * @param \SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\McpPrompt $mcp_prompt Prompt execution component.
+			 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpServer $server Server owning the prompt.
 			 */
-			$arguments = apply_filters( 'mcp_adapter_pre_prompt_get', $arguments, $prompt_name, $mcp_prompt, $this->mcp );
+			$arguments = apply_filters( 'sq_mcp_adapter_pre_prompt_get', $arguments, $prompt_name, $mcp_prompt, $this->mcp );
 			if ( is_wp_error( $arguments ) ) {
 				return McpErrorFactory::internal_error( $request_id, $arguments->get_error_message() );
 			}
@@ -129,10 +129,10 @@ class PromptsHandler {
 			 * @param mixed|\WP_Error $result Raw execution result or error.
 			 * @param array $arguments Arguments used for execution.
 			 * @param string $prompt_name Requested prompt name.
-			 * @param \WP\MCP\Domain\Prompts\McpPrompt $mcp_prompt Prompt execution component.
-			 * @param \WP\MCP\Core\McpServer $server Server owning the prompt.
+			 * @param \SquirrlySEO\Vendor\WP\MCP\Domain\Prompts\McpPrompt $mcp_prompt Prompt execution component.
+			 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpServer $server Server owning the prompt.
 			 */
-			$result = apply_filters( 'mcp_adapter_prompt_get_result', $result, $arguments, $prompt_name, $mcp_prompt, $this->mcp );
+			$result = apply_filters( 'sq_mcp_adapter_prompt_get_result', $result, $arguments, $prompt_name, $mcp_prompt, $this->mcp );
 			if ( is_wp_error( $result ) ) {
 				$this->mcp->get_error_handler()->log(
 					'Prompt execution returned WP_Error',

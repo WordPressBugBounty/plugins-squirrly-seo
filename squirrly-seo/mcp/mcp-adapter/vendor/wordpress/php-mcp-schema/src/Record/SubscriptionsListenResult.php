@@ -6,18 +6,18 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class SubscriptionsListenResult extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ServerResult
+final class SubscriptionsListenResult extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ServerResult
 {
     public const DEFINITION = 'SubscriptionsListenResult';
 
     /**
-     * @return \WP\McpSchema\Record\SubscriptionsListenResultMetaObject
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\SubscriptionsListenResultMetaObject
      */
-    public function getMeta(): \WP\McpSchema\Record\SubscriptionsListenResultMetaObject
+    public function getMeta(): \SquirrlySEO\Vendor\WP\McpSchema\Record\SubscriptionsListenResultMetaObject
     {
-        /** @var \WP\McpSchema\Record\SubscriptionsListenResultMetaObject $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\SubscriptionsListenResultMetaObject $value */
         $value = $this->declaredValue('_meta');
 
         return $value;

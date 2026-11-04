@@ -7,49 +7,49 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Transport\Infrastructure;
+namespace SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure;
 
-use WP\MCP\Core\McpRequestContext;
-use WP\MCP\Core\McpVersionNegotiator;
-use WP\MCP\Infrastructure\ErrorHandling\McpErrorFactory;
-use WP\McpSchema\Record;
-use WP\McpSchema\Record\CallToolRequest;
-use WP\McpSchema\Record\CallToolResult;
-use WP\McpSchema\Record\CallToolResultResponse;
-use WP\McpSchema\Record\DiscoverRequest;
-use WP\McpSchema\Record\DiscoverResult;
-use WP\McpSchema\Record\DiscoverResultResponse;
-use WP\McpSchema\Record\EmptyResult;
-use WP\McpSchema\Record\GetPromptRequest;
-use WP\McpSchema\Record\GetPromptResult;
-use WP\McpSchema\Record\GetPromptResultResponse;
-use WP\McpSchema\Record\HeaderMismatchError;
-use WP\McpSchema\Record\InitializeRequest;
-use WP\McpSchema\Record\InitializeResult;
-use WP\McpSchema\Record\InitializedNotification;
-use WP\McpSchema\Record\InputRequiredResult;
-use WP\McpSchema\Record\JSONRPCErrorResponse;
-use WP\McpSchema\Record\JSONRPCResultResponse;
-use WP\McpSchema\Record\ListPromptsRequest;
-use WP\McpSchema\Record\ListPromptsResult;
-use WP\McpSchema\Record\ListPromptsResultResponse;
-use WP\McpSchema\Record\ListResourceTemplatesRequest;
-use WP\McpSchema\Record\ListResourceTemplatesResult;
-use WP\McpSchema\Record\ListResourceTemplatesResultResponse;
-use WP\McpSchema\Record\ListResourcesRequest;
-use WP\McpSchema\Record\ListResourcesResult;
-use WP\McpSchema\Record\ListResourcesResultResponse;
-use WP\McpSchema\Record\ListToolsRequest;
-use WP\McpSchema\Record\ListToolsResult;
-use WP\McpSchema\Record\ListToolsResultResponse;
-use WP\McpSchema\Record\PingRequest;
-use WP\McpSchema\Record\ReadResourceRequest;
-use WP\McpSchema\Record\ReadResourceResult;
-use WP\McpSchema\Record\ReadResourceResultResponse;
-use WP\McpSchema\Record\ResultMetaObject;
-use WP\McpSchema\Record\UnsupportedProtocolVersionError;
-use WP\McpSchema\Schema;
-use WP\McpSchema\Schemas;
+use SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext;
+use SquirrlySEO\Vendor\WP\MCP\Core\McpVersionNegotiator;
+use SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\McpErrorFactory;
+use SquirrlySEO\Vendor\WP\McpSchema\Record;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\CallToolRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\CallToolResult;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\CallToolResultResponse;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\DiscoverRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\DiscoverResult;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\DiscoverResultResponse;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\EmptyResult;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\GetPromptRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\GetPromptResult;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\GetPromptResultResponse;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\HeaderMismatchError;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\InitializeRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\InitializeResult;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\InitializedNotification;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\InputRequiredResult;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\JSONRPCErrorResponse;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\JSONRPCResultResponse;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ListPromptsRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ListPromptsResult;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ListPromptsResultResponse;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ListResourceTemplatesRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ListResourceTemplatesResult;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ListResourceTemplatesResultResponse;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ListResourcesRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ListResourcesResult;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ListResourcesResultResponse;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ListToolsRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ListToolsResult;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ListToolsResultResponse;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\PingRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ReadResourceRequest;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ReadResourceResult;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ReadResourceResultResponse;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\ResultMetaObject;
+use SquirrlySEO\Vendor\WP\McpSchema\Record\UnsupportedProtocolVersionError;
+use SquirrlySEO\Vendor\WP\McpSchema\Schema;
+use SquirrlySEO\Vendor\WP\McpSchema\Schemas;
 
 /**
  * Selects one exact revision before schema hydration and dispatch.
@@ -61,14 +61,14 @@ final class McpWireOrchestrator {
 	/**
 	 * Server and handler dependencies used to dispatch validated requests.
 	 *
-	 * @var \WP\MCP\Transport\Infrastructure\McpTransportContext
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\McpTransportContext
 	 */
 	private McpTransportContext $transport_context;
 
 	/**
 	 * Raw JSON decoder preserving object/list identity and numeric safety.
 	 *
-	 * @var \WP\MCP\Transport\Infrastructure\JsonRpcRequestDecoder
+	 * @var \SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\JsonRpcRequestDecoder
 	 */
 	private JsonRpcRequestDecoder $decoder;
 
@@ -77,7 +77,7 @@ final class McpWireOrchestrator {
 	 *
 	 * @since 0.7.0
 	 *
-	 * @param \WP\MCP\Transport\Infrastructure\McpTransportContext $transport_context Server and handler dependencies.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\McpTransportContext $transport_context Server and handler dependencies.
 	 */
 	public function __construct( McpTransportContext $transport_context ) {
 		$this->transport_context = $transport_context;
@@ -154,8 +154,8 @@ final class McpWireOrchestrator {
 	 *
 	 * @since 0.7.0
 	 *
-	 * @param \WP\McpSchema\Record|array<string, mixed> $response Processed response.
-	 * @param \WP\MCP\Core\McpRequestContext|null $context Selected context, or null for an early failure.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record|array<string, mixed> $response Processed response.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext|null $context Selected context, or null for an early failure.
 	 * @param \stdClass $message Decoded message used to recover revision selection when needed.
 	 * @param string|null $header_revision Protocol-version header, if supplied.
 	 *
@@ -192,11 +192,11 @@ final class McpWireOrchestrator {
 	 * @param array<string, mixed> $transport_metadata Transport metadata and headers.
 	 * @param array<string, mixed>|null $client_params_2025_11_25 Initialize params for an established 2025 connection.
 	 * @return array{
-	 *   context: \WP\MCP\Core\McpRequestContext|null,
+	 *   context: \SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext|null,
 	 *   method: string|null,
 	 *   id: mixed,
 	 *   notification: bool,
-	 *   response: \WP\McpSchema\Record|array<string, mixed>|null,
+	 *   response: \SquirrlySEO\Vendor\WP\McpSchema\Record|array<string, mixed>|null,
 	 *   initializeParams: array<string, mixed>|null
 	 * }
 	 * @since 0.7.0
@@ -355,7 +355,7 @@ final class McpWireOrchestrator {
 	 *
 	 * @param string $revision Selected schema revision.
 	 * @param string $method Requested method name.
-	 * @param \WP\McpSchema\Schema $schema Catalog used to check protocol availability.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Catalog used to check protocol availability.
 	 *
 	 * @return bool Whether both the Adapter and catalog support the request.
 	 */
@@ -385,7 +385,7 @@ final class McpWireOrchestrator {
 	 *
 	 * @param string $revision Selected schema revision.
 	 * @param string $method Notification method.
-	 * @param \WP\McpSchema\Schema $schema Catalog used to check notification availability.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Catalog used to check notification availability.
 	 *
 	 * @return bool Whether both the Adapter and catalog support the notification.
 	 */
@@ -448,7 +448,7 @@ final class McpWireOrchestrator {
 	 * @param array<string, mixed> $metadata Transport-owned metadata.
 	 * @param array<string, mixed>|null $client_params_2025_11_25 Stored legacy initialization parameters.
 	 *
-	 * @return \WP\MCP\Core\McpRequestContext Legacy context retaining the negotiated identifier.
+	 * @return \SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext Legacy context retaining the negotiated identifier.
 	 */
 	private function context_2025_11_25( array $generic, string $transport, array $metadata, ?array $client_params_2025_11_25 ): McpRequestContext {
 		$params       = 'initialize' === $generic['method'] ? ( $generic['params'] ?? array() ) : ( $client_params_2025_11_25 ?? array() );
@@ -479,7 +479,7 @@ final class McpWireOrchestrator {
 	 * @param string $transport Transport name.
 	 * @param array<string, mixed> $metadata Transport-owned metadata.
 	 *
-	 * @return \WP\MCP\Core\McpRequestContext Context built from modern request metadata.
+	 * @return \SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext Context built from modern request metadata.
 	 */
 	private function context_2026_07_28( \stdClass $message, string $transport, array $metadata ): McpRequestContext {
 		$meta         = $message->params->_meta ?? null;
@@ -508,9 +508,9 @@ final class McpWireOrchestrator {
 	 *
 	 * @param string $method Method determining the result record type.
 	 * @param mixed $result Logical handler result.
-	 * @param \WP\McpSchema\Schema $schema Selected legacy catalog.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Selected legacy catalog.
 	 *
-	 * @return \WP\McpSchema\Record Projected result record.
+	 * @return \SquirrlySEO\Vendor\WP\McpSchema\Record Projected result record.
 	 */
 	private function project_2025_11_25_result( string $method, $result, Schema $schema ): Record {
 		if (
@@ -530,9 +530,9 @@ final class McpWireOrchestrator {
 	 *
 	 * @param string $method Method determining result type and cache defaults.
 	 * @param mixed $result Logical handler result.
-	 * @param \WP\McpSchema\Schema $schema Selected modern catalog.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Selected modern catalog.
 	 *
-	 * @return \WP\McpSchema\Record Result record including Adapter-supplied modern defaults.
+	 * @return \SquirrlySEO\Vendor\WP\McpSchema\Record Result record including Adapter-supplied modern defaults.
 	 */
 	private function project_2026_07_28_result( string $method, $result, Schema $schema ): Record {
 		if ( ! is_array( $result ) ) {
@@ -575,9 +575,9 @@ final class McpWireOrchestrator {
 	 *
 	 * @param string $method Method determining the result record type.
 	 * @param mixed $result Logical handler result.
-	 * @param \WP\McpSchema\Schema $schema Selected schema catalog.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Selected schema catalog.
 	 *
-	 * @return \WP\McpSchema\Record Method-specific result record.
+	 * @return \SquirrlySEO\Vendor\WP\McpSchema\Record Method-specific result record.
 	 */
 	private function hydrate_result( string $method, $result, Schema $schema ): Record {
 		if ( $result instanceof Record ) {
@@ -638,7 +638,7 @@ final class McpWireOrchestrator {
 	 * @since 0.7.1 Omits `clientInfo.icons` from the stored parameters.
 	 *
 	 * @param string $method Dispatched method name.
-	 * @param \WP\McpSchema\Record $request Validated request record.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record $request Validated request record.
 	 *
 	 * @return array<string, mixed>|null Plain initialization parameters, or null for another request type.
 	 */
@@ -663,10 +663,10 @@ final class McpWireOrchestrator {
 	 * Hydrate one exact 2025-11-25 success envelope.
 	 *
 	 * @param string|int $id Request ID.
-	 * @param \WP\McpSchema\Record $result Validated result payload.
-	 * @param \WP\McpSchema\Schema $schema Selected legacy catalog.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record $result Validated result payload.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Selected legacy catalog.
 	 *
-	 * @return \WP\McpSchema\Record Legacy JSON-RPC result response.
+	 * @return \SquirrlySEO\Vendor\WP\McpSchema\Record Legacy JSON-RPC result response.
 	 */
 	private function hydrate_2025_11_25_success( $id, Record $result, Schema $schema ): Record {
 		return $schema->fromArray(
@@ -684,10 +684,10 @@ final class McpWireOrchestrator {
 	 *
 	 * @param string $method Method determining the response envelope type.
 	 * @param string|int|null $id Request ID.
-	 * @param \WP\McpSchema\Record $result Validated result payload.
-	 * @param \WP\McpSchema\Schema $schema Selected modern catalog.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record $result Validated result payload.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Selected modern catalog.
 	 *
-	 * @return \WP\McpSchema\Record Method-specific modern result response.
+	 * @return \SquirrlySEO\Vendor\WP\McpSchema\Record Method-specific modern result response.
 	 */
 	private function hydrate_2026_07_28_success( string $method, $id, Record $result, Schema $schema ): Record {
 		$data = array(
@@ -724,10 +724,10 @@ final class McpWireOrchestrator {
 	 *
 	 * @param string $method Request or notification method.
 	 * @param bool $notification Whether the message is a notification.
-	 * @param \WP\McpSchema\Schema $schema Selected catalog.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Selected catalog.
 	 * @param \stdClass $message Original decoded object to hydrate.
 	 *
-	 * @return \WP\McpSchema\Record Supported request or notification record.
+	 * @return \SquirrlySEO\Vendor\WP\McpSchema\Record Supported request or notification record.
 	 */
 	private function hydrate_inbound( string $method, bool $notification, Schema $schema, \stdClass $message ): Record {
 		if (
@@ -779,9 +779,9 @@ final class McpWireOrchestrator {
 	 * A failure to hydrate the fallback is allowed to propagate to the caller.
 	 *
 	 * @param array<string, mixed> $error Logical JSON-RPC error envelope.
-	 * @param \WP\McpSchema\Schema $schema Selected schema catalog.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Selected schema catalog.
 	 *
-	 * @return \WP\McpSchema\Record Error response record.
+	 * @return \SquirrlySEO\Vendor\WP\McpSchema\Record Error response record.
 	 *
 	 * @throws \Throwable If the fallback error cannot be represented by the selected schema.
 	 */
@@ -849,7 +849,7 @@ final class McpWireOrchestrator {
 	 * Validate 2026-07-28 x-mcp-header argument mirrors after context selection.
 	 *
 	 * @param array<string, mixed> $message Associative decoded message.
-	 * @param \WP\MCP\Core\McpRequestContext $context Selected request context.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext $context Selected request context.
 	 * @param array<string, mixed> $metadata Transport metadata containing normalized headers.
 	 *
 	 * @return array<string, mixed>|null Parameter-header error, or null when no mismatch applies.
@@ -869,7 +869,7 @@ final class McpWireOrchestrator {
 	 * Validate x-mcp-header argument mirrors for a selected tool.
 	 *
 	 * @param array<string, mixed> $params Tool-call parameters.
-	 * @param \WP\MCP\Core\McpRequestContext $context Context used to select the tool projection.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext $context Context used to select the tool projection.
 	 * @param array<string, mixed> $headers Case-normalized HTTP headers.
 	 * @param string|int|float|null $id Request ID.
 	 *
@@ -1032,7 +1032,7 @@ final class McpWireOrchestrator {
 	/**
 	 * Whether an encoded record is a successful JSON-RPC result response.
 	 *
-	 * @param \WP\McpSchema\Record $response Encoded response record.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record $response Encoded response record.
 	 *
 	 * @return bool Whether the record has a result field and no error field.
 	 */
@@ -1043,7 +1043,7 @@ final class McpWireOrchestrator {
 	/**
 	 * Extract a native integer error code from a record or logical envelope.
 	 *
-	 * @param \WP\McpSchema\Record|array<string, mixed> $response Processed response.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record|array<string, mixed> $response Processed response.
 	 *
 	 * @return int Error code, or zero when no safely representable code exists.
 	 */
@@ -1095,18 +1095,18 @@ final class McpWireOrchestrator {
 	/**
 	 * Build a standard process failure result.
 	 *
-	 * @param \WP\McpSchema\Record|array<string, mixed> $response Response.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Record|array<string, mixed> $response Response.
 	 * @param string|null $method Identified method, if available.
 	 * @param string|int|float|null $id Request ID.
 	 * @param bool $notification Whether the failed message was a notification.
-	 * @param \WP\MCP\Core\McpRequestContext|null $context Selected context, if available.
+	 * @param \SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext|null $context Selected context, if available.
 	 *
 	 * @return array{
-	 *   context: \WP\MCP\Core\McpRequestContext|null,
+	 *   context: \SquirrlySEO\Vendor\WP\MCP\Core\McpRequestContext|null,
 	 *   method: string|null,
 	 *   id: mixed,
 	 *   notification: bool,
-	 *   response: \WP\McpSchema\Record|array<string, mixed>|null,
+	 *   response: \SquirrlySEO\Vendor\WP\McpSchema\Record|array<string, mixed>|null,
 	 *   initializeParams: array<string, mixed>|null
 	 * }
 	 */

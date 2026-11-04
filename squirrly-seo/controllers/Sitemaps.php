@@ -39,8 +39,6 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 		//Add the Squirrly style on sitemap
 		add_filter( 'sq_sitemap_style', array( $this, 'getSquirrlyHeader' ) );
 
-		//Process the cron if created
-		add_action( 'sq_processPing', array( $this, 'processCron' ) );
 
 	}
 
@@ -235,22 +233,6 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 
 
 	/**
-	 * Send the sitemap to Search Engines only if a page is freshly posted
-	 *
-	 * @param $new_status
-	 * @param $old_status
-	 * @param $post
-	 */
-	public function refreshSitemap( $new_status, $old_status, $post ) {
-		//Compare, not assign: ping only when a post becomes published
-		if ( $old_status <> $new_status && $new_status == 'publish' ) {
-			if ( SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap_ping' ) ) {
-				wp_schedule_single_event( time() + 5, 'sq_processPing' );
-			}
-		}
-	}
-
-	/**
 	 * Validate sitemap path
 	 * Don't load sitemap on category sitemaps.
 	 *
@@ -406,6 +388,12 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 				case 'sitemap-page':
 					$sq_query['post_type']      = array( 'page' );
 					$sq_query['posts_per_page'] = $this->posts_limit;
+
+					//A static front page is already listed in sitemap-home.xml: don't list it twice
+					$sq_sitemap = SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap' );
+					if ( get_option( 'show_on_front' ) == 'page' && (int) get_option( 'page_on_front' ) > 0 && ! empty( $sq_sitemap['sitemap-home'][1] ) ) {
+						$sq_query['post__not_in'] = array( (int) get_option( 'page_on_front' ) );
+					}
 					break;
 				case 'sitemap-attachment':
 					$sq_query['post_type']   = array( 'attachment' );
@@ -1053,50 +1041,6 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 		return trailingslashit( home_url() ) . $sitemap;
 	}
 
-
-	/**
-	 * Process the on-time cron if called
-	 */
-	public function processCron() {
-		SQ_Classes_ObjController::getClass( 'SQ_Classes_Helpers_Tools' );
-
-		$sq_sitemap = SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap' );
-		if ( ! empty( $sq_sitemap ) ) {
-			foreach ( $sq_sitemap as $name => $sitemap ) {
-				if ( $sitemap[1] == 1 ) { //is the default sitemap
-					$this->SendPing( $this->getXmlUrl( $name ) );
-				}
-			}
-		}
-	}
-
-	/**
-	 * Ping the sitemap to Google and Bing
-	 *
-	 * @param string $sitemapUrl
-	 *
-	 * @return boolean
-	 */
-	protected function SendPing( $sitemapUrl ) {
-		$success = true;
-		$urls    = array(
-			"https://www.google.com/ping?sitemap=%s",
-		);
-
-		$options = array(
-			'method'    => 'get',
-			'sslverify' => false,
-			'timeout'   => 10
-		);
-
-		foreach ( $urls as $url ) {
-			if ( ! SQ_Classes_ObjController::getClass( 'SQ_Classes_RemoteController' )->sq_wpcall( sprintf( $url, $sitemapUrl ), $options ) ) {
-				$success = false;
-			}
-		}
-
-		return $success;
-	}
 
 	/**
 	 * Delete the physical file if exists

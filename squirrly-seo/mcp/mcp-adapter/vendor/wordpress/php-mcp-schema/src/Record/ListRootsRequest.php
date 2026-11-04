@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class ListRootsRequest extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\InputRequest, \WP\McpSchema\Contract\ServerRequest
+final class ListRootsRequest extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\InputRequest, \SquirrlySEO\Vendor\WP\McpSchema\Contract\ServerRequest
 {
     public const DEFINITION = 'ListRootsRequest';
 
@@ -50,11 +50,11 @@ final class ListRootsRequest extends \WP\McpSchema\Record implements \WP\McpSche
     }
 
     /**
-     * @return \WP\McpSchema\Record\RequestParams|\stdClass|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\RequestParams|\stdClass|null
      */
     public function getParams()
     {
-        /** @var \WP\McpSchema\Record\RequestParams|\stdClass|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\RequestParams|\stdClass|null $value */
         $value = $this->declaredValue('params');
 
         return $value;

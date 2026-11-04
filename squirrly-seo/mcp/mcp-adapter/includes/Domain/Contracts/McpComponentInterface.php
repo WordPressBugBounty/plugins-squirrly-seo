@@ -7,10 +7,10 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Domain\Contracts;
+namespace SquirrlySEO\Vendor\WP\MCP\Domain\Contracts;
 
-use WP\McpSchema\Record;
-use WP\McpSchema\Schema;
+use SquirrlySEO\Vendor\WP\McpSchema\Record;
+use SquirrlySEO\Vendor\WP\McpSchema\Schema;
 
 /**
  * Interface McpComponentInterface.
@@ -34,8 +34,8 @@ interface McpComponentInterface {
 	 * The record is used only for protocol serialization and MUST NOT include
 	 * internal adapter metadata or execution wiring.
 	 *
-	 * @param \WP\McpSchema\Schema $schema Selected exact schema.
-	 * @return \WP\McpSchema\Record Protocol-only record.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Selected exact schema.
+	 * @return \SquirrlySEO\Vendor\WP\McpSchema\Record Protocol-only record.
 	 * @since 0.7.0
 	 *
 	 */
@@ -44,7 +44,7 @@ interface McpComponentInterface {
 	/**
 	 * Check whether the component has a valid projection for one revision.
 	 *
-	 * @param \WP\McpSchema\Schema $schema Selected exact schema.
+	 * @param \SquirrlySEO\Vendor\WP\McpSchema\Schema $schema Selected exact schema.
 	 * @return bool
 	 * @since 0.7.0
 	 */

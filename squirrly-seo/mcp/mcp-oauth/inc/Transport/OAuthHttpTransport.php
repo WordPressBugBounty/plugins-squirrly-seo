@@ -13,11 +13,11 @@ declare( strict_types=1 );
 
 namespace WPMedia\MCP\OAuth\Transport;
 
-use WP\MCP\Transport\Contracts\McpRestTransportInterface;
-use WP\MCP\Transport\Infrastructure\HttpRequestContext;
-use WP\MCP\Transport\Infrastructure\HttpRequestHandler;
-use WP\MCP\Transport\Infrastructure\McpTransportContext;
-use WP\MCP\Transport\Infrastructure\McpTransportHelperTrait;
+use SquirrlySEO\Vendor\WP\MCP\Transport\Contracts\McpRestTransportInterface;
+use SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\HttpRequestContext;
+use SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\HttpRequestHandler;
+use SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\McpTransportContext;
+use SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\McpTransportHelperTrait;
 use WPMedia\MCP\OAuth\Auth\JWT;
 use WPMedia\MCP\OAuth\Auth\SecretManager;
 use WPMedia\MCP\OAuth\Logging\McpLogger;

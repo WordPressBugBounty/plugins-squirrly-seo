@@ -6,18 +6,18 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class CacheableResult extends \WP\McpSchema\Record
+final class CacheableResult extends \SquirrlySEO\Vendor\WP\McpSchema\Record
 {
     public const DEFINITION = 'CacheableResult';
 
     /**
-     * @return \WP\McpSchema\Record\ResultMetaObject|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\ResultMetaObject|null
      */
-    public function getMeta(): ?\WP\McpSchema\Record\ResultMetaObject
+    public function getMeta(): ?\SquirrlySEO\Vendor\WP\McpSchema\Record\ResultMetaObject
     {
-        /** @var \WP\McpSchema\Record\ResultMetaObject|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\ResultMetaObject|null $value */
         $value = $this->declaredValue('_meta');
 
         return $value;

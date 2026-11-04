@@ -28,7 +28,7 @@ if ( ! empty( $view->kr ) ) {
 
 		?>
         <tr class="<?php echo( $in_briefcase ? 'bg-briefcase' : '' ) ?> <?php echo( $initial ? 'bg-selected' : '' ) ?>">
-            <td style="width: 35%;"><?php echo esc_html( $row->keyword ) ?></td>
+            <td style="width: 35%;"><?php if ( ! $in_briefcase ) { ?><input type="checkbox" class="sq_research_bulk_input m-0 mr-2" style="vertical-align: middle" value="<?php echo esc_attr( $row->keyword ) ?>"/><?php } ?><?php echo esc_html( $row->keyword ) ?></td>
             <td style="width: 10%;"><?php echo( isset( $view->country ) ? esc_html( $view->country ) : 'com' ) ?></td>
             <td style="width: 23%; color: <?php echo esc_attr( $row->stats->sc->color ) ?>"><?php echo( isset( $row->stats->sc->text ) ? '<span data-value="' . esc_attr( $row->stats->sc->value ) . '">' . esc_html( $view->getReasearchStatsText( 'sc', $row->stats->sc->value ) ) . '</span>' : '' ) ?></td>
             <td style="width: 16%"><?php echo( isset( $row->stats->sv ) ? '<span data-value="' . (int) $row->stats->sv->absolute . '">' . ( is_numeric( $row->stats->sv->absolute ) ? number_format( $row->stats->sv->absolute ) . '</span>' : esc_html( $row->stats->sv->absolute ) ) : '' ) ?></td>

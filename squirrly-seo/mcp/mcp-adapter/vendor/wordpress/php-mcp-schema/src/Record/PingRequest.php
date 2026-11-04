@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace WP\McpSchema\Record;
+namespace SquirrlySEO\Vendor\WP\McpSchema\Record;
 
-final class PingRequest extends \WP\McpSchema\Record implements \WP\McpSchema\Contract\ClientRequest, \WP\McpSchema\Contract\ServerRequest
+final class PingRequest extends \SquirrlySEO\Vendor\WP\McpSchema\Record implements \SquirrlySEO\Vendor\WP\McpSchema\Contract\ClientRequest, \SquirrlySEO\Vendor\WP\McpSchema\Contract\ServerRequest
 {
     public const DEFINITION = 'PingRequest';
 
@@ -46,11 +46,11 @@ final class PingRequest extends \WP\McpSchema\Record implements \WP\McpSchema\Co
     }
 
     /**
-     * @return \WP\McpSchema\Record\RequestParams|null
+     * @return \SquirrlySEO\Vendor\WP\McpSchema\Record\RequestParams|null
      */
-    public function getParams(): ?\WP\McpSchema\Record\RequestParams
+    public function getParams(): ?\SquirrlySEO\Vendor\WP\McpSchema\Record\RequestParams
     {
-        /** @var \WP\McpSchema\Record\RequestParams|null $value */
+        /** @var \SquirrlySEO\Vendor\WP\McpSchema\Record\RequestParams|null $value */
         $value = $this->declaredValue('params');
 
         return $value;

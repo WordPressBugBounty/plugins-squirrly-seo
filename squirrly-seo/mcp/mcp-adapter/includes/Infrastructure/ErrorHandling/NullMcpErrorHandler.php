@@ -7,14 +7,14 @@
 
 declare( strict_types=1 );
 
-namespace WP\MCP\Infrastructure\ErrorHandling;
+namespace SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling;
 
 /**
  * Class NullMcpErrorHandler
  *
  * This class handles MCP errors by doing nothing. It is used when no error handling is desired.
  *
- * @package WP\MCP\ErrorHandlers
+ * @package SquirrlySEO\Vendor\WP\MCP\ErrorHandlers
  */
 class NullMcpErrorHandler implements Contracts\McpErrorHandlerInterface {
 
