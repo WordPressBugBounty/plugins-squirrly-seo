@@ -35,9 +35,11 @@ class SQ_Models_Focuspages_Keyword extends SQ_Models_Abstract_Assistant {
 		}
 
 		if ( isset( $this->_audit->data->sq_seo_keywords->research->sc ) ) {
-			$this->_competition = $this->_audit->data->sq_seo_keywords->research->sc;
-			$this->_trend       = $this->_audit->data->sq_seo_keywords->research->td;
-			$this->_volume      = $this->_audit->data->sq_seo_keywords->research->sv;
+			//read each value only when the API sent it, so a missing volume isn't treated as a niche keyword
+			$research           = $this->_audit->data->sq_seo_keywords->research;
+			$this->_competition = $research->sc;
+			$this->_trend       = isset( $research->td ) ? $research->td : false;
+			$this->_volume      = isset( $research->sv ) ? $research->sv : false;
 		}
 
 	}

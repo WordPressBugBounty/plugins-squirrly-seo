@@ -3,8 +3,8 @@ Contributors: cifi, calinvingan, florinmuresan, nagy.sorel
 Donate link: https://plugin.squirrly.co/squirrly-seo-pricing/
 Tags: SEO, AEO, GEO, schema, sitemap
 Requires at least: 5.3
-Tested up to: 7.0
-Stable tag: 14.2.9
+Tested up to: 7.1
+Stable tag: 14.2.10
 Requires PHP: 7.0
 License: GPLv2 or later
 
@@ -135,6 +135,26 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 7. Squirrly SEO - SEO Briefcase
 
 == Changelog ==
+= 14.2.10 =
+* New: Export Everything and Import Everything: settings, the SEO of every page with its keyword optimizations, the Briefcase keywords with their labels, and the Advanced Pack redirects and schemas, in one file. Big sites import in steps, with a progress bar.
+* New: Product schema and the {{product_brand}} pattern use WooCommerce Brands.
+* New: Dev Kit: separate switches for AI Visibility and AI Tools, and a new Dev Kit package applies when you upload it.
+* Update: Import Everything also restores the files made with the older Backup buttons, and the site stays connected to Squirrly Cloud.
+* Update: All Features filters as you type.
+* Update: Focus Pages also send the page's SEO settings to Squirrly Cloud, so your Squirrly account can show Focus Pages too.
+* Fix: Ask Google to Re-Index opens your Search Console property and copies the page address for Inspect any URL.
+* Fix: Products without reviews no longer get a default rating or review in the schema, as Google's review rules require.
+* Fix: Focus Pages: the canonical task checks that the canonical points to the page itself, and duplicate titles are listed again.
+* Fix: The archives sitemap lists every month with posts.
+* Fix: Paginated sitemaps list every item once when items share the same date.
+* Fix: Attachment pages that redirect to the file are left out of the sitemap.
+* Fix: Importing from SEO Title Tag brings the SEO titles and descriptions over.
+* Fix: Importing All in One SEO settings puts the Google verification code in Google Search Console, not Analytics.
+* Fix: The link options in the block editor (Open in New Tab, No Follow, Sponsored) no longer overlap.
+* Fix: Dev Kit: the top bar shows your plugin name, and Bulk SEO and How To & Support follow their switches.
+* Fix: Import keywords from CSV in Keyword Research opens the import tab.
+* Fix: The 650 features link opens the All Features article.
+
 = 14.2.9 =
 * New: Keyword Research adds the keywords you select to the Briefcase in one click, with a label, up to 50 at a time.
 * New: Pages, custom post types and their archives get breadcrumbs in the JSON-LD (Home > archive or parent page > page).

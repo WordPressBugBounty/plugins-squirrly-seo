@@ -306,7 +306,7 @@ if ( ! isset( $view ) ) {
                                                         <label for="sq_jsonld_product_defaults" class="ml-1"><?php echo esc_html__( "Add Default Data for Woocommerce Products", 'squirrly-seo' ); ?>
                                                             <a href="https://howto.squirrly.co/kb/json-ld-structured-data/#woocommerce" target="_blank"><i class="fa-solid fa-question-circle m-0 px-2" style="display: inline;"></i></a>
                                                         </label>
-                                                        <div class="small text-black-50 ml-5"><?php echo esc_html__( "Add default data for JSON-LD AggregateRating, Offers, Sku, MPN when they are missing from the product to avoid GSC errors.", 'squirrly-seo' ); ?></div>
+                                                        <div class="small text-black-50 ml-5"><?php echo esc_html__( "Add default data for JSON-LD Offers, Sku, MPN when they are missing from the product to avoid GSC errors.", 'squirrly-seo' ); ?></div>
                                                     </div>
                                                 </div>
                                             </div>

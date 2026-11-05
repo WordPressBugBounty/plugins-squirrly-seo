@@ -223,6 +223,9 @@ class SQ_Classes_Helpers_DevKit {
 		if ( ! SQ_Classes_Helpers_Tools::getMenuVisible( 'show_tutorial' ) ) {
 			$menu['sq_onboarding']['leftmenu'] = false;
 			$menu['sq_onboarding']['topmenu']  = false;
+			//the How To & Support entry too: its tabs already follow show_tutorial
+			$menu['sq_help']['leftmenu'] = false;
+			$menu['sq_help']['topmenu']  = false;
 		}
 		if ( ! SQ_Classes_Helpers_Tools::getMenuVisible( 'show_audit' ) ) {
 			$menu['sq_audits']['leftmenu'] = false;
@@ -291,7 +294,17 @@ class SQ_Classes_Helpers_DevKit {
 
 				if ( isset( self::$package['settings'] ) && ! empty( SQ_Classes_Helpers_Tools::$options ) && function_exists( 'array_replace_recursive' ) ) {
 					SQ_Classes_Helpers_Tools::getOptions();
-					SQ_Classes_Helpers_Tools::$options = array_replace_recursive( (array) SQ_Classes_Helpers_Tools::$options, (array) self::$package['settings'] );
+					$settings = (array) self::$package['settings'];
+
+					//on a site that is already connected, a new package must not move it to another Squirrly Cloud account
+					if ( SQ_Classes_Helpers_Tools::getOption( 'sq_api' ) ) {
+						unset( $settings['sq_api'], $settings['sq_cloud_token'] );
+						foreach ( SQ_Classes_Helpers_SiteAuth::authOptionKeys() as $authKey ) {
+							unset( $settings[ $authKey ] );
+						}
+					}
+
+					SQ_Classes_Helpers_Tools::$options = array_replace_recursive( (array) SQ_Classes_Helpers_Tools::$options, $settings );
 					SQ_Classes_Helpers_Tools::saveOptions();
 				}
 

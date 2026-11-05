@@ -85,6 +85,10 @@ class SQ_Models_Focuspages_Snippet extends SQ_Models_Abstract_Assistant {
 						$keywords = explode( ',', $this->_post->sq->keywords );
 
 						foreach ( $keywords as $keyword ) {
+							//skip empty entries: an empty needle matches any text on PHP 8
+							if ( trim( $keyword ) === '' ) {
+								continue;
+							}
 							if ( $this->_keyword_in_title = ( SQ_Classes_Helpers_Tools::findStr( $this->_post->sq->title, trim( $keyword ) ) !== false ) ) {
 								break;
 							}
@@ -99,6 +103,10 @@ class SQ_Models_Focuspages_Snippet extends SQ_Models_Abstract_Assistant {
 						$keywords = explode( ',', $this->_post->sq->keywords );
 
 						foreach ( $keywords as $keyword ) {
+							//skip empty entries: an empty needle matches any text on PHP 8
+							if ( trim( $keyword ) === '' ) {
+								continue;
+							}
 							if ( $this->_keyword_in_description = ( SQ_Classes_Helpers_Tools::findStr( $this->_post->sq->description, trim( $keyword ) ) !== false ) ) {
 								break;
 							}

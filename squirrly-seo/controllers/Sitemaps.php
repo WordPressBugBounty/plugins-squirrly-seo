@@ -318,8 +318,8 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 			'post_status'    => 'publish',
 			'posts_per_page' => 500,
 			'paged'          => $this->page,
-			'orderby'        => 'date',
-			'order'          => 'DESC',
+			//ID breaks ties: posts with the same date kept swapping places between sitemap pages
+			'orderby'        => array( 'date' => 'DESC', 'ID' => 'DESC' ),
 			'ignore_sticky_posts' => true,
 			);
 
@@ -374,6 +374,9 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 				case 'sitemap-custom-tax':
 					remove_all_filters( 'terms_clauses' ); //prevent language filters
 					add_filter( 'get_terms_fields', array( $this, 'customTaxFilter' ), 5, 2 );
+					//get_terms() takes orderby as a string only (the date + ID array is for the post sitemaps)
+					$sq_query['orderby'] = 'date';
+					$sq_query['order']   = 'DESC';
 					if ( $this->taxonomy ) {
 						$sq_query['hide_empty'] = true;
 						$sq_query['number']     = $this->posts_limit;
@@ -596,6 +599,11 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 
 								//check if available from SEO Automation
 								$pname = str_replace( array( 'sitemap-', 'post_' ), '', $name );
+
+								//attachment pages that redirect to the file (WordPress 6.4+ default, or Squirrly's redirect) are not listed
+								if ( $name == 'sitemap-attachment' && $this->attachmentPagesRedirect() ) {
+									continue;
+								}
 
 								//search pages stay noindex until they qualify, so only list it when some did
 								if ( $name == 'sitemap-search' && ! SQ_Classes_ObjController::getClass( 'SQ_Models_Searches' )->getQualified( 1 ) ) {
@@ -821,7 +829,8 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 				$this->showPackXml( $this->model->getListArchive() );
 				break;
 			case 'sitemap-attachment':
-				$this->showPackXml( $this->model->getListAttachments() );
+				//attachment pages that redirect to the file don't belong in a sitemap
+				$this->showPackXml( $this->attachmentPagesRedirect() ? array() : $this->model->getListAttachments() );
 				break;
 			case 'locations':
 				$this->showPackKml( $this->model->getKmlXML() );
@@ -1170,6 +1179,20 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 		$query->set( 'tax_query', array() );
 	}
 
+	/**
+	 * Whether attachment pages redirect to the file: WordPress 6.4+ turns them off by default
+	 * (wp_attachment_pages_enabled = 0), and Squirrly can redirect them too (sq_attachment_redirect).
+	 *
+	 * @return bool
+	 */
+	public function attachmentPagesRedirect() {
+		if ( (string) get_option( 'wp_attachment_pages_enabled', '1' ) === '0' ) {
+			return true;
+		}
+
+		return ( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_links' ) && SQ_Classes_Helpers_Tools::getOption( 'sq_attachment_redirect' ) );
+	}
+
 	public function archiveFilter() {
 		global $wpdb, $sq_query;
 
@@ -1177,11 +1200,12 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 
 		if ( ! empty( $sq_query['post_type'] ) ) {
 			foreach ( $sq_query['post_type'] as $type ) {
-				$archives[ $type ] = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT YEAR(post_date_gmt) as `year`, MONTH(post_date_gmt) as `month`, max(post_date_gmt) as lastmod, count(ID) as posts
+				//order by the grouped columns: ordering by post_date_gmt fails on MySQL with ONLY_FULL_GROUP_BY
+				$archives[ $type ] = $wpdb->get_results( $wpdb->prepare( "SELECT YEAR(post_date_gmt) as `year`, MONTH(post_date_gmt) as `month`, max(post_date_gmt) as lastmod, count(ID) as posts
                         FROM `" . $wpdb->posts . "`
-                        WHERE post_date_gmt < NOW()  AND post_status = %s  AND post_type = %s
-                        GROUP BY YEAR(post_date_gmt),  MONTH(post_date_gmt)
-                        ORDER BY  post_date_gmt DESC", 'publish', $type ) );
+                        WHERE post_date_gmt < UTC_TIMESTAMP() AND post_status = %s AND post_type = %s
+                        GROUP BY YEAR(post_date_gmt), MONTH(post_date_gmt)
+                        ORDER BY `year` DESC, `month` DESC", 'publish', $type ) );
 			}
 		}
 

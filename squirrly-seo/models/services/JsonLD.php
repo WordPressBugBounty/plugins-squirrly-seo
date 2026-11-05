@@ -1923,33 +1923,21 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 						$markup['review'] = $this->getProductReviewMarkup( $product );
 					}
 
-				} else { //add default data?
-
-					//Add data if no reviews for Google validation
-					$markup['aggregateRating'] = array(
-						'@type'       => 'AggregateRating',
-						'ratingValue' => 5,
-						'ratingCount' => 1,
-						'reviewCount' => 1,
-					);
-
-					$markup['review'][] = array(
-						'@type'         => 'Review',
-						'reviewRating'  => array(
-							'@type'       => 'Rating',
-							'ratingValue' => 5,
-						),
-						'author'        => array(
-							'@type' => 'Person',
-							'name'  => ( isset( $markup['name'] ) ? $markup['name'] : 'John Doe' ),
-						),
-						'reviewBody'    => ( isset( $markup['description'] ) ? $markup['description'] : '-' ),
-						'datePublished' => ( method_exists( $product, 'get_date_created' ) && $product->get_date_created() && method_exists( $product->get_date_created(), 'getTimestamp' ) ) ? gmdate( 'Y-m-d', $product->get_date_created()->getTimestamp() ) : '',
-					);
 				}
+				//no made-up rating or review when the product has none: Google's review snippet rules forbid it
 			}
 
 			$otherbrands = array();
+
+			//WooCommerce Brands (built into WooCommerce since 9.6)
+			if ( taxonomy_exists( 'product_brand' ) ) {
+				$brands = wp_get_post_terms( $product->get_id(), 'product_brand' );
+				if ( ! is_wp_error( $brands ) ) {
+					foreach ( $brands as $brand ) {
+						$otherbrands[] = $brand->name;
+					}
+				}
+			}
 
 			//compatible with Perfect Woocommerce Brands
 			if ( SQ_Classes_Helpers_Tools::isPluginInstalled( 'perfect-woocommerce-brands/perfect-woocommerce-brands.php' ) ) {
@@ -1968,7 +1956,12 @@ class SQ_Models_Services_JsonLD extends SQ_Models_Abstract_Seo {
 			}
 
 			if ( ! empty( $otherbrands ) ) {
-				$markup['brand'] = $otherbrands;
+				//Google reads brand as a Brand with a name (brand.name), not as plain text
+				$otherbrands = array_map( function ( $name ) {
+					return array( '@type' => 'Brand', 'name' => $name );
+				}, array_values( array_unique( $otherbrands ) ) );
+
+				$markup['brand'] = ( count( $otherbrands ) == 1 ? $otherbrands[0] : $otherbrands );
 			}
 
 

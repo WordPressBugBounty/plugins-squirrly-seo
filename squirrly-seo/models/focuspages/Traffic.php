@@ -51,7 +51,8 @@ class SQ_Models_Focuspages_Traffic extends SQ_Models_Abstract_Assistant {
 			}
 			if ( isset( $this->_audit->data->sq_analytics_google->page_time ) ) {
 				$this->_page_time = $this->_audit->data->sq_analytics_google->page_time;
-				$this->_page_time = number_format( ( $this->_page_time / 60 ), 1, '.', ',' );
+				//no thousands separator, so the value stays numeric for the >= check
+				$this->_page_time = number_format( ( $this->_page_time / 60 ), 1, '.', '' );
 			}
 		}
 

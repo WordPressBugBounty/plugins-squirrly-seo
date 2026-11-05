@@ -570,11 +570,11 @@ if ( ! isset( $view ) ) {
                     <div class="sq_feature card h-100 p-0 shadow-0 rounded-0">
                         <div class="m-0 p-0">
                             <div class="m-0 p-0 text-center">
-                                <a href="https://howto.squirrly.co/faq/why-is-the-squirrly-live-assistant-not-loading-in-the-post-editor/" class="text-dark" target="_blank"><img src="<?php echo esc_url( _SQ_ASSETS_URL_ . 'img/kb/checklist.png' ) ?>" alt="" style="width: 100%"></a>
+                                <a href="https://howto.squirrly.co/kb/squirrly-live-assistant/#troubleshooting" class="text-dark" target="_blank"><img src="<?php echo esc_url( _SQ_ASSETS_URL_ . 'img/kb/checklist.png' ) ?>" alt="" style="width: 100%"></a>
                             </div>
                             <div class="mx-3 my-3 p-0 text-black" style="min-height: 60px; font-size: 1.1rem;">
                                 <div class="pt-3 pb-1" style="color: #696868">
-                                    <a href="https://howto.squirrly.co/faq/why-is-the-squirrly-live-assistant-not-loading-in-the-post-editor/" class="text-dark" target="_blank">Squirrly
+                                    <a href="https://howto.squirrly.co/kb/squirrly-live-assistant/#troubleshooting" class="text-dark" target="_blank">Squirrly
                                         Live Assistant not showing</a>
                                 </div>
                             </div>
@@ -926,11 +926,11 @@ if ( ! isset( $view ) ) {
                     <div class="sq_feature card h-100 p-0 shadow-0 rounded-0">
                         <div class="m-0 p-0">
                             <div class="m-0 p-0 text-center">
-                                <a href="https://howto.squirrly.co/faq/how-can-i-make-my-site-stand-out-in-search-results/" class="text-dark" target="_blank"><img src="<?php echo esc_url( _SQ_ASSETS_URL_ . 'img/kb/make-your-site-stand-out.jpg' ) ?>" alt="" style="width: 100%"></a>
+                                <a href="https://howto.squirrly.co/kb/json-ld-structured-data/#json_ld" class="text-dark" target="_blank"><img src="<?php echo esc_url( _SQ_ASSETS_URL_ . 'img/kb/make-your-site-stand-out.jpg' ) ?>" alt="" style="width: 100%"></a>
                             </div>
                             <div class="mx-3 my-3 p-0 text-black" style="min-height: 60px; font-size: 1.1rem;">
                                 <div class="pt-3 pb-1" style="color: #696868">
-                                    <a href="https://howto.squirrly.co/faq/how-can-i-make-my-site-stand-out-in-search-results/" class="text-dark" target="_blank">Make
+                                    <a href="https://howto.squirrly.co/kb/json-ld-structured-data/#json_ld" class="text-dark" target="_blank">Make
                                         Your Site Stand Out In Search Results</a>
                                 </div>
                             </div>
@@ -991,11 +991,11 @@ if ( ! isset( $view ) ) {
                     <div class="sq_feature card h-100 p-0 shadow-0 rounded-0">
                         <div class="m-0 p-0">
                             <div class="m-0 p-0 text-center">
-                                <a href="https://howto.squirrly.co/faq/how-can-i-control-how-my-posts-look-like-when-i-share-them-on-facebook/" class="text-dark" target="_blank"><img src="<?php echo esc_url( _SQ_ASSETS_URL_ . 'img/kb/looks-on-facebook.jpg' ) ?>" alt="" style="width: 100%"></a>
+                                <a href="https://howto.squirrly.co/kb/add-custom-open-graph-metadata/#snippet_open_graph" class="text-dark" target="_blank"><img src="<?php echo esc_url( _SQ_ASSETS_URL_ . 'img/kb/looks-on-facebook.jpg' ) ?>" alt="" style="width: 100%"></a>
                             </div>
                             <div class="mx-3 my-3 p-0 text-black" style="min-height: 60px; font-size: 1.1rem;">
                                 <div class="pt-3 pb-1" style="color: #696868">
-                                    <a href="https://howto.squirrly.co/faq/how-can-i-control-how-my-posts-look-like-when-i-share-them-on-facebook/" class="text-dark" target="_blank">Control
+                                    <a href="https://howto.squirrly.co/kb/add-custom-open-graph-metadata/#snippet_open_graph" class="text-dark" target="_blank">Control
                                         How Your Posts Look Like When Shared on Facebook</a>
                                 </div>
                             </div>
@@ -1056,11 +1056,11 @@ if ( ! isset( $view ) ) {
                     <div class="sq_feature card h-100 p-0 shadow-0 rounded-0">
                         <div class="m-0 p-0">
                             <div class="m-0 p-0 text-center">
-                                <a href="https://howto.squirrly.co/faq/whats-a-sitemap-and-why-do-i-need-one/" class="text-dark" target="_blank"><img src="<?php echo esc_url( _SQ_ASSETS_URL_ . 'img/kb/what-is-a-sitemap.jpg' ) ?>" alt="" style="width: 100%"></a>
+                                <a href="https://howto.squirrly.co/kb/sitemap-xml-settings/" class="text-dark" target="_blank"><img src="<?php echo esc_url( _SQ_ASSETS_URL_ . 'img/kb/what-is-a-sitemap.jpg' ) ?>" alt="" style="width: 100%"></a>
                             </div>
                             <div class="mx-3 my-3 p-0 text-black" style="min-height: 60px; font-size: 1.1rem;">
                                 <div class="pt-3 pb-1" style="color: #696868">
-                                    <a href="https://howto.squirrly.co/faq/whats-a-sitemap-and-why-do-i-need-one/" class="text-dark" target="_blank">What's
+                                    <a href="https://howto.squirrly.co/kb/sitemap-xml-settings/" class="text-dark" target="_blank">What's
                                         a Sitemap & Why Do I Need One?</a>
                                 </div>
                             </div>

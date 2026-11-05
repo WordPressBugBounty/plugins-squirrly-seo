@@ -789,6 +789,14 @@ class SQ_Models_Domain_Patterns extends SQ_Models_Abstract_Domain {
 						}
 
 					} else {
+						//WooCommerce Brands (built into WooCommerce since 9.6)
+						if ( taxonomy_exists( 'product_brand' ) ) {
+							$brands = wp_get_post_terms( $product->get_id(), 'product_brand' );
+							if ( ! is_wp_error( $brands ) && ! empty( $brands ) ) {
+								$this->_product_brand = $brands[0]->name;
+							}
+						}
+
 						//compatible with Perfect Woocommerce Brands
 						if ( SQ_Classes_Helpers_Tools::isPluginInstalled( 'perfect-woocommerce-brands/perfect-woocommerce-brands.php' ) ) {
 							$brands = wp_get_post_terms( $product->get_id(), 'pwb-brand' );

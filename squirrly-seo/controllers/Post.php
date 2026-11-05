@@ -828,6 +828,11 @@ class SQ_Controllers_Post extends SQ_Classes_FrontController {
 				'wp-hooks',
 				'lodash'
 			), SQ_VERSION, false );
+
+			//WordPress 6.7+ toggles have no bottom margin, so the link settings (New Tab, No Follow, Sponsored) overlapped
+			wp_register_style( 'squirrly-editor', false, array(), SQ_VERSION );
+			wp_enqueue_style( 'squirrly-editor' );
+			wp_add_inline_style( 'squirrly-editor', '.squirrly-url-popover .block-editor-url-popover__settings .components-toggle-control:not(:last-child){margin-bottom:12px}' );
 		}
 	}
 }

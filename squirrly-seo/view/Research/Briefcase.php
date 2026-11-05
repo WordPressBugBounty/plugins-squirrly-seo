@@ -518,7 +518,7 @@ if ( ! isset( $view ) ) {
                         <i class="fa-solid fa-exclamation-circle"></i> <?php echo esc_html__( "Tips and Tricks", 'squirrly-seo' ); ?>
                     </h5>
                     <ul class="mx-4">
-                        <li class="text-left"><?php echo sprintf( esc_html__( "Add unlimited keywords in your Squirrly Briefcase to optimize your posts and pages. %s Learn More About Briefcase %s", 'squirrly-seo' ), '<a href="https://howto.squirrly.co/ht_kb/briefcase/" target="_blank" >', '</a>' ); ?></li>
+                        <li class="text-left"><?php echo sprintf( esc_html__( "Add unlimited keywords in your Squirrly Briefcase to optimize your posts and pages. %s Learn More About Briefcase %s", 'squirrly-seo' ), '<a href="https://howto.squirrly.co/kb/keyword-research-and-seo-strategy/#briefcase" target="_blank" >', '</a>' ); ?></li>
                         <li>
                             <a href="https://howto.squirrly.co/kb/keyword-research-and-seo-strategy/#labels" target="_blank"><?php echo esc_html__( "Read more details about Briefcase Labels", 'squirrly-seo' ); ?></a>
                         </li>

@@ -181,7 +181,7 @@ class SQ_Models_Focuspages_Audit extends SQ_Models_Abstract_Assistant {
 	 */
 	public function checkDuplicatetitle( $task ) {
 		if ( $this->_duplicate_titles ) {
-			if ( isset( $this->duplicate_titles->urls ) && ! empty( $this->_duplicate_titles->urls ) ) {
+			if ( isset( $this->_duplicate_titles->urls ) && ! empty( $this->_duplicate_titles->urls ) ) {
 				$task['value'] = '<br />';
 				foreach ( $this->_duplicate_titles->urls as $url ) {
 					$task['value'] .= esc_html__( "URL", 'squirrly-seo' ) . ': ' . $url . '<br />';

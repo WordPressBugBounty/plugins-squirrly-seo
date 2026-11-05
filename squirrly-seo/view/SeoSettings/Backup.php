@@ -158,71 +158,55 @@ if ( ! isset( $view ) ) {
                                         <a href="https://howto.squirrly.co/kb/import-export-seo-settings/#backup_seo" target="_blank"><i class="fa-solid fa-question-circle m-0 p-0"></i></a>
                                     </h3>
                                     <div class="col-12 text-left m-0 p-0">
-                                        <div class="col-12 small m-0 p-0"><?php echo esc_html__( "Download your Squirrly settings in an SQL file before importing the SEO settings from another plugin. This way, you can always go back to your Squirrly settings.", 'squirrly-seo' ); ?></div>
+                                        <div class="col-12 small m-0 p-0"><?php echo esc_html__( "Download what Squirrly keeps for this site in one file before importing the SEO from another plugin or moving the site. This way, you can always go back to your Squirrly settings.", 'squirrly-seo' ); ?></div>
                                     </div>
                                 </div>
 
                                 <div class="col-12 m-0 p-0 my-5">
 
                                     <div class="col-12 pt-0 pb-4 border-bottom">
-                                        <form name="import" action="" method="post" enctype="multipart/form-data">
+										<?php
+										//parts of Export / Import Everything, each one optional; the Advanced Pack parts only when the Pack is active
+										$sq_everything_parts = array(
+											'settings'  => esc_html__( "Settings", 'squirrly-seo' ),
+											'seo'       => esc_html__( "Page SEO and keyword optimizations", 'squirrly-seo' ),
+											'briefcase' => esc_html__( "Briefcase keywords and labels", 'squirrly-seo' ),
+										);
+										if ( defined( 'SQP_VERSION' ) ) {
+											$sq_everything_parts['redirects'] = esc_html__( "Advanced Pack redirects", 'squirrly-seo' );
+											$sq_everything_parts['schemas']   = esc_html__( "Advanced Pack schemas (JSON-LD)", 'squirrly-seo' );
+										}
+										?>
+                                        <form name="exportall" action="" method="post" enctype="multipart/form-data">
                                             <div class="col-12 row m-0 p-0 my-5">
                                                 <div class="col-5 m-0 p-0 pr-2 font-weight-bold">
-                                                    <div class="font-weight-bold"><?php echo esc_html__( "Backup Settings", 'squirrly-seo' ); ?>
+                                                    <div class="font-weight-bold"><?php echo esc_html__( "Export Everything", 'squirrly-seo' ); ?>
                                                         :
                                                     </div>
-                                                    <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "Download all the settings from Squirrly SEO.", 'squirrly-seo' ); ?></div>
+                                                    <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "One file with the parts you switch on: the settings, the SEO of every page (with the keyword optimizations), the Briefcase keywords with their labels and, with the Advanced Pack, its redirects and schemas.", 'squirrly-seo' ); ?></div>
                                                 </div>
-                                                <div class="col-7 p-0 input-group">
-													<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_seosettings_backupsettings', 'sq_nonce' ); ?>
-                                                    <input type="hidden" name="action" value="sq_seosettings_backupsettings"/>
-                                                    <button type="submit" class="btn rounded-0 btn-primary px-2 m-0 noloading" style="min-width: 175px"><?php echo esc_html__( "Download  Backup", 'squirrly-seo' ); ?></button>
+                                                <div class="col-7 p-0">
+                                                    <div class="mb-3">
+														<?php foreach ( $sq_everything_parts as $part => $part_label ) { ?>
+                                                            <div class="col-12 m-0 p-0 py-1 sq-switch sq-switch-sm">
+                                                                <input type="checkbox" id="sq_export_part_<?php echo esc_attr( $part ) ?>" name="sq_export_parts[]" class="sq-switch" value="<?php echo esc_attr( $part ) ?>" checked="checked"/>
+                                                                <label for="sq_export_part_<?php echo esc_attr( $part ) ?>" class="ml-1"><?php echo esc_html( $part_label ); ?></label>
+                                                            </div>
+														<?php } ?>
+                                                    </div>
+													<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_seosettings_exportall', 'sq_nonce' ); ?>
+                                                    <input type="hidden" name="action" value="sq_seosettings_exportall"/>
+                                                    <button type="submit" class="btn rounded-0 btn-primary px-2 m-0 noloading" style="min-width: 175px"><?php echo esc_html__( "Export Everything", 'squirrly-seo' ); ?></button>
                                                 </div>
                                             </div>
                                         </form>
 
-                                        <div class="col-12 row m-0 p-0 my-5">
-                                            <div class="col-5 m-0 p-0 pr-2 font-weight-bold">
-                                                <div class="font-weight-bold"><?php echo esc_html__( "Backup SEO", 'squirrly-seo' ); ?>
-                                                    :
-                                                </div>
-                                                <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "Download all the Squirrly SEO Snippet optimizations.", 'squirrly-seo' ); ?></div>
-                                            </div>
-                                            <div class="col-7 p-0 input-group">
-                                                <form name="import" action="" method="post" enctype="multipart/form-data">
-													<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_seosettings_backupseo', 'sq_nonce' ); ?>
-                                                    <input type="hidden" name="action" value="sq_seosettings_backupseo"/>
-                                                    <button type="submit" class="btn rounded-0 btn-primary px-2 m-0 mr-1 mb-1 noloading" style="min-width: 175px"><?php echo esc_html__( "Download Backup", 'squirrly-seo' ); ?></button>
-                                                </form>
-                                                <form name="export" action="" method="post" class="sq_advanced" enctype="multipart/form-data">
-													<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_seosettings_exportseo', 'sq_nonce' ); ?>
-                                                    <input type="hidden" name="action" value="sq_seosettings_exportseo"/>
-                                                    <button type="submit" class="btn rounded-0 btn-light px-2 m-0 noloading border" style="min-width: 175px"><?php echo esc_html__( "Export as Json", 'squirrly-seo' ); ?></button>
-                                                </form>
-                                            </div>
-                                        </div>
-
-                                        <form action="" method="post" enctype="multipart/form-data">
-                                            <div class="col-12 row m-0 p-0 my-5">
-                                                <div class="col-5 m-0 p-0 pr-2 font-weight-bold">
-                                                    <div class="font-weight-bold"><?php echo esc_html__( "Backup Briefcase", 'squirrly-seo' ); ?>
-                                                        :
-                                                    </div>
-                                                    <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "Download all Briefcase Keywords.", 'squirrly-seo' ); ?></div>
-                                                </div>
-                                                <div class="col-7 p-0 input-group">
-													<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_briefcase_backup', 'sq_nonce' ); ?>
-                                                    <input type="hidden" name="action" value="sq_briefcase_backup"/>
-                                                    <button type="submit" class="btn rounded-0 btn-primary px-2 m-0 noloading" style="min-width: 175px"><?php echo esc_html__( "Download Backup", 'squirrly-seo' ); ?></button>
-                                                </div>
-                                            </div>
-                                        </form>
 
 
                                     </div>
                                 </div>
 
-								<?php do_action( 'sq_backup_backup_after' ); ?>
+								<?php //the separate backup/restore rows (core and Advanced Pack, sq_backup_backup_after) are replaced by Export Everything ?>
 
                             </div>
                             <div id="restore" class="col-12 py-0 px-4 m-0 tab-panel">
@@ -239,66 +223,101 @@ if ( ! isset( $view ) ) {
                                 <div class="col-12 m-0 p-0 my-5">
 
                                     <div class="col-12 pt-0 pb-4 border-bottom">
-                                        <form name="import" action="" method="post" enctype="multipart/form-data">
+										<?php if ( SQ_Classes_ObjController::getClass( 'SQ_Models_ImportExport' )->getImportJob() ) { ?>
+                                            <div id="sq_import_progress" class="col-12 m-0 my-4 p-3 border bg-light">
+                                                <div class="font-weight-bold mb-2"><?php echo esc_html__( "Import in progress", 'squirrly-seo' ); ?></div>
+                                                <div style="height: 22px; background: #e9ecef">
+                                                    <div class="sq_import_bar text-white text-center small" style="height: 22px; line-height: 22px; width: 0; min-width: 2em; background: #6200ee">0%</div>
+                                                </div>
+                                                <div class="sq_import_status small my-2"><?php echo esc_html__( "Starting...", 'squirrly-seo' ); ?></div>
+                                                <button type="button" class="btn btn-sm btn-light border m-0 sq_import_cancel"><?php echo esc_html__( "Cancel import", 'squirrly-seo' ); ?></button>
+                                            </div>
+                                            <script>
+                                                (function ($) {
+                                                    //the import runs in short steps until the whole file is read; a stopped step can be continued
+                                                    var labels = <?php echo wp_json_encode( array(
+														'settings'      => __( "Settings restored", 'squirrly-seo' ),
+														'seo'           => __( "Pages with SEO restored", 'squirrly-seo' ),
+														'skipped'       => __( "Rows skipped", 'squirrly-seo' ),
+														'labels'        => __( "Labels added", 'squirrly-seo' ),
+														'keywords'      => __( "Keywords added", 'squirrly-seo' ),
+														'failed'        => __( "Keywords not added", 'squirrly-seo' ),
+														'qss_redirects' => __( "Redirects restored", 'squirrly-seo' ),
+														'qss_jsonld'    => __( "Schemas restored", 'squirrly-seo' ),
+													) ); ?>;
+                                                    var $box = $('#sq_import_progress'), $bar = $box.find('.sq_import_bar'), $status = $box.find('.sq_import_status'), stopped = false;
+                                                    var summary = function (count) {
+                                                        var out = [];
+                                                        $.each(count || {}, function (key, n) {
+                                                            if (n && labels[key]) { out.push($('<span/>').text(labels[key] + ': ' + n).html()); }
+                                                        });
+                                                        return out.join(' &middot; ');
+                                                    };
+                                                    var step = function () {
+                                                        if (stopped) { return; }
+                                                        $.post(ajaxurl, {action: 'sq_ajax_seosettings_importstep', sq_nonce: sqAdmin.nonce}).done(function (r) {
+                                                            if (!r || r.error) {
+                                                                $status.text(r && r.error ? r.error : '<?php echo esc_js( __( "The import stopped.", 'squirrly-seo' ) ); ?>');
+                                                                return;
+                                                            }
+                                                            $bar.css('width', r.percent + '%').text(r.percent + '%');
+                                                            var notes = (r.notes || []).map(function (n) { return $('<span/>').text(n).html(); }).join(' ');
+                                                            if (r.done) {
+                                                                $box.find('.font-weight-bold').first().text('<?php echo esc_js( __( "Import finished", 'squirrly-seo' ) ); ?>');
+                                                                $status.html(summary(r.count) + (notes ? '<br/>' + notes : ''));
+                                                                $box.find('.sq_import_cancel').remove();
+                                                            } else {
+                                                                $status.html(summary(r.count) || '<?php echo esc_js( __( "Importing...", 'squirrly-seo' ) ); ?>');
+                                                                step();
+                                                            }
+                                                        }).fail(function () {
+                                                            $status.html('<?php echo esc_js( __( "The server stopped answering.", 'squirrly-seo' ) ); ?> <a href="#" class="sq_import_continue"><?php echo esc_js( __( "Continue", 'squirrly-seo' ) ); ?></a>');
+                                                        });
+                                                    };
+                                                    $box.on('click', '.sq_import_continue', function (e) { e.preventDefault(); step(); });
+                                                    $box.on('click', '.sq_import_cancel', function () {
+                                                        stopped = true;
+                                                        $.post(ajaxurl, {action: 'sq_ajax_seosettings_importcancel', sq_nonce: sqAdmin.nonce}).always(function () {
+                                                            $status.text('<?php echo esc_js( __( "Import cancelled.", 'squirrly-seo' ) ); ?>');
+                                                            $box.find('.sq_import_cancel').remove();
+                                                        });
+                                                    });
+                                                    $(function () { step(); });
+                                                })(jQuery);
+                                            </script>
+										<?php } ?>
+                                        <form name="restoreall" action="" method="post" enctype="multipart/form-data">
                                             <div class="col-12 row m-0 p-0 my-5">
                                                 <div class="col-5 m-0 p-0 pr-2 font-weight-bold">
-                                                    <div class="font-weight-bold"><?php echo esc_html__( "Restore Settings", 'squirrly-seo' ); ?>
+                                                    <div class="font-weight-bold"><?php echo esc_html__( "Import Everything", 'squirrly-seo' ); ?>
                                                         :
                                                     </div>
-                                                    <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "Upload the file with the saved Squirrly Settings.", 'squirrly-seo' ); ?></div>
+                                                    <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "Upload a file made with Export Everything and choose what to bring back. Backup files made with the older Backup buttons (settings, SEO, Briefcase, redirects, schemas) work here too. Briefcase keywords and labels that already exist are kept; rank tracking stays off for the added keywords.", 'squirrly-seo' ); ?></div>
                                                 </div>
-                                                <div class="col-7 p-0 input-group">
+                                                <div class="col-7 p-0">
                                                     <div class="form-group m-0 p-0">
-                                                        <input type="file" class="form-control-file border" style="height: 48px; line-height: 35px;" name="sq_options">
+                                                        <input type="file" class="form-control-file border" style="height: 48px; line-height: 35px;" name="sq_export_file" accept=".gz,.jsonl,.json,.txt,.sql,.csv">
                                                     </div>
-													<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_seosettings_restoresettings', 'sq_nonce' ); ?>
-                                                    <input type="hidden" name="action" value="sq_seosettings_restoresettings"/>
-                                                    <button type="submit" class="btn rounded-0 btn-primary px-3 m-0" style="min-width: 160px"><?php echo esc_html__( "Restore Settings", 'squirrly-seo' ); ?></button>
+                                                    <div class="my-3">
+														<?php foreach ( $sq_everything_parts as $part => $part_label ) { ?>
+                                                            <div class="col-12 m-0 p-0 py-1 sq-switch sq-switch-sm">
+                                                                <input type="checkbox" id="sq_import_part_<?php echo esc_attr( $part ) ?>" name="sq_import_parts[]" class="sq-switch" value="<?php echo esc_attr( $part ) ?>" checked="checked"/>
+                                                                <label for="sq_import_part_<?php echo esc_attr( $part ) ?>" class="ml-1"><?php echo esc_html( $part_label ); ?></label>
+                                                            </div>
+														<?php } ?>
+                                                    </div>
+													<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_seosettings_restoreall', 'sq_nonce' ); ?>
+                                                    <input type="hidden" name="action" value="sq_seosettings_restoreall"/>
+                                                    <button type="submit" class="btn rounded-0 btn-primary px-3 m-0" style="min-width: 160px"><?php echo esc_html__( "Import Everything", 'squirrly-seo' ); ?></button>
+                                                    <div class="small text-danger mt-1"><?php echo esc_html__( "Note! The selected settings and SEO overwrite the ones on this site.", 'squirrly-seo' ); ?></div>
                                                 </div>
                                             </div>
                                         </form>
 
-                                        <form name="import" action="" method="post" enctype="multipart/form-data">
-                                            <div class="col-12 row m-0 p-0 my-5">
-                                                <div class="col-5 m-0 p-0 pr-2 font-weight-bold">
-                                                    <div class="font-weight-bold"><?php echo esc_html__( "Restore SEO", 'squirrly-seo' ); ?>
-                                                        :
-                                                    </div>
-                                                    <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "Upload the SQL file with the saved Squirrly SEO snippet optimizations.", 'squirrly-seo' ); ?></div>
-                                                </div>
-                                                <div class="col-7 p-0 input-group">
-                                                    <div class="form-group m-0 p-0">
-                                                        <input type="file" class="form-control-file border" style="height: 48px; line-height: 35px;" name="sq_sql">
-                                                    </div>
-													<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_seosettings_restoreseo', 'sq_nonce' ); ?>
-                                                    <input type="hidden" name="action" value="sq_seosettings_restoreseo"/>
-                                                    <button type="submit" class="btn rounded-0 btn-primary px-3 m-0" style="min-width: 160px"><?php echo esc_html__( "Restore SEO", 'squirrly-seo' ); ?></button>
-                                                </div>
-                                            </div>
-                                        </form>
-
-                                        <form name="import" action="" method="post" enctype="multipart/form-data">
-                                            <div class="col-12 row m-0 p-0 my-5">
-                                                <div class="col-5 m-0 p-0 pr-2 font-weight-bold">
-                                                    <div class="font-weight-bold"><?php echo esc_html__( "Restore Keywords", 'squirrly-seo' ); ?>
-                                                        :
-                                                    </div>
-                                                    <div class="small text-black-50 my-1 pr-3"><?php echo esc_html__( "Upload the file with the saved Squirrly Briefcase Keywords.", 'squirrly-seo' ); ?></div>
-                                                </div>
-                                                <div class="col-7 p-0 input-group">
-                                                    <div class="form-group m-0 p-0">
-                                                        <input type="file" class="form-control-file border" style="height: 48px; line-height: 35px;" name="sq_upload_file">
-                                                    </div>
-													<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_briefcase_restore', 'sq_nonce' ); ?>
-                                                    <input type="hidden" name="action" value="sq_briefcase_restore"/>
-                                                    <button type="submit" class="btn rounded-0 btn-primary px-3 m-0" style="min-width: 160px"><?php echo esc_html__( "Restore Keywords", 'squirrly-seo' ); ?></button>
-                                                </div>
-                                            </div>
-                                        </form>
                                     </div>
                                 </div>
 
-								<?php do_action( 'sq_backup_restore_after' ); ?>
+								<?php //the separate backup/restore rows (core and Advanced Pack, sq_backup_restore_after) are replaced by Import Everything ?>
 
                             </div>
                             <div id="rollback" class="col-12 py-0 px-4 m-0 tab-panel">

@@ -188,149 +188,98 @@ class SQ_Controllers_SeoSettings extends SQ_Classes_FrontController {
 
 				SQ_Classes_Error::setMessage( esc_html__( "Saved", 'squirrly-seo' ) );
 				break;
-			case 'sq_seosettings_backupsettings':
+			case 'sq_seosettings_exportall':
+				if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
+					SQ_Classes_Error::setError( esc_html__( "You do not have permission to perform this action", 'squirrly-seo' ) );
+
+					return;
+				}
+
+				//the parts switched on in the form: settings, SEO with optimizations, Briefcase keywords with labels, Pack redirects and schemas
+				$parts = array_intersect( (array) SQ_Classes_Helpers_Tools::getValue( 'sq_export_parts', array() ), array( 'settings', 'seo', 'briefcase', 'redirects', 'schemas' ) );
+				if ( empty( $parts ) ) {
+					SQ_Classes_Error::setError( esc_html__( "Select at least one part to export.", 'squirrly-seo' ) . " <br /> " );
+					break;
+				}
+
+				//stream the file as it is read, compressed when zlib is there: memory stays small for any number of pages
+				if ( function_exists( 'set_time_limit' ) ) {
+					@set_time_limit( 0 ); // phpcs:ignore
+				}
+				while ( ob_get_level() ) {
+					ob_end_clean();
+				}
+
+				$gzip = function_exists( 'deflate_init' ) && ( $deflate = deflate_init( ZLIB_ENCODING_GZIP ) );
+				header( 'Content-Type: ' . ( $gzip ? 'application/gzip' : 'application/x-ndjson; charset=utf-8' ) );
+				header( "Content-Disposition: attachment; filename=squirrly-export-" . gmdate( 'Y-m-d' ) . ( $gzip ? ".jsonl.gz" : ".jsonl" ) );
+				header( 'X-Content-Type-Options: nosniff' );
+
+				SQ_Classes_ObjController::getClass( 'SQ_Models_ImportExport' )->streamExport( array_values( $parts ), function ( $line ) use ( $gzip, &$deflate ) {
+					echo ( $gzip ? deflate_add( $deflate, $line, ZLIB_NO_FLUSH ) : $line ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				} );
+
+				if ( $gzip ) {
+					echo deflate_add( $deflate, '', ZLIB_FINISH ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				}
+				exit();
+			case 'sq_seosettings_restoreall':
+				if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
+					SQ_Classes_Error::setError( esc_html__( "You do not have permission to perform this action", 'squirrly-seo' ) );
+
+					return;
+				}
+
+				if ( ! empty( $_FILES['sq_export_file']['error'] ) && in_array( (int) $_FILES['sq_export_file']['error'], array( UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE ), true ) ) {
+					SQ_Classes_Error::setError( sprintf( esc_html__( "The file is larger than this server's upload limit (%s). Export the parts separately, or ask your host to raise the limit.", 'squirrly-seo' ), size_format( wp_max_upload_size() ) ) . " <br /> " );
+					break;
+				}
+
+				if ( empty( $_FILES['sq_export_file'] ) || $_FILES['sq_export_file']['tmp_name'] == '' ) {
+					SQ_Classes_Error::setError( esc_html__( "Error! You have to enter a previously saved backup file.", 'squirrly-seo' ) . " <br /> " );
+					break;
+				}
+
+				$parts = array_values( array_intersect( (array) SQ_Classes_Helpers_Tools::getValue( 'sq_import_parts', array() ), array( 'settings', 'seo', 'briefcase', 'redirects', 'schemas' ) ) );
+				if ( empty( $parts ) ) {
+					SQ_Classes_Error::setError( esc_html__( "Select at least one part to import.", 'squirrly-seo' ) . " <br /> " );
+					break;
+				}
+
+				//the file is unpacked and checked here; the import itself runs in short steps (sq_ajax_seosettings_importstep)
+				$started = SQ_Classes_ObjController::getClass( 'SQ_Models_ImportExport' )->startImport( $_FILES['sq_export_file']['tmp_name'], $parts );
+
+				//a backup made with the older Backup buttons is restored right away
+				if ( is_array( $started ) ) {
+					SQ_Classes_Error::setMessage( esc_html__( "Import finished.", 'squirrly-seo' ) . ' ' . $started['message'] . " <br /> " );
+					break;
+				}
+
+				if ( $started !== true ) {
+					SQ_Classes_Error::setError( $started . " <br /> " );
+					break;
+				}
+
+				SQ_Classes_Error::setMessage( esc_html__( "File uploaded. The import is running below; keep this page open until it finishes.", 'squirrly-seo' ) . " <br /> " );
+				break;
+			case 'sq_ajax_seosettings_importstep':
+				SQ_Classes_Helpers_Tools::setHeader( 'json' );
 
 				if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
-					$response['error'] = SQ_Classes_Error::showNotices( esc_html__( "You do not have permission to perform this action", 'squirrly-seo' ), 'error' );
-					SQ_Classes_Helpers_Tools::setHeader( 'json' );
-					echo wp_json_encode( $response );
+					echo wp_json_encode( array( 'done' => true, 'error' => esc_html__( "You do not have permission to perform this action", 'squirrly-seo' ) ) );
 					exit();
 				}
 
-				SQ_Classes_Helpers_Tools::setHeader( 'text' );
-				header( "Content-Disposition: attachment; filename=squirrly-settings-" . gmdate( 'Y-m-d' ) . ".txt" );
-
-				$exportOptions = SQ_Classes_Helpers_Tools::$options;
-				foreach ( SQ_Classes_Helpers_SiteAuth::authOptionKeys() as $authKey ) {
-					unset( $exportOptions[ $authKey ] );
-				}
-
-				//the cloud token is a credential, not a setting to carry over
-				unset( $exportOptions['sq_api'], $exportOptions['sq_cloud_token'] );
-				echo wp_json_encode( $exportOptions );
-
+				echo wp_json_encode( SQ_Classes_ObjController::getClass( 'SQ_Models_ImportExport' )->importStep() );
 				exit();
-			case 'sq_seosettings_restoresettings':
+			case 'sq_ajax_seosettings_importcancel':
+				SQ_Classes_Helpers_Tools::setHeader( 'json' );
 
-				if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
-					SQ_Classes_Error::setError( esc_html__( "You do not have permission to perform this action", 'squirrly-seo' ) );
-
-					return;
+				if ( SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
+					SQ_Classes_ObjController::getClass( 'SQ_Models_ImportExport' )->cancelImport();
 				}
 
-				if ( ! empty( $_FILES['sq_options'] ) && $_FILES['sq_options']['tmp_name'] <> '' ) {
-					$fp      = fopen( $_FILES['sq_options']['tmp_name'], 'rb' );
-					$options = '';
-					while ( ( $line = fgets( $fp ) ) !== false ) {
-						$options .= $line;
-					}
-					try {
-						if ( ! json_decode( $options, true ) && function_exists( 'base64_encode' ) ) {
-							$options = @base64_decode( $options );
-						}
-
-						$options = json_decode( $options, true );
-						if ( is_array( $options ) && isset( $options['sq_api'] ) ) {
-							$options['sq_api']                  = SQ_Classes_Helpers_Tools::getOption( 'sq_api' );
-							$options['sq_seojourney']           = SQ_Classes_Helpers_Tools::getOption( 'sq_seojourney' );
-							$options['menu']                    = SQ_Classes_Helpers_Tools::getOption( 'menu' );
-							$options['sq_auto_devkit']          = SQ_Classes_Helpers_Tools::getOption( 'sq_auto_devkit' );
-							$options['sq_devkit_logo']          = SQ_Classes_Helpers_Tools::getOption( 'sq_devkit_logo' );
-							$options['sq_devkit_name']          = SQ_Classes_Helpers_Tools::getOption( 'sq_devkit_name' );
-							$options['sq_devkit_menu_name']     = SQ_Classes_Helpers_Tools::getOption( 'sq_devkit_menu_name' );
-							$options['sq_devkit_audit_success'] = SQ_Classes_Helpers_Tools::getOption( 'sq_devkit_audit_success' );
-							$options['sq_devkit_audit_fail']    = SQ_Classes_Helpers_Tools::getOption( 'sq_devkit_audit_fail' );
-							//never accept auth state from an imported backup - always keep what's local
-							foreach ( SQ_Classes_Helpers_SiteAuth::authOptionKeys() as $authKey ) {
-								$options[ $authKey ] = SQ_Classes_Helpers_Tools::getOption( $authKey );
-							}
-							SQ_Classes_Helpers_Tools::$options  = $options;
-							SQ_Classes_Helpers_Tools::saveOptions();
-
-							//Check if there is an old backup from Squirrly
-							SQ_Classes_Helpers_Tools::getOptions();
-
-							//reset the report time
-							SQ_Classes_Helpers_Tools::saveOptions( 'seoreport_time', false );
-
-							SQ_Classes_Error::setMessage( esc_html__( "Great! The backup is restored.", 'squirrly-seo' ) . " <br /> " );
-						} else {
-							SQ_Classes_Error::setError( esc_html__( "Error! The backup is not valid.", 'squirrly-seo' ) . " <br /> " );
-						}
-					} catch ( Exception $e ) {
-						SQ_Classes_Error::setError( esc_html__( "Error! The backup is not valid.", 'squirrly-seo' ) . " <br /> " );
-					}
-				} else {
-					SQ_Classes_Error::setError( esc_html__( "Error! You have to enter a previously saved backup file.", 'squirrly-seo' ) . " <br /> " );
-				}
-				break;
-			case 'sq_seosettings_backupseo':
-
-				if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
-					SQ_Classes_Error::setError( esc_html__( "You do not have permission to perform this action", 'squirrly-seo' ) );
-
-					return;
-				}
-
-				header( 'Content-Type: application/octet-stream' );
-				header( "Content-Transfer-Encoding: Binary" );
-				header( "Content-Disposition: attachment; filename=squirrly-seo-" . gmdate( 'Y-m-d' ) . ".sql" );
-
-				if ( function_exists( 'base64_encode' ) ) {
-					echo base64_encode( SQ_Classes_ObjController::getClass( 'SQ_Models_ImportExport' )->createTableBackup() );
-				} else {
-					echo SQ_Classes_ObjController::getClass( 'SQ_Models_ImportExport' )->createTableBackup();
-				}
-				exit();
-			case 'sq_seosettings_restoreseo':
-
-				if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
-					SQ_Classes_Error::setError( esc_html__( "You do not have permission to perform this action", 'squirrly-seo' ) );
-
-					return;
-				}
-
-				if ( ! empty( $_FILES['sq_sql'] ) && $_FILES['sq_sql']['tmp_name'] <> '' ) {
-					$fp       = fopen( $_FILES['sq_sql']['tmp_name'], 'rb' );
-					$sql_file = '';
-					while ( ( $line = fgets( $fp ) ) !== false ) {
-						$sql_file .= $line;
-					}
-
-					if ( strpos( $sql_file, 'INSERT INTO' ) === false && function_exists( 'base64_encode' ) ) {
-						$sql_file = @base64_decode( $sql_file );
-					}
-
-					if ( $sql_file <> '' && strpos( $sql_file, 'INSERT INTO' ) !== false ) {
-						try {
-
-							$queries = explode( "INSERT INTO", $sql_file );
-							SQ_Classes_ObjController::getClass( 'SQ_Models_ImportExport' )->executeSql( $queries );
-							SQ_Classes_Error::setMessage( esc_html__( "Great! The SEO backup is restored.", 'squirrly-seo' ) . " <br /> " );
-
-						} catch ( Exception $e ) {
-							SQ_Classes_Error::setError( esc_html__( "Error! The backup is not valid.", 'squirrly-seo' ) . " <br /> " );
-						}
-					} else {
-						SQ_Classes_Error::setError( esc_html__( "Error! The backup is not valid.", 'squirrly-seo' ) . " <br /> " );
-					}
-				} else {
-					SQ_Classes_Error::setError( esc_html__( "Error! You have to enter a previously saved backup file.", 'squirrly-seo' ) . " <br /> " );
-				}
-				break;
-			case 'sq_seosettings_exportseo':
-
-				if ( ! SQ_Classes_Helpers_Tools::userCan( 'sq_manage_settings' ) ) {
-					SQ_Classes_Error::setError( esc_html__( "You do not have permission to perform this action", 'squirrly-seo' ) );
-
-					return;
-				}
-
-				header( 'Content-Type: application/json' );
-				header( "Content-Disposition: attachment; filename=squirrly-seo-" . gmdate( 'Y-m-d' ) . ".json" );
-
-				echo SQ_Classes_ObjController::getClass( 'SQ_Models_ImportExport' )->exportTableData();
-
+				echo wp_json_encode( array( 'done' => true ) );
 				exit();
 			case 'sq_seosettings_importall':
 

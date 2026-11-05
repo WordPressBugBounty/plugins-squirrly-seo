@@ -160,8 +160,9 @@ class SQ_Models_Menu {
 				'function'   => array( SQ_Classes_ObjController::getClass( 'SQ_Controllers_Audits' ), 'init' ),
 				'href'       => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_audits', 'aivisibility' ),
 				'icon'       => 'fa-solid fa-robot',
-				'topmenu'    => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_audit' ),
-				'leftmenu'   => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_audit' ),
+				//Dev Kit: hidden with GEO Audit, or on its own (show_aivisibility)
+				'topmenu'    => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_audit' ) && SQ_Classes_Helpers_Tools::getMenuVisible( 'show_aivisibility' ),
+				'leftmenu'   => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_audit' ) && SQ_Classes_Helpers_Tools::getMenuVisible( 'show_aivisibility' ),
 				'fullscreen' => true
 			),
 
@@ -555,6 +556,7 @@ class SQ_Models_Menu {
 			'sq_assistant/bulkseo' => array(
 				'title'      => esc_html__( "Bulk SEO", 'squirrly-seo' ),
 				'capability' => 'sq_manage_snippet',
+				'show'       => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_bulkseo' ), //Dev Kit: Bulk SEO is this tab now
 				'icon'       => 'fa-solid fa-block-brick',
 			),
 
@@ -636,6 +638,7 @@ class SQ_Models_Menu {
 			'sq_assistant/bulkseo' => array(
 				'title'      => esc_html__( "Bulk SEO", 'squirrly-seo' ),
 				'capability' => 'sq_manage_snippet',
+				'show'       => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_bulkseo' ), //Dev Kit: Bulk SEO is this tab now
 				'icon'       => 'fa-solid fa-block-brick',
 			),
 		);
@@ -834,6 +837,7 @@ class SQ_Models_Menu {
 					array(
 						'title' => esc_html__( "AI Tools", 'squirrly-seo' ),
 						'tab'   => 'aitools',
+						'show'  => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_aitools' ), //Dev Kit
 					),
 				)
 			),

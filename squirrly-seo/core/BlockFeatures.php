@@ -634,7 +634,7 @@ class SQ_Core_BlockFeatures extends SQ_Classes_BlockController {
 				'logo'        => 'fa-solid fa-robot',
 				'link'        => SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'webmaster#tab=aitools' ),
 				'details'     => 'https://howto.squirrly.co/kb/how-to-connect-mcp-plugins-to-squirrly-seo/',
-				'show'        => true,
+				'show'        => SQ_Classes_Helpers_Tools::getMenuVisible( 'show_aitools' ), //Dev Kit
 			), //AI Assistants (MCP)
 			array(
 				'title'       => "Plugins Integration",

@@ -167,5 +167,109 @@ class SQ_Models_FocusPages {
 			                        ->init();
 		}
 	}
+	/**
+	 * The WordPress-side data the Focus Pages sections read (Snippet, Platform SEO, Indexability, Inner Links, Nofollow,
+	 * Image, Content), sent with set-focus / update-focus so Squirrly Cloud can compute Focus Pages too. The plugin keeps
+	 * computing them locally. Field names agreed with Squirrly API (2026-11-05).
+	 *
+	 * @param int $post_id
+	 *
+	 * @return string JSON, or '' when the post can't be read
+	 */
+	public function getSiteSignals( $post_id ) {
+		try {
+			$wp_post = get_post( (int) $post_id );
+			if ( ! $wp_post ) {
+				return '';
+			}
 
+			/** @var SQ_Models_Domain_Post $post */
+			$post = SQ_Classes_ObjController::getClass( 'SQ_Models_Snippet' )->setPostByID( (int) $post_id );
+			if ( ! $post || ! isset( $post->sq ) ) {
+				return '';
+			}
+
+			$sq  = $post->sq;
+			$adm = $post->sq_adm;
+
+			//the same <img src> list the Image section reads, at most 20
+			$images = array();
+			if ( $wp_post->post_content <> '' && preg_match_all( '/<img[^>]*src=[\'"]([^\'"]+)[\'"][^>]*>/i', stripslashes( $wp_post->post_content ), $out ) ) {
+				$images = array_slice( array_values( array_unique( $out[1] ) ), 0, 20 );
+			}
+
+			//the image Snippet uses when the OG / Twitter image is empty: featured image first, then the first content image
+			$featured = '';
+			$og       = SQ_Classes_ObjController::getNewClass( 'SQ_Models_Services_OpenGraph' );
+			$og->setPost( $post );
+			$post_images = $og->getPostImages();
+			if ( ! empty( $post_images ) ) {
+				$first    = current( $post_images );
+				$featured = isset( $first['src'] ) ? (string) $first['src'] : '';
+			}
+
+			$patterns = SQ_Classes_Helpers_Tools::getOption( 'patterns' );
+			$tasks    = json_decode( (string) get_option( SQ_TASKS ), true );
+			$sitemap  = SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap_show' );
+
+			return wp_json_encode( array(
+				'version'      => SQ_VERSION,
+				'post'         => array(
+					'post_id'           => (int) $wp_post->ID,
+					'post_type'         => (string) $wp_post->post_type,
+					'url'               => (string) $post->url,
+					'post_modified_gmt' => (string) $wp_post->post_modified_gmt,
+					'content_images'    => $images,
+					'featured_image'    => $featured,
+				),
+				'snippet'      => array(
+					'doseo'                    => (int) $sq->doseo,
+					'title'                    => (string) $sq->title,
+					'description'              => (string) $sq->description,
+					'keywords'                 => (string) $sq->keywords,
+					'og_title'                 => (string) $sq->og_title,
+					'og_description'           => (string) $sq->og_description,
+					'og_media'                 => (string) $sq->og_media,
+					'tw_title'                 => (string) $sq->tw_title,
+					'tw_description'           => (string) $sq->tw_description,
+					'tw_media'                 => (string) $sq->tw_media,
+					'og_title_maxlength'       => (int) $sq->og_title_maxlength,
+					'og_description_maxlength' => (int) $sq->og_description_maxlength,
+					'tw_title_maxlength'       => (int) $sq->tw_title_maxlength,
+					'tw_description_maxlength' => (int) $sq->tw_description_maxlength,
+					'adm_title'                => ( $adm ? (string) $adm->title : '' ),
+				),
+				'platform'     => array(
+					'sq_auto_pattern' => (int) SQ_Classes_Helpers_Tools::getOption( 'sq_auto_pattern' ),
+					'pattern_exists'  => (int) isset( $patterns[ $wp_post->post_type ] ),
+					'do_pattern'      => (int) $sq->do_pattern,
+					'adm_doseo'       => ( $adm ? (int) $adm->doseo : 0 ),
+					'sq_auto_sitemap' => (int) SQ_Classes_Helpers_Tools::getOption( 'sq_auto_sitemap' ),
+					'sq_sitemap_show' => array(
+						'images' => (int) ( isset( $sitemap['images'] ) && $sitemap['images'] ),
+						'videos' => (int) ( isset( $sitemap['videos'] ) && $sitemap['videos'] ),
+					),
+					'adm_nositemap'   => ( $adm ? (int) $adm->nositemap : 0 ),
+					'sq_auto_robots'  => (int) SQ_Classes_Helpers_Tools::getOption( 'sq_auto_robots' ),
+				),
+				'indexability' => array(
+					'do_sitemap'    => (int) $sq->do_sitemap,
+					'canonical'     => (string) $sq->canonical,
+					'gscindex_done' => (int) ! empty( $tasks['indexability']['gscindex'][ (int) $wp_post->ID ] ),
+				),
+				'innerlinks'   => array( 'sq_auto_innelinks' => (int) SQ_Classes_Helpers_Tools::getOption( 'sq_auto_innelinks' ) ),
+				'nofollow'     => array(
+					'home_url'              => home_url(),
+					'site_url'              => site_url(),
+					'sq_external_exception' => array_slice( array_values( array_filter( (array) SQ_Classes_Helpers_Tools::getOption( 'sq_external_exception' ) ) ), 0, 100 ),
+				),
+				'site'         => array(
+					'sq_og_image' => (string) SQ_Classes_Helpers_Tools::getOption( 'sq_og_image' ),
+					'sq_tc_image' => (string) SQ_Classes_Helpers_Tools::getOption( 'sq_tc_image' ),
+				),
+			) );
+		} catch ( Exception $e ) {
+			return '';
+		}
+	}
 }

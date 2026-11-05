@@ -11,19 +11,20 @@ if ( ! isset( $view ) ) {
  */
 ?>
 <?php $page = apply_filters( 'sq_page', SQ_Classes_Helpers_Tools::getValue( 'page', '' ) ); ?>
+<?php $sq_toolbar_name = apply_filters( 'sq_menu_name', _SQ_MENU_NAME_ ); //the Dev Kit name, like the WordPress menu ?>
 <div id="sq_toolbarblog" class="col-12 m-0 p-0">
     <nav class="navbar navbar-expand-sm bg-primary p-0 m-0 py-1">
         <div class="container-fluid p-0 m-0">
 	        <?php if ( $page == 'sq_dashboard' ) { ?>
             <div class="justify-content-start col p-0 m-0 px-3" style="line-height: 36px;" id="navigation">
                 <a href="<?php echo esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_dashboard' ) ) ?>"><span class="sq_logo sq_logo_30 float-left" style="margin: 3px 0;"></span></a>
-                <a href="<?php echo esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_dashboard' ) ) ?>"><span class="sq_logo_toolbar_text ml-2 text-white float-left" style="font-size: 16px;"><?php echo  'GEO Plugin by Squirrly SEO (v'. SQ_VERSION .')' ?></span></a>
+                <a href="<?php echo esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_dashboard' ) ) ?>"><span class="sq_logo_toolbar_text ml-2 text-white float-left" style="font-size: 16px;"><?php echo esc_html( $sq_toolbar_name !== _SQ_MENU_NAME_ ? $sq_toolbar_name : 'GEO Plugin by Squirrly SEO (v' . SQ_VERSION . ')' ) ?></span></a>
 				<?php do_action( 'sq_toolbar_start' ); ?>
             </div>
 	        <?php }else{?>
             <div class="justify-content-start col p-0 m-0 px-3" id="navigation">
                 <a href="<?php echo esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_dashboard' ) ) ?>"><span class="sq_logo sq_logo_30 float-left"></span></a>
-                <a href="<?php echo esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_dashboard' ) ) ?>"><span class="sq_logo_toolbar_text ml-2 text-white float-left"><?php echo esc_html( _SQ_MENU_NAME_ ) ?></span></a>
+                <a href="<?php echo esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_dashboard' ) ) ?>"><span class="sq_logo_toolbar_text ml-2 text-white float-left"><?php echo esc_html( $sq_toolbar_name ) ?></span></a>
 		        <?php do_action( 'sq_toolbar_start' ); ?>
             </div>
             <?php }?>

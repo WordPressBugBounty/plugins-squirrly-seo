@@ -1972,6 +1972,14 @@ class SQ_Classes_RemoteController
     {
         self::$apimethod = 'post'; //post call
 
+        //the WordPress-side Focus Pages data, so Squirrly Cloud can compute Focus Pages too (never blocks the call)
+        if (!empty($args['post_id']) && !isset($args['site_signals'])) {
+            $signals = SQ_Classes_ObjController::getClass('SQ_Models_FocusPages')->getSiteSignals((int)$args['post_id']);
+            if ($signals <> '') {
+                $args['site_signals'] = $signals;
+            }
+        }
+
         $json = json_decode(self::apiCall('api/posts/set-focus', $args));
 
         if (isset($json->error) && $json->error <> '') {
@@ -1990,6 +1998,14 @@ class SQ_Classes_RemoteController
     public static function updateFocusPage($args = array())
     {
         self::$apimethod = 'post'; //post call
+
+        //the WordPress-side Focus Pages data, so Squirrly Cloud can compute Focus Pages too (never blocks the call)
+        if (!empty($args['post_id']) && !isset($args['site_signals'])) {
+            $signals = SQ_Classes_ObjController::getClass('SQ_Models_FocusPages')->getSiteSignals((int)$args['post_id']);
+            if ($signals <> '') {
+                $args['site_signals'] = $signals;
+            }
+        }
 
         $json = json_decode(self::apiCall('api/posts/update-focus', $args));
 

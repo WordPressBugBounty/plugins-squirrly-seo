@@ -109,8 +109,9 @@ class SQ_Models_ImportExport {
 				'nofollow'       => '_seopress_robots_follow',
 			),
 			'seo-title-tag'              => array(
-				'Custom Doctitle'  => 'title_tag',
-				'META Description' => 'meta_description',
+				//keys are Squirrly's field names, like every other platform (the labels used before were never read)
+				'title'       => 'title_tag',
+				'description' => 'meta_description',
 			),
 			'seo-ultimate'               => array(
 				'title'       => '_su_title',
@@ -404,7 +405,8 @@ class SQ_Models_ImportExport {
 						$codes['pinterest_verify'] = $options['webmasterTools']['pinterest'];
 					}
 					if ( isset( $options['webmasterTools']['google'] ) && $options['webmasterTools']['google'] <> '' ) {
-						$codes['google_analytics'] = $options['webmasterTools']['google'];
+						//AIOSEO's Google value is the Search Console verification code, not an Analytics ID
+						$codes['google_wt'] = $options['webmasterTools']['google'];
 					}
 					if ( isset( $options['webmasterTools']['yandex'] ) && $options['webmasterTools']['yandex'] <> '' ) {
 						$codes['yandex_wt'] = $options['webmasterTools']['yandex'];
@@ -1468,92 +1470,6 @@ class SQ_Models_ImportExport {
 	}
 
 	/**
-	 * Create a Squirrly SEO export jsonld
-	 *
-	 * @return string
-	 */
-	function exportTableData() {
-		global $wpdb;
-
-		$tables = $wpdb->get_col( 'SHOW TABLES' );
-		$output = array();
-		$keys   = array(
-			'title',
-			'description',
-			'keywords',
-			'canonical',
-			'tw_media',
-			'tw_title',
-			'tw_description',
-			'tw_type',
-			'og_title',
-			'og_description',
-			'og_author',
-			'og_type',
-			'og_media',
-			'optimizations',
-			'redirect'
-		);
-		foreach ( $tables as $table ) {
-			if ( $table == $wpdb->prefix . _SQ_DB_ ) {
-				$results = $wpdb->get_results( "SELECT post,seo FROM `$table`" );
-				foreach ( $results as $row ) {
-					$post     = (array) @unserialize( $row->post, array( 'allowed_classes' => false ) );
-					$seo      = (array) @unserialize( $row->seo, array( 'allowed_classes' => false ) );
-					$seo      = array_intersect_key( $seo, array_flip( $keys ) );
-					$output[] = array_merge( $post, $seo );
-				}
-				break;
-			}
-		}
-		$wpdb->flush();
-
-		return json_encode( $output );
-	}
-
-	/**
-	 * Create a Squirrly SEO Backup
-	 *
-	 * @return string
-	 */
-	function createTableBackup() {
-		global $wpdb;
-
-		$tables = $wpdb->get_col( 'SHOW TABLES' );
-		$output = '';
-		foreach ( $tables as $table ) {
-			if ( $table == $wpdb->prefix . _SQ_DB_ ) {
-				$result  = $wpdb->get_results( "SELECT * FROM `$table`", ARRAY_N );
-				$columns = $wpdb->get_results( "SHOW COLUMNS FROM `$table`", ARRAY_N );
-				for ( $i = 0; $i < count( (array) $result ); $i ++ ) {
-					$row    = $result[ $i ];
-					$output .= "INSERT INTO `$table` (";
-					for ( $col = 0; $col < count( (array) $columns ); $col ++ ) {
-						$output .= ( isset( $columns[ $col ][0] ) ? $columns[ $col ][0] : "''" );
-						if ( $col < ( count( (array) $columns ) - 1 ) ) {
-							$output .= ',';
-						}
-					}
-					$output .= ') VALUES(';
-					for ( $j = 0; $j < count( (array) $result[0] ); $j ++ ) {
-						$row[ $j ] = str_replace( array( "\'", "'" ), array( "'", "\'" ), $row[ $j ] );
-						$output    .= ( isset( $row[ $j ] ) ? "'" . $row[ $j ] . "'" : "''" );
-						if ( $j < ( count( (array) $result[0] ) - 1 ) ) {
-							$output .= ',';
-						}
-					}
-					$output .= ")\n";
-				}
-				$output .= "\n";
-				break;
-			}
-		}
-		$wpdb->flush();
-
-		return $output;
-	}
-
-	/**
 	 * Restore a Squirrly SEO backup
 	 *
 	 * @param  $queries
@@ -1626,5 +1542,713 @@ class SQ_Models_ImportExport {
 		}
 
 		return false;
+	}
+	/**
+	 * The Squirrly settings to put in a backup: everything except what belongs to this site's connection
+	 * (login keys and the Cloud token are credentials, not settings to carry over).
+	 *
+	 * @return array
+	 */
+	public function getSettingsForExport() {
+		$options = SQ_Classes_Helpers_Tools::$options;
+
+		foreach ( SQ_Classes_Helpers_SiteAuth::authOptionKeys() as $authKey ) {
+			unset( $options[ $authKey ] );
+		}
+		unset( $options['sq_api'], $options['sq_cloud_token'] );
+
+		return $options;
+	}
+
+	/**
+	 * Restore the Squirrly settings from a backup and keep what belongs to this site: the Cloud connection, the login
+	 * keys, the journey state, the menu and the white-label values.
+	 *
+	 * @param array $options
+	 *
+	 * @return bool false when the data is not a Squirrly settings backup
+	 */
+	public function restoreSettings( $options ) {
+
+		//Backups made since 14.2.8 have no sq_api (the Cloud token is left out), so they are recognized by their settings.
+		//Requiring sq_api made every recent settings backup "not valid".
+		if ( ! is_array( $options ) || ! ( isset( $options['sq_api'] ) || isset( $options['patterns'] ) || isset( $options['sq_auto_sitemap'] ) ) ) {
+			return false;
+		}
+
+		//keep the local values; sq_cloud_token too, or restoring a backup disconnected the site from Squirrly Cloud
+		foreach ( array( 'sq_api', 'sq_cloud_token', 'sq_seojourney', 'menu', 'sq_auto_devkit', 'sq_devkit_logo', 'sq_devkit_name', 'sq_devkit_menu_name', 'sq_devkit_audit_success', 'sq_devkit_audit_fail' ) as $key ) {
+			$options[ $key ] = SQ_Classes_Helpers_Tools::getOption( $key );
+		}
+
+		//never accept auth state from an imported backup - always keep what's local
+		foreach ( SQ_Classes_Helpers_SiteAuth::authOptionKeys() as $authKey ) {
+			$options[ $authKey ] = SQ_Classes_Helpers_Tools::getOption( $authKey );
+		}
+
+		SQ_Classes_Helpers_Tools::$options = $options;
+		SQ_Classes_Helpers_Tools::saveOptions();
+
+		//Check if there is an old backup from Squirrly
+		SQ_Classes_Helpers_Tools::getOptions();
+
+		//reset the report time
+		SQ_Classes_Helpers_Tools::saveOptions( 'seoreport_time', false );
+
+		return true;
+	}
+
+	/**
+	 * Read the whole Briefcase from Squirrly Cloud, page by page, with the labels of each keyword.
+	 *
+	 * @param callable|null $each called with ( $labels, $keywords ) for every page; without it, all pages are returned at once
+	 *
+	 * @return array|WP_Error array( 'labels' => array of {id,name,color}, 'keywords' => array of keyword rows )
+	 */
+	public function getCloudBriefcase( $each = null ) {
+		//classes load through the ObjController; the Cloud client isn't loaded yet outside the admin screens (WP-CLI, cron)
+		SQ_Classes_ObjController::getClass( 'SQ_Classes_RemoteController' );
+
+		$labels = $keywords = array();
+		$start  = 0;
+		$limit  = 1000;
+
+		do {
+			//the Briefcase screen arguments: with them the API also returns the labels
+			$response = SQ_Classes_RemoteController::getBriefcase( array(
+				'start'  => $start,
+				'limit'  => $limit,
+				'sort'   => 'keyword',
+				'order'  => 'asc',
+				'search' => '',
+			) );
+
+			if ( is_wp_error( $response ) ) {
+				return $response;
+			}
+
+			if ( empty( $response ) ) {
+				break;
+			}
+
+			if ( empty( $labels ) && ! empty( $response->labels ) ) {
+				//id 0 is the "Keywords without labels" filter, not a label
+				$labels = array_values( array_filter( (array) $response->labels, function ( $label ) {
+					return isset( $label->id, $label->name ) && (int) $label->id > 0;
+				} ) );
+			}
+
+			$rows  = ( ! empty( $response->keywords ) ? (array) $response->keywords : array() );
+			$total = ( isset( $response->results ) ? (int) $response->results : 0 );
+			$start += $limit;
+
+			if ( $each ) {
+				call_user_func( $each, $labels, $rows );
+			} else {
+				$keywords = array_merge( $keywords, $rows );
+			}
+
+		} while ( count( $rows ) == $limit && $start < $total );
+
+		return array( 'labels' => $labels, 'keywords' => $keywords );
+	}
+
+	/**
+	 * Which Advanced Pack table each export part uses.
+	 *
+	 * @return array part => table name without prefix
+	 */
+	public function getPackParts() {
+		return array( 'redirects' => 'qss_redirects', 'schemas' => 'qss_jsonld' );
+	}
+
+	/**
+	 * The Advanced Pack tables that hold user data and exist on this site (redirect rules, JSON-LD schemas).
+	 * The redirect log is left out: it's a log, not data to restore.
+	 *
+	 * @param array $parts redirects and/or schemas
+	 *
+	 * @return array name => full table name
+	 */
+	public function getPackTables( $parts = array( 'redirects', 'schemas' ) ) {
+		global $wpdb;
+
+		$tables = array();
+		foreach ( array_intersect_key( $this->getPackParts(), array_flip( $parts ) ) as $name ) {
+			$table = $wpdb->prefix . $name;
+			if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) === $table ) {
+				$tables[ $name ] = $table;
+			}
+		}
+
+		return $tables;
+	}
+
+	/**
+	 * Export everything Squirrly keeps for this site, one record per line (JSON Lines), written as it is read:
+	 * memory stays the same for 100 pages or 100,000. The parts: settings, seo (every page, with the keyword
+	 * optimizations and inner links), briefcase (keywords with their labels), redirects and schemas (Advanced Pack).
+	 *
+	 * @param array $parts
+	 * @param callable $write receives each line
+	 *
+	 * @return void
+	 */
+	public function streamExport( $parts, $write ) {
+		global $wpdb;
+
+		$line = function ( $type, $data ) use ( $write ) {
+			call_user_func( $write, wp_json_encode( array( 't' => $type, 'd' => $data ) ) . "\n" );
+		};
+
+		$line( 'meta', array( 'squirrly_backup' => 2, 'plugin_version' => SQ_VERSION, 'site' => home_url(), 'created' => gmdate( 'Y-m-d H:i:s' ), 'parts' => array_values( $parts ) ) );
+
+		if ( in_array( 'settings', $parts, true ) ) {
+			$line( 'settings', $this->getSettingsForExport() );
+		}
+
+		//SEO of every page, exactly as stored, 1000 rows at a time
+		if ( in_array( 'seo', $parts, true ) ) {
+			$table = $wpdb->prefix . _SQ_DB_;
+			$last  = 0;
+			do {
+				$rows = $wpdb->get_results( $wpdb->prepare( "SELECT id, URL, url_hash, post, seo, date_time FROM `$table` WHERE blog_id = %d AND id > %d ORDER BY id LIMIT 1000", get_current_blog_id(), $last ), ARRAY_A );
+				foreach ( (array) $rows as $row ) {
+					$last = (int) $row['id'];
+					unset( $row['id'] );
+					$line( 'seo', $row );
+				}
+			} while ( ! empty( $rows ) && count( $rows ) == 1000 );
+		}
+
+		//Briefcase from Squirrly Cloud (when the site is connected): the labels first, then the keywords
+		if ( in_array( 'briefcase', $parts, true ) ) {
+			$labels_sent = false;
+			$this->getCloudBriefcase( function ( $labels, $keywords ) use ( $line, &$labels_sent ) {
+				$names = array();
+				foreach ( $labels as $label ) {
+					$names[ (int) $label->id ] = (string) $label->name;
+					if ( ! $labels_sent ) {
+						$line( 'label', array( 'name' => (string) $label->name, 'color' => ( isset( $label->color ) ? (string) $label->color : '' ) ) );
+					}
+				}
+				$labels_sent = true;
+
+				foreach ( $keywords as $row ) {
+					if ( ! isset( $row->keyword ) || $row->keyword === '' ) {
+						continue;
+					}
+
+					$row_labels = array();
+					foreach ( ( ! empty( $row->labels ) ? (array) $row->labels : array() ) as $label ) {
+						if ( isset( $label->name ) ) {
+							$row_labels[] = (string) $label->name;
+						} elseif ( isset( $label->lid, $names[ (int) $label->lid ] ) ) {
+							$row_labels[] = $names[ (int) $label->lid ];
+						}
+					}
+
+					$line( 'keyword', array( 'keyword' => (string) $row->keyword, 'labels' => array_values( array_unique( $row_labels ) ) ) );
+				}
+			} );
+		}
+
+		//Advanced Pack rows, 1000 at a time
+		foreach ( $this->getPackTables( $parts ) as $name => $pack_table ) {
+			$last = 0;
+			do {
+				$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `$pack_table` WHERE id > %d ORDER BY id LIMIT 1000", $last ), ARRAY_A );
+				foreach ( (array) $rows as $row ) {
+					$last = (int) $row['id'];
+					$line( $name, $row );
+				}
+			} while ( ! empty( $rows ) && count( $rows ) == 1000 );
+		}
+	}
+
+	/**
+	 * Folder for the uploaded import file while it is imported. The file name is random and the folder refuses
+	 * direct access on Apache; the file is deleted when the import ends or is cancelled.
+	 *
+	 * @return string|false
+	 */
+	private function getImportDir() {
+		$upload = wp_upload_dir();
+		if ( ! empty( $upload['error'] ) ) {
+			return false;
+		}
+
+		$dir = trailingslashit( $upload['basedir'] ) . 'squirrly-import/';
+		if ( ! is_dir( $dir ) && ! wp_mkdir_p( $dir ) ) {
+			return false;
+		}
+
+		if ( ! file_exists( $dir . 'index.php' ) ) {
+			@file_put_contents( $dir . 'index.php', "<?php\n// Silence is golden.\n" ); // phpcs:ignore
+			@file_put_contents( $dir . '.htaccess', "Deny from all\n" ); // phpcs:ignore
+		}
+
+		return $dir;
+	}
+
+	/**
+	 * Restore a backup made with the older, separate Backup buttons, so those files still work after the buttons
+	 * were replaced by Export Everything: Settings (JSON), SEO (SQL of the Squirrly table), Briefcase (keyword list),
+	 * and the Advanced Pack's Redirects and Schemas (SQL of their tables). The SQL backups are base64 encoded.
+	 *
+	 * @param string $file
+	 * @param array $parts the switches that are on
+	 *
+	 * @return string|array an error message, or array( 'message' => what was restored )
+	 */
+	private function importLegacyBackup( $file, $parts ) {
+		$raw  = trim( (string) file_get_contents( $file ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+		$text = $raw;
+
+		if ( $raw === '' ) {
+			return esc_html__( "Error! The backup is not valid.", 'squirrly-seo' );
+		}
+
+		//the SQL backups and some settings backups are base64 encoded
+		if ( strpos( $raw, 'INSERT INTO' ) === false && ! in_array( $raw[0], array( '{', '[' ), true ) && preg_match( '/^[A-Za-z0-9+\/=\r\n]+$/', substr( $raw, 0, 2000 ) ) ) {
+			$decoded = base64_decode( $raw, true );
+			if ( $decoded !== false && ( strpos( $decoded, 'INSERT INTO' ) !== false || in_array( substr( ltrim( $decoded ), 0, 1 ), array( '{', '[' ), true ) ) ) {
+				$text = trim( $decoded );
+			}
+		}
+
+		$need = function ( $part, $name ) use ( $parts ) {
+			return in_array( $part, $parts, true ) ? '' : sprintf( esc_html__( "This backup file holds %s: switch on that part to import it.", 'squirrly-seo' ), $name );
+		};
+
+		//SQL backups: the table name says which one
+		if ( strpos( $text, 'INSERT INTO' ) !== false ) {
+			$queries = explode( 'INSERT INTO', $text );
+
+			if ( preg_match( '/INSERT INTO\s+`?\w*qss_redirects`?/', $text ) ) {
+				if ( $error = $need( 'redirects', esc_html__( "Redirects", 'squirrly-seo' ) ) ) {
+					return $error;
+				}
+				if ( ! class_exists( 'SQP_Classes_ObjController' ) ) {
+					return esc_html__( "Activate Squirrly SEO - Advanced Pack first, then import the redirects and schemas again.", 'squirrly-seo' );
+				}
+				SQP_Classes_ObjController::getClass( 'SQP_Models_Redirects_Admin' )->restoreTableBackup( $queries );
+
+				return array( 'message' => esc_html__( "Redirects restored from the backup file.", 'squirrly-seo' ) );
+			}
+
+			if ( preg_match( '/INSERT INTO\s+`?\w*qss_jsonld`?/', $text ) ) {
+				if ( $error = $need( 'schemas', esc_html__( "Schemas", 'squirrly-seo' ) ) ) {
+					return $error;
+				}
+				if ( ! class_exists( 'SQP_Classes_ObjController' ) ) {
+					return esc_html__( "Activate Squirrly SEO - Advanced Pack first, then import the redirects and schemas again.", 'squirrly-seo' );
+				}
+				SQP_Classes_ObjController::getClass( 'SQP_Models_Jsonld_Database' )->restoreTableBackup( $queries );
+
+				return array( 'message' => esc_html__( "Schemas restored from the backup file.", 'squirrly-seo' ) );
+			}
+
+			if ( $error = $need( 'seo', esc_html__( "SEO", 'squirrly-seo' ) ) ) {
+				return $error;
+			}
+			$this->executeSql( $queries );
+
+			return array( 'message' => esc_html__( "SEO restored from the backup file.", 'squirrly-seo' ) );
+		}
+
+		$json = json_decode( $text, true );
+
+		//Settings backup: the options as a JSON object
+		if ( is_array( $json ) && ( isset( $json['patterns'] ) || isset( $json['sq_api'] ) || isset( $json['sq_auto_sitemap'] ) ) ) {
+			if ( $error = $need( 'settings', esc_html__( "Settings", 'squirrly-seo' ) ) ) {
+				return $error;
+			}
+
+			return ( $this->restoreSettings( $json ) ? array( 'message' => esc_html__( "Settings restored from the backup file.", 'squirrly-seo' ) ) : esc_html__( "Error! The backup is not valid.", 'squirrly-seo' ) );
+		}
+
+		//Briefcase backup: one keyword per line (or CSV, first column), or a JSON list of {keyword}
+		$keywords = array();
+		if ( is_array( $json ) ) {
+			foreach ( $json as $row ) {
+				if ( isset( $row['keyword'] ) && is_string( $row['keyword'] ) ) {
+					$keywords[] = $row['keyword'];
+				}
+			}
+		} else {
+			foreach ( preg_split( '/\r\n|\r|\n/', $raw ) as $line ) {
+				$cells      = str_getcsv( $line, ( strpos( $line, ';' ) !== false ? ';' : ',' ) );
+				$keywords[] = ( isset( $cells[0] ) ? $cells[0] : '' );
+			}
+		}
+
+		$keywords = array_values( array_unique( array_filter( array_map( function ( $keyword ) {
+			$keyword = trim( sanitize_text_field( (string) $keyword ) );
+
+			return ( $keyword === '' || strlen( $keyword ) > 255 || is_numeric( $keyword ) ) ? '' : $keyword;
+		}, $keywords ) ) ) );
+
+		if ( empty( $keywords ) ) {
+			return esc_html__( "Error! The backup is not valid.", 'squirrly-seo' );
+		}
+
+		if ( $error = $need( 'briefcase', esc_html__( "Briefcase", 'squirrly-seo' ) ) ) {
+			return $error;
+		}
+
+		SQ_Classes_ObjController::getClass( 'SQ_Classes_RemoteController' );
+		$added = $failed = 0;
+		foreach ( array_chunk( $keywords, 500 ) as $chunk ) {
+			if ( is_wp_error( SQ_Classes_RemoteController::importBriefcaseKeywords( array( 'keywords' => wp_json_encode( $chunk ) ) ) ) ) {
+				$failed += count( $chunk );
+			} else {
+				$added += count( $chunk );
+			}
+		}
+
+		if ( ! $added && $failed ) {
+			return esc_html__( "Briefcase not imported: connect the site to Squirrly Cloud first.", 'squirrly-seo' );
+		}
+
+		return array( 'message' => sprintf( esc_html__( "Briefcase: %d keywords imported from the backup file.", 'squirrly-seo' ), $added ) );
+	}
+
+	/**
+	 * The import in progress, if any.
+	 *
+	 * @return array|false
+	 */
+	public function getImportJob() {
+		$job = get_option( 'sq_import_job' );
+
+		return ( is_array( $job ) && ! empty( $job['file'] ) ? $job : false );
+	}
+
+	/**
+	 * Stop the import in progress and delete its file.
+	 *
+	 * @return void
+	 */
+	public function cancelImport() {
+		if ( $job = $this->getImportJob() ) {
+			if ( file_exists( $job['file'] ) ) {
+				@unlink( $job['file'] ); // phpcs:ignore
+			}
+		}
+
+		delete_option( 'sq_import_job' );
+	}
+
+	/**
+	 * Take an uploaded Export Everything file and get the import ready: unpack it (gzip) into a private file and
+	 * remember what to import. The work itself is done by importStep(), in short steps.
+	 *
+	 * @param string $upload path of the uploaded file
+	 * @param array $parts settings, seo, briefcase, redirects, schemas
+	 *
+	 * @return true|string|array true when the stepped import starts, an error message, or array( 'message' ) when an
+	 *                           older backup file was restored right away
+	 */
+	public function startImport( $upload, $parts ) {
+		$this->cancelImport();
+
+		if ( ! $dir = $this->getImportDir() ) {
+			return esc_html__( "The uploads folder is not writable, so the file can't be imported.", 'squirrly-seo' );
+		}
+
+		$file = $dir . 'import-' . wp_generate_password( 24, false ) . '.jsonl';
+
+		//unpack, 1MB at a time (gzopen also reads a file that isn't compressed)
+		$in  = @gzopen( $upload, 'rb' ); // phpcs:ignore
+		$out = @fopen( $file, 'wb' ); // phpcs:ignore
+		if ( ! $in || ! $out ) {
+			return esc_html__( "Error! The backup is not valid.", 'squirrly-seo' );
+		}
+		while ( ! gzeof( $in ) ) {
+			$chunk = gzread( $in, 1048576 );
+			if ( $chunk === false ) {
+				break;
+			}
+			fwrite( $out, $chunk );
+		}
+		gzclose( $in );
+		fclose( $out );
+
+		//the first line says what the file is
+		$fp   = fopen( $file, 'rb' );
+		$meta = json_decode( (string) fgets( $fp ), true );
+		fclose( $fp );
+
+		if ( ! isset( $meta['t'], $meta['d']['squirrly_backup'] ) || $meta['t'] !== 'meta' ) {
+			//not an Export Everything file: one of the older backups (settings, SEO, Briefcase, redirects, schemas)
+			$legacy = $this->importLegacyBackup( $file, $parts );
+			@unlink( $file ); // phpcs:ignore
+
+			return $legacy;
+		}
+
+		$job = array(
+			'file'      => $file,
+			'size'      => filesize( $file ),
+			'offset'    => 0,
+			'parts'     => array_values( $parts ),
+			'started'   => time(),
+			'label_ids' => array(),
+			'existing'  => array(),
+			'count'     => array( 'settings' => 0, 'seo' => 0, 'skipped' => 0, 'labels' => 0, 'keywords' => 0, 'failed' => 0, 'qss_redirects' => 0, 'qss_jsonld' => 0 ),
+			'notes'     => array(),
+		);
+
+		//the Briefcase as it is now, so only what's missing gets added
+		if ( in_array( 'briefcase', $parts, true ) ) {
+			$current = $this->getCloudBriefcase();
+			if ( is_wp_error( $current ) ) {
+				$job['parts']   = array_values( array_diff( $job['parts'], array( 'briefcase' ) ) );
+				$job['notes'][] = esc_html__( "Briefcase not imported: connect the site to Squirrly Cloud first.", 'squirrly-seo' );
+			} else {
+				foreach ( $current['labels'] as $label ) {
+					$job['label_ids'][ strtolower( trim( $label->name ) ) ] = (int) $label->id;
+				}
+				foreach ( $current['keywords'] as $row ) {
+					if ( isset( $row->keyword ) ) {
+						//keep the label ids it has: the label call replaces a keyword's labels, and the import only adds
+						$lids = array();
+						foreach ( ( ! empty( $row->labels ) ? (array) $row->labels : array() ) as $label ) {
+							if ( ! empty( $label->lid ) ) {
+								$lids[] = (int) $label->lid;
+							}
+						}
+						$job['existing'][ strtolower( trim( $row->keyword ) ) ] = join( ',', $lids );
+					}
+				}
+			}
+		}
+
+		//Advanced Pack tables that exist here, and their columns
+		$job['pack'] = array();
+		foreach ( $this->getPackTables( $parts ) as $name => $table ) {
+			$job['pack'][ $name ] = $GLOBALS['wpdb']->get_col( "SHOW COLUMNS FROM `$table`" );
+		}
+		if ( array_intersect( array( 'redirects', 'schemas' ), $parts ) && empty( $job['pack'] ) ) {
+			$job['notes'][] = esc_html__( "Activate Squirrly SEO - Advanced Pack first, then import the redirects and schemas again.", 'squirrly-seo' );
+		}
+
+		update_option( 'sq_import_job', $job, false );
+
+		return true;
+	}
+
+	/**
+	 * Import the next part of the file: as many lines as fit in a few seconds, so no request gets near a server
+	 * time limit, whatever the size of the file.
+	 *
+	 * @param int $seconds
+	 *
+	 * @return array done, percent, count, notes
+	 */
+	public function importStep( $seconds = 8 ) {
+		if ( ! $job = $this->getImportJob() ) {
+			return array( 'done' => true, 'percent' => 100, 'error' => esc_html__( "There is no import in progress.", 'squirrly-seo' ) );
+		}
+
+		if ( ! $fp = @fopen( $job['file'], 'rb' ) ) { // phpcs:ignore
+			$this->cancelImport();
+
+			return array( 'done' => true, 'percent' => 100, 'error' => esc_html__( "The import file is gone. Upload it again.", 'squirrly-seo' ) );
+		}
+
+		fseek( $fp, (int) $job['offset'] );
+		$until   = microtime( true ) + $seconds;
+		$groups  = array();
+		$pending = array();
+
+		while ( microtime( true ) < $until && ( $raw = fgets( $fp ) ) !== false ) {
+			$row = json_decode( $raw, true );
+			if ( isset( $row['t'], $row['d'] ) ) {
+				$this->importLine( $row['t'], $row['d'], $job, $groups, $pending );
+			}
+
+			//send the Briefcase keywords in batches, so a step never waits on thousands of them at once
+			if ( count( $pending ) >= 200 || array_sum( array_map( 'count', $groups ) ) >= 200 ) {
+				$this->flushBriefcase( $job, $pending, $groups );
+			}
+		}
+
+		$job['offset'] = ftell( $fp );
+		$done          = feof( $fp );
+		fclose( $fp );
+
+		$this->flushBriefcase( $job, $pending, $groups );
+
+		$result = array(
+			'done'    => $done,
+			'percent' => ( $job['size'] ? min( 100, floor( $job['offset'] * 100 / $job['size'] ) ) : 100 ),
+			'count'   => $job['count'],
+			'notes'   => $job['notes'],
+		);
+
+		if ( $done ) {
+			$this->cancelImport();
+		} else {
+			update_option( 'sq_import_job', $job, false );
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Import one line of the file, if its part was selected.
+	 *
+	 * @param string $type
+	 * @param array $data
+	 * @param array $job
+	 * @param array $groups keywords per label set, for this step
+	 * @param array $pending keywords to add to the Briefcase, for this step
+	 *
+	 * @return void
+	 */
+	private function importLine( $type, $data, &$job, &$groups, &$pending ) {
+		global $wpdb;
+		$parts = $job['parts'];
+
+		if ( $type === 'settings' && in_array( 'settings', $parts, true ) ) {
+			$job['count']['settings'] = ( $this->restoreSettings( $data ) ? 1 : 0 );
+
+		} elseif ( $type === 'seo' && in_array( 'seo', $parts, true ) ) {
+			if ( $this->importSeoRow( $data ) ) {
+				$job['count']['seo'] ++;
+			} else {
+				$job['count']['skipped'] ++;
+			}
+
+		} elseif ( $type === 'label' && in_array( 'briefcase', $parts, true ) ) {
+			$name = ( isset( $data['name'] ) ? sanitize_text_field( $data['name'] ) : '' );
+			//"Keywords without labels" is the Briefcase filter for unlabeled keywords, not a label
+			if ( $name === '' || isset( $job['label_ids'][ strtolower( $name ) ] ) || strtolower( $name ) === 'keywords without labels' ) {
+				return;
+			}
+
+			$color = ( isset( $data['color'] ) && preg_match( '/^#[a-fA-F0-9]{3,6}$/', $data['color'] ) ? $data['color'] : '#ffffff' );
+			if ( ! is_wp_error( SQ_Classes_RemoteController::addBriefcaseLabel( array( 'name' => $name, 'color' => $color ) ) ) ) {
+				$job['count']['labels'] ++;
+
+				//read the id of the new label
+				$labels = SQ_Classes_RemoteController::getBriefcaseLabels();
+				if ( ! is_wp_error( $labels ) ) {
+					foreach ( (array) $labels as $label ) {
+						if ( isset( $label->id, $label->name ) && (int) $label->id > 0 ) {
+							$job['label_ids'][ strtolower( trim( $label->name ) ) ] = (int) $label->id;
+						}
+					}
+				}
+			}
+
+		} elseif ( $type === 'keyword' && in_array( 'briefcase', $parts, true ) ) {
+			$keyword = ( isset( $data['keyword'] ) ? trim( sanitize_text_field( $data['keyword'] ) ) : '' );
+			if ( $keyword === '' || strlen( $keyword ) > 255 ) {
+				return;
+			}
+
+			//added in batches by flushBriefcase(); the bulk import leaves rank tracking off, so no rank checks are spent
+			$lower = strtolower( $keyword );
+			if ( ! isset( $job['existing'][ $lower ] ) ) {
+				$pending[]                = $keyword;
+				$job['existing'][ $lower ] = '';
+			}
+
+			$ids = array();
+			foreach ( ( ! empty( $data['labels'] ) && is_array( $data['labels'] ) ? $data['labels'] : array() ) as $name ) {
+				$name = strtolower( trim( (string) $name ) );
+				if ( isset( $job['label_ids'][ $name ] ) ) {
+					$ids[] = $job['label_ids'][ $name ];
+				}
+			}
+			//add to the labels the keyword has; no call when it already has them all
+			$have = ( $job['existing'][ $lower ] === '' ? array() : array_map( 'intval', explode( ',', $job['existing'][ $lower ] ) ) );
+			if ( array_diff( $ids, $have ) ) {
+				$ids = array_unique( array_merge( $have, $ids ) );
+				sort( $ids );
+				$job['existing'][ $lower ]     = join( ',', $ids );
+				$groups[ join( ',', $ids ) ][] = $keyword;
+			}
+
+		} elseif ( isset( $job['pack'][ $type ] ) && in_array( array_search( $type, $this->getPackParts(), true ), $parts, true ) && is_array( $data ) ) {
+			//only the columns this table has; rows keep their ids, so patterns pointing to a reusable schema still find it
+			$data = array_intersect_key( $data, array_flip( $job['pack'][ $type ] ) );
+			foreach ( $data as $value ) {
+				if ( $this->hasSerializedObject( $value ) ) {
+					return;
+				}
+			}
+			if ( ! empty( $data ) && $wpdb->replace( $wpdb->prefix . $type, $data ) ) {
+				$job['count'][ $type ] ++;
+			}
+		}
+	}
+
+	/**
+	 * Add the waiting keywords to the Briefcase (api/briefcase/import, 500 per call) and give the keywords their
+	 * labels (api/briefcase/label/keywords, 200 per call, one call per label set: it replaces a keyword's labels).
+	 *
+	 * @param array $job
+	 * @param array $pending
+	 * @param array $groups
+	 *
+	 * @return void
+	 */
+	private function flushBriefcase( &$job, &$pending, &$groups ) {
+		foreach ( array_chunk( $pending, 500 ) as $chunk ) {
+			$added = SQ_Classes_RemoteController::importBriefcaseKeywords( array( 'keywords' => wp_json_encode( $chunk ) ) );
+			if ( is_wp_error( $added ) ) {
+				$job['count']['failed'] += count( $chunk );
+			} else {
+				$job['count']['keywords'] += count( $chunk );
+			}
+		}
+		$pending = array();
+
+		foreach ( $groups as $labels => $keywords ) {
+			foreach ( array_chunk( $keywords, 200 ) as $chunk ) {
+				SQ_Classes_RemoteController::saveBriefcaseKeywordsLabel( array( 'keywords' => $chunk, 'labels' => (string) $labels ) );
+			}
+		}
+		$groups = array();
+	}
+
+	/**
+	 * Whether a stored (serialized) value holds an object: an uploaded file must never bring objects into the database.
+	 *
+	 * @param string $value
+	 *
+	 * @return bool
+	 */
+	private function hasSerializedObject( $value ) {
+		return is_string( $value ) && (bool) preg_match( '/(^|[;{}])\s*[OC]:\+?\d+:"/', $value );
+	}
+
+	/**
+	 * Save one row of the SEO table from the file.
+	 *
+	 * @param array $row
+	 *
+	 * @return bool
+	 */
+	private function importSeoRow( $row ) {
+		if ( ! is_array( $row ) || ! isset( $row['url_hash'], $row['seo'] ) || ! preg_match( '/^[a-f0-9]{32}$/', (string) $row['url_hash'] ) ) {
+			return false;
+		}
+
+		$post = ( isset( $row['post'] ) ? (string) $row['post'] : '' );
+		$seo  = (string) $row['seo'];
+
+		if ( $this->hasSerializedObject( $post ) || $this->hasSerializedObject( $seo ) ) {
+			return false;
+		}
+
+		$date = ( isset( $row['date_time'] ) && preg_match( '/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', (string) $row['date_time'] ) ? $row['date_time'] : gmdate( 'Y-m-d H:i:s' ) );
+		$url  = ( isset( $row['URL'] ) ? esc_url_raw( (string) $row['URL'] ) : '' );
+
+		return ( SQ_Classes_ObjController::getClass( 'SQ_Models_Qss' )->saveSqSEO( $url, (string) $row['url_hash'], $post, $seo, $date ) !== false );
 	}
 }

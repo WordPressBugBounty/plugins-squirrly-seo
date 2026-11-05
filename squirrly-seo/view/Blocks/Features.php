@@ -51,7 +51,7 @@ if ( ! isset( $view ) ) {
                     <div class="col-12 m-0 p-0">
                         <h3><?php echo esc_html__( "Squirrly SEO Main Features", "squirrly-seo" ) ?> <div class="sq_help_question d-inline"><a href="https://howto.squirrly.co/kb/all-features/" target="_blank"><i class="fa-solid fa-question-circle"></i></a></div></h3>
                         <div class="small text-dark"><?php echo esc_html__( "Manage the features & access them directly from here.", "squirrly-seo" ); ?></div>
-                        <a href="https://www.squirrly.co/wordpress/plugins/seo/" class="small" target="_blank">
+                        <a href="https://howto.squirrly.co/kb/all-features/" class="small" target="_blank">
 							<?php if ( SQ_Classes_Helpers_Tools::getIsset( 'sfeature' ) ) { ?>
 								<?php echo esc_html__( "Do you want to search in the 650 features list?", "squirrly-seo" ) ?>
 							<?php } else { ?>
@@ -104,7 +104,7 @@ if ( ! isset( $view ) ) {
 						<?php } ?>
 					<?php } ?>
 
-                    <div class="col-3 p-0 pr-1 mb-3">
+                    <div class="col-3 p-0 pr-1 mb-3 sq_feature_col" data-category="<?php echo esc_attr( md5( $feature['category'] ) ) ?>" data-search="<?php echo esc_attr( strtolower( wp_strip_all_tags( $feature['title'] . ' ' . $feature['description'] . ' ' . ( isset( $feature['keywords'] ) ? $feature['keywords'] : '' ) ) ) ) ?>">
                         <div id="sq_feature_<?php echo (int) $index ?>" class="sq_feature card h-100 p-0 shadow-0 rounded-0 <?php echo esc_attr( $class ) ?>">
                             <div class="card-body m-0 p-0">
                                 <div class="mx-3 mt-4 p-0">
@@ -180,11 +180,39 @@ if ( ! isset( $view ) ) {
 				<?php } ?>
             </div>
 
+            <div class="col-12 p-0 m-0 pt-4 text-center sq_features_none" style="display: none"><?php echo esc_html__( "No feature found. Press Enter to search the whole list.", "squirrly-seo" ) ?></div>
+            <script>
+                (function ($) {
+                    //filter the features while typing: a feature stays when its title, description or keywords hold every word
+                    var $input = $('#sfeature'), timer = null, initial = $input.val();
+                    var filter = function () {
+                        var words = $.trim($input.val().toLowerCase()).split(/\s+/).filter(function (w) { return w !== ''; });
+                        if (!words.length && initial !== '') {
+                            //the page came filtered from a link: clearing the box brings the whole list back
+                            location.href = $input.closest('form').find('.sq_search_close').attr('href') || location.href;
+                            return;
+                        }
+                        var shown = {};
+                        $('.sq_feature_col').each(function () {
+                            var text = String($(this).data('search') || ''), match = true;
+                            for (var i = 0; i < words.length; i++) {
+                                if (text.indexOf(words[i]) === -1) { match = false; break; }
+                            }
+                            $(this).toggle(match);
+                            if (match) { shown[$(this).data('category')] = true; }
+                        });
+                        $('#features div[data-id]').each(function () { $(this).toggle(!!shown[$(this).data('id')]); });
+                        $('.sq_features_none').toggle($.isEmptyObject(shown));
+                    };
+                    $input.on('input', function () { clearTimeout(timer); timer = setTimeout(filter, 150); });
+                })(jQuery);
+            </script>
+
 			<?php do_action( 'sq_features_after' ); ?>
 
             <div class="col-12 p-0 m-0 pt-5 align-middle text-center">
                 <h5>
-                    <a href="https://www.squirrly.co/wordpress/plugins/seo/" target="_blank">
+                    <a href="https://howto.squirrly.co/kb/all-features/" target="_blank">
 						<?php if ( SQ_Classes_Helpers_Tools::getIsset( 'sfeature' ) ) { ?>
 							<?php echo esc_html__( "Do you want to search in the 650 features list?", "squirrly-seo" ) ?>
 						<?php } else { ?>

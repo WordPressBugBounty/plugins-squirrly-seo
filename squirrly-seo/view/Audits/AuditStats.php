@@ -266,7 +266,7 @@ if ( ! isset( $view ) ) {
                 </div>
 
 
-				<?php if ( ! empty( $view->aivisibility ) ) {
+				<?php if ( ! empty( $view->aivisibility ) && SQ_Classes_Helpers_Tools::getMenuVisible( 'show_aivisibility' ) ) {
 					$aiv        = $view->aivisibility;
 					$ai_total   = isset( $aiv->total_visits ) ? (int) $aiv->total_visits : 0;
 					$ai_percent = isset( $aiv->ai_percent ) ? (float) $aiv->ai_percent : null;

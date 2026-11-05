@@ -116,7 +116,7 @@ if ( ! isset( $view ) ) {
 								<?php echo esc_html__( "Did you know that you can use Squirrly SEO and perform keyword research in over 100 countries?", 'squirrly-seo' ) ?>
                             </li>
                             <li class="text-left">
-								<?php echo sprintf( esc_html__( "Already have keywords? %s Import keywords from CSV %s.", 'squirrly-seo' ), '<a href="' . esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'backup' ) ) . '">', '</a>' ) ?>
+								<?php echo sprintf( esc_html__( "Already have keywords? %s Import keywords from CSV %s.", 'squirrly-seo' ), '<a href="' . esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'backup' ) . '#tab=restore' ) . '">', '</a>' ) ?>
                             </li>
                         </ul>
                     </div>

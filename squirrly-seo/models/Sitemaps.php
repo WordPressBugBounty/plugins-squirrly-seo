@@ -589,23 +589,40 @@ class SQ_Models_Sitemaps extends SQ_Models_Abstract_Seo {
 		$array    = array();
 		$archives = apply_filters( 'sq-sitemap-archive', $this->sitemap );
 		if ( ! empty( $archives ) ) {
-			foreach ( $archives as $post_type => $archive ) {
-				$xml = array();
+			$changefreq = $this->frequency[ SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap_frequency' ) ][ $this->sitemap ][1];
+			$priority   = $this->frequency[ SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap_frequency' ) ][ $this->sitemap ][0];
 
-				if ( 'post' === $post_type && isset( $archive->year ) && isset( $archive->month ) ) {
-					$xml['loc'] = get_month_link( $archive->year, $archive->month );
-				} else {
-					$xml['loc'] = get_post_type_archive_link( $post_type );
+			//each post type holds a list of months; the list was read as one month, so only the home URL was listed
+			foreach ( $archives as $post_type => $months ) {
+				$months = (array) $months;
+
+				if ( 'post' === $post_type ) {
+					//one URL per month that has posts
+					foreach ( $months as $archive ) {
+						if ( ! isset( $archive->year ) || ! isset( $archive->month ) ) {
+							continue;
+						}
+
+						$xml = array( 'loc' => get_month_link( $archive->year, $archive->month ) );
+						if ( isset( $archive->lastmod ) && $archive->lastmod <> '' ) {
+							$xml['lastmod'] = date( 'Y-m-d\TH:i:s+00:00', strtotime( $archive->lastmod ) );
+						}
+						$xml['changefreq'] = $changefreq;
+						$xml['priority']   = $priority;
+
+						$array[] = $xml;
+					}
+				} elseif ( ! empty( $months ) && $link = get_post_type_archive_link( $post_type ) ) {
+					//a custom post type has one archive page; its last change is the newest month
+					$xml = array( 'loc' => $link );
+					if ( isset( $months[0]->lastmod ) && $months[0]->lastmod <> '' ) {
+						$xml['lastmod'] = date( 'Y-m-d\TH:i:s+00:00', strtotime( $months[0]->lastmod ) );
+					}
+					$xml['changefreq'] = $changefreq;
+					$xml['priority']   = $priority;
+
+					$array[] = $xml;
 				}
-
-				if ( isset( $archive->lastmod ) && $archive->lastmod <> '' ) {
-					$xml['lastmod'] = date( 'Y-m-d\TH:i:s+00:00', strtotime( $archive->lastmod ) );
-				}
-
-				$xml['changefreq'] = $this->frequency[ SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap_frequency' ) ][ $this->sitemap ][1];
-				$xml['priority']   = $this->frequency[ SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap_frequency' ) ][ $this->sitemap ][0];
-
-				$array[] = $xml;
 			}
 		}
 

@@ -38,6 +38,9 @@ class SQ_Classes_Helpers_Tools
         //check the User Roles, DB and DevKit
         if(!self::getOption('sq_api')){
             self::install();
+        } elseif (file_exists(_SQ_ROOT_DIR_ . 'package.json')) {
+            //a Dev Kit package uploaded over a connected site (new plugin zip): apply it too, not only on activation
+            SQ_Classes_ObjController::getClass('SQ_Classes_Helpers_DevKit')->checkPluginData();
         }
 
         //A role created after the Cloud connection (membership plugins, role editors) gets the Squirrly capabilities
@@ -417,6 +420,8 @@ class SQ_Classes_Helpers_Tools
                 'show_bulkseo' => 1,
                 'show_focuspages' => 1,
                 'show_audit' => 1,
+                'show_aivisibility' => 1,
+                'show_aitools' => 1,
                 'show_rankings' => 1,
                 'show_tutorial' => 1,
                 'show_redirects' => 1,
