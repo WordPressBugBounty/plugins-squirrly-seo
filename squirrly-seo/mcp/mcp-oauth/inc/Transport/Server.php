@@ -1,11 +1,11 @@
 <?php
 declare( strict_types=1 );
 
-namespace WPMedia\MCP\OAuth\Transport;
+namespace SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Transport;
 
 use SquirrlySEO\Vendor\WP\MCP\Core\McpAdapter;
 use SquirrlySEO\Vendor\WP\MCP\Infrastructure\ErrorHandling\ErrorLogMcpErrorHandler;
-use WPMedia\MCP\OAuth\Context;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Context;
 
 class Server {
 	/**
@@ -41,9 +41,9 @@ class Server {
 
 		// Squirrly patch: let the host plugin publish its abilities as named tools,
 		// so the client lists "Read page SEO" instead of one generic "Execute Ability".
-		$tools = wpm_apply_filters_typed(
+		$tools = sq_wpm_apply_filters_typed(
 			'array',
-			'wpmedia_mcp_oauth_server_tools',
+			'sq_mcp_oauth_server_tools',
 			[
 				'mcp-adapter/discover-abilities',
 				'mcp-adapter/get-ability-info',

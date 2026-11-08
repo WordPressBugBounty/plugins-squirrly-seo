@@ -16,7 +16,7 @@
 
 declare(strict_types=1);
 
-namespace WPMedia\MCP\OAuth\Logging;
+namespace SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Logging;
 
 /**
  * McpLogger.

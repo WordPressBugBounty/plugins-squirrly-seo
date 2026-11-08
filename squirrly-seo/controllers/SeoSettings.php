@@ -110,10 +110,10 @@ class SQ_Controllers_SeoSettings extends SQ_Classes_FrontController {
 				}
 
 				//show the saved message
+				//on an error, show only the field's own message: a generic "Can't save" banner covered it
+				//and was wrong, since the other settings are saved
 				if ( ! SQ_Classes_Error::isError() ) {
 					SQ_Classes_Error::setMessage( esc_html__( "Saved", 'squirrly-seo' ) );
-				} else {
-					SQ_Classes_Error::setError( esc_html__( "Can't save the settings.", 'squirrly-seo' ) );
 				}
 
 				break;

@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace WPMedia\MCP\OAuth\Auth;
+namespace SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Auth;
 
 /**
  * Provides parse_body() to OAuth endpoint classes.

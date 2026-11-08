@@ -20,11 +20,11 @@
 
 declare(strict_types=1);
 
-namespace WPMedia\MCP\OAuth\Auth\Discovery;
+namespace SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Auth\Discovery;
 
-use WPMedia\MCP\OAuth\Auth\Http404Trait;
-use WPMedia\MCP\OAuth\Context;
-use WPMedia\MCP\OAuth\Logging\McpLogger;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Auth\Http404Trait;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Context;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Logging\McpLogger;
 
 class Endpoints {
 

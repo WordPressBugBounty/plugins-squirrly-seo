@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || die( 'Cheatin\' uh?' );
 /**
  * GPLv2-compatible stand-in for wp-media/apply-filters-typed.
  *
- * The bundled mcp-oauth library calls wpm_apply_filters_typed() in four places, with the
+ * The bundled mcp-oauth library calls sq_wpm_apply_filters_typed() in four places, with the
  * types "boolean", "string" and "array". The upstream package that provides it is
  * GPL-3.0-or-later, which Squirrly cannot bundle without relicensing the whole plugin, so
  * the contract is reimplemented here instead.
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || die( 'Cheatin\' uh?' );
  * by the time we get here a real copy has always declared itself already.
  */
 
-if ( ! function_exists( 'wpm_is_type' ) ) {
+if ( ! function_exists( 'sq_wpm_is_type' ) ) {
 	/**
 	 * Whether a value matches a gettype()-style type name.
 	 *
@@ -24,7 +24,7 @@ if ( ! function_exists( 'wpm_is_type' ) ) {
 	 *
 	 * @return bool
 	 */
-	function wpm_is_type( $type, $value ) {
+	function sq_wpm_is_type( $type, $value ) {
 		$type = strtolower( $type );
 
 		if ( '?' === substr( $type, 0, 1 ) ) {
@@ -60,7 +60,7 @@ if ( ! function_exists( 'wpm_is_type' ) ) {
 	}
 }
 
-if ( ! function_exists( 'wpm_apply_filters_typed' ) ) {
+if ( ! function_exists( 'sq_wpm_apply_filters_typed' ) ) {
 	/**
 	 * apply_filters() that discards a filtered value of the wrong type.
 	 *
@@ -74,13 +74,13 @@ if ( ! function_exists( 'wpm_apply_filters_typed' ) ) {
 	 *
 	 * @return mixed
 	 */
-	function wpm_apply_filters_typed( $type, $hook_name, $value, ...$args ) {
+	function sq_wpm_apply_filters_typed( $type, $hook_name, $value, ...$args ) {
 		$next_value = apply_filters( $hook_name, $value, ...$args ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
 
 		$types = ( false !== strpos( $type, '|' ) ) ? explode( '|', $type ) : array( $type );
 
 		foreach ( $types as $single_type ) {
-			if ( wpm_is_type( $single_type, $next_value ) ) {
+			if ( sq_wpm_is_type( $single_type, $next_value ) ) {
 				return $next_value;
 			}
 		}
@@ -89,9 +89,9 @@ if ( ! function_exists( 'wpm_apply_filters_typed' ) ) {
 	}
 }
 
-if ( ! function_exists( 'wpm_apply_filters_typesafe' ) ) {
+if ( ! function_exists( 'sq_wpm_apply_filters_typesafe' ) ) {
 	/**
-	 * wpm_apply_filters_typed() with the type taken from the unfiltered value.
+	 * sq_wpm_apply_filters_typed() with the type taken from the unfiltered value.
 	 *
 	 * @param string $hook_name Filter hook name.
 	 * @param mixed  $value     Value to filter.
@@ -99,7 +99,7 @@ if ( ! function_exists( 'wpm_apply_filters_typesafe' ) ) {
 	 *
 	 * @return mixed
 	 */
-	function wpm_apply_filters_typesafe( $hook_name, $value, ...$args ) {
-		return wpm_apply_filters_typed( gettype( $value ), $hook_name, $value, ...$args );
+	function sq_wpm_apply_filters_typesafe( $hook_name, $value, ...$args ) {
+		return sq_wpm_apply_filters_typed( gettype( $value ), $hook_name, $value, ...$args );
 	}
 }

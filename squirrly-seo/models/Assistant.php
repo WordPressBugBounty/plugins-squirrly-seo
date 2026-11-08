@@ -513,6 +513,11 @@ class SQ_Models_Assistant {
 
 	/***********************************************/
 	public function checkSettingsWebmasters() {
+		//connecting Google Search Console counts, not only a pasted verification code
+		if ( $this->checkGSCConnect() ) {
+			return true;
+		}
+
 		if ( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_webmasters' ) ) {
 			$codes = json_decode( wp_json_encode( SQ_Classes_Helpers_Tools::getOption( 'codes' ) ) );
 			if ( isset( $codes->google_wt ) && $codes->google_wt <> '' || isset( $codes->bing_wt ) && $codes->bing_wt <> '' || isset( $codes->baidu_wt ) && $codes->baidu_wt <> '' || isset( $codes->yandex_wt ) && $codes->yandex_wt <> '' || isset( $codes->norton_verify ) && $codes->norton_verify <> '' || isset( $codes->pinterest_verify ) && $codes->pinterest_verify <> '' ) {

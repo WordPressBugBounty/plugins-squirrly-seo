@@ -9,7 +9,7 @@
 
 declare( strict_types=1 );
 
-namespace WPMedia\MCP\OAuth\Auth;
+namespace SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Auth;
 
 /**
  * Registers OAuth endpoint rewrite rules and the query var used to route them.

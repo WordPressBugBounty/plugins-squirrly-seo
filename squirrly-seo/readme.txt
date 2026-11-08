@@ -143,6 +143,17 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 * Update: All Features filters as you type.
 * Update: Focus Pages also send the page's SEO settings to Squirrly Cloud, so your Squirrly account can show Focus Pages too.
 * Fix: Ask Google to Re-Index opens your Search Console property and copies the page address for Inspect any URL.
+* Fix: ChatGPT connects on sites that also run WP Rocket or Imagify.
+* Fix: The AI connection works next to WP Rocket and Imagify, and activating them no longer stops with an error.
+* Fix: The SEO Snippet box stays in the editor when the Squirrly admin bar is turned off.
+* Fix: Links from tasks to Automation open the screen with all your post types.
+* Fix: When Sitemap XML or another feature is turned off, its settings tab no longer shows.
+* Fix: Keywords added from Google Rankings > Add Keywords are tracked in Rankings.
+* Fix: One Page Setup asks before No SEO Configuration turns off Squirrly's SEO, and opening it no longer saves anything.
+* Fix: The Connect the Webmasters task is done once Google Search Console is connected.
+* Fix: The import warning links to Export Everything.
+* Fix: The home page title no longer ends with a stray separator when the site has no tagline.
+* Fix: Connect Tools shows which code is wrong instead of "Can't save the settings."
 * Fix: Products without reviews no longer get a default rating or review in the schema, as Google's review rules require.
 * Fix: Focus Pages: the canonical task checks that the canonical points to the page itself, and duplicate titles are listed again.
 * Fix: The archives sitemap lists every month with posts.

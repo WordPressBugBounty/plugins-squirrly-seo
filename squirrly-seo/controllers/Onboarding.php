@@ -41,8 +41,7 @@ class SQ_Controllers_Onboarding extends SQ_Classes_FrontController {
 	}
 
 	public function step1() {
-		//Set the onboarding version
-		SQ_Classes_Helpers_Tools::saveOptions( 'sq_onboarding', SQ_VERSION );
+		//Nothing is saved just by opening the screen: choosing a mode saves sq_onboarding (sq_onboarding_save)
 	}
 
 	public function step3() {

@@ -15,10 +15,10 @@
 
 declare(strict_types=1);
 
-namespace WPMedia\MCP\OAuth\Auth\Discovery;
+namespace SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Auth\Discovery;
 
 use WP_Error;
-use WPMedia\MCP\OAuth\Context;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Context;
 
 class HealthCheck {
 

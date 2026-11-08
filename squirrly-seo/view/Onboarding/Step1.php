@@ -40,6 +40,10 @@ if ( ! isset( $view ) ) {
                                         $(document).ready(function () {
 
                                             $(".sq_no_seo").on('click', function () {
+                                                //this switches off all of Squirrly's SEO output, so ask first
+                                                if (!confirm(<?php echo wp_json_encode( esc_html__( "No SEO Configuration turns off the titles, descriptions, sitemap and schema that Squirrly adds to your site. Continue?", 'squirrly-seo' ) ) ?>)) {
+                                                    return;
+                                                }
                                                 $('input[name=sq_mode]').val('0');
                                                 $('#sq_onboarding_form').submit();
                                             });

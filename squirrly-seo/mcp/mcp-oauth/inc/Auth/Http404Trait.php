@@ -5,7 +5,7 @@
 
 declare( strict_types=1 );
 
-namespace WPMedia\MCP\OAuth\Auth;
+namespace SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Auth;
 
 /**
  * Provides a clean 404 response for stale OAuth/discovery rewrite rules.

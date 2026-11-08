@@ -120,6 +120,12 @@ class SQ_Controllers_Patterns extends SQ_Classes_FrontController
 		//collapse any run of whitespace, including the non-breaking spaces themes inject
 		$value = preg_replace( '/[\s\x{00A0}]+/u', ' ', $value );
 
+		//a saved Automation screen stores the separator as its code (sc-pipe): match the character it prints
+		$seps = json_decode( SQ_ALL_SEP, true );
+		if ( is_string( $sep ) && is_array( $seps ) && isset( $seps[ $sep ] ) ) {
+			$sep = $seps[ $sep ];
+		}
+
 		if ( is_string( $sep ) && $sep <> '' ) {
 			$quoted = preg_quote( $sep, '/' );
 

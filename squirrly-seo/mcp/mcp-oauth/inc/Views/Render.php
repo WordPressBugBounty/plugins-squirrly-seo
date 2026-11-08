@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace WPMedia\MCP\OAuth\Views;
+namespace SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Views;
 
 /**
  * Render.

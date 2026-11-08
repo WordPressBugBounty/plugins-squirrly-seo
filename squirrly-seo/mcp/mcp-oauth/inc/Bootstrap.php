@@ -11,24 +11,24 @@
 
 declare( strict_types=1 );
 
-namespace WPMedia\MCP\OAuth;
+namespace SquirrlySEO\Vendor\WPMedia\MCP\OAuth;
 
 use SquirrlySEO\Vendor\WP\MCP\Core\McpAdapter;
-use WPMedia\MCP\OAuth\Auth\AuthorizeCallback;
-use WPMedia\MCP\OAuth\Auth\AuthorizeEndpoint;
-use WPMedia\MCP\OAuth\Auth\CimdResolver;
-use WPMedia\MCP\OAuth\Auth\ClaudeClientVerifier;
-use WPMedia\MCP\OAuth\Auth\ConsentEndpoint;
-use WPMedia\MCP\OAuth\Auth\Discovery\Endpoints as DiscoveryEndpoints;
-use WPMedia\MCP\OAuth\Auth\Discovery\HealthCheck as DiscoveryHealthCheck;
-use WPMedia\MCP\OAuth\Auth\RevokeEndpoint;
-use WPMedia\MCP\OAuth\Auth\Rewrite;
-use WPMedia\MCP\OAuth\Auth\Router;
-use WPMedia\MCP\OAuth\Auth\SecretManager;
-use WPMedia\MCP\OAuth\Auth\TokenEndpoint;
-use WPMedia\MCP\OAuth\Transport\Server;
-use WPMedia\MCP\OAuth\Transport\ServerRegistrar;
-use WPMedia\MCP\OAuth\Views\Render;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Auth\AuthorizeCallback;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Auth\AuthorizeEndpoint;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Auth\CimdResolver;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Auth\ClaudeClientVerifier;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Auth\ConsentEndpoint;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Auth\Discovery\Endpoints as DiscoveryEndpoints;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Auth\Discovery\HealthCheck as DiscoveryHealthCheck;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Auth\RevokeEndpoint;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Auth\Rewrite;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Auth\Router;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Auth\SecretManager;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Auth\TokenEndpoint;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Transport\Server;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Transport\ServerRegistrar;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Views\Render;
 
 /**
  * Centralized single-instance bootstrap for the MCP OAuth library.

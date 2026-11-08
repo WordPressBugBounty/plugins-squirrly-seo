@@ -11,16 +11,16 @@
 
 declare( strict_types=1 );
 
-namespace WPMedia\MCP\OAuth\Transport;
+namespace SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Transport;
 
 use SquirrlySEO\Vendor\WP\MCP\Transport\Contracts\McpRestTransportInterface;
 use SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\HttpRequestContext;
 use SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\HttpRequestHandler;
 use SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\McpTransportContext;
 use SquirrlySEO\Vendor\WP\MCP\Transport\Infrastructure\McpTransportHelperTrait;
-use WPMedia\MCP\OAuth\Auth\JWT;
-use WPMedia\MCP\OAuth\Auth\SecretManager;
-use WPMedia\MCP\OAuth\Logging\McpLogger;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Auth\JWT;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Auth\SecretManager;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Logging\McpLogger;
 
 /**
  * OAuth HTTP Transport for the MCP OAuth server.

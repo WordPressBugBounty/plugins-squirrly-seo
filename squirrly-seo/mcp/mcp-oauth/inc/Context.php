@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace WPMedia\MCP\OAuth;
+namespace SquirrlySEO\Vendor\WPMedia\MCP\OAuth;
 
 use SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface;
 use SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\NullMcpObservabilityHandler;
@@ -14,7 +14,7 @@ class Context {
 	 *              discovery documents, transport) should be registered; false otherwise.
 	 */
 	public function is_enabled(): bool {
-		$enabled = apply_filters_deprecated( 'rocket_mcp_oauth_server_enabled', [ true ], '1.0.1', 'wpmedia_mcp_oauth_server_enabled' );
+		$enabled = apply_filters_deprecated( 'sq_rocket_mcp_oauth_server_enabled', [ true ], '1.0.1', 'sq_mcp_oauth_server_enabled' );
 
 		/**
 		 * Filters whether the MCP OAuth server is enabled.
@@ -25,7 +25,7 @@ class Context {
 		 *
 		 * @param bool $enabled Whether the MCP OAuth server is enabled. Default true.
 		 */
-		return wpm_apply_filters_typed( 'boolean', 'wpmedia_mcp_oauth_server_enabled', $enabled );
+		return sq_wpm_apply_filters_typed( 'boolean', 'sq_mcp_oauth_server_enabled', $enabled );
 	}
 
 	/**
@@ -33,7 +33,7 @@ class Context {
 	 *
 	 * Defaults to the mcp-adapter's null handler, so no observability event is
 	 * written unless a site opts in. The verbose handler
-	 * (`WPMedia\MCP\OAuth\Transport\McpObservabilityHandler`) records one event per
+	 * (`SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Transport\McpObservabilityHandler`) records one event per
 	 * server creation, i.e. once per REST request, which floods debug.log on sites
 	 * running with WP_DEBUG and WP_DEBUG_LOG enabled.
 	 *
@@ -49,7 +49,7 @@ class Context {
 		 *
 		 * @param string $handler Observability handler class name. Default NullMcpObservabilityHandler.
 		 */
-		$handler = wpm_apply_filters_typed( 'string', 'wpmedia_mcp_oauth_observability_handler', NullMcpObservabilityHandler::class );
+		$handler = sq_wpm_apply_filters_typed( 'string', 'sq_mcp_oauth_observability_handler', NullMcpObservabilityHandler::class );
 
 		if ( ! is_a( $handler, McpObservabilityHandlerInterface::class, true ) ) {
 			return NullMcpObservabilityHandler::class;

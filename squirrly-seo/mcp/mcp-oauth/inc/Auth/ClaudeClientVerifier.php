@@ -12,9 +12,9 @@
 
 declare(strict_types=1);
 
-namespace WPMedia\MCP\OAuth\Auth;
+namespace SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Auth;
 
-use WPMedia\MCP\OAuth\Logging\McpLogger;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Logging\McpLogger;
 
 class ClaudeClientVerifier {
 	/**
@@ -93,7 +93,7 @@ class ClaudeClientVerifier {
 			],
 		];
 
-		$publishers = apply_filters_deprecated( 'rocket_mcp_trusted_publishers', [ $publishers ], '1.0.1', 'wpmedia_mcp_oauth_trusted_publishers' );
+		$publishers = apply_filters_deprecated( 'sq_rocket_mcp_trusted_publishers', [ $publishers ], '1.0.1', 'sq_mcp_oauth_trusted_publishers' );
 
 		/**
 		 * Filters the trusted-publisher allowlist for MCP OAuth client verification.
@@ -111,7 +111,7 @@ class ClaudeClientVerifier {
 		 * @param array<string, array{client_ids: string[], host: string}> $publishers Trusted-publisher allowlist.
 		 * @return array<string, array{client_ids: string[], host: string}>
 		 */
-		return wpm_apply_filters_typed( 'array', 'wpmedia_mcp_oauth_trusted_publishers', $publishers );
+		return sq_wpm_apply_filters_typed( 'array', 'sq_mcp_oauth_trusted_publishers', $publishers );
 	}
 
 	/**

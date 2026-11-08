@@ -9,11 +9,11 @@
 
 declare( strict_types=1 );
 
-namespace WPMedia\MCP\OAuth\Transport;
+namespace SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Transport;
 
 use SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\Contracts\McpObservabilityHandlerInterface;
 use SquirrlySEO\Vendor\WP\MCP\Infrastructure\Observability\McpObservabilityHelperTrait;
-use WPMedia\MCP\OAuth\Logging\McpLogger;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Logging\McpLogger;
 
 /**
  * Observability handler that writes MCP events to the MCP OAuth log.

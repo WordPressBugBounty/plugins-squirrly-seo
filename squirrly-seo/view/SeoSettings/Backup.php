@@ -44,7 +44,7 @@ if ( ! isset( $view ) ) {
 						<?php echo esc_html__( "Use the Backup, Restore, and Rollback settings to control plugin data.", 'squirrly-seo' ); ?>
                     </div>
                     <div class="col-7 small m-0 p-0 py-2">
-						<?php echo esc_html__( "Note! If you import the SEO settings from other plugins or themes, you will lose all the settings that you had in Squirrly SEO. Make sure you backup your settings from the panel below before you do this.", 'squirrly-seo' ); ?>
+						<?php echo sprintf( esc_html__( "Note! If you import the SEO settings from other plugins or themes, you will lose all the settings that you had in Squirrly SEO. First save a backup with %sExport Everything%s.", 'squirrly-seo' ), '<a href="' . esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'backup' ) . '#tab=backup' ) . '" onclick="jQuery(\'#sq_wrap .sq_sub_nav_item[data-tab=backup]\').trigger(\'click\'); window.scrollTo(0,0); return false;">', '</a>' ); //the backup is the Export Everything tab, not a panel below ?>
                     </div>
 
 					<?php $view->show_view( 'Blocks/SubMenuHeader' ); ?>
@@ -64,7 +64,7 @@ if ( ! isset( $view ) ) {
 										<?php echo esc_html__( "Import the settings and SEO from other plugins so you can use only Squirrly SEO for on-page SEO.", 'squirrly-seo' ); ?>
                                     </div>
                                     <div class="col-12 small m-0 p-0 py-2">
-										<?php echo esc_html__( "Note! If you import the SEO settings from other plugins or themes, you will lose all the settings that you had in Squirrly SEO. Make sure you back up your settings from the panel below before you do this.", 'squirrly-seo' ); ?>
+										<?php echo sprintf( esc_html__( "Note! If you import the SEO settings from other plugins or themes, you will lose all the settings that you had in Squirrly SEO. First save a backup with %sExport Everything%s.", 'squirrly-seo' ), '<a href="' . esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'backup' ) . '#tab=backup' ) . '" onclick="jQuery(\'#sq_wrap .sq_sub_nav_item[data-tab=backup]\').trigger(\'click\'); window.scrollTo(0,0); return false;">', '</a>' ); //the backup is the Export Everything tab, not a panel below ?>
                                     </div>
 
                                 </div>

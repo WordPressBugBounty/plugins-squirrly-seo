@@ -9,9 +9,9 @@
 
 declare( strict_types=1 );
 
-namespace WPMedia\MCP\OAuth\Auth;
+namespace SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Auth;
 
-use WPMedia\MCP\OAuth\Context;
+use SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Context;
 
 /**
  * Registers OAuth endpoint routing callbacks.

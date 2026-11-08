@@ -25,9 +25,8 @@ class SQ_Controllers_Menu extends SQ_Classes_FrontController {
 
 			add_action( 'admin_bar_menu', array( $this, 'hookTopmenuDashboard' ) );
 
-			if ( SQ_Classes_Helpers_Tools::getOption( 'sq_use_backend' ) ) {
-				add_action( 'admin_bar_menu', array( $this, 'hookTopmenuSquirrly' ), 91 );
-			}
+			//always hooked: it also adds the SEO Snippet box; the admin bar part follows sq_use_backend inside
+			add_action( 'admin_bar_menu', array( $this, 'hookTopmenuSquirrly' ), 91 );
 
 			add_action( 'do_meta_boxes', array( $this, 'addMetabox' ) );
 			add_filter( 'sq_cloudmenu', array( $this, 'getCloudMenu' ), 10, 2 );
@@ -66,6 +65,12 @@ class SQ_Controllers_Menu extends SQ_Classes_FrontController {
 	 * Called from HookController on admin_init action
 	 */
 	public function hookInit() {
+
+		//Links to page=sq_automation (task and help links) open the Automation screen that lists the post types
+		if ( isset( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] === 'GET' && ! wp_doing_ajax() && SQ_Classes_Helpers_Tools::getValue( 'page' ) == 'sq_automation' ) {
+			wp_safe_redirect( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_assistant', ( SQ_Classes_Helpers_Tools::getValue( 'tab' ) == 'settings' ? 'settings' : 'automation' ) ) );
+			exit;
+		}
 
 		// Initialize the plugin menu
 		$this->initMenu();
@@ -165,8 +170,8 @@ class SQ_Controllers_Menu extends SQ_Classes_FrontController {
 
 		if ( is_admin() ) {
 
-			//Load the admin bar Squirrly SEO Menu
-			if ( SQ_Classes_Helpers_Tools::userCan( 'edit_posts' ) ) {
+			//Load the admin bar Squirrly SEO Menu ("Load Squirrly Admin Bar in Backend")
+			if ( SQ_Classes_Helpers_Tools::getOption( 'sq_use_backend' ) && SQ_Classes_Helpers_Tools::userCan( 'edit_posts' ) ) {
 				//Get count local SEO errors
 				$errors = apply_filters( 'sq_seo_errors', 0 );
 
@@ -264,6 +269,11 @@ class SQ_Controllers_Menu extends SQ_Classes_FrontController {
 					'normal',
 					'high'
 				) );
+
+			//the Custom SEO entry in the admin bar follows "Load Squirrly Admin Bar in Backend"; the box above doesn't
+			if ( ! SQ_Classes_Helpers_Tools::getOption( 'sq_use_backend' ) ) {
+				return $wp_admin_bar;
+			}
 
 			//Add
 			$wp_admin_bar->add_node( array(

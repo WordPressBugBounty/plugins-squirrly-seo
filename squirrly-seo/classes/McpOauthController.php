@@ -25,6 +25,15 @@ class SQ_Classes_McpOauthController {
 	/** @var string REST route of the MCP server the library registers */
 	const SERVER_ROUTE = 'mcp/mcp-oauth-server';
 
+	/** @var string id of the MCP server the library creates */
+	const SERVER_ID = 'mcp-oauth-server';
+
+	/** @var array the OpenAI client documents we have checked: Codex and the ChatGPT web connector */
+	const OPENAI_CLIENT_DOCUMENTS = array(
+		'https://chatgpt.com/oauth/codex/client.json',
+		'https://chatgpt.com/oauth/client.json',
+	);
+
 	/** @var array the discovery documents claude.ai fetches, by label */
 	public static $discovery = array(
 		'protected-resource'   => '/.well-known/oauth-protected-resource',
@@ -60,54 +69,120 @@ class SQ_Classes_McpOauthController {
 	 */
 	public function load() {
 
-		//WP Rocket and any other consumer embed the same library. Bootstrap::instance() is a
-		//singleton shared across consuming plugins, so when a copy is already present we use
-		//it rather than registering a second autoloader for our own.
-		if ( class_exists( '\WPMedia\MCP\OAuth\Bootstrap' ) ) {
+		//WP Rocket and Imagify load the same library (WPMedia\MCP\OAuth) at plugin-file time and
+		//boot it when the MCP Adapter (WP\MCP) is there. It's one sign-in server per site, so when
+		//theirs runs on an adapter it works with (0.7+, what the library is built for; the 0.1.0
+		//inside WooCommerce has no sessions), Squirrly adds its clients to it rather than starting a second one.
+		if ( class_exists( '\WPMedia\MCP\OAuth\Bootstrap' ) && self::sharedAdapterWorks() ) {
 
-			//that copy runs on the shared MCP Adapter (WP\MCP), not on Squirrly's own copy
-			if ( ! class_exists( '\WP\MCP\Core\McpAdapter' ) ) {
+			add_filter( 'wpmedia_mcp_oauth_trusted_publishers', array( $this, 'trustedPublishers' ) );
+			add_filter( 'wpmedia_mcp_oauth_server_tools', array( $this, 'serverTools' ) );
+			//their copy hasn't Squirrly's ChatGPT patch
+			add_filter( 'http_response', array( $this, 'publicClientDocument' ), 10, 3 );
+			//their server lists only the generic tools: add Squirrly's named ones after it's created
+			add_action( 'mcp_adapter_init', array( $this, 'addToolsToSharedServer' ), PHP_INT_MAX );
+
+			try {
+				\WP\MCP\Core\McpAdapter::instance();
+				\WPMedia\MCP\OAuth\Bootstrap::instance();
+			} catch ( Throwable $e ) {
 				return;
 			}
 
-			\WP\MCP\Core\McpAdapter::instance();
-
-		} else {
-
-			//The MCP Adapter provides the MCP protocol itself. Without it there is no server to
-			//authenticate against, so the OAuth endpoints would lead nowhere.
-			if ( ! self::loadAdapter() ) {
-				return;
-			}
-
-			if ( ! is_readable( _SQ_MCP_DIR_ . 'autoload.php' ) ) {
-				return;
-			}
-
-			require_once _SQ_MCP_DIR_ . 'typed-filters.php';
-			require_once _SQ_MCP_DIR_ . 'autoload.php';
+			return;
 		}
+
+		//Otherwise Squirrly runs its own copy, in its own namespace (plugin/mcp-isolate.py).
+		//Another plugin's copy can't run well here (no adapter, or an old one): keep it quiet so the two don't answer the same addresses.
+		if ( class_exists( '\WPMedia\MCP\OAuth\Bootstrap' ) ) {
+			add_filter( 'wpmedia_mcp_oauth_server_enabled', '__return_false', PHP_INT_MAX );
+		}
+
+		//The MCP Adapter provides the MCP protocol itself. Without it there is no server to
+		//authenticate against, so the OAuth endpoints would lead nowhere.
+		if ( ! self::loadAdapter() ) {
+			return;
+		}
+
+		if ( ! is_readable( _SQ_MCP_DIR_ . 'autoload.php' ) ) {
+			return;
+		}
+
+		require_once _SQ_MCP_DIR_ . 'typed-filters.php';
+		require_once _SQ_MCP_DIR_ . 'autoload.php';
 
 		//An incomplete upload can leave Bootstrap.php in place while the sub-namespaces it
 		//wires are missing - an FTP client that does not recurse, or a flattened archive,
 		//produces exactly that. Booting it then throws on plugins_loaded and takes the whole
 		//site down, front and admin, so one class from each sub-namespace is checked first.
-		if ( ! class_exists( '\WPMedia\MCP\OAuth\Bootstrap' )
-		     || ! class_exists( '\WPMedia\MCP\OAuth\Auth\AuthorizeEndpoint' )
-		     || ! class_exists( '\WPMedia\MCP\OAuth\Auth\Discovery\Endpoints' )
-		     || ! class_exists( '\WPMedia\MCP\OAuth\Transport\Server' ) ) {
+		if ( ! class_exists( '\SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Bootstrap' )
+		     || ! class_exists( '\SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Auth\AuthorizeEndpoint' )
+		     || ! class_exists( '\SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Auth\Discovery\Endpoints' )
+		     || ! class_exists( '\SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Transport\Server' ) ) {
 			return;
 		}
 
-		add_filter( 'wpmedia_mcp_oauth_trusted_publishers', array( $this, 'trustedPublishers' ) );
-		add_filter( 'wpmedia_mcp_oauth_server_tools', array( $this, 'serverTools' ) );
+		add_filter( 'sq_mcp_oauth_trusted_publishers', array( $this, 'trustedPublishers' ) );
+		add_filter( 'sq_mcp_oauth_server_tools', array( $this, 'serverTools' ) );
 
 		//Belt and braces: whatever the library does, it must never be able to break the site
 		try {
-			\WPMedia\MCP\OAuth\Bootstrap::instance();
+			\SquirrlySEO\Vendor\WPMedia\MCP\OAuth\Bootstrap::instance();
 		} catch ( Throwable $e ) {
 			return;
 		}
+	}
+
+	/**
+	 * Add Squirrly's named tools to the sign-in server WP Rocket or Imagify created, next to its generic
+	 * discover / info / execute tools. They get the same names as on Squirrly's own server, so an assistant
+	 * connected in one mode keeps working when the site switches to the other (e.g. the MCP Adapter plugin
+	 * gets installed).
+	 *
+	 * The adapter keeps the server's tool registry private. If a future version changes that, nothing is
+	 * added and the generic tools still reach every Squirrly ability.
+	 *
+	 * @param object $adapter WP\MCP\Core\McpAdapter, from the mcp_adapter_init action
+	 */
+	public function addToolsToSharedServer( $adapter ) {
+		try {
+			if ( ! is_object( $adapter ) || ! method_exists( $adapter, 'get_server' ) ) {
+				return;
+			}
+
+			$server = $adapter->get_server( self::SERVER_ID );
+			if ( ! is_object( $server ) || ! property_exists( $server, 'component_registry' ) ) {
+				return;
+			}
+
+			$tools = $this->serverTools( array() );
+			if ( empty( $tools ) ) {
+				return;
+			}
+
+			$property = new ReflectionProperty( $server, 'component_registry' );
+			$property->setAccessible( true );
+			$registry = $property->getValue( $server );
+
+			if ( is_object( $registry ) && method_exists( $registry, 'register_tools' ) ) {
+				$registry->register_tools( $tools );
+			}
+		} catch ( Throwable $e ) {
+			return;
+		}
+	}
+
+	/**
+	 * Whether the MCP Adapter another plugin loaded (WP\MCP) can carry a shared sign-in server.
+	 *
+	 * @return bool
+	 */
+	private static function sharedAdapterWorks() {
+		if ( ! class_exists( '\WP\MCP\Core\McpAdapter' ) || ! defined( '\WP\MCP\Core\McpAdapter::VERSION' ) ) {
+			return false;
+		}
+
+		return version_compare( (string) constant( '\WP\MCP\Core\McpAdapter::VERSION' ), '0.7.0', '>=' );
 	}
 
 	/**
@@ -233,10 +308,7 @@ class SQ_Classes_McpOauthController {
 		//OpenAI Codex (native, loopback redirects) and the ChatGPT web connector, which redirects
 		//to chatgpt.com and lists "none" among its token methods. Both documents checked 2026-10-16.
 		$publishers['openai'] = array(
-			'client_ids' => array(
-				'https://chatgpt.com/oauth/codex/client.json',
-				'https://chatgpt.com/oauth/client.json',
-			),
+			'client_ids' => self::OPENAI_CLIENT_DOCUMENTS,
 			'host'       => 'chatgpt.com',
 		);
 
@@ -249,6 +321,39 @@ class SQ_Classes_McpOauthController {
 		 * @param array $publishers Keyed by slug, each with client_ids (exact URLs) and host.
 		 */
 		return (array) apply_filters( 'sq_mcp_trusted_publishers', $publishers );
+	}
+
+	/**
+	 * Choose the public-client method for the ChatGPT documents, when they offer it.
+	 *
+	 * ChatGPT's document names private_key_jwt first and also lists "none", the only method this
+	 * server supports. Squirrly's copy of the library accepts that, but another plugin's copy
+	 * (WP Rocket, Imagify) loads first on those sites and turns ChatGPT away with "Unknown OAuth
+	 * client". Choosing "none" here works with any copy and changes nothing else: only the exact
+	 * trusted documents are touched, and a document that doesn't offer "none" stays rejected.
+	 *
+	 * @param array|WP_Error $response
+	 * @param array          $args
+	 * @param string         $url
+	 *
+	 * @return array|WP_Error
+	 */
+	public function publicClientDocument( $response, $args, $url ) {
+
+		if ( is_wp_error( $response ) || ! in_array( $url, self::OPENAI_CLIENT_DOCUMENTS, true ) ) {
+			return $response;
+		}
+
+		$doc = json_decode( wp_remote_retrieve_body( $response ), true );
+
+		if ( ! is_array( $doc ) || empty( $doc['token_endpoint_auth_methods_supported'] ) || ! in_array( 'none', (array) $doc['token_endpoint_auth_methods_supported'], true ) ) {
+			return $response;
+		}
+
+		$doc['token_endpoint_auth_method'] = 'none';
+		$response['body']                  = wp_json_encode( $doc );
+
+		return $response;
 	}
 
 	/**
