@@ -253,7 +253,7 @@ class SQ_Models_FocusPages {
 					'sq_auto_robots'  => (int) SQ_Classes_Helpers_Tools::getOption( 'sq_auto_robots' ),
 				),
 				'indexability' => array(
-					'do_sitemap'    => (int) $sq->do_sitemap,
+					'do_sitemap'    => (int) ( $sq->do_sitemap && empty( $sq->nositemap ) ), //same rule as Indexability "Present in sitemap"
 					'canonical'     => (string) $sq->canonical,
 					'gscindex_done' => (int) ! empty( $tasks['indexability']['gscindex'][ (int) $wp_post->ID ] ),
 				),

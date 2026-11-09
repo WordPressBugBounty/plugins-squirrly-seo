@@ -251,7 +251,7 @@ class SQ_Models_Api_Cloud {
 			return $post;
 		}
 
-		$focuspage = SQ_Classes_RemoteController::updateFocusPage( array( 'post_id' => $id, 'hash' => $post->hash, 'permalink' => $post->url ) );
+		$focuspage = SQ_Classes_RemoteController::updateFocusPage( array( 'post_id' => $id, 'hash' => $post->hash, 'permalink' => $post->url, 'wp_post_id' => (int) $post->ID ) );
 
 		if ( is_wp_error( $focuspage ) || ! $focuspage ) {
 			return new WP_Error( 'sq_too_many', __( "You've made too many requests, please wait a few minutes.", 'squirrly-seo' ) );

@@ -895,6 +895,7 @@ class SQ_Controllers_FocusPages extends SQ_Classes_FrontController {
 					$args['post_id']   = $id;
 					$args['hash']      = $post->hash;
 					$args['permalink'] = $post->url;
+					$args['wp_post_id'] = (int) $post->ID; //for the site signals; post_id is the Cloud's id
 
 					$focuspage = SQ_Classes_RemoteController::updateFocusPage( $args );
 
@@ -929,6 +930,7 @@ class SQ_Controllers_FocusPages extends SQ_Classes_FrontController {
 						$args['post_id']   = $id;
 						$args['hash']      = $post->hash;
 						$args['permalink'] = $post->url;
+						$args['wp_post_id'] = (int) $post->ID; //for the site signals; post_id is the Cloud's id
 						if ( $focuspage = SQ_Classes_RemoteController::updateFocusPage( $args ) ) {
 
 							if ( ! is_wp_error( $focuspage ) ) {

@@ -29,7 +29,8 @@ class SQ_Models_Focuspages_Indexability extends SQ_Models_Abstract_Assistant {
 
 		//check if included in sitemap
 		if ( isset( $this->_post->sq->do_sitemap ) ) {
-			$this->_dositemap = $this->_post->sq->do_sitemap;
+			//same rule as the sitemap itself: a page excluded on its own (nositemap) is not in the sitemap
+			$this->_dositemap = ( $this->_post->sq->do_sitemap && empty( $this->_post->sq->nositemap ) );
 		}
 
 		//get the canonical from audit

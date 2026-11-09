@@ -1449,6 +1449,9 @@ class SQ_Classes_Helpers_Tools
             }
             //////////////////////////////////////////////////////////////////////////////
 
+            //LiteSpeed Cache 3+ has no LiteSpeed_Cache class; its API is the litespeed_purge_all action
+            do_action('litespeed_purge_all');
+
             if (class_exists('LiteSpeed_Cache')) {
                 LiteSpeed_Cache::get_instance()->purge_all();
             }
@@ -1503,6 +1506,47 @@ class SQ_Classes_Helpers_Tools
 
         }
     }
+
+	/**
+	 * Purge one page from the page cache plugins after its SEO changed, so visitors and crawlers
+	 * (Google, social networks, the Focus Pages audit) get the new title and tags at once.
+	 * A post save does this through save_post; Bulk SEO, the Snippet and the AI tools don't fire it.
+	 *
+	 * @param int    $post_id WordPress post ID (0 for terms and other pages)
+	 * @param string $url     The page URL
+	 *
+	 * @return void
+	 */
+	public static function purgePageCache( $post_id = 0, $url = '' ) {
+		try {
+			$post_id = (int) $post_id;
+
+			if ( $post_id > 0 ) {
+				do_action( 'litespeed_purge_post', $post_id );
+
+				if ( function_exists( 'rocket_clean_post' ) ) {
+					rocket_clean_post( $post_id );
+				}
+				if ( function_exists( 'w3tc_flush_post' ) ) {
+					w3tc_flush_post( $post_id );
+				}
+				if ( function_exists( 'wpsc_delete_post_cache' ) ) {
+					wpsc_delete_post_cache( $post_id );
+				}
+			} elseif ( $url <> '' ) {
+				do_action( 'litespeed_purge_url', $url );
+
+				if ( function_exists( 'rocket_clean_files' ) ) {
+					rocket_clean_files( array( $url ) );
+				}
+			}
+
+			if ( $url <> '' && function_exists( 'sg_cachepress_purge_cache' ) ) {
+				sg_cachepress_purge_cache( $url );
+			}
+		} catch ( Exception $e ) {
+		}
+	}
 
 	/**
 	 * Clear Squirrly local cache

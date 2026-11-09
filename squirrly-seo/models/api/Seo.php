@@ -382,6 +382,15 @@ class SQ_Models_Api_Seo {
 			return new WP_Error( 'sq_save_failed', __( "Error! Could not save the data.", 'squirrly-seo' ) );
 		}
 
+		//a page's noindex, sitemap exclusion or redirect changes the sitemap: drop the cached copy
+		//(the cache helper is not loaded on these requests, so its own hooks would not run)
+		if ( SQ_Classes_Helpers_Tools::getOption( 'sq_auto_sitemap' ) && SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap_do_cache' ) ) {
+			SQ_Classes_ObjController::getClass( 'SQ_Classes_Helpers_Cache' )->invalidateCache();
+		}
+
+		//and drop this page from the page cache, so its new title and tags show at once
+		SQ_Classes_Helpers_Tools::purgePageCache( (int) $write['post_id'], (string) $url );
+
 		//trigger action after SEO is saved in Squirrly DB
 		do_action( 'sq_save_seo_after' );
 

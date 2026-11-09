@@ -626,6 +626,11 @@ class SQ_Classes_AbilitiesController {
 
 		$args = $this->sanitizeCloudArgs( $input );
 
+		//api/briefcase/get honours limit only when start is sent too
+		if ( $method === 'getBriefcase' && ! isset( $args['start'] ) ) {
+			$args['start'] = 0;
+		}
+
 		SQ_Classes_ObjController::getClass( 'SQ_Classes_RemoteController' );
 
 		if ( ! is_callable( array( 'SQ_Classes_RemoteController', $method ) ) ) {

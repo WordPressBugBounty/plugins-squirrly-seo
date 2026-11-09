@@ -297,7 +297,8 @@ class SQ_Classes_Helpers_Cache {
 	private function clearTransients( $type = null ) {
 		global $wpdb;
 
-		if ( is_string( $type ) ) {
+		//null = every sitemap: without it a full reset left the db-mode cache (transients) in place for 30 days
+		if ( is_null( $type ) || is_string( $type ) ) {
 			$transient = esc_attr( '_transient_sitemap_' . ( is_null( $type ) ? '' : $type ) . '%' );
 			$sql       = "DELETE FROM $wpdb->options WHERE `option_name` LIKE '%s'";
 			$wpdb->query( $wpdb->prepare( $sql, $transient ) );

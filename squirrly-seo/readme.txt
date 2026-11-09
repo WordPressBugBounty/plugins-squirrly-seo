@@ -4,7 +4,7 @@ Donate link: https://plugin.squirrly.co/squirrly-seo-pricing/
 Tags: SEO, AEO, GEO, schema, sitemap
 Requires at least: 5.3
 Tested up to: 7.1
-Stable tag: 14.2.10
+Stable tag: 14.2.11
 Requires PHP: 7.0
 License: GPLv2 or later
 
@@ -135,14 +135,7 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 7. Squirrly SEO - SEO Briefcase
 
 == Changelog ==
-= 14.2.10 =
-* New: Export Everything and Import Everything: settings, the SEO of every page with its keyword optimizations, the Briefcase keywords with their labels, and the Advanced Pack redirects and schemas, in one file. Big sites import in steps, with a progress bar.
-* New: Product schema and the {{product_brand}} pattern use WooCommerce Brands.
-* New: Dev Kit: separate switches for AI Visibility and AI Tools, and a new Dev Kit package applies when you upload it.
-* Update: Import Everything also restores the files made with the older Backup buttons, and the site stays connected to Squirrly Cloud.
-* Update: All Features filters as you type.
-* Update: Focus Pages also send the page's SEO settings to Squirrly Cloud, so your Squirrly account can show Focus Pages too.
-* Fix: Ask Google to Re-Index opens your Search Console property and copies the page address for Inspect any URL.
+= 14.2.11 =
 * Fix: ChatGPT connects on sites that also run WP Rocket or Imagify.
 * Fix: The AI connection works next to WP Rocket and Imagify, and activating them no longer stops with an error.
 * Fix: The SEO Snippet box stays in the editor when the Squirrly admin bar is turned off.
@@ -154,6 +147,20 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 * Fix: The import warning links to Export Everything.
 * Fix: The home page title no longer ends with a stray separator when the site has no tagline.
 * Fix: Connect Tools shows which code is wrong instead of "Can't save the settings."
+* Fix: Focus Pages send the page's SEO settings to Squirrly Cloud with every new audit.
+* Fix: Focus Pages: Present in sitemap fails when the page is excluded from the sitemap.
+* Fix: SEO changes made in Bulk SEO or the SEO Snippet show at once in the sitemap and on cached pages.
+* Fix: The sitemap refreshes after every change on hosts where Squirrly keeps its cache in the database.
+* Fix: AI assistants can read the Briefcase a few keywords at a time.
+
+= 14.2.10 =
+* New: Export Everything and Import Everything: settings, the SEO of every page with its keyword optimizations, the Briefcase keywords with their labels, and the Advanced Pack redirects and schemas, in one file. Big sites import in steps, with a progress bar.
+* New: Product schema and the {{product_brand}} pattern use WooCommerce Brands.
+* New: Dev Kit: separate switches for AI Visibility and AI Tools, and a new Dev Kit package applies when you upload it.
+* Update: Import Everything also restores the files made with the older Backup buttons, and the site stays connected to Squirrly Cloud.
+* Update: All Features filters as you type.
+* Update: Focus Pages also send the page's SEO settings to Squirrly Cloud, so your Squirrly account can show Focus Pages too.
+* Fix: Ask Google to Re-Index opens your Search Console property and copies the page address for Inspect any URL.
 * Fix: Products without reviews no longer get a default rating or review in the schema, as Google's review rules require.
 * Fix: Focus Pages: the canonical task checks that the canonical points to the page itself, and duplicate titles are listed again.
 * Fix: The archives sitemap lists every month with posts.

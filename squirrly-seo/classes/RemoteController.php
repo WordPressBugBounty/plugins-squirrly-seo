@@ -2000,12 +2000,14 @@ class SQ_Classes_RemoteController
         self::$apimethod = 'post'; //post call
 
         //the WordPress-side Focus Pages data, so Squirrly Cloud can compute Focus Pages too (never blocks the call)
-        if (!empty($args['post_id']) && !isset($args['site_signals'])) {
-            $signals = SQ_Classes_ObjController::getClass('SQ_Models_FocusPages')->getSiteSignals((int)$args['post_id']);
+        //post_id is the Cloud's focus page id here, so the WordPress post comes in wp_post_id (not sent to the API)
+        if (!empty($args['wp_post_id']) && !isset($args['site_signals'])) {
+            $signals = SQ_Classes_ObjController::getClass('SQ_Models_FocusPages')->getSiteSignals((int)$args['wp_post_id']);
             if ($signals <> '') {
                 $args['site_signals'] = $signals;
             }
         }
+        unset($args['wp_post_id']);
 
         $json = json_decode(self::apiCall('api/posts/update-focus', $args));
 
