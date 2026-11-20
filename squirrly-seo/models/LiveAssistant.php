@@ -95,6 +95,11 @@ class SQ_Models_LiveAssistant {
 			'__no_attributes'        => esc_html__( 'No known copyright restrictions', 'squirrly-seo' ),
 			'__subscription_expired' => esc_html__( 'Your Subscription has Expired', 'squirrly-seo' ),
 			'__no_briefcase'         => esc_html__( 'There are no keywords saved in briefcase yet', 'squirrly-seo' ),
+			//Empty Briefcase in the Live Assistant: how to add the first keyword, and where to find keywords
+			'__briefcase_first'      => esc_html__( 'Your Briefcase has no keywords yet. Type the keyword you want this page to rank for in the field above, then click add this keyword.', 'squirrly-seo' ),
+			'__briefcase_find'       => esc_html__( 'Find keywords in AI Research', 'squirrly-seo' ),
+			'__keyword_first'        => esc_html__( 'Add a keyword first', 'squirrly-seo' ),
+			'research_url'           => ( SQ_Classes_Helpers_Tools::getMenuVisible( 'show_research' ) ? esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_research', 'research' ) ) : '' ),
 			'__fulloptimized'        => esc_html__( 'Congratulations! Your article is 100% optimized!', 'squirrly-seo' ),
 			'__toomanytimes'         => esc_html__( 'appears too many times. Try to remove %s of them', 'squirrly-seo' ),
 			'__writemorewords'       => esc_html__( 'write %s more words', 'squirrly-seo' ),

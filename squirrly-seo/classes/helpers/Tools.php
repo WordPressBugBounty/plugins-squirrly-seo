@@ -1335,6 +1335,28 @@ class SQ_Classes_Helpers_Tools
 		return false;
     }
 
+	/**
+	 * Format a local WordPress date (post_date, post_modified) in the site timezone.
+	 * wp_date( strtotime( $local ) ) read the local time as UTC and added the site offset twice.
+	 *
+	 * @param string $format PHP date format, e.g. 'c'
+	 * @param string $date Local date, e.g. '2026-04-18 12:11:35'
+	 *
+	 * @return false|string
+	 */
+	public static function localDate( $format, $date ) {
+		if ( ! $date ) {
+			return false;
+		}
+
+		$datetime = date_create( $date, wp_timezone() );
+		if ( false === $datetime ) {
+			return false;
+		}
+
+		return $datetime->format( $format );
+	}
+
 
     /**
      * Load the multilanguage support from .mo

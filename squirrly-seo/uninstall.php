@@ -10,8 +10,8 @@ if ( ! defined( 'ABSPATH' ) && ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 try {
 
 	/* Call config files */
-	include dirname( __FILE__ ) . '/config/config.php';
-	include dirname( __FILE__ ) . '/config/paths.php';
+	// config.php already loads paths.php; loading it a second time logged ~20 "Constant already defined" warnings on delete
+	include_once dirname( __FILE__ ) . '/config/config.php';
 	include_once _SQ_CLASSES_DIR_ . 'ObjController.php';
 
 	/* Delete the record from database */

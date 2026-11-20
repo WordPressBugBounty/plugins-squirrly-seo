@@ -11,6 +11,14 @@ if ( ! isset( $view ) ) {
  */
 ?>
 <?php $tab = SQ_Classes_Helpers_Tools::getValue( 'tab', 'register' ); ?>
+<?php
+//keep the email that was typed when the form comes back with an error
+$sq_typed_email = '';
+if ( in_array( SQ_Classes_Helpers_Tools::getValue( 'action' ), array( 'sq_login', 'sq_register' ) ) ) {
+	$sq_typed_email = SQ_Classes_Helpers_Tools::getValue( 'email', '' );
+	$sq_typed_email = ( is_string( $sq_typed_email ) ? sanitize_email( $sq_typed_email ) : '' );
+}
+?>
 <div class="card col-12 bg-transparent p-0 border-0">
     <div class="card-body">
 		<?php if ( $tab == 'login' ) { ?>
@@ -19,7 +27,7 @@ if ( ! isset( $view ) ) {
                 <input type="hidden" name="action" value="sq_login"/>
                 <div class="form-group">
                     <label for="sq_email"><?php echo esc_html__( "Email", "squirrly-seo" ) . ': '; ?></label>
-                    <input id="sq_email" type="email" class="form-control" autofocus name="email">
+                    <input id="sq_email" type="email" class="form-control" autofocus name="email" value="<?php echo esc_attr( $sq_typed_email ) ?>">
                 </div>
                 <div class="form-group">
                     <label for="sq_pwd"><?php echo esc_html__( "Password", "squirrly-seo" ) . ': '; ?></label>
@@ -43,14 +51,15 @@ if ( ! isset( $view ) ) {
                     <label for="sq_email"><?php echo esc_html__( "Email", "squirrly-seo" ) . ': '; ?></label>
                     <input id="sq_email" type="email" class="form-control" name="email" autofocus value="<?php
 					$user = wp_get_current_user();
-					echo esc_attr( sanitize_email( $user->user_email ) );
+					echo esc_attr( $sq_typed_email <> '' ? $sq_typed_email : sanitize_email( $user->user_email ) );
 					?>">
+                    <div class="small text-black-50 mt-1"><?php echo esc_html__( "Sign Up creates a free Squirrly Cloud account for this email and connects this site to it.", "squirrly-seo" ); ?></div>
                 </div>
                 <div class="form-group">
                     <a href="<?php echo esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( SQ_Classes_Helpers_Tools::getValue( 'page', 'sq_dashboard' ), 'login' ) ) ?>"><?php echo esc_html__( "I already have an account", "squirrly-seo" ); ?></a>
                 </div>
                 <div class="form-group">
-                    <label for="sq_terms"></label><input type="checkbox" required id="sq_terms" style="height: 18px;width: 18px; margin: 0 10px;"/><?php echo sprintf( esc_html__( "I Agree with the Squirrly %sTerms of Use%s and %sPrivacy Policy%s", "squirrly-seo" ), '<a href="https://www.squirrly.co/terms-of-use" target="_blank" >', '</a>', '<a href="https://www.squirrly.co/privacy-policy" target="_blank" >', '</a>' ); ?>
+                    <input type="checkbox" required id="sq_terms" style="height: 18px;width: 18px; margin: 0 10px;"/><label for="sq_terms" class="d-inline"><?php echo sprintf( esc_html__( "I Agree with the Squirrly %sTerms of Use%s and %sPrivacy Policy%s", "squirrly-seo" ), '<a href="https://www.squirrly.co/terms-of-use" target="_blank" >', '</a>', '<a href="https://www.squirrly.co/privacy-policy" target="_blank" >', '</a>' ); ?></label>
                 </div>
                 <button type="submit" class="btn btn-lg btn-primary noloading"><?php echo esc_html__( "Sign Up", "squirrly-seo" ); ?></button>
 

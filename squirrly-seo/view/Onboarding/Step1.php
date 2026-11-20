@@ -28,11 +28,47 @@ if ( ! isset( $view ) ) {
                         <input type="hidden" name="action" value="sq_onboarding_save"/>
                         <input type="hidden" name="sq_mode" value="<?php echo esc_attr( SQ_Classes_Helpers_Tools::getOption( 'sq_mode' ) ) ?>"/>
 
+						<?php
+						//the saved choice is marked only after this form was submitted: 0 (No SEO) is also the stored default
+						$sq_mode   = (int) SQ_Classes_Helpers_Tools::getOption( 'sq_mode' );
+						$sq_chosen = ( $sq_mode > 0 || (string) SQ_Classes_Helpers_Tools::getOption( 'sq_onboarding' ) === '1' );
+						$sq_modes  = array(
+							0 => array(
+								'class' => 'sq_no_seo',
+								'title' => esc_html__( "No SEO Configuration", 'squirrly-seo' ),
+								'text'  => esc_html__( "Squirrly adds no titles, descriptions, sitemap or schema to your site. Choose it when another SEO plugin already does this.", 'squirrly-seo' ),
+							),
+							1 => array(
+								'class' => 'sq_recommended_seo',
+								'title' => esc_html__( "SEO Recommended Mode", 'squirrly-seo' ),
+								'text'  => esc_html__( "Turns on titles, descriptions, the XML sitemap, schema and social previews with tested defaults.", 'squirrly-seo' ),
+							),
+							2 => array(
+								'class' => 'sq_expert_seo',
+								'title' => esc_html__( "SEO Expert Mode", 'squirrly-seo' ),
+								'text'  => esc_html__( "Turns on the same features as the Recommended Mode and also shows the advanced settings.", 'squirrly-seo' ),
+							),
+						);
+						?>
                         <div class="col-12 p-0 m-0 my-5 text-center">
-                            <div class="group_autoload d-flex justify-content-center btn-group btn-group-lg mt-3" role="group">
-                                <button type="button" class="btn btn-outline-info m-1 py-4 px-4 sq_no_seo <?php echo( ( SQ_Classes_Helpers_Tools::getOption( 'sq_mode' ) == 0 ) ? 'active' : '' ) ?>"><?php echo esc_html__( "No SEO Configuration", 'squirrly-seo' ); ?></button>
-                                <button type="button" class="btn btn-outline-info m-1 py-4 px-4 sq_recommended_seo <?php echo( ( SQ_Classes_Helpers_Tools::getOption( 'sq_mode' ) == 1 ) ? 'active' : '' ) ?>"><?php echo esc_html__( "SEO Recommended Mode", 'squirrly-seo' ); ?></button>
-                                <button type="button" class="btn btn-outline-info m-1 py-4 px-4 sq_expert_seo <?php echo( ( SQ_Classes_Helpers_Tools::getOption( 'sq_mode' ) == 2 ) ? 'active' : '' ) ?>"><?php echo esc_html__( "SEO Expert Mode", 'squirrly-seo' ); ?></button>
+                            <h3 class="card-title text-center mb-2"><?php echo esc_html__( "How should Squirrly set up your SEO?", 'squirrly-seo' ); ?></h3>
+                            <div class="text-center text-black-50 mb-4"><?php echo esc_html__( "Choose one to continue. You can turn features on or off later from All Features.", 'squirrly-seo' ); ?></div>
+                            <div class="group_autoload d-flex flex-row flex-wrap justify-content-center align-items-start mt-3">
+								<?php foreach ( $sq_modes as $sq_value => $sq_item ) {
+									//filled button: the saved choice, or the Recommended Mode until one is saved
+									$sq_active = ( $sq_chosen ? ( $sq_mode == $sq_value ) : ( $sq_value == 1 ) ); ?>
+                                    <div class="m-2 p-0 text-center" style="width: 290px; max-width: 100%;">
+                                        <div class="small font-weight-bold text-success mb-1" style="min-height: 20px;">
+											<?php if ( $sq_chosen && $sq_mode == $sq_value ) {
+												echo esc_html__( "Your current setup", 'squirrly-seo' );
+											} elseif ( $sq_value == 1 ) {
+												echo esc_html__( "Best for most sites", 'squirrly-seo' );
+											} ?>
+                                        </div>
+                                        <button type="button" class="btn btn-outline-info btn-lg btn-block m-0 py-4 px-3 <?php echo esc_attr( $sq_item['class'] ) ?> <?php echo( $sq_active ? 'active' : '' ) ?>" style="display: block; width: 100%;"><?php echo $sq_item['title']; //phpcs:ignore ?></button>
+                                        <div class="small text-black-50 mt-2 px-1" style="line-height: 1.5;"><?php echo $sq_item['text']; //phpcs:ignore ?></div>
+                                    </div>
+								<?php } ?>
 
                                 <script>
                                     (function ($) {
@@ -50,7 +86,6 @@ if ( ! isset( $view ) ) {
 
                                             $(".sq_recommended_seo").on('click', function () {
                                                 $('input[name=sq_mode]').val('1');
-                                                //$('#sq_onboarding_recommended').modal('show');
                                                 $('#sq_onboarding_form').submit();
                                             });
 

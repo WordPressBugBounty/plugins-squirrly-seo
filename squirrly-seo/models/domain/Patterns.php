@@ -24,9 +24,9 @@ class SQ_Models_Domain_Patterns extends SQ_Models_Abstract_Domain {
 		$post = $this->currentpost;
 
 		if ( isset($post->post_date) && $post->post_date ) {
-			return wp_date( 'c', strtotime( $post->post_date ) );
+			return SQ_Classes_Helpers_Tools::localDate( 'c', $post->post_date );
 		} elseif ( $this->_date ) {
-			return wp_date( 'c', strtotime( $this->_date ) );
+			return SQ_Classes_Helpers_Tools::localDate( 'c', $this->_date );
 		}
 
 		return $this->_date;
@@ -535,9 +535,9 @@ class SQ_Models_Domain_Patterns extends SQ_Models_Abstract_Domain {
 		$post = $this->currentpost;
 
 		if ( isset( $post->post_modified ) && $post->post_modified ) {
-			return wp_date( 'c', strtotime( $post->post_modified ) );
+			return SQ_Classes_Helpers_Tools::localDate( 'c', $post->post_modified );
 		} elseif ( $this->_modified ) {
-			return wp_date( 'c', strtotime( $this->_modified ) );
+			return SQ_Classes_Helpers_Tools::localDate( 'c', $this->_modified );
 		}
 
 		return $this->_modified;

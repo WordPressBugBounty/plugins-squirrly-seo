@@ -99,18 +99,21 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 				}
 
 			} elseif ( strpos( $request_uri, '.xml' ) !== false ) {
-				//Compatibility with other SEO plugins sitemap
-				if ( strpos( $request_uri, '/sitemap_index.xml' ) !== false ) {
-					$request_uri = str_replace( 'sitemap_index.xml', 'sitemap.xml', $request_uri );
-				}
-
-				//Compatibility with WordPress sitemap
-				if ( strpos( $request_uri, '/wp-sitemap.xml' ) !== false ) {
-					$request_uri = str_replace( 'wp-sitemap.xml', 'sitemap.xml', $request_uri );
-				}
-
 				$parseurl   = parse_url( $request_uri );
 				$stemaplist = SQ_Classes_Helpers_Tools::getOption( 'sq_sitemap' );
+
+				//The sitemap addresses of other SEO plugins (sitemap_index.xml) and of WordPress (wp-sitemap.xml)
+				//get a 301 to Squirrly's sitemap.xml in the same folder (keeps a language prefix), so one address is used
+				if ( isset( $parseurl['path'] ) && in_array( basename( $parseurl['path'] ), array( 'sitemap_index.xml', 'wp-sitemap.xml' ), true ) &&
+				     ! empty( $stemaplist['sitemap'][0] ) && ! empty( $stemaplist['sitemap'][1] ) &&
+				     basename( $parseurl['path'] ) !== $stemaplist['sitemap'][0] ) {
+
+					$target = substr( $parseurl['path'], 0, strrpos( $parseurl['path'], '/' ) + 1 ) . $stemaplist['sitemap'][0];
+					if ( $this->validatePath( $target ) ) {
+						wp_redirect( $target . ( isset( $parseurl['query'] ) && $parseurl['query'] <> '' ? '?' . $parseurl['query'] : '' ), 301 );
+						exit();
+					}
+				}
 
 				//first, validate the current path
 				if ( $this->validatePath( $parseurl['path'] ) ) {
@@ -171,6 +174,8 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 					if ( $sitemap = $cache->getSitemap( $type, (int) $this->page, true ) ) {
 						header( 'Status: 200 OK', true, 200 );
 						header( 'Content-Type: text/xml; charset=' . get_bloginfo( 'charset' ), true );
+						//search engines read the sitemap but don't list the sitemap file itself (as Yoast, Rank Math and AIOSEO do)
+						header( 'X-Robots-Tag: noindex, follow', true );
 
 						echo $sitemap;
 						die();
@@ -504,6 +509,8 @@ class SQ_Controllers_Sitemaps extends SQ_Classes_FrontController {
 
 		header( 'Status: 200 OK', true, 200 );
 		header( 'Content-Type: text/xml; charset=' . get_bloginfo( 'charset' ), true );
+		//search engines read the sitemap but don't list the sitemap file itself (as Yoast, Rank Math and AIOSEO do)
+		header( 'X-Robots-Tag: noindex, follow', true );
 
 		//Generate header
 		echo '<?xml version="1.0" encoding="' . get_bloginfo( 'charset' ) . '"?>' . "\n";

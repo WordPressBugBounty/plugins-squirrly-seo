@@ -163,8 +163,14 @@ if ( SQ_Classes_Helpers_Tools::getValue( 'page' ) == 'sq_dashboard' ) { ?>
                     $('.sq_col_menu').removeClass('sq_col_menu_big');
                     $.sq_setCookie('sq_menu', 'collapse');
                 });
-                $('.sq_nav_item').on('click', function () {
-                    $('html,body').animate({scrollTop: $('div[data-id=' + $(this).data('id') + ']').offset().top});
+                $('.sq_nav_item').on('click', function (ev) {
+                    //scroll only on a real click: the page script also triggers a click on the first item at load,
+                    //which opened All Features scrolled down to the first category
+                    var $category = $('div[data-id=' + $(this).data('id') + ']');
+                    if (!ev.originalEvent || !$category.length) {
+                        return;
+                    }
+                    $('html,body').animate({scrollTop: $category.offset().top});
                 });
             })(jQuery);
         </script>

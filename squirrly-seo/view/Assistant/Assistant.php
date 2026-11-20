@@ -42,7 +42,7 @@ if ( ! isset( $view ) ) {
 
                     <div class="col-12 m-0 p-0 py-5">
                         <div class="col-12 my-3 p-0 text-left">
-                            <div class="dropdown">
+                            <div class="dropdown d-inline-block mr-2 mb-2">
                                 <button class="btn btn-primary btn-lg dropdown-toggle" style="min-width: 200px" type="button" id="add_new_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<?php echo esc_html__( "Add New", "squirrly-seo" ); ?>
                                 </button>
@@ -59,6 +59,28 @@ if ( ! isset( $view ) ) {
 									?>
                                 </div>
                             </div>
+							<?php
+							//the posts a site already has: one list per post type the user can edit (Media has no edit.php list)
+							$sq_existing = array();
+							foreach ( get_post_types( array( 'public' => true ), 'objects' ) as $sq_type ) {
+								if ( $sq_type->name <> 'attachment' && current_user_can( $sq_type->cap->edit_posts ) ) {
+									$sq_existing[ $sq_type->name ] = $sq_type->labels->name;
+								}
+							}
+
+							if ( ! empty( $sq_existing ) ) { ?>
+                                <div class="dropdown d-inline-block mb-2">
+                                    <button class="btn btn-primary btn-lg dropdown-toggle" style="min-width: 200px" type="button" id="optimize_existing_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<?php echo esc_html__( "Optimize Existing", "squirrly-seo" ); ?>
+                                    </button>
+                                    <div class="dropdown-menu mt-1" style="min-width: 200px" aria-labelledby="optimize_existing_dropdown">
+										<?php foreach ( $sq_existing as $sq_name => $sq_label ) { ?>
+                                            <a class="dropdown-item" href="<?php echo esc_url( add_query_arg( array( 'post_type' => $sq_name ), admin_url( 'edit.php' ) ) ) ?>"><?php echo esc_html( $sq_label ) ?></a>
+										<?php } ?>
+                                    </div>
+                                </div>
+                                <div class="col-7 px-0 small text-black-50 mt-2"><?php echo esc_html__( "Open a post from Optimize Existing and the Live Assistant shows in its editor.", "squirrly-seo" ); ?></div>
+							<?php } ?>
                         </div>
 
                     </div>

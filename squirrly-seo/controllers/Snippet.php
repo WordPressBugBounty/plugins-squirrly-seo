@@ -206,8 +206,8 @@ class SQ_Controllers_Snippet extends SQ_Classes_FrontController {
 
 			//Dev Kit
 			$style = '';
-			if ( SQ_Classes_Helpers_Tools::getOption( 'sq_devkit_logo' ) ) {
-				$style = '<style>.sq_logo{background-image:url("' . SQ_Classes_Helpers_Tools::getOption( 'sq_devkit_logo' ) . '") !important;background-size: 100%; background-repeat: no-repeat; background-position: center;}</style>';
+			if ( $devkit_logo = SQ_Classes_ObjController::getClass( 'SQ_Classes_Helpers_DevKit' )->getLogo() ) {
+				$style = '<style>.sq_logo{background-image:url("' . $devkit_logo . '") !important;background-size: 100%; background-repeat: no-repeat; background-position: center;}</style>';
 			}
 
 			$wp_admin_bar->add_node( array(

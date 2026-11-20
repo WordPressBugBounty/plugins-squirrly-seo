@@ -70,7 +70,7 @@ if ( ! isset( $view ) ) {
 		<?php do_action( 'sq_live_assistant_briefcase_before' ); ?>
 
         <div id="sq_briefcase_list" class="sq-col-12 sq-m-0 sq-p-1">
-            <label for="sq_briefcase_keyword"></label><input type="text" id="sq_briefcase_keyword" class="sq-col-12 sq-m-0 sq-p-2 sq-rounded-0 sq-border" value="" autocomplete="off" placeholder="<?php echo esc_attr__( "Search in Briefcase ...", "squirrly-seo" ); ?>">
+            <label for="sq_briefcase_keyword"></label><input type="text" id="sq_briefcase_keyword" class="sq-col-12 sq-m-0 sq-p-2 sq-rounded-0 sq-border" value="" autocomplete="off" placeholder="<?php echo esc_attr__( "Type a keyword or search Briefcase ...", "squirrly-seo" ); ?>">
             <div id="sq_briefcase_content" class="sq-col-12 sq-m-0 sq-p-0 sq-py-2"></div>
         </div>
 

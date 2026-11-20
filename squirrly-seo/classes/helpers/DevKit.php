@@ -102,6 +102,60 @@ class SQ_Classes_Helpers_DevKit {
 	}
 
 	/**
+	 * The Dev Kit logo, only when it's a real image of a sensible size.
+	 * Kits built before 14.2.12 could store a web page or an error page as the "logo" (1+ MB), printed in every admin page.
+	 *
+	 * @return string|false
+	 */
+	public static function getLogo() {
+		$logo = self::getOption( 'sq_devkit_logo' );
+
+		if ( ! is_string( $logo ) || $logo === '' ) {
+			return false;
+		}
+
+		//a plain image address is small and the browser checks it
+		if ( preg_match( '/^https?:\/\//i', $logo ) ) {
+			return ( strlen( $logo ) <= 2048 ? $logo : false );
+		}
+
+		if ( ! preg_match( '/^data:image\/([a-z0-9.+-]+);base64,/i', $logo, $match ) ) {
+			return false;
+		}
+
+		$data = substr( $logo, strlen( $match[0] ) );
+
+		//200 KB of image (base64 is 4/3 bigger) is already far more than a menu icon needs
+		if ( strlen( $data ) > 273100 ) {
+			return false;
+		}
+
+		$bytes = base64_decode( substr( $data, 0, 64 ) );
+		if ( ! is_string( $bytes ) || $bytes === '' ) {
+			return false;
+		}
+
+		//PNG, JPEG, GIF, ICO
+		foreach ( array( "\x89PNG", "\xFF\xD8\xFF", 'GIF8', "\x00\x00\x01\x00" ) as $signature ) {
+			if ( strpos( $bytes, $signature ) === 0 ) {
+				return $logo;
+			}
+		}
+
+		//WebP: RIFF....WEBP
+		if ( strpos( $bytes, 'RIFF' ) === 0 && substr( $bytes, 8, 4 ) === 'WEBP' ) {
+			return $logo;
+		}
+
+		//SVG: an XML or SVG start, never an HTML page
+		if ( stripos( $match[1], 'svg' ) !== false && preg_match( '/^\s*(<\?xml|<svg)/i', $bytes ) ) {
+			return $logo;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Customize the Audit task
 	 *
 	 * @param  $task
@@ -152,8 +206,8 @@ class SQ_Classes_Helpers_DevKit {
 	 */
 	public function hookHead() {
 		//Dev Kit images
-		if ( SQ_Classes_Helpers_DevKit::getOption( 'sq_devkit_logo' ) ) {
-			echo '<style>.sq_logo{background-image:url("' . SQ_Classes_Helpers_DevKit::getOption( 'sq_devkit_logo' ) . '") !important;}#sq_blocksnippet .postbox-header h2:before,li.toplevel_page_sq_dashboard .wp-menu-image:before{background-image:url("' . SQ_Classes_Helpers_DevKit::getOption( 'sq_devkit_logo' ) . '") !important;}.components-squirrly-icon img{content:url("' . SQ_Classes_Helpers_DevKit::getOption( 'sq_devkit_logo' ) . '") !important;}.menu-top.toplevel_page_sq_dashboard .wp-menu-image:before {content: " ";width: 20px !important;height: 20px !important;display: inline-block;vertical-align: middle !important;line-height: inherit;background-repeat: no-repeat;background-position: center;background-size: 100%;}li.toplevel_page_sq_dashboard .wp-menu-image img{display: none !important;}</style>';
+		if ( $logo = SQ_Classes_Helpers_DevKit::getLogo() ) {
+			echo '<style>.sq_logo{background-image:url("' . $logo . '") !important;}#sq_blocksnippet .postbox-header h2:before,li.toplevel_page_sq_dashboard .wp-menu-image:before{background-image:url("' . $logo . '") !important;}.components-squirrly-icon img{content:url("' . $logo . '") !important;}.menu-top.toplevel_page_sq_dashboard .wp-menu-image:before {content: " ";width: 20px !important;height: 20px !important;display: inline-block;vertical-align: middle !important;line-height: inherit;background-repeat: no-repeat;background-position: center;background-size: 100%;}li.toplevel_page_sq_dashboard .wp-menu-image img{display: none !important;}</style>';
 		}
 
 		return '';
@@ -168,8 +222,8 @@ class SQ_Classes_Helpers_DevKit {
 	 */
 	public function getCustomLogo( $logo ) {
 
-		if ( SQ_Classes_Helpers_DevKit::getOption( 'sq_devkit_logo' ) ) {
-			$logo = SQ_Classes_Helpers_DevKit::getOption( 'sq_devkit_logo' );
+		if ( $devkit_logo = SQ_Classes_Helpers_DevKit::getLogo() ) {
+			$logo = $devkit_logo;
 		}
 
 		return $logo;

@@ -4,7 +4,7 @@ Donate link: https://plugin.squirrly.co/squirrly-seo-pricing/
 Tags: SEO, AEO, GEO, schema, sitemap
 Requires at least: 5.3
 Tested up to: 7.1
-Stable tag: 14.2.11
+Stable tag: 14.2.12
 Requires PHP: 7.0
 License: GPLv2 or later
 
@@ -135,6 +135,18 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 7. Squirrly SEO - SEO Briefcase
 
 == Changelog ==
+= 14.2.12 =
+* Update: /sitemap_index.xml and /wp-sitemap.xml redirect to /sitemap.xml, and search engines are asked not to list the sitemap files themselves.
+* Fix: Open Graph and schema dates show the exact publish and update time on sites set to a timezone other than UTC.
+* Fix: Dev Kit: a logo that isn't a real image, or is larger than 200 KB, no longer loads into every admin page.
+* Fix: Deleting the plugin no longer writes warnings to the PHP error log.
+* Update: Setup step 1 explains what each mode does.
+* Update: Before you connect, each screen says which feature it opens.
+* Update: The Live Assistant shows how to add your first keyword and waits for a keyword before the next steps.
+* Update: Sync Keywords shows a Connect Google Search Console button on sites that aren't connected yet.
+* Update: Optimize Posts has an Optimize Existing button that opens your posts, pages and other post types.
+* Fix: All Features opens at the top of the page.
+
 = 14.2.11 =
 * Fix: ChatGPT connects on sites that also run WP Rocket or Imagify.
 * Fix: The AI connection works next to WP Rocket and Imagify, and activating them no longer stops with an error.

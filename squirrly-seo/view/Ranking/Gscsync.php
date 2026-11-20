@@ -31,9 +31,7 @@ if ( ! isset( $view ) ) {
                         </div>
                     </h3>
                     <div class="col-7 px-0 py-2">
-						<?php echo esc_html__( "See the trending keywords suitable for your website's future topics. We check for new keywords weekly based on your latest researches.", "squirrly-seo" ); ?>
-                        (<?php echo esc_html__( "see the keywords that are already bringing you traffic, how people are finding you on google", "squirrly-seo" ); ?>
-                        )
+						<?php echo esc_html__( "See the keywords that already bring your site impressions and clicks on Google, from Google Search Console.", "squirrly-seo" ); ?>
                     </div>
 
                     <div id="sq_keywords" class="col-12 m-0 p-0 border-0">
@@ -101,6 +99,15 @@ if ( ! isset( $view ) ) {
 
                                         </tbody>
                                     </table>
+								<?php } elseif ( empty( $view->checkin->connection_gsc ) ) {
+									//Search Console isn't connected: say so and link to the connect screen, instead of the "Google needs more time" text
+									?>
+                                    <h4 class="text-center"><?php echo esc_html__( "This site isn't connected to Google Search Console yet", "squirrly-seo" ); ?></h4>
+                                    <div class="col-12 m-2 text-center">
+                                        <a href="<?php echo esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_seosettings', 'webmaster#tab=connect' ) ) ?>" class="btn btn-lg btn-primary">
+                                            <i class="fa-solid fa-plug"></i> <?php echo esc_html__( "Connect Google Search Console", "squirrly-seo" ); ?>
+                                        </a>
+                                    </div>
 								<?php } else { ?>
                                     <h4 class="text-center"><?php echo esc_html__( "Welcome to Google Search Console Keywords Sync", "squirrly-seo" ); ?></h4>
 

@@ -63,7 +63,7 @@ class SQ_Models_Services_DublinCore extends SQ_Models_Abstract_Seo {
 		if ( $this->_post->post_type == 'home' ) {
 			$metas['dc.date.issued'] = wp_date( 'Y-m-d', strtotime( get_lastpostmodified( 'gmt' ) ) );
 		} elseif ( $this->_post->post_date <> '' ) {
-			$metas['dc.date.issued'] = wp_date( 'Y-m-d', strtotime( $this->_post->post_date ) );
+			$metas['dc.date.issued'] = SQ_Classes_Helpers_Tools::localDate( 'Y-m-d', $this->_post->post_date );
 		}
 
 		if ( isset( $this->_post->post_modified ) && $this->_post->post_modified <> '' ) {
