@@ -67,6 +67,8 @@ class SQ_Models_LiveAssistant {
 			'sq_keyword_help'        => (int) SQ_Classes_Helpers_Tools::getOption( 'sq_keyword_help' ),
 			'frontend_css'           => esc_url( _SQ_ASSETS_URL_ . 'css/frontend' . ( SQ_DEBUG ? '' : '.min' ) . '.css' ),
 			'postID'                 => $this->post_id,
+			//Keyword from an "Optimize for this" link (post-new.php?keyword=...): Step 1 puts it on the post once
+			'urlkeyword'             => (string) SQ_Classes_Helpers_Tools::getValue( 'keyword', '' ),
 			'__date'                 => esc_html__( 'date', 'squirrly-seo' ),
 			'__noconnection'         => esc_html__( "To load the Live Assistant and optimize this page, click to connect to Squirrly Cloud.", 'squirrly-seo' ),
 			'__reconnect'            => esc_html__( "This site was cloned, staged or moved, so Squirrly Cloud can no longer verify it. Click to reconnect this site.", 'squirrly-seo' ),

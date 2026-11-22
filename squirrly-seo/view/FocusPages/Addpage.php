@@ -221,7 +221,14 @@ if ( ! isset( $view ) ) {
                                                 </td>
                                                 <td style="width: 150px; text-align: center; vertical-align: middle">
 													<?php if ( ! $active ) {
-														if ( isset( $post->ID ) && $post->ID > 0 ) {
+														if ( ! empty( $post->post_status ) && $post->post_status <> 'publish' && empty( $post->term_id ) ) {
+															//Only published pages can be Focus Pages: say so in the list instead of an error after the click
+															?>
+                                                            <div class="d-inline-block text-center" style="width: 150px;" title="<?php echo esc_attr__( "This page is not published, so it can't be a Focus Page. Publish it first.", 'squirrly-seo' ) ?>">
+                                                                <div class="text-danger font-weight-bold"><?php echo esc_html__( "Not published", 'squirrly-seo' ) ?></div>
+                                                                <div class="small text-black-50"><?php echo esc_html__( "Publish it first.", 'squirrly-seo' ) ?></div>
+                                                            </div>
+														<?php } elseif ( isset( $post->ID ) && $post->ID > 0 ) {
 															?>
                                                             <form method="post" class="p-0 m-0">
 																<?php SQ_Classes_Helpers_Tools::setNonce( 'sq_focuspages_addnew' ); ?>

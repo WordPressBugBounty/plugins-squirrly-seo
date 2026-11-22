@@ -146,6 +146,10 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 * Update: Sync Keywords shows a Connect Google Search Console button on sites that aren't connected yet.
 * Update: Optimize Posts has an Optimize Existing button that opens your posts, pages and other post types.
 * Fix: All Features opens at the top of the page.
+* Fix: The Live Assistant finishes loading when you start a new post from a keyword with the Integrated Box layout.
+* Update: Live Assistant Step 1 shows each keyword once, and the Integrated Box has even spacing.
+* Fix: The Live Assistant and Add New Page in Focus Pages say when a page must be published before it can be a Focus Page.
+* Fix: Optimize for this opens the Live Assistant with the keyword already added to the post in Step 1.
 
 = 14.2.11 =
 * Fix: ChatGPT connects on sites that also run WP Rocket or Imagify.

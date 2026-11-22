@@ -186,6 +186,9 @@ if ( ! isset( $view ) ) {
             <div class="sq-col-12 sq-p-0 sq-my-2"><?php echo esc_html__( "Add this page/article as a focus page and take your content from never found to always found on Google. Rank your pages by influencing the right ranking factors. Turn everything that you see here to Green and you will win.", "squirrly-seo" ) ?></div>
         </div>
 
+        <?php //Shown by the Set Focus Pages click when the page isn't published yet ?>
+        <div class="sq_focuspages_notpublic sq-col-12 sq-px-4 sq-pb-3 sq-m-0 small sq-text-danger" style="display: none"><?php echo esc_html__( "This page is not published, so it can't be a Focus Page. Publish it first.", "squirrly-seo" ) ?></div>
+
         <button data-target="<?php echo esc_url( SQ_Classes_Helpers_Tools::getAdminUrl( 'sq_focuspages', 'addpage' ) ); ?>" class="sq_finalstep sq_step4 sq_button sq-col-12 sq-m-0 sq-p-2"><?php echo esc_html__( "Set Focus Pages", "squirrly-seo" ); ?>
             >
         </button>

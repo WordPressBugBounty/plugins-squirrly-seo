@@ -864,7 +864,7 @@ class SQ_Controllers_FocusPages extends SQ_Classes_FrontController {
 								SQ_Classes_Error::setError( esc_html__( "Error! Could not add the focus page.", 'squirrly-seo' ) . " <br /> " );
 							}
 						} else {
-							SQ_Classes_Error::setError( esc_html__( "Error! This focus page is not public.", 'squirrly-seo' ) . " <br /> " );
+							SQ_Classes_Error::setError( esc_html__( "This page is not published, so it can't be a Focus Page. Publish it first.", 'squirrly-seo' ) . " <br /> " );
 						}
 
 					} else {
