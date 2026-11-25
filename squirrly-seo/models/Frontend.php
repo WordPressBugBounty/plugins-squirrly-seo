@@ -1100,6 +1100,7 @@ class SQ_Models_Frontend {
 
 	/**
 	 * Fix the SEO Links in the source code
+	 * Adds rel="nofollow" and target="_blank" to external links, as set in SEO Links
 	 *
 	 * @param  $buffer
 	 *
@@ -1107,92 +1108,147 @@ class SQ_Models_Frontend {
 	 */
 	public function fixSEOLinks( $buffer ) {
 
-		preg_match_all( '/<a[^>]*href=[\'"]([^\'"]+)[\'"][^>]*>/i', $buffer, $out );
-
-		if ( empty( $out ) || empty( $out[0] ) ) {
-			return $buffer;
-		}
-
 		$siteHost = parse_url( home_url(), PHP_URL_HOST );
 		if ( ! $siteHost ) {
 			return $buffer;
 		}
 
 		// Normalize: lowercase + remove leading www.
-		$siteHostNorm = preg_replace('/^www\./i', '', strtolower($siteHost));
+		$siteHostNorm = preg_replace( '/^www\./i', '', strtolower( $siteHost ) );
 
-		foreach ( $out[0] as $index => $link ) {
-			$newlink = $link;
+		$nofollow = (bool) SQ_Classes_Helpers_Tools::getOption( 'sq_external_nofollow' );
+		$blank    = (bool) SQ_Classes_Helpers_Tools::getOption( 'sq_external_blank' );
 
-			if ( empty( $out[1][ $index ] ) ) {
-				continue;
-			}
-
-			$href = $out[1][ $index ];
-
-			// Skip non-http(s), anchors, mailto, tel, relative URLs
-			$scheme = parse_url( $href, PHP_URL_SCHEME );
-			if ( $scheme && ! in_array( strtolower($scheme), array('http','https'), true ) ) {
-				continue;
-			}
-
-			$linkHost = parse_url( $href, PHP_URL_HOST );
-			if ( ! $linkHost ) {
-				// relative URL => internal
-				continue;
-			}
-
-			$linkHostNorm = preg_replace('/^www\./i', '', strtolower($linkHost));
-
-			// sub.domain.com will be treated as external
-			if ( $linkHostNorm === $siteHostNorm ) {
-				continue;
-			}
-
-			// Exceptions (allowlist)
-			$exceptions = SQ_Classes_Helpers_Tools::getOption( 'sq_external_exception' );
-			if ( ! empty( $exceptions ) ) {
-				foreach ( $exceptions as $exception ) {
-					$exception = trim((string)$exception);
-					if ( $exception === '' ) {
-						continue;
-					}
-					$exceptionHost = parse_url( (strpos($exception, '://') === false ? 'https://' . $exception : $exception), PHP_URL_HOST );
-					$exceptionHostNorm = $exceptionHost ? preg_replace('/^www\./i', '', strtolower($exceptionHost)) : preg_replace('/^www\./i', '', strtolower($exception));
-
-					if ( $exceptionHostNorm !== '' && $linkHostNorm === $exceptionHostNorm ) {
-						continue 2; // do not modify this link
-					}
+		// Exceptions (allowlist), normalized once
+		$exceptionHosts = array();
+		$exceptions     = SQ_Classes_Helpers_Tools::getOption( 'sq_external_exception' );
+		if ( ! empty( $exceptions ) ) {
+			foreach ( (array) $exceptions as $exception ) {
+				$exception = trim( (string) $exception );
+				if ( $exception === '' ) {
+					continue;
 				}
-			}
-
-			// nofollow
-			if ( SQ_Classes_Helpers_Tools::getOption( 'sq_external_nofollow' ) ) {
-				if ( strpos( $newlink, 'rel=' ) === false ) {
-					$newlink = str_replace( '<a', '<a rel="nofollow" ', $newlink );
-				} elseif ( stripos( $newlink, 'nofollow' ) === false ) {
-					$newlink = preg_replace( '/(rel=[\'"])([^\'"]+)([\'"])/i', '$1nofollow $2$3', $newlink );
+				$exceptionHost     = parse_url( ( strpos( $exception, '://' ) === false ? 'https://' . $exception : $exception ), PHP_URL_HOST );
+				$exceptionHostNorm = $exceptionHost ? preg_replace( '/^www\./i', '', strtolower( $exceptionHost ) ) : preg_replace( '/^www\./i', '', strtolower( $exception ) );
+				if ( $exceptionHostNorm !== '' ) {
+					$exceptionHosts[] = $exceptionHostNorm;
 				}
-			}
-
-			// target blank
-			if ( SQ_Classes_Helpers_Tools::getOption( 'sq_external_blank' ) ) {
-				if ( strpos( $newlink, 'target=' ) === false ) {
-					$newlink = str_replace( '<a', '<a target="_blank" ', $newlink );
-				} elseif (
-					stripos( $link, '_blank' ) === false &&
-					( stripos( $link, '_self' ) !== false || stripos( $link, '_parent' ) !== false || stripos( $link, '_top' ) !== false )
-				) {
-					$newlink = preg_replace( '/(target=[\'"])([^\'"]+)([\'"])/i', '$1_blank$3', $newlink );
-				}
-			}
-
-			if ( $newlink !== $link ) {
-				$buffer = str_replace( $link, $newlink, $buffer );
 			}
 		}
 
-		return $buffer;
+		//Only real <a> tags (not <abbr>, <area>, ...), each one changed in place through its parsed attributes.
+		//Text searches inside the tag let a crafted title (e.g. in a visitor comment) move quotes and add attributes.
+		$self   = $this;
+		$result = preg_replace_callback( '/<a\s(?:[^>"\']|"[^"]*"|\'[^\']*\')*>/i', function ( $match ) use ( $self, $siteHostNorm, $exceptionHosts, $nofollow, $blank ) {
+			return $self->fixSEOLink( $match[0], $siteHostNorm, $exceptionHosts, $nofollow, $blank );
+		}, $buffer );
+
+		return ( $result === null ) ? $buffer : $result;
+	}
+
+	/**
+	 * Add rel="nofollow" / target="_blank" to one external <a> tag
+	 * The tag is returned unchanged when its attributes can't be read safely
+	 *
+	 * @param string $tag The full <a ...> tag
+	 * @param string $siteHostNorm
+	 * @param array $exceptionHosts
+	 * @param bool $nofollow
+	 * @param bool $blank
+	 *
+	 * @return string
+	 */
+	public function fixSEOLink( $tag, $siteHostNorm, $exceptionHosts, $nofollow, $blank ) {
+		$inner = substr( $tag, 2, - 1 );
+
+		//name, then an optional ="value" / ='value' / =value; anything else (a stray quote) means the tag is not plain HTML
+		if ( ! preg_match_all( '/([^\s"\'>\/=]+)(?:\s*=\s*(?:"([^"]*)"|\'([^\']*)\'|([^\s"\'=<>`]+)))?|(["\'=<`])/', $inner, $tokens, PREG_SET_ORDER | PREG_OFFSET_CAPTURE ) ) {
+			return $tag;
+		}
+
+		$attrs = array();
+		foreach ( $tokens as $token ) {
+			if ( isset( $token[5] ) && $token[5][1] >= 0 ) {
+				return $tag;
+			}
+
+			$name = strtolower( $token[1][0] );
+			if ( isset( $attrs[ $name ] ) ) {
+				continue; //the browser keeps the first one
+			}
+
+			$value = '';
+			for ( $i = 2; $i <= 4; $i ++ ) {
+				if ( isset( $token[ $i ] ) && $token[ $i ][1] >= 0 ) {
+					$value = $token[ $i ][0];
+					break;
+				}
+			}
+
+			$attrs[ $name ] = array(
+				'value'  => html_entity_decode( $value, ENT_QUOTES, 'UTF-8' ),
+				'offset' => $token[0][1],
+				'length' => strlen( $token[0][0] ),
+			);
+		}
+
+		if ( ! isset( $attrs['href'] ) || $attrs['href']['value'] === '' ) {
+			return $tag;
+		}
+
+		$href = trim( $attrs['href']['value'] );
+
+		// Skip non-http(s), anchors, mailto, tel, relative URLs
+		$scheme = parse_url( $href, PHP_URL_SCHEME );
+		if ( $scheme && ! in_array( strtolower( $scheme ), array( 'http', 'https' ), true ) ) {
+			return $tag;
+		}
+
+		$linkHost = parse_url( $href, PHP_URL_HOST );
+		if ( ! $linkHost ) {
+			// relative URL => internal
+			return $tag;
+		}
+
+		$linkHostNorm = preg_replace( '/^www\./i', '', strtolower( $linkHost ) );
+
+		// sub.domain.com will be treated as external
+		if ( $linkHostNorm === $siteHostNorm || in_array( $linkHostNorm, $exceptionHosts, true ) ) {
+			return $tag;
+		}
+
+		$add     = array(); //new attributes, after <a
+		$replace = array(); //offset => array(length, new attribute)
+
+		// nofollow
+		if ( $nofollow ) {
+			if ( ! isset( $attrs['rel'] ) ) {
+				$add[] = 'rel="nofollow"';
+			} elseif ( ! in_array( 'nofollow', preg_split( '/\s+/', strtolower( $attrs['rel']['value'] ), - 1, PREG_SPLIT_NO_EMPTY ), true ) ) {
+				$replace[ $attrs['rel']['offset'] ] = array( $attrs['rel']['length'], 'rel="' . esc_attr( trim( 'nofollow ' . $attrs['rel']['value'] ) ) . '"' );
+			}
+		}
+
+		// target blank
+		if ( $blank ) {
+			if ( ! isset( $attrs['target'] ) ) {
+				$add[] = 'target="_blank"';
+			} elseif ( in_array( strtolower( trim( $attrs['target']['value'] ) ), array( '_self', '_parent', '_top' ), true ) ) {
+				$replace[ $attrs['target']['offset'] ] = array( $attrs['target']['length'], 'target="_blank"' );
+			}
+		}
+
+		if ( empty( $add ) && empty( $replace ) ) {
+			return $tag;
+		}
+
+		//Replace from the end, so the earlier offsets stay valid
+		krsort( $replace );
+		foreach ( $replace as $offset => $change ) {
+			$inner = substr_replace( $inner, $change[1], $offset, $change[0] );
+		}
+
+		return '<a ' . ( ! empty( $add ) ? join( ' ', $add ) . ' ' : '' ) . ltrim( $inner ) . '>';
 	}
 
 

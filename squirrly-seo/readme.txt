@@ -4,7 +4,7 @@ Donate link: https://plugin.squirrly.co/squirrly-seo-pricing/
 Tags: SEO, AEO, GEO, schema, sitemap
 Requires at least: 5.3
 Tested up to: 7.1
-Stable tag: 14.2.12
+Stable tag: 14.2.13
 Requires PHP: 7.0
 License: GPLv2 or later
 
@@ -135,6 +135,9 @@ Type a keyword to the right of the screen and start using Squirrly Seo. Enjoy!
 7. Squirrly SEO - SEO Briefcase
 
 == Changelog ==
+= 14.2.13 =
+* Fix: Security: SEO Links now changes only the real rel and target attributes of external links, so a crafted comment can't add code to the page. Thanks to Wordfence for the report.
+
 = 14.2.12 =
 * Update: /sitemap_index.xml and /wp-sitemap.xml redirect to /sitemap.xml, and search engines are asked not to list the sitemap files themselves.
 * Fix: Open Graph and schema dates show the exact publish and update time on sites set to a timezone other than UTC.
